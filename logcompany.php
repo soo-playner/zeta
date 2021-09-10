@@ -1,5 +1,5 @@
 <?
-define('CONFIG_TITLE','KHAN PLATFORM');
+define('CONFIG_TITLE','ZETA BITE');
 define('CONFIG_SUB_TITLE','');
 
 // 메일설정
@@ -24,6 +24,5 @@ if(strpos($_SERVER['HTTP_HOST'],"localhost") !== false){
 }else{
     define('SHOP_URL',"http://khanshop.willsoft.kr/bbs/login_check.php");
 }
-
 
 ?>

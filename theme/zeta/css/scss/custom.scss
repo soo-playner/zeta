@@ -1,5 +1,9 @@
 $main-color:#6214ab;
 $sub-color:#8734d4;
+
+$main2-color:#37d2fd;
+$sub2-color:#c73bda;
+
 $second-color:#f5c97a;
 $third-color:#c47c2e;
 $back-color:#171716;
@@ -32,16 +36,16 @@ a.btn_secondary, .btn_secondary{
 }
 
 a.btn_primary, .btn_primary, .btn.btn_primary{
-    border:1px solid $main-color;
+    border:1px solid white;
     color:white;
     border-radius: 8px;
     box-shadow: 0px 1px 2px rgba(0,0,0,0.25);
-    background:linear-gradient(90deg, $main-color,$sub-color);
+    background:linear-gradient(90deg, $main2-color,$sub2-color);
     transition:all 1s;
 
     &:hover{
         color:white;
-        background:linear-gradient(90deg, $main-color,$main-color);
+        background:linear-gradient(90deg, $main2-color,$main2-color);
     }
 }
 

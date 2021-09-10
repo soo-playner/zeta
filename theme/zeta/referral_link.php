@@ -4,8 +4,8 @@ include_once(G5_THEME_PATH.'/_include/wallet.php');
 include_once(G5_THEME_PATH.'/_include/gnb.php');
 
 $short_URL = '';
-$url = 'http://khaninter.co.kr//go/?url='.G5_URL.'/bbs/register_form.php?recom_referral='.$member['mb_no']; //접속할 url 입력
-
+// $url = 'http://khaninter.co.kr//go/?url='.G5_URL.'/bbs/register_form.php?recom_referral='.$member['mb_no']; //접속할 url 입력
+$url = G5_URL.'/go/?url='.G5_URL.'/bbs/register_form.php?recom_referral='.$member['mb_no'];
 //$header_data = array('Authorization: Bearer access_token_value'); //에러 발생
 
 $ch = curl_init(); //curl 사용 전 초기화 필수(curl handle)
