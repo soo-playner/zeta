@@ -78,7 +78,7 @@ body{overflow-y: hidden;}
 
 }
 
-@media screen and (max-width: 736px) {
+@media screen and (max-width: 766px) {
 	.container {max-width: 100%;}
 }
 

@@ -1,7 +1,7 @@
 header{position: relative;width: 100%;}
 header .top_title{background:#2d2d2d;background:white;color: #000;text-align: left;box-sizing:border-box;padding:15px 20px;}
 header .top_title>a{height:20px;}
-header .top_title h3{line-height:20px; display: inline-block; width: auto;  margin: 0 auto; padding-right: 13px; font-size:1rem !important;margin-left:30px;}
+header .top_title h3{line-height:20px; display: inline-block; width: auto;  margin: 0 auto; padding-right: 13px; font-size:1rem !important;}
 header .top_title h3 img{height: 40px; vertical-align:middle;margin-top:-5px;}
 
 /* 모바일 메뉴 버튼 */
