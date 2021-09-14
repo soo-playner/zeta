@@ -8,46 +8,38 @@ include_once(G5_THEME_PATH.'/_include/head.php');
 include_once(G5_THEME_PATH.'/_include/gnb.php');
 
 
-if($_GET['recom_referral'])
+$service_term = get_write("g5_write_agreement", 1);
+$private_term = get_write("g5_write_agreement", 2);
+
+// 추천인링크 타고 넘어온경우
+if ($_GET['recom_referral']){
 	$recom_sql = "select mb_id from g5_member where mb_no = '{$_GET['recom_referral']}'";
 	$recom_result = sql_fetch($recom_sql);
-
 	$mb_recommend = $recom_result['mb_id'];
+}
 ?>
 
-<!-- 
+<link href="<?= G5_THEME_URL ?>/css/scss/enroll.css" rel="stylesheet">
+<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+
 <style>
-	header .top_title{background:inherit;}
-	#loading {
-		height: 100%;
-		position: fixed;
-		left: 0px;
-		top: 0px;
-		width: 100%;
-		filter: alpha(opacity=85);
-		-moz-opacity: 0.85;
-		opacity: 0.85;
+	/* 센터 닉네임 사용 추가 0720  by arcthan */
+	#center .user{
+		text-indent: -999px;
 	}
-
-	.loading {
-		background-color: black;
-		z-index: 199;
-	}
-
-	#loading_img {
+	#center .mb_nick{
 		position: absolute;
-		top: 50%;
-		left: 50%;
-		margin-top: 100px;
-		margin-left: -100px;
-		z-index: 200;
+		margin-top: -40px;
+		left: 30px;
+		
 	}
-	.modal-body {
-    	max-height: 70vh;
-    	overflow-y: scroll;
+	.selected + .mb_nick{
+		color: white;
 	}
-
-</style> -->
+	#wrapper {
+		margin-lefT: 0;
+	}
+</style>
 
 
 <script type="text/javascript">
@@ -64,13 +56,20 @@ if($_GET['recom_referral'])
 
 	$(function() {
 
+		onlyNumber('reg_mb_hp');
+		$('#reg_mb_hp').on('click',function(){
+			$('#reg_mb_hp + .desc_hidden').css('display','block');
+		});
+		$('#reg_mb_hp').on('mouseout',function(){
+			$('#reg_mb_hp + .desc_hidden').css('display','none');
+		})
+
 		/*초기설정*/
 		//$('.agreement_ly').hide();
 		$('#verify_txt').hide();
 
 
 		/* 핸드폰 SMS 문자인증 사용 */
-
 		$('#nation_number').on('change', function(e) {
 			// $('#reg_mb_hp').val($(this).val());
 		});
@@ -153,7 +152,6 @@ if($_GET['recom_referral'])
 
 
 		/* 사전인증 메일발송 - 사용안함 */
-		
 		/* $('#sendMail').on('click', function(e) {
 			//console.log('sendmail');
 			if (!$('#reg_mb_email').val()) {
@@ -262,7 +260,7 @@ if($_GET['recom_referral'])
 		});
 
 		/*이용약관동의*/
-		$('.agreement_ly').click(function() {
+		/* $('.agreement_ly').click(function() {
 			if ($("#agree").is(":checked") == true) {
 				$('#agree').prop("checked", false);
 				$('.agreement_ly > span').css('text-decoration', 'none');
@@ -270,7 +268,7 @@ if($_GET['recom_referral'])
 				$('#agree').prop("checked", true);
 				$('.agreement_ly > span').css('text-decoration', 'underline');
 			}
-		});
+		}); */
 
 
 		$('#reg_mb_password').on('keyup', function(e) {
@@ -365,7 +363,7 @@ if($_GET['recom_referral'])
 			$("#pm_5").attr('class', 'x_li');
 		}
 
-		if (pw_rule == '3') {
+		if (pw_rule == 3) {
 			return true;
 		} else {
 			return false;
@@ -373,20 +371,30 @@ if($_GET['recom_referral'])
 	}
 
 	function chkPwd_2(str, str2) {
+		var pw_rule = 0;
 
 		if (str.length < 6) {
 			$("#pt_1").attr('class', 'x_li');
 		} else {
 			$("#pt_1").attr('class', 'o_li');
+			pw_rule += 1;
 		}
 
 		if (str == str2) {
 			$("#pt_2").attr('class', 'o_li');
+			pw_rule += 1;
 		} else {
 			$("#pt_2").attr('class', 'x_li');
 		}
 
-		if (str == str2 && str.length == 6 && str2.length == 6) {
+		if (isNaN(str) && isNaN(str2)) {
+			$("#pt_3").attr('class', 'x_li');
+		} else {
+			$("#pt_3").attr('class', 'o_li');
+			pw_rule += 1;
+		}
+
+		if (pw_rule >= 3) {
 			return true;
 		} else {
 			return false;
@@ -394,7 +402,7 @@ if($_GET['recom_referral'])
 	}
 
 
-	/*추천인/ 센터멤버 등록*/
+	/*추천인, 센터멤버 등록*/
 	function getUser(etarget, type) {
 		var target = etarget;
 		if (type == 1) {
@@ -425,8 +433,18 @@ if($_GET['recom_referral'])
 
 						if (obj.mb_level > 0) {
 							vHtml.append($("<div>").addClass('user').html(obj.mb_id));
+
+							if(type == 2){
+								vHtml.append($("<label>").addClass('mb_nick').html(obj.mb_nick));
+							}
+
 						} else {
-							vHtml.append($("<div style='color:red'>").addClass('non_user').html(obj.mb_id));
+							if(type == 2){
+								vHtml.append($("<div style='color:red;text-indent:-999px'>").addClass('non_user').html(obj.mb_id));
+								vHtml.append($("<label style='color:red'>").addClass('mb_nick').html(obj.mb_nick));
+							}else{
+								vHtml.append($("<div style='color:red;>").addClass('non_user').html(obj.mb_id));
+							}
 						}
 
 
@@ -439,7 +457,13 @@ if($_GET['recom_referral'])
 					/* 첫번째 선택되어있게 */
 					function first_select() {
 						$(target_type + ' .modal-body .user:nth-child(1)').addClass('selected');
-						$(target).val($(target_type + ' .modal-body .user.selected').html());
+
+						if(type == 2){
+							$('#reg_mb_center_nick').val($(target_type + ' .modal-body .user.selected').html())
+							$(target).val($(target_type + ' .modal-body .user.selected + .mb_nick').html());
+						}else{
+							$(target).val($(target_type + ' .modal-body .user.selected').html());
+						}
 					}
 
 
@@ -452,9 +476,13 @@ if($_GET['recom_referral'])
 
 
 					$(target_type + ' .modal-footer #btnSave').click(function() {
-						//console.log('user select : ' + $( target_type + '.modal-body .user.selected').html());
 						recommend_search = true;
-						$(target).val($(target_type + ' .modal-body .user.selected').html());
+						if(type == 2){
+							$('#reg_mb_center_nick').val($(target_type + ' .modal-body .user.selected').html())
+							$(target).val($(target_type + ' .modal-body .user.selected + .mb_nick').html());
+						}else{
+							$(target).val($(target_type + ' .modal-body .user.selected').html());
+						}
 						$(target_type).modal('hide');
 					});
 
@@ -480,101 +508,88 @@ if($_GET['recom_referral'])
 		}
 		*/
 
-		// if($('#nation_number').val() == "country"){
-		// 	commonModal('country check', '<strong>please select country.</strong>', 80);
-		// 	return false;
-		// }
+		/* 국가선택 검사*/
+		/* if($('#nation_number').val() == "country"){
+			commonModal('country check', '<strong>please select country.</strong>', 80);
+			return false;
+		} */
+
+		/* 이사멤버 검사
+		if (f.mb_director.value == '' || f.mb_director.value == 'undefined') {
+			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
+			return false;
+		}
+		*/
+
 		
+		
+
 		//추천인 검사
 		if (f.mb_recommend.value == '' || f.mb_recommend.value == 'undefined') {
 			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
 			return false;
 		}
-
-		/* //이사멤버 검사
-		if (f.mb_director.value == '' || f.mb_director.value == 'undefined') {
-			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
-			return false;
-		}
-
-		//센터멤버 검사
-		*/
-		if (f.mb_center.value == '' || f.mb_center.value == 'undefined') {
-			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
-			return false;
-		}
-
 		if (!recommend_search) {
 			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
 			return false;
 		}
 
+
+		//센터멤버 검사
+		if (f.mb_center.value == '' || f.mb_center.value == 'undefined') {
+			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
+			return false;
+		}
+		
+		//추천인이 본인인지 확인
 		if (f.mb_id.value == f.mb_recommend.value) {
 			commonModal('recommend check', '<strong> can not recommend self. </strong>', 80);
 			f.mb_recommend.focus();
 			return false;
 		}
 
+		// 이름
+		if (f.mb_name.value == '' || f.mb_name.value == 'undefined') {
+			commonModal('이름입력확인', '<strong>이름을 확인해주세요.</strong>', 80);
+			return false;
+		}
+		
+		//아이디 중복체크
 		if (check_id == 0) {
-			commonModal('ID check', '<strong>please check ID. </strong>', 80);
+			commonModal('ID 중복확인', '<strong>아이디 중복확인을 해주세요. </strong>', 80);
 			return false;
 		}
 
-		// if (f.mb_password.value.length > 0) {
-		// 	if (f.mb_password_re.value.length < 4) {
-		// 		commonModal('password check','<strong>put password 4 characters or more.</strong>',80);
+		// 연락처
+		if (f.mb_hp.value == '' || f.mb_hp.value == 'undefined') {
+			commonModal('휴대폰번호확인', '<strong>휴대폰 번호가 잘못되거나 누락되었습니다. </strong>', 80);
+			return false;
+		}
 
-		// 		f.mb_password_re.focus();
-		// 		return false;
-		// 	}
-		// }
+		
 
-		// if (f.mb_password.value != f.mb_password_re.value) {
-		// 	commonModal('password check','<strong> password does not match. </strong>',80);
-
-		// 	f.mb_password_re.focus();
-		// 	return false;
-		// }
-
-
+		// 패스워드
 		if (!chkPwd_1($('#reg_mb_password').val(), $('#reg_mb_password_re').val())) {
 			commonModal('password rule check', '<strong> login Password does not match password Rule.</strong>', 80);
 			return false;
 		}
 
+		// 핀코드
 		if (!chkPwd_2($('#reg_tr_password').val(), $('#reg_tr_password_re').val())) {
 			commonModal('Check password Rule', '<strong> Transaction Password does not match password Rule.</strong>', 80);
 			return false;
 		}
 
-		/* 메일인증
-		if(verify == false){
-			commonModal('check e-mail verifiy','<strong>Enter the verification code to verify your email address</strong>',80);
-			return false;
-		}
-		*/
-		/* 
-		if ($('#wallet_addr').val().length <= 40) {
-			commonModal('check wallet address', '<strong>check wallet address.</strong>', 80);
-			return false;
+		/*이용약관 체크*/
+		for (var i = 0; i < $("input[name=term]:checkbox").length; i++) {
+			if ($("input[name=term]:checkbox")[i].checked == false) {
+				commonModal('check the policy agreement', '<strong>이용약관에 동의해주세요.</strong>', 80);
+				return false;
+			}
+
 		}
 
-		if (check_wallet == 0) {
-			commonModal('wallet check', '<strong>please check wallet address. </strong>', 80);
-			return false;
-		}
-
-		if (wallet != $('#wallet_addr').val() || wallet == "") {
-			commonModal('wallet check', '<strong>please check wallet address. </strong>', 80);
-			return false;
-		}
-		*/
-
-		if (!$('#agree').prop('checked')) {
-			commonModal('check the policy agreement', '<strong>check the policy agreement.</strong>', 80);
-			return false;
-		}
-
+		// 메일인증 체크
 		$.ajax({
 			type: "POST",
 			url: "/mail/check_mail_for_register.php",
@@ -586,8 +601,10 @@ if($_GET['recom_referral'])
 			},
 			success: function(res) {
 				if (res.result == "OK") {
+					mail_check = 1;
 					f.submit();
 				} else {
+					mail_check = 0;
 					dialogModal("Email Auth", res.res, 'failed');
 
 				}
@@ -598,45 +615,17 @@ if($_GET['recom_referral'])
 			}
 		});
 
+
 	}
-
-	/*이용약관*/
-	/*
-	function agreementModal(title ){
-		$('#agreement').modal('show');
-		$('#agreement .modal-header .modal-title').html(title);
-		$('#agreement .modal-body').load('<?= G5_THEME_URL ?>/policy.html');
-		$('#agreement .modal-body').css('height','auto');
-		$('#closeModal').focus();
-	}
-	$(document).on('click','.agreeement_show',function(e) {
-		agreementModal('agreement');
-
-		$('#agreement .yes')	.on('click',function(e) {
-			$('.agreement_ly').show();
-			$('.agreement_btn').hide();
-			$('#agree').attr("checked", true);
-		});
-	});
-
-	$(document).on('click','#agree',function(e) {
-		$('.agreement_btn').show();
-	});
-	*/
 </script>
-
-<style>
-	#wrapper {
-		margin-lefT: 0;
-	}
-</style>
 
 <div class="v_center">
 
 	<div class="enroll_wrap">
 		<form id="fregisterform" name="fregisterform" action="/bbs/register_form_update.php" method="post" enctype="multipart/form-data" autocomplete="off">
 
-			<!-- <div>
+			<!-- 국가선택시
+			<div>
 				<select id="nation_number" name="nation_number" required >
 					<option value="country" data-i18n="signUp.국가를 선택해주세요" >Select Country</option>
 					<option value="1">001 - USA</option>
@@ -650,12 +639,11 @@ if($_GET['recom_referral'])
 				</select>
 			</div> -->
 
-
+			<!-- 추천인 정보 -->
 			<p class="check_appear_title mt10"><span data-i18n="signUp.추천인정보">recommend's Information</span></p>
 			<section class='referzone'>
-				<!-- <label class='text-white' data-i18n="signUp.추천인정보">Referrer's Username</label> -->
 				<div class="btn_input_wrap">
-					<input type="text" name="mb_recommend" id="reg_mb_recommend" value="<?= $mb_recommend ?>" placeholder="Referrers ID" required data-i18n='[placeholder]signUp.추천인정보' />
+					<input type="text" name="mb_recommend" id="reg_mb_recommend" value="<?= $mb_recommend ?>" required placeholder="추천인 아이디" />
 					<div class='in_btn_ly2'>
 						<button type='button' class="btn_round check " onclick="getUser('#reg_mb_recommend',1);" style=""><span data-i18n="signUp.검색">Search</span></button>
 					</div>
@@ -664,33 +652,40 @@ if($_GET['recom_referral'])
 				
 			</section>
 
-			<!-- <p class="check_appear_title mt10"><span data-i18n="signUp.이사정보">Director's Information</span></p>
-			<section class='referzone'>
-				<div class="btn_input_wrap">
-					<input type="text" name="mb_director" id="reg_mb_director" value="<?= $mb_director ?>" placeholder="Director's ID" required data-i18n='[placeholder]signUp.이사아이디' />
-					<div class='in_btn_ly2'>
-						<button type='button' class="btn_round check " onclick="getUser('#reg_mb_director',3);" style="width:70px;margin-top:10px;"><span data-i18n="signUp.검색">Search</span></button>
-					</div>
-					
-				</div>
-			</section> -->
+			<!-- 센터 정보 -->
+			<p class="check_appear_title mt20"><span data-i18n="signUp.센터정보">Referrer's Information</span></p>
+				<section class='referzone'>
+					<div class="btn_input_wrap">
+						<input type="hidden" name="mb_center_nick" id="reg_mb_center_nick" value=""  required  />
+						<input type="text" name="mb_center" id="reg_mb_center" value="" placeholder="센터명 또는 센터아이디" required  />
 
-			<p class="check_appear_title mt10"><span data-i18n="signUp.센터정보">Referrer's Information</span></p>
-			<section class='referzone'>
-				<div class="btn_input_wrap">
-					<input type="text" name="mb_center" id="reg_mb_center" value="<?= $mb_center ?>" placeholder="Center's ID" required data-i18n='[placeholder]signUp.센터아이디' />
-					<div class='in_btn_ly2'>
-						<button type='button' class="btn_round check " onclick="getUser('#reg_mb_center',2);" style=""><span data-i18n="signUp.검색">Search</span></button>
+						<div class='in_btn_ly2'>
+							<button type='button' class="btn_round check " onclick="getUser('#reg_mb_center',2);"
+							><span data-i18n="signUp.검색">Search</span></button>
+						</div>
 					</div>
-					
-				</div>
-			</section>
+				</section>
 
-			<p class="check_appear_title mt40"><span data-i18n='signUp.일반정보'>General Information</span></p>
+
+			<!-- <p class="check_appear_title mt40"><span data-i18n='signUp.일반정보'>General Information</span></p> -->
+			<p class="check_appear_title mt40"><span data-i18n='signUp.개인 정보 & 인증'>Personal Information & Authentication </span></p>
 			<div>
-				<input type="text" minlength="5" maxlength="20" name="mb_id" style='padding:15px' id="reg_mb_id" placeholder="" data-i18n='[placeholder]signUp.아이디' />
+				<input type="text" minlength="5" maxlength="20" name="mb_name" style='padding:15px' id="reg_mb_name" required placeholder="이름"  />
+				<!-- <div class='in_btn_ly'><input type="button" id='name_check' class='btn_round check' value="name" data-i18n='[value]signUp.중복확인'></div> -->
+
+				<input type="text" minlength="5" maxlength="20" name="mb_id" style='padding:15px' id="reg_mb_id" required placeholder="" data-i18n='[placeholder]signUp.아이디' />
 				<div class='in_btn_ly'><input type="button" id='id_check' class='btn_round check' value="ID Check" data-i18n='[value]signUp.중복확인'></div>
+
+				<input type="email"  id="reg_mb_email" name="mb_email" style='padding:15px'placeholder="Email address" required data-i18n='[placeholder]signUp.이메일 주소' />
+				<div class='in_btn_ly'><input type="button" id='EmailChcek' class='btn_round check' value="Eamil" data-i18n='[value]signUp.이메일 전송'></div>
+				
+				<input type="text" name="mb_hp"  id="reg_mb_hp"  pattern="[0-9]*" style='padding:15px' required  placeholder="휴대폰번호"/>
+				<span class='desc_hidden' style='margin-top:-10px;width:100%;margin-bottom:30px;font-size:11px;padding-left:10px;color:#006df3'>※숫자만 입력해주세요</span>
+				<!-- <label class='prev_icon'><i class="ri-smartphone-line"></i></label> -->
+				
 			</div>
+
+			
 
 			<ul class="clear_fix pw_ul mt20">
 				<li>
@@ -701,7 +696,6 @@ if($_GET['recom_referral'])
 					<ul>
 						<li class="x_li" id="pm_1" data-i18n='signUp.4자 이상 20자 이하'>4 characters or more</li>
 						<li class="x_li" id="pm_3" data-i18n='signUp.숫자+영문'>Digits + Characters</li>
-						<!--<li class="x_li" id="pm_4" data-i18n='register.특수 기호' >Special Characters</li>-->
 						<li class="x_li" id="pm_5" data-i18n='signUp.비밀번호 비교'>Compare Password</li>
 					</ul>
 				</li>
@@ -712,53 +706,21 @@ if($_GET['recom_referral'])
 					<strong><span class='mb10' style='display:block;font-size:13px;' data-i18n='signUp.강도 높은 핀코드 설정 조건'>Your Pin-code must contain</span></strong>
 					<ul>
 						<li class="x_li" id="pt_1" data-i18n='signUp.6 자리'>6 digits</li>
+						<li class="x_li" id="pt_3" >숫자</li>
 						<li class="x_li" id="pt_2" data-i18n='signUp.핀코드 비교'>Compare Pin-code</li>
-						<li class="x_li" id="pm_5"></li>
 					</ul>
 				</li>
 			</ul>
 
 
-
+			<!-- 폰인증
 			<section id="personal">
-				<div class="check_appear mt40">
-					<p class="check_appear_title"><span data-i18n='signUp.개인 정보 & 인증'>Personal Information & Authentication </span></p>
-					<!-- <input class="input_addr" type="text" name="first_name" id="wallet_addr" placeholder="Name" data-i18n='[placeholder]signUp.이름' />
-					<div class='in_btn_ly'><input type="button" id='wallet_addr_check' class='btn_round check' value="ID Check" data-i18n='[value]signUp.지갑 확인' style="margin-top:5px;"></div> -->
-					<!--<input type="text" name="last_name" placeholder="Last Name (Must match the legal name on file)" data-i18n='[placeholder]register.성 (신분증에 기록된 이름과 동일해야 함)'/>-->
-					<!-- <input type="email" name="mb_email" id="reg_mb_email" placeholder="Email address" data-i18n='[placeholder]signUp.이메일 주소'/> -->
-
-					<!-- <input type="email" name="mb_email_re" id="reg_mb_email_re" placeholder="Email address" data-i18n='[placeholder]signUp.이메일 주소 확인'/> -->
-					<input type="email" name="mb_email" id="reg_mb_email" placeholder="Email address" data-i18n='[placeholder]signUp.이메일 주소' />
-					<div class='in_btn_ly'><input type="button" id='EmailChcek' class='btn_round check' value="Eamil" data-i18n='[value]signUp.이메일 전송'></div>
-
-					<!--// 메일 인증-->
-					<!-- <?if($email_auth == true){?>
-					<div class="clear_fix ecode_div">
-						<div class="sendbtn">
-						<a href="javascript:void(0);" class="btn" id="sendMail">
-							<img src="<?= G5_THEME_URL ?>/_images/email_send_icon.gif" alt="이메일코드">
-							<span data-i18n="signUp.이메일인증번호">Email Authentication Code</span>
-						</a>
-						</div>
-
-						<input type="text" name="vCode" placeholder="Enter Email Authtication Code" id="vCode" required class="input-search" maxlength="10" data-i18n='[placeholder]register.이메일 승인 번호' >
-
-						<p id="verify_txt" class="text_right font_green mb20" data-i18n="signUp.인증 완료">Verification Complete</p>
-					</div>
-					<hr>
-				<?}?> -->
-
-
-
-					<!-- <div>
+				<div>
 					<span style='display:block;margin-left:10px;' class='' data-i18n='signUp.핸드폰 번호'> Phone number</span>
 					<input type="text" name="mb_hp"  id="reg_mb_hp"  pattern="[09]*" placeholder="Phone number" value='' data-i18n='[placeholder]signUp.핸드폰 번호'/>
 					<label class='phone_num'><i class="ri-smartphone-line"></i></label>
-				</div> -->
-
-					<!-- // 폰인증 -->
-					<!-- <?if($phone_auth > 1){?>
+				</div>
+					<?if($phone_auth > 1){?>
 					<div class="clear_fix ecode_div">
 					<div class="verify_phone">
 						<input type="text" placeholder="Enter Phone Authtication Code"/>
@@ -768,33 +730,39 @@ if($_GET['recom_referral'])
 						</a>
 						</div>
 					</div>
-				<?}?> -->
+					<?}?>
 			</section>
+			-->
 
 			<!--
 			<hr>
 			<div class="agreement_btn"> <button type="button" class="agreeement_show btn"><span data-i18n='register.회원가입 약관보기'>Read Terms and Conditions</span></button></div>
 			-->
 
-			<div class="mb20 agreement_ly">
-				<div class="checkbox_wrap"><input type="checkbox" name='agree' id="agree" class="checkbox"><label for="agree"></label></div>
-				<div style='display: inline-grid;width: 90%;color: #000;'>
-					<span data-i18n='signUp.이용약관1'> I have read and agreed to the Terms and Conditions.</span>
-					<span data-i18n='signUp.이용약관2'> I fully understood the this business and I know the NO REFUND policy.</span>
-					<span data-i18n='signUp.이용약관3'> I know the change of Refferer is NOT POSSIBLE.</span>
+			<p class="check_appear_title mt40"><span >회원가입 약관동의 </span></p>
+			<div class="mt20">
+				<div class="term_space">
+					<input type="checkbox" id="service_checkbox" class="term_none" name="term" >
+					<label for="service_checkbox" style="width:25px;height:25px;">
+						<span style='margin-left:10px;line-height:30px;'><?= $service_term['wr_subject'] ?> 및 서약서 동의</span>
+						<a id="service" href="javascript:collapse('#service');"  style="width:25px;height:25px;position:absolute;right:25px;"><i class="fas fa-angle-down" style="width:25px;height:25px;"></i></a>
+					</label>
 				</div>
-			</div>
+				
+				<textarea id="service_term" class="term_textarea term_none"><?= $service_term['wr_content'] ?></textarea>
 
-			<!--
-				<div style="height:100px; text-align: center; background:#eee;">
-					캡챠영역
+				<div class="term_space">
+					<input type="checkbox" id="private_checkbox" class="term_none" name="term" >
+					<label for="private_checkbox" style="width:25px;height:25px;">
+						<span style='margin-left:10px;line-height:30px;'><?= $private_term['wr_subject'] ?> 동의</span>
+						<a id="private" href="javascript:collapse('#private');"  style="width:25px;height:25px;position:absolute;right:25px;"><i class="fas fa-angle-down" style="width:25px;height:25px;"></i></a>
+					</label>
 				</div>
-				-->
+				<textarea id="private_term" class="term_textarea term_none"><?= $private_term['wr_content'] ?></textarea>
+			</div>
+			
 
 			<div class="btn2_wrap mb40" style='width:100%;height:60px'>
-				<!-- <input class="btn_basic mt20" type="button" value="취소" onClick="history.back(-1);">
-				<input class="btn_basic mt20" type="button" value="신규 회원 등록하기" onClick="location.href='dashboard.php'"> -->
-
 				<input class="btn btn_double enroll_cancel_pop_open btn_cancle pop_open" type="button" value="Cancel" data-i18n='[value]signUp.취소'>
 				<input class="btn btn_double btn_primary" type="button" onclick="fregisterform_submit();" value="Enroll new member" data-i18n='[value]signUp.신규 회원 등록하기'>
 			</div>
@@ -814,4 +782,23 @@ if($_GET['recom_referral'])
 	$(function() {
 		$(".top_title h3").html("<span data-i18n='title.신규 회원등록' style='font-size:16px;margin-left:20px'>Create a new account</span>");
 	});
+
+	
+	function collapse(id) {
+			if ($(id + "_term").css("display") == "none") {
+				$(id + "_term").css("display", "block");
+				$(id + "_term").animate({
+					height: "150px"
+				}, 100, function() {
+					$(id + ' .svg-inline--fa').css('transform', "rotate(180deg)");
+				});
+			} else {
+				$(id + "_term").animate({
+					height: "0px"
+				}, 100, function() {
+					$(id + "_term").css("display", "none");
+					$(id + ' .svg-inline--fa').css('transform', "rotate(360deg)");
+				});
+			}
+		}
 </script>

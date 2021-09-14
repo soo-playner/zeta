@@ -1,6 +1,6 @@
 <?
-define('CONFIG_TITLE','ZETA BITE');
-define('CONFIG_SUB_TITLE','');
+define('CONFIG_TITLE','ZETA BYTE');
+define('CONFIG_SUB_TITLE','ZETA BYTE');
 
 // 메일설정
 define('CONFIG_MAIL_ACCOUNT','willsoftkr');

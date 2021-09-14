@@ -133,10 +133,13 @@ function user_grade($id){
 }
 
 
-
-
-
-
+// 닉네임검사
+function get_name($id){
+	global $g5;
+	$mb_sql = "SELECT mb_nick from g5_member WHERE mb_id = '{$id}' ";
+	$result = sql_fetch($mb_sql);
+	return $result['mb_nick'];
+}
 
 
 // 보너스 수당-한계 퍼센트

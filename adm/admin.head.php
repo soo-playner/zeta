@@ -100,7 +100,11 @@ $(function(){
 			var $search = $('#set_id_sel').val();
 			$('#framer').attr("src","/shop/ajax.id.php?mbid="+$search);
 			$('#framewrp').fadeIn();
-		} else if ($type == "rcm_search") {
+		} else if ($type == "center_search") {
+            var $center = $('#mb_center').val();
+			$('#framer').attr("src","/shop/ajax.center.php?mb_id="+$center+"&rcm="+$center);
+			$('#framewrp').fadeIn();
+		}else if ($type == "rcm_search") {
 			var $rcm = $('#mb_recommend').val();
 			var $mb_id = $('#mb_id').val();
 			$('#framer').attr("src","/shop/ajax.id.php?mb_id="+$mb_id+"&rcm="+$rcm);

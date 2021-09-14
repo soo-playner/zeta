@@ -132,7 +132,7 @@ $title = 'Dashboard';
 					<ul class="row">
 						<li class="col-4">
 							<dt class="title" >센터회원</dt>
-							<dd class="value"><?=$member['mb_center']?></dd>
+							<dd class="value"><?=get_name($member['mb_center'])?></dd>
 						</li>
 						
 

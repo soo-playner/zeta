@@ -26,8 +26,8 @@
 	<meta property="og:title" content="<?=$config['cf_title']?>" />
 	<meta property="og:description" content="<?=$config['cf_title']?> " />
 	<meta property="og:site_name" content="<?=$config['cf_title']?>" />
-	<meta property="og:image" content="" />
-	<meta property="og:url" content="" />
+	<meta property="og:image" content="<?=G5_THEME_URL?>/img/default.png" />
+	<meta property="og:url" content="<?=G5_URL?>" />
 
 
 

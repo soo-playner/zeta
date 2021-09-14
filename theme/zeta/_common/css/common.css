@@ -362,7 +362,7 @@ a.desc{font-size:13px;text-decoration: underline;color:#565656}
 .enroll_wrap .in_btn_ly2{position:relative; float:right; margin-top:-38px;margin-right:10px;}
 .enroll_wrap .agreement_ly{background:#fff;padding:15px;margin:25px 0;letter-spacing:-1px; font-size:12px;border-radius:10px;}
 
-.enroll_wrap .referzone{background:#fff;margin:20px 0;border-radius:5px;box-shadow:0 1px 1px rgba(0,0,0,0.15);border:2px solid #545878}
+.enroll_wrap .referzone{background:#fff;margin:10px 0;border-radius:5px;box-shadow:0 1px 1px rgba(0,0,0,0.15);border:2px solid #545878}
 .enroll_wrap .referzone input[type=text]{color:black;border-bottom:none;background:transparent;margin-bottom:0;border-radius: 0;margin-top: 0px;}
 .enroll_wrap .referzone input::placeholder{color:#666}
 .enroll_wrap .referzone.blue{background:#204f83;color:white}
@@ -370,9 +370,10 @@ a.desc{font-size:13px;text-decoration: underline;color:#565656}
 
 .enroll_wrap #personal {position: relative;}
 
-#reg_mb_hp{padding-left:40px;}
-.enroll_wrap .phone_num{position:absolute;left:1%;margin-top:10px;z-index:2;display:inline;}
-.enroll_wrap input + label > i{font-size:20px;}
+/* #reg_mb_hp{padding-left:40px;} */
+.desc_hidden{display: none;}
+.enroll_wrap .prev_icon{position:relative;left:8px;top:-50px;vertical-align:middle;border-right:1px solid #ccc;padding-right:6px;}
+.enroll_wrap .prev_icon > i{font-size:20px;vertical-align: sub;}
 
 
 /* dashboard */
@@ -515,7 +516,7 @@ a.more i{font-size:18px;font-weight:500;color:#555;vertical-align: bottom;}
 .profile .person_info .myid{margin-left:10px; vertical-align: top;line-height:40px;}
 .profile .person_info .mygrade{vertical-align: top;margin-top:10px;}
 
-.profile .person_info{width:100%;display:block;}
+/* .profile .person_info{width:100%;display:block;} */
 
 .profile label + p{text-indent:10px;margin-top:5px;}
 
@@ -1506,7 +1507,7 @@ a.gray_close{background:#6c757d; color:#fff; text-align: center; padding: 8px 10
 
 	.logo_login_div img {_width: 64%;}
 	#u_name{margin-bottom:5px;}
-	.logo_login_div {margin-bottom: 0px; width:100%; margin:auto;margin:10px 0;margin: 15% 0 !important;}
+	.logo_login_div {margin-bottom: 0px; width:100%; margin:auto;margin: 2vh 0 !important;}
 	.login_wrap {padding-top:0;}
 	.login_wrap a.btn_basic_block{margin-top:20px;}
 	.login_btn_bottom{margin-top:2vh;}
@@ -1611,6 +1612,11 @@ a.gray_close{background:#6c757d; color:#fff; text-align: center; padding: 8px 10
 	.purchase_1wrap {font-size: 15px;}
 }
 
+@media (min-width: 576px){
+.container {
+    max-width:100%;
+}
+}
 
 /*  아이폰 x  */
 @media screen and (min-height:810px){

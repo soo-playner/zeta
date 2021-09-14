@@ -3,34 +3,33 @@ include_once('./_common.php');
 include_once(G5_CAPTCHA_PATH.'/captcha.lib.php');
 include_once(G5_LIB_PATH.'/register.lib.php');
 include_once(G5_LIB_PATH.'/mailer.lib.php');
-/*include_once('../lib/otphp/lib/otphp.php');*/
 
 include_once(G5_THEME_PATH.'/_include/wallet.php');
 
 /*
-nation_number: 82
-mb_id: arcthan3
-
-mb_password: han8210
-mb_password_re: han8210
+mb_recommend: zeta
+mb_center_nick: admin
+mb_center: 슈퍼관리자
+mb_name: 한은수
+mb_id: arcthan
+mb_email: arcthan@naver.com
+mb_hp: 
+mb_password: zx235689
+mb_password_re: zx235689
 reg_tr_password: 235689
 reg_tr_password_re: 235689
-
-first_name: soo3
-mb_email: arcthan@naver.com
-mb_hp: 821097885852
-mb_recommend: admin
-mb_center : cw256
+term: on
+term: on
 */
-
 ?>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <?
 include_once(G5_THEME_PATH.'/_include/head.php');
 include_once(G5_THEME_PATH.'/_include/gnb.php');
 include_once(G5_THEME_PATH.'/_include/popup.php');
 
-function generateRandomCharString($length = 3) {
+/* function generateRandomCharString($length = 3) {
 	$characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	$charactersLength = strlen($characters);
 	$randomString = '';
@@ -38,7 +37,7 @@ function generateRandomCharString($length = 3) {
 		$randomString .= $characters[rand(0, $charactersLength - 1)];
 	}
 	return $randomString;
-}
+} */
 
 // 리퍼러 체크
 referer_check();
@@ -81,8 +80,9 @@ if(!$mb_id)
 
 $mb_password    = trim($_POST['mb_password']);
 $mb_password_re = trim($_POST['mb_password_re']);
-$mb_name        = trim($_POST['first_name']);
-$mb_nick        = trim($_POST['mb_nick']);
+$mb_name        = trim($_POST['mb_name']);
+// $mb_nick        = trim($_POST['mb_nick']);
+$mb_nick        = '';
 $mb_email       = trim($_POST['mb_email']);
 $gp             = trim($_POST['gp']);
 $mb_sex         = isset($_POST['mb_sex'])           ? trim($_POST['mb_sex'])         : "";
@@ -136,7 +136,7 @@ $result  = sql_fetch($pre_sql);
 $mb_recommend_no = $result['recom_no'];
 
 $depth = $result['mb_depth'];
-$mb_center = $_POST['mb_center'];
+$mb_center = $_POST['mb_center_nick']; //센터닉네임 사용 by arcthan 2021-09-14
 
 
 if ($w == '' || $w == 'u') {
@@ -151,16 +151,18 @@ if ($w == '' || $w == 'u') {
 	if($tmp_mb_name != $mb_name) {
 		alert('이름을 올바르게 입력해 주십시오.');
 	}
-	$tmp_mb_nick = iconv('UTF-8', 'UTF-8//IGNORE', $mb_nick);
+
+	/* $tmp_mb_nick = iconv('UTF-8', 'UTF-8//IGNORE', $mb_nick);
 	if($tmp_mb_nick != $mb_nick) {
 		alert('닉네임을 올바르게 입력해 주십시오.');
-	}
+	} */
 
 	if ($w == '' && !$mb_password)
 		alert('Retry Check your E-mail Authentication Code and Input');
 
 	if($w == '' && $mb_password != $mb_password_re)
 		alert('비밀번호가 일치하지 않습니다.');
+
 
 	/*핀코드 패스워드*/
 	if($w == '' && $reg_tr_password != $reg_tr_password_re)
@@ -175,7 +177,7 @@ if ($w == '' || $w == 'u') {
 
 	// 이름에 한글명 체크를 하지 않는다.
 	//if ($msg = valid_mb_name($mb_name))     alert($msg, "", true, true);
-	if ($msg = valid_mb_nick($mb_nick))     alert($msg, "", true, true);
+	// if ($msg = valid_mb_nick($mb_nick))     alert($msg, "", true, true);
 	if ($msg = valid_mb_email($mb_email))    alert($msg, "", true, true);
 	if ($msg = prohibit_mb_email($mb_email)) alert($msg, "", true, true);
 	//if ($msg = empty_mb_recommend($mb_recommend)) alert($msg, "", true, true);
@@ -229,8 +231,8 @@ if ($w == '' || $w == 'u') {
 	} else {
 		// 자바스크립트로 정보변경이 가능한 버그 수정
 		// 닉네임수정일이 지나지 않았다면
-		if ($member['mb_nick_date'] > date("Y-m-d", G5_SERVER_TIME - ($config['cf_nick_modify'] * 86400)))
-			$mb_nick = $member['mb_nick'];
+		/* if ($member['mb_nick_date'] > date("Y-m-d", G5_SERVER_TIME - ($config['cf_nick_modify'] * 86400)))
+			$mb_nick = $member['mb_nick']; */
 		// 회원정보의 메일을 이전 메일로 옮기고 아래에서 비교함
 		$old_email = $member['mb_email'];
 	}
@@ -306,8 +308,8 @@ if ($w == '') {
 	$sql = " insert into {$g5['member_table']}
 				set mb_id = '{$mb_id}',
 					 mb_password = '".get_encrypt_string($mb_password)."',
-					 mb_name = '{$mb_id}',
-					 mb_nick = '{$mb_id}',
+					 mb_name = '{$mb_name}',
+					 mb_nick = '',
 					 mb_nick_date = '".G5_TIME_YMD."',
 					 mb_email = '{$mb_email}',
 					 mb_homepage = '{$mb_homepage}',
@@ -446,7 +448,7 @@ if ($w == '') {
 
 		// 최고관리자님께 메일 발송
 		if ($config['cf_email_mb_super_admin']) {
-			$subject = '['.$config['cf_title'].'] '.$mb_nick .' 님께서 회원으로 가입하셨습니다.';
+			$subject = '['.$config['cf_title'].'] '.$mb_id .' 님께서 회원으로 가입하셨습니다.';
 
 			ob_start();
 			include_once ('./register_form_update_mail2.php');
@@ -479,9 +481,9 @@ if ($w == '') {
 		$sql_password = " , mb_password = '".get_encrypt_string($mb_password)."' ";
 
 	$sql_nick_date = "";
-	if ($mb_nick_default != $mb_nick)
+	/* if ($mb_nick_default != $mb_nick)
 		$sql_nick_date =  " , mb_nick_date = '".G5_TIME_YMD."' ";
-
+ */
 	$sql_open_date = "";
 	if ($mb_open_default != $mb_open)
 		$sql_open_date =  " , mb_open_date = '".G5_TIME_YMD."' ";

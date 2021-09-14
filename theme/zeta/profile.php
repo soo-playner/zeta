@@ -31,6 +31,8 @@
 	$security_code= generateRandomString(6);
 	$security_num_code = generate_code(8);
 
+	function format_phone($phone){ $phone = preg_replace("/[^0-9]/", "", $phone); $length = strlen($phone); switch($length){ case 11 : return preg_replace("/([0-9]{3})([0-9]{4})([0-9]{4})/", "$1-$2-$3", $phone); break; case 10: return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "$1-$2-$3", $phone); break; default : return $phone; break; } }
+
 
 // 자동 팩 구매
 	// $pack_sql = "select * from g5_shop_cart where mb_id = '{$member['mb_id']}' order by ct_time desc limit 0,1";
@@ -77,14 +79,23 @@
 					</h3>
 
 					<ul class='row person_info'>
-						<li class='col-sm-9 col-8 inline '>
+						<li class='col-12 inline' style='background:ghostwhite;padding:10px;text-align:center'>
 							<span class='userid user_level inline' ><?=$user_icon?></span>
-							<h4 class='myid bold inline'><?=$member['mb_id']?>님</h4>
+							<h4 class='myid bold inline'>
+								<span style='font-size:18px;'><?=$member['mb_name']?>님</span>
+								<span style='font-size:14px;line-height:15px;'>[ <?=$member['mb_id']?> ]</span>
+							</h4>
 							<h4 class='mygrade badge inline'><?=$user_level?></h4>
 						</li>
 					</ul>
 
 					<ul class='row person_info'>
+						<li class='col-12 mt20 '>
+							<label>모바일</label>  
+							<p class='mb20'><?=format_phone($member['mb_hp'])?></p>
+							
+						</li>
+
 						<li class='col-12 mt20'>
 							<label data-i18n="profile.이메일">Email</label>  
 							<p><?=$member['mb_email']?></p>
@@ -143,7 +154,7 @@
 					<ul class='row'>
 						<li class='col-sm-12 col-12'>
 							<label data-i18n="profile.나의 센터">My Center</label>
-							<p ><?=$member['mb_center']?></p>
+							<p ><?=get_name($member['mb_center'])?></p>
 						</li>
 					</ul>
 

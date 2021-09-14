@@ -172,6 +172,17 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 <script>
 	$(function() {
 
+		$('#center_use').click(function(){
+			var checked = $(this).is(":checked");
+
+			if(checked){
+				$('#mb_nick_regist').addClass('active');
+			}else{
+				$('#mb_nick_regist').removeClass('active');
+			}
+		});
+		
+		
 		$('#field_upstair').on('change', function() {
 			var after = $(this).val().replace(/,/g,'');
 			var before ="<?=$mb['mb_deposit_point']?>";
@@ -223,6 +234,9 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	.wallet_addr{display:inline-block;}
 	.badge{padding:10px 10px;font-weight:700;}
 	.copybutton{margin-left:10px; background:rgba(76,100,127,1);color:white;padding:5px 20px;border:0;box-shadow:0;border-radius:20px;}
+
+	#mb_nick_regist{display:none;}
+	#mb_nick_regist.active{display:inline;}
 </style>
 
 <form name="fmember" id="fmember" action="./member_form_update.php" onsubmit="return fmember_submit(this);" method="post" enctype="multipart/form-data">
@@ -264,6 +278,13 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 			<?php if ($w=='u'){ ?><a href="./boardgroupmember_form.php?mb_id=<?php echo $mb['mb_id'] ?>">접근가능그룹보기</a><?php } ?>
 			<? } ?>
 
+		</td>
+
+		<th scope="row"><label for="mb_id">이름<?php echo $sound_only ?></label></th>
+		<td>
+			<? if ($w == "u") { ?>
+			<input type="text" name="mb_name" id="mb_name" class='frm_input wide' value="<?=$mb['mb_name']?>" />
+			<? }?>
 		</td>
 		
   </tr>
@@ -339,6 +360,13 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<th scope="row">센터지정</th>
 		<td colspan="1">
 			<input type="checkbox" style='width:24px;height:24px' name="center_use" id="center_use" value=" <?=$mb['center_use']?> " class="frm_input" <? if($mb['center_use'] == '1') {echo "checked";}?> />
+			<?if($mb['center_use']>0){ $center_regist_class = 'active';}else{$center_regist = '';}?>
+			
+			<div id='mb_nick_regist'>
+			| 센터명 : 
+			<input type="text" name="mb_nick" id="mb_nick_field" value="<?=$mb['mb_nick']?>" class="frm_input" />
+			</div>
+			
 		</td>
 
 		<th scope="row">센터회원</th>
@@ -392,7 +420,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td colspan="1"><span><?=number_format($mb['mb_rate'])?> 원</span></td>
 	</tr>
 	
-	<tr class="ly_up padding-box week_dividend ">
+	<!-- <tr class="ly_up padding-box week_dividend ">
 	
 		<th scope="row">주배당 설정</th>
 		<td colspan="1">
@@ -407,7 +435,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td colspan="1">
 			<?=Number_format($mb['mb_balance']*0.01)?><?=ASSETS_CURENCY?>
 		</td>
-	</tr>
+	</tr> -->
 
 	<tr class="ly_up padding-box">
 		
@@ -442,8 +470,8 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 				<div class='pack_have'><span><?=$pack_array[$i]?></button>
 			<?php } ?>
 
-			<span class='divide'>|</span>
-			<button type='button' class='btn purchase_btn pack m-pack' data-point='0' data-name='[인정회원패키지]' data-id='2021051040' data-it_supply_point='0' value=''>P3-1 인정회원 팩</button>
+			<!-- <span class='divide'>|</span>
+			<button type='button' class='btn purchase_btn pack m-pack' data-point='0' data-name='[인정회원패키지]' data-id='2021051040' data-it_supply_point='0' value=''>P3-1 인정회원 팩</button> -->
 		</td>
 
 		<!-- <td colspan="2">
@@ -781,11 +809,13 @@ function fmember_submit(f)
 			}
 		});
 	}
-
+	
 	if ($('#center_use').is(":checked")) {
 		$('#center_use').val('1');
 	} else {
 		$('#center_use').val('0');
+		$('#mb_nick_field').val('');
+		
 	}
 
 	if ($break == "break") {
@@ -800,7 +830,7 @@ function fmember_submit(f)
 		return false;
 	}
 
-	return true;
+	// return true;
 }
 </script>
 
