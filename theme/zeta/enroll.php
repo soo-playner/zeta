@@ -430,9 +430,24 @@ if ($_GET['recom_referral']){
 
 					$.each(list, function(index, obj) {
 						// vHtml.append($("<div>").addClass('user').html(obj.mb_id));
-
+						
+						if(type == 2){
+							if(obj.mb_level > 0){
+								vHtml.append($("<label>").addClass('mb_nick').html(obj.mb_nick));
+							}else{
+								vHtml.append($("<div style='color:red;text-indent:-999px'>").addClass('non_user').html(obj.mb_id));
+								vHtml.append($("<label style='color:red'>").addClass('mb_nick').html(obj.mb_nick));
+							}
+						}else{
+							if(obj.mb_level >= 0){
+								vHtml.append($("<div>").addClass('user').html(obj.mb_id));
+							}else{
+								vHtml.append($("<div style='color:red;>").addClass('non_user').html(obj.mb_id));
+							}
+						}
+/* 
 						if (obj.mb_level > 0) {
-							vHtml.append($("<div>").addClass('user').html(obj.mb_id));
+							
 
 							if(type == 2){
 								vHtml.append($("<label>").addClass('mb_nick').html(obj.mb_nick));
@@ -440,12 +455,11 @@ if ($_GET['recom_referral']){
 
 						} else {
 							if(type == 2){
-								vHtml.append($("<div style='color:red;text-indent:-999px'>").addClass('non_user').html(obj.mb_id));
-								vHtml.append($("<label style='color:red'>").addClass('mb_nick').html(obj.mb_nick));
+								
 							}else{
 								vHtml.append($("<div style='color:red;>").addClass('non_user').html(obj.mb_id));
 							}
-						}
+						} */
 
 
 					});
