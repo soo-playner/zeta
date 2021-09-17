@@ -433,6 +433,7 @@ if ($_GET['recom_referral']){
 						
 						if(type == 2){
 							if(obj.mb_level > 0){
+								vHtml.append($("<div style='text-indent:-999px'>").addClass('user').html(obj.mb_id));
 								vHtml.append($("<label>").addClass('mb_nick').html(obj.mb_nick));
 							}else{
 								vHtml.append($("<div style='color:red;text-indent:-999px'>").addClass('non_user').html(obj.mb_id));
