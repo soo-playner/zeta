@@ -129,9 +129,9 @@ $res = sql_query($coin_price_sql);
 			<th>구분</th>
 			<th>CODE</th>
 			<th>수수료 (%)</th>
-			<th>최소값 제한 (고정값)</th>
-			<th>최대값 제한 (%)</th>
-			<th>출금회수제한(일)</th>
+			<th>최소값 제한 (고정금액)</th>
+			<th>1회 출금 최대 금액 제한 (고정금액)</th>
+			<th>일회수제한</th>
         </colgroup>
 		</thead>
 

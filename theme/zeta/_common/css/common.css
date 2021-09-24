@@ -451,8 +451,8 @@ a.more i{font-size:18px;font-weight:500;color:#555;vertical-align: bottom;}
 
 .r_card .title {font-size: 20px;color: white;padding-bottom: 7px;}
 
-.r_card_wrap .r_card .text_wrap {color: white;font-size: 12px;margin-top: 15px;text-align: right;}
-.it_price{margin-top: 3px;font-size:24px;font-weight: 600;letter-spacing: 0.5px;line-height:36px;}
+.r_card_wrap .r_card .text_wrap {color: white;font-size: 12px;margin-top: 15px;text-align: right;}    
+.it_price{margin-top: 3px;font-size:20px;font-weight: 600;letter-spacing: 0.5px;line-height:36px;}
 .origin_price{color:rgba(255,255,255,0.8)}
 
 .notice_wrap {position: fixed;bottom: 0;width:100%;cursor: pointer;z-index:1;}

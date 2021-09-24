@@ -255,7 +255,7 @@ $(function(){
 <br><br> -->
 
 <div class="local_ov01 local_ov">
-	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=number_format($total_hap,2)?></strong></a> 
+	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=number_format($total_hap)?></strong></a> 
 	<?
 		// 현재 통계치
 		$stats_sql = "SELECT status, sum(amt)  as hap, count(amt) as cnt from {$g5['withdrawal']} as A WHERE 1=1 ".$sql_condition. " GROUP BY status";
@@ -267,9 +267,17 @@ $(function(){
 			echo "<a href='./adm.withdrawal_request.php?".$qstr."&status=".$stats['status']."'><span class='tit'>";
 			echo return_status_tx($stats['status']);
 			echo "</span> : ".$stats['cnt'];
-			echo "건 = <strong>".Number_format($stats['hap'],2)."</strong></a>";
+			echo "건 = <strong>".Number_format($stats['hap'])."</strong></a>";
 		}
 	?>
+</div>
+
+<div class="local_desc01 local_desc">
+    <p>
+		- 출금요청시 선출금반영<br>
+        - <strong>승인 :</strong> 실제출금후 변경 <strong>취소 :</strong> 취소시 선출금액 반환<br>
+        <i class="ri-checkbox-blank-fill" style='color:rgb(160 133 90 / 100%);font-size:20px;'></i> 기출금자 <i class="ri-checkbox-blank-fill" style='color:white;font-size:20px;'></i>최초출금자
+	</p>
 </div>
 
 <?php

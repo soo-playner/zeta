@@ -8,12 +8,25 @@ include_once(G5_THEME_PATH . '/_include/gnb.php');
 $title = 'Mywallet';
 
 
-// 입출금설정
+// 입금설정
+$deposit_setting = wallet_config('deposit');
+$deposit_fee = $deposit_setting['fee'];
+$deposit_min_limit = $deposit_setting['amt_minimum'];
+$deposit_max_limit = $deposit_setting['amt_maximum'];
+$deposit_day_limit = $deposit_setting['day_limit'];
+
+// 출금설정
 $withdrwal_setting = wallet_config('withdrawal');
-$fee = $withdrwal_setting['fee'];
-$min_limit = $withdrwal_setting['amt_minimum'];
-$max_limit = $withdrwal_setting['amt_maximum'];
-$day_limit = $withdrwal_setting['day_limit'];
+$withdrwal_fee = $withdrwal_setting['fee'];
+$withdrwal_min_limit = $withdrwal_setting['amt_minimum'];
+$withdrwal_max_limit = $withdrwal_setting['amt_maximum'];
+$withdrwal_day_limit = $withdrwal_setting['day_limit'];
+
+  // 수수료제외 실제 출금가능금액
+  $withdrwal_total = floor($total_withraw / (1 + $withdrwal_fee * 0.01));
+  if ($withdrwal_max_limit != 0 && ($total_withraw * $withdrwal_max_limit * 0.01) < $withdrwal_total) {
+    $withdrwal_total = $total_withraw * ($withdrwal_max_limit * 0.01);
+  }
 
 //계좌정보
 $bank_setting = wallet_config('bank_account');
@@ -21,20 +34,12 @@ $bank_name = $bank_setting['bank_name'];
 $bank_account = $bank_setting['bank_account'];
 $account_name = $bank_setting['account_name'];
 
-// 수수료제외 실제 출금가능금액
-
-$withdrwal_total = floor($total_withraw / (1 + $fee * 0.01));
-
-if ($max_limit != 0 && ($total_withraw * $max_limit * 0.01) < $withdrwal_total) {
-  $withdrwal_total = $total_withraw * ($max_limit * 0.01);
-}
-
 //시세 업데이트 시간
 // $next_rate_time = next_exchange_rate_time();
 
-
 //보너스/예치금 퍼센트
 // $bonus_per = bonus_state($member['mb_id']);
+
 
 // 패키지 선택하고 들어왔으면 입금할 가격표시
 if ($_GET['sel_price']) {
@@ -129,6 +134,7 @@ $sql_deposit = " select * {$sql_common_deposit} {$sql_search_deposit} order by c
 $result_deposit = sql_query($sql_deposit);
 
 
+
 //출금내역
 $sql_common = "FROM {$g5['withdrawal']}";
 // $sql_common ="FROM wallet_withdrawal_request";
@@ -150,8 +156,8 @@ $sql = " select * {$sql_common} {$sql_search} order by create_dt desc limit {$fr
 $result_withdraw = sql_query($sql);
 ?>
 
-<!-- <link rel="stylesheet" href="<?= G5_THEME_CSS_URL ?>/withdrawal.css"> -->
 
+<!-- <link rel="stylesheet" href="<?= G5_THEME_CSS_URL ?>/withdrawal.css"> -->
 <!-- <script type="text/javascript" src="./js/qrcode.js"></script> -->
 
 <? include_once(G5_THEME_PATH . '/_include/breadcrumb.php'); ?>
@@ -209,7 +215,7 @@ $result_withdraw = sql_query($sql);
 
 
   <div class="col-sm-12 col-12 content-box round mt20" id="eth">
-    <h3 class="wallet_title" data-i18n="deposit.입금확인요청">입금확인요청 </h3> <span class='desc'> - 입금후 1회만 요청해주세요</span>
+    <h3 class="wallet_title" data-i18n="deposit.입금확인요청">입금확인요청 </h3> <span class='desc'> - 계좌입금후 1회만 요청해주세요</span>
 
     <div class="row">
       <div class="btn_ly qrBox_right "></div>
@@ -221,7 +227,7 @@ $result_withdraw = sql_query($sql);
       </div>
 
       <div class='col-sm-12 col-12 '>
-        <button class="btn btn_wd font_white deposit_request" data-currency="eth">
+        <button class="btn btn_wd font_white deposit_request" data-currency="원">
           <span data-i18n="deposit.입금확인요청">입금확인요청</span>
         </button>
       </div>
@@ -263,21 +269,19 @@ $result_withdraw = sql_query($sql);
 
 
 
-
-
-
-
   <!-- 출금 -->
   <section id='withdraw' class='loadable'>
     <div class="col-sm-12 col-12 content-box round mt20">
       <h3 class="wallet_title" data-i18n="withdraw.출금">출금</h3>
-      <span class="desc"> 현재 출금 가능 : <?= number_format($withdrwal_total) ?> <?= ASSETS_CURENCY ?></span>
-      <!-- <div class="coin_select_wrap">
-                    <select class="form-control" name="" id="select_coin">
-                        <option value="eth" selected>ETH</option>
-                        <option value="mbm">MBM</option>
-                    </select>
-                </div> -->
+      <span class="desc"> 총 출금 가능액 : <?= number_format($withdrwal_total) ?> <?= ASSETS_CURENCY ?></span>
+      <!-- 
+      <div class="coin_select_wrap">
+          <select class="form-control" name="" id="select_coin">
+              <option value="eth" selected>ETH</option>
+              <option value="mbm">MBM</option>
+          </select>
+      </div> 
+      -->
 
       <div class="row">
         <div class='col-12'><label class="sub_title">- 출금계좌정보 (최초 1회입력))</label></div>
@@ -293,7 +297,7 @@ $result_withdraw = sql_query($sql);
       </div>
 
       <div class="input_shift_value">
-        <label class="sub_title">- 출금금액 (+수수료:<?= $fee ?>%)</label>
+        <label class="sub_title">- 출금금액 (수수료:<?= $withdrwal_fee ?>%)</label>
         <span style='display:inline-block;float:right;'><button type='button' id='max_value' class='btn inline' value=''>max</button></span>
 
         <input type="text" id="sendValue" class="send_coin b_ghostwhite " placeholder="Enter Withdraw quantity" data-i18n='[placeholder]withdraw.출금 금액을 입력해주세요' inputmode="numeric">
@@ -367,34 +371,18 @@ $result_withdraw = sql_query($sql);
 </section>
 
 
-<!-- 완료 모달 팝업 -->
-<!-- <div class="modal fade" id="ethereumAddressModalCenter" tabindex="-1" role="dialog" aria-labelledby="ethereumAddressModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ethereumAddressModalLongTitle">USDT WALLET</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <i class="fa fa-check-circle fa-lg"></i>
-        <h4>Your wallet address has been saved.</h4>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
-
 <!-- <script src="<?= G5_THEME_URL ?>/_common/js/timer.js"></script> -->
 
 <script>
+  window.onload = function() {
+    switch_func("<?= $view ?>");
+    // move(<?= $bonus_per ?>); 
+    // getTime("<?= $next_rate_time ?>");
+  }
+  
   $(function() {
-    $(".top_title h3").html("<span data-i18n=''>입출금</span>")
+    $(".top_title h3").html("<span data-i18n=''>입출금</span>");
+
     var debug = "<?= $is_debug ?>";
 
     /* if(debug){
@@ -418,28 +406,29 @@ $result_withdraw = sql_query($sql);
 
 
     /* 출금*/
-
     var ASSETS_CURENCY = '<?= ASSETS_CURENCY ?>';
     var mb_block = Number("<?= $member['mb_block'] ?>"); // 차단
+
     var mb_id = '<?= $member['mb_id'] ?>';
     var nw_with = '<?= $nw_with ?>'; // 출금서비스 가능여부
 
     // 출금설정
-    var fee = (<?= $fee ?> * 0.01);
-    var min_limit = '<?= $min_limit ?>';
-    var max_limit = '<?= $max_limit ?>';
-    var day_limit = '<?= $day_limit ?>';
+    var out_fee = (<?= $withdrwal_fee ?> * 0.01);
+    var out_min_limit = '<?= $withdrwal_min_limit ?>';
+    var out_max_limit = '<?= $withdrwal_max_limit ?>';
+    var out_day_limit = '<?= $withdrwal_day_limit ?>';
 
     // 최대출금가능금액
-    var mb_max_limit = <?= $withdrwal_total ?>;
-    console.log(` min_limit : ${min_limit}\n max_limit:${max_limit}\n day_limit:${day_limit}\n fee: ${fee}`);
+    var out_mb_max_limit = <?= $withdrwal_total ?>;
 
+    
     onlyNumber('pin_auth_with');
 
+    
     // 출금금액 변경 
     function input_change() {
       var inputValue = $('#sendValue').val().replace(/,/g, '');
-      var fee_calc = Number(inputValue * fee) + Number(inputValue);
+      var fee_calc = Number(inputValue * out_fee) + Number(inputValue);
       result = parseFloat(fee_calc.toFixed());
       var fee_result = result.toLocaleString('ko-KR');
 
@@ -452,7 +441,7 @@ $result_withdraw = sql_query($sql);
 
     // 출금가능 맥스
     $('#max_value').on('click', function() {
-      $("#sendValue").val(mb_max_limit.toLocaleString('ko-KR'));
+      $("#sendValue").val(out_mb_max_limit.toLocaleString('ko-KR'));
       input_change();
     });
 
@@ -507,7 +496,8 @@ $result_withdraw = sql_query($sql);
     $('#Withdrawal_btn').on('click', function() {
 
       var inputVal = $('#sendValue').val().replace(/,/g, '');
-      console.log(`input : ${inputVal}`);
+      console.log(` out_min_limit : ${out_min_limit}\n out_max_limit:${out_max_limit}\n out_day_limit:${out_day_limit}\n out_fee: ${out_fee}`);
+    
 
       // 출금계좌정보확인
       var withdrawal_bank_name = $('#withdrawal_bank_name').val();
@@ -525,21 +515,22 @@ $result_withdraw = sql_query($sql);
         return false;
       }
 
-      // 금액 입력 없을때 
-      if (inputVal == '') {
-        dialogModal('check field quantity', '<strong>please check field and retry.</strong>', 'warning');
+      // 금액 입력 없거나 출금가능액 이상일때  
+      if (inputVal == '' || inputVal > out_mb_max_limit) {
+        console.log(`input : ${inputVal} \n max : ${out_mb_max_limit}`);
+        dialogModal('check field quantity', '<strong>출금액을 확인해주세요.</strong>', 'warning');
         return false;
       }
 
       // 최소 금액 확인
-      if (min_limit != 0 && inputVal < Number(min_limit)) {
-        dialogModal('check input quantity', '<strong> 최소가능금액은 ' + min_limit + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
+      if (out_min_limit != 0 && inputVal < Number(out_min_limit)) {
+        dialogModal('check input quantity', '<strong> 최소가능금액은 ' + Price(out_min_limit) + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
         return false;
       }
 
       //최대 금액 확인
-      if (max_limit != 0 && inputVal > Number(max_limit)) {
-        dialogModal('check input quantity', '<strong> 최대가능금액은 ' + max_limit + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
+      if (out_max_limit != 0 && inputVal > Number(out_max_limit)) {
+        dialogModal('check input quantity', '<strong> 1회 출금 가능금액은 ' + Price(out_max_limit) + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
         return false;
       }
 
@@ -576,17 +567,18 @@ $result_withdraw = sql_query($sql);
       } else {
         dialogModal('Withdraw Failed', "<p>Not available right now</p>", 'failed');
       }
+
     });
 
 
-
-
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /* 입금 */
 
 
 
 
     /*입금 확인 요청 - coin */
-    /* $('.deposit_request').on('click', function (e) {
+    /* $('.deposit_request.eth').on('click', function (e) {
       var d_price = $('#deposit_value').val();
 
       if($('.d_price').text() != ""){
@@ -631,21 +623,34 @@ $result_withdraw = sql_query($sql);
         }
         
       });
-    }); */
+    });  */
 
 
-    // 입금확인요청 원화
+    // 입금확인요청 
     $('.deposit_request').on('click', function(e) {
-      var d_name = $('#deposit_name').val();
-      var d_price = $('#deposit_value').val().replace(/,/g, "");
-      var coin = '원';
+      var d_name = $('#deposit_name').val(); // 입금자
+      var d_price = $('#deposit_value').val().replace(/,/g, ""); // 입금액
+      var coin = $(this).data('currency');
+
+      // 입금설정
+      var in_fee = (<?= $deposit_fee ?> * 0.01);
+      var in_min_limit = '<?= $deposit_min_limit ?>';
+      var in_max_limit = '<?= $deposit_max_limit ?>';
+      var in_day_limit = '<?= $deposit_day_limit ?>';
+
+      console.log(` in_min_limit : ${in_min_limit}\n in_max_limit:${in_max_limit}\n in_day_limit:${in_day_limit}\n in_fee: ${in_fee}`);
+      console.log(' 입금자 : ' + d_name + ' || 입금액 :' + d_price);
 
       if (d_name == '' || d_price == '') {
-        dialogModal('<p>Please check value</p>', '<p>Please enter exact value</p>', 'warning');
+        dialogModal('<p>입금 요청값 확인</p>', '<p>항목을 입력해주시고 다시시도해주세요.</p>', 'warning');
         return false;
       }
-
-      console.log('입금자 : ' + d_name + ' || 입금액 :' + d_price);
+      
+      if(in_min_limit > 0 &&  Number(d_price) < Number(in_min_limit) ){
+        dialogModal('<p>최소입금액 확인</p>', '<p>최소입금확인금액은 '+ Price(in_min_limit)+coin +' 입니다. </p>', 'warning');
+        return false;
+      }
+      
 
       $.ajax({
         url: '/util/request_deposit.php',
@@ -673,15 +678,13 @@ $result_withdraw = sql_query($sql);
         }
 
       });
+
     });
+
   });
 
 
-  window.onload = function() {
-    // move(<?= $bonus_per ?>); 
-    switch_func("<?= $view ?>");
-    // getTime("<?= $next_rate_time ?>");
-  }
+  
 
   function switch_func(n) {
     $('.loadable').removeClass('active');

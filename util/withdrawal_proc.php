@@ -2,6 +2,8 @@
 include_once('./_common.php');
 include_once(G5_THEME_PATH.'/_include/wallet.php');
 
+// 출금처리 PROCESS
+
 $now_datetime = date('Y-m-d H:i:s');
 $now_date = date('Y-m-d');
 
@@ -81,7 +83,7 @@ if( $max_limit != 0 && $amt > $withdrwal_total ) {
 }
 
 // 출금잔고 재확인 
-$fund_check_sql = "SELECT sum(mb_deposit_point + mb_deposit_calc + (mb_balance * 0.9)) as total from g5_member WHERE mb_id = '{$mb_id}' ";
+$fund_check_sql = "SELECT sum(mb_balance) as total from g5_member WHERE mb_id = '{$mb_id}' ";
 $fund_check_val = sql_fetch($fund_check_sql)['total'];
 
 
