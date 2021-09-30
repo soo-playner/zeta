@@ -12,7 +12,7 @@ curl --request GET \
 define('X_API_KEY','UAK63a987b583b5a7156dfda3d4d070c6e1');
 
 /*ETH, USDT 코인시세 가져오기*/
-$url = 'https://web3api.io/api/v2/market/rankings?page=0&size=5';
+$url = 'https://web3api.io/api/v2/market/rankings?page=0&size=30';
 
 if ($argc > 1){
     $url = $url.$argv[1];
@@ -48,25 +48,37 @@ $body = substr($response, $header_size);
 $body_json = json_decode($body, true);
 $coin_data = $body_json['payload']['data'];
 
+$coin_list = [];
+$coin_config = sql_query("SELECT symbol from `{$g5['coin_price']}`");
+while($row = sql_fetch_array($coin_config)){
+  array_push($coin_list,strtolower($row['symbol']));
+}
+
 
 
 $i = 0;
 while($i < count($coin_data)){
-  if($coin_data[$i]['name'] == 'Ethereum' || $coin_data[$i]['name'] == 'Tether'){
-    
-    $currentPrice = $coin_data[$i]['currentPrice'];
-    $symbol = $coin_data[$i]['symbol'];
 
-    $sql = " UPDATE {$g5['coin_price']} set current_cost = '{$currentPrice}', update_time = '{$now_date_time}' WHERE symbol = '{$symbol}'" ;
+  if(in_array(strtolower($coin_data[$i]['symbol']),$coin_list)){
+
+    $symbol = strtolower($coin_data[$i]['symbol']);
+    $currentPrice = $coin_data[$i]['currentPrice'];
+    $changeInPriceDaily = $coin_data[$i]['changeInPriceDaily'];
+    $icon = $coin_data[$i]['icon'];
+    $name = $coin_data[$i]['name'];
+
+    $sql = " UPDATE {$g5['coin_price']} set name = '{$name}', current_cost = '{$currentPrice}', changepricedaily = '{$changeInPriceDaily}', update_time = '{$now_date_time}',icon = '{$icon}' WHERE symbol = '{$symbol}'" ;
+    // print_R($sql);
     sql_query($sql);
   }
   $i++;
 }
 
- if($_GET['url']){
- 	alert('현재시세를 반영했습니다.');
- 	goto_url('/adm/config_price.php');
- }else{
- 	//print_r("complete <br>".$now_date_time);
- }
+if($_GET['url']){
+  alert('현재시세를 반영했습니다.');
+  goto_url('/adm/config_price.php');
+}else{
+  // print_r("complete <br>".$now_date_time);
+}
+
 ?>

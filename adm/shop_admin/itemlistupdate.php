@@ -1,6 +1,7 @@
 <?php
 $sub_menu = '400300';
 include_once('./_common.php');
+include_once('../adm.wallet.php');
 
 check_demo();
 
@@ -35,14 +36,16 @@ if ($_POST['act_button'] == "선택수정") {
                        it_update_time = '".G5_TIME_YMDHIS."'
                  where it_id   = '{$_POST['it_id'][$k]}' ";
         */
+        $it_price = conv_number($_POST['it_price'][$k]);
+        $it_point = conv_number($_POST['it_point'][$k]);
                  
         $sql = "update {$g5['g5_shop_item_table']}
         set ca_id          = '10',
             it_name        = '{$_POST['it_name'][$k]}',
             it_option_subject       = '{$_POST['it_option_subject'][$k]}',
-            it_price       = '{$_POST['it_price'][$k]}',
+            it_price       = '{$it_price}',
             it_supply_point       = '{$_POST['it_supply_point'][$k]}',
-            it_point       = '{$_POST['it_point'][$k]}',
+            it_point       = '{$it_point}',
             it_use         = '{$_POST['it_use'][$k]}',
             it_order       = '{$_POST['it_order'][$k]}',
             it_update_time = '".G5_TIME_YMDHIS."'

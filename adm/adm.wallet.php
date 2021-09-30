@@ -162,10 +162,30 @@ function get_member_nation($value)
 }
 
 
+// 원 표시
+function shift_kor($val){
+	return Number_format($val, 0);
+}
 
-/*usdt 표시*/
-function shift_usdt($val){
-	return Number_format($val, 8);
+// 달러 표시
+function shift_doller($val){
+	return Number_format($val, 2);
+}
+
+// 코인 표시
+function shift_coin($val){
+	return Number_format($val, COIN_NUMBER_POINT);
+}
+
+// 달러 , ETH 코인 표시
+function shift_auto($val,$coin = '원'){
+	if($coin == '$'){
+		return shift_doller($val);
+	}else if($coin == '원'){
+		return shift_kor($val);
+	}else{
+		return shift_coin($val);
+	}
 }
 
 /*숫자표시*/
@@ -178,6 +198,7 @@ function conv_number($val) {
 	$number = (int)str_replace(',', '', $val);
 	return $number;
 }
+
 
 /*날짜형식 변환*/
 function timeshift($time){

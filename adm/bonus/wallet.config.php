@@ -8,7 +8,7 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
 
 /* $has_wallet_addr = sql_query("SELECT wallet_addr from {$g5['wallet_config']} WHERE no =3");
 
-if(!$has_wallet_addr){
+if(!$has_wallet_addr){ 
 	$add_wallet_addr = "ALTER TABLE {$g5['wallet_config']} ADD `wallet_addr` varchar(255) NOT NULL";
 	$add_result = sql_query($add_wallet_addr);
 } */
@@ -19,6 +19,7 @@ if($_POST['w'] == 'u'){
 		
 		$idx = $_POST['idx'][$i];
 		$fee = $_POST['fee'][$i];
+		$function  = $_POST['function'][$i];
 
 		$amt_minimum = $_POST['amt_minimum'][$i];
 		$amt_maximum = $_POST['amt_maximum'][$i];
@@ -27,8 +28,25 @@ if($_POST['w'] == 'u'){
 		$bank_name = $_POST['bank_name'][0];
 		$bank_account = $_POST['bank_account'][0];
 		$account_name = $_POST['account_name'][0];
+		
+		if($function == 'wallet_addr'){
+			$blocksdk_update_sql = "UPDATE blocksdk_receiving_address set eth = '{$wallet_addr}' ";
+			sql_query($blocksdk_update_sql);
 
-		if($i < 2){
+			$wallet_addr = $_POST['wallet_addr'];
+			$update_wallet_set = 
+			"update {$g5['wallet_config']} set 
+			wallet_addr = '{$wallet_addr}'
+			where idx = $idx ;";
+
+		}else if($function == 'bank_account'){
+			$update_wallet_set = 
+			"update {$g5['wallet_config']} set 
+			bank_name = '{$bank_name}',
+			bank_account = '{$bank_account}',
+			account_name = '{$account_name}'
+			where idx = $idx ;";
+		}else{
 			$update_wallet_set = 
 			"update {$g5['wallet_config']} set 
 			fee = '{$fee}',
@@ -36,27 +54,6 @@ if($_POST['w'] == 'u'){
 			amt_maximum = '{$amt_maximum}',
 			day_limit = '{$day_limit}'
 			where idx = $idx ;";
-		}else{
-
-			if($idx == 3){
-				$blocksdk_update_sql = "UPDATE blocksdk_receiving_address set eth = '{$wallet_addr}' ";
-				sql_query($blocksdk_update_sql);
-
-				$wallet_addr = $_POST['wallet_addr'];
-				$update_wallet_set = 
-				"update {$g5['wallet_config']} set 
-				wallet_addr = '{$wallet_addr}'
-				where idx = $idx ;";
-			}else if($idx == 4){
-				
-
-				$update_wallet_set = 
-				"update {$g5['wallet_config']} set 
-				bank_name = '{$bank_name}',
-				bank_account = '{$bank_account}',
-				account_name = '{$account_name}'
-				where idx = $idx ;";
-			}
 		}
 		
 		// print_R($update_wallet_set);
@@ -67,48 +64,16 @@ if($_POST['w'] == 'u'){
 }
 
 
-$coin_price_sql = "select * from {$g5['wallet_config']} WHERE used = 1 AND idx < 4";
+$coin_price_sql = "select * from {$g5['wallet_config']} WHERE used > 0 order by no asc";
 $res = sql_query($coin_price_sql);
 ?>
 
 <link rel="stylesheet" href="/adm/css/switch.css">
+<link href="<?=G5_ADMIN_URL?>/css/scss/bonus/wallet.config.css" rel="stylesheet">
 
 <style type="text/css">
 	/* xmp {font-family: 'Noto Sans KR', sans-serif; font-size:12px;} */
-	.adminWrp{padding:20px; min-height:50vh}
 	
-	table.regTb {width:100%;table-layout:fixed;border-collapse:collapse;}
-	table.regTb th,
-	table.regTb td {line-height:28px;}
-	table.regTb th {padding: 6px 0;border: 1px solid #d1dee2;background: #e5ecef;color: #383838;letter-spacing: -0.1em;}
-	table.regTb td {padding:8px 0;padding-left:10px;border-bottom:solid 1px #ddd;border-right:solid 1px #ddd;}
-	table.regTb input[type="text"]{padding:3px;width:80%;padding-left:8px;height:23px;line-height:23px;border:solid 1px #ccc;background-color:#f9f9f9;}
-	table.regTb textarea {padding:0;padding-left:8px;line-height:23px;border:solid 1px #ccc;background-color:#f9f9f9;}
-	table.regTb label {cursor:pointer;}
-
-	table.regTb input[type="radio"] {}
-	table.regTb input[type="radio"] + label{color:#999;}
-	table.regTb input[type="radio"]:checked + label {color:#e50000;font-weight:bold;}
-
-	tfoot {
-		clear:both;
-		display: table-footer-group;
-		vertical-align: middle;
-		border-color: inherit;
-	}
-	span.help {font-size:11px;font-weight:normal;color:rgba(38,103,184,1);margin:5px 10px;}
-
-	.name{background:#222437;color:white;font-weight:900}
-	.text-center{text-align: center !important;}
-	.currency{font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; font-size:16px; font-weight:900;letter-spacing:1px; text-indent: 20%;}
-	.currency-right{position:relative;float:right;right:25px;}
-	.btn_ly{width:50%; min-height:80px; display:block; margin:20px auto; text-align:right;}
-	.text-right{text-align:right;float:right;}
-
-	.no{width:5%;text-align:center}
-
-	#withdrawal td{background:floralwhite}
-	#deposit td{background:ghostwhite}
 </style>
 <div class="local_desc01 local_desc">
 	<p>
@@ -129,9 +94,9 @@ $res = sql_query($coin_price_sql);
 			<th>구분</th>
 			<th>CODE</th>
 			<th>수수료 (%)</th>
-			<th>최소값 제한 (고정금액)</th>
-			<th>1회 출금 최대 금액 제한 (고정금액)</th>
-			<th>일회수제한</th>
+			<th>최소값 제한 (고정값)</th>
+			<th>최대값 제한 (%)</th>
+			<th>출금회수제한(일)</th>
         </colgroup>
 		</thead>
 
@@ -143,13 +108,13 @@ $res = sql_query($coin_price_sql);
 					<td ><?=$row['function_kor']?></td>
 					<td ><?=$row['function']?></td>
 
-					<?if($row['idx'] < 3){?>
+					<?if($row['idx'] == 3){?>
+						<td colspan=4><input type='text' id='wallet_addr' name="wallet_addr" value='<?=$row['wallet_addr']?>'></td>
+					<?}else{?>
 						<td ><input type='text' name='fee[]' value="<?=$row['fee']?>"/></td>
 						<td ><input type='text' name='amt_minimum[]' value="<?=$row['amt_minimum']?>"/></td>
 						<td ><input type='text' name='amt_maximum[]' value="<?=$row['amt_maximum']?>"/></td>
 						<td ><input type='text' name='day_limit[]' value="<?=$row['day_limit']?>"/></td>
-					<?}else if($row['idx'] == 3){?>
-						<td colspan=4><input type='text' id='wallet_addr' name="wallet_addr" value='<?=$row['wallet_addr']?>'></td>
 					<?}?>
 				</tr>
 			<?}?>
@@ -157,6 +122,10 @@ $res = sql_query($coin_price_sql);
 	</table>
 
 	<!-- 은행계좌사용 -->
+	<?
+		$bank_used = sql_fetch("SELECT used from {$g5['wallet_config']} WHERE function = 'bank_account' ");
+		if($bank_used['used'] > 0){
+	?>
 	<table cellspacing="0" cellpadding="0" border="0" class="regTb" style='margin-top:30px;'>
 		<thead>
         <colgroup>
@@ -188,6 +157,7 @@ $res = sql_query($coin_price_sql);
 			<?}?>
 		</tbody>
 	</table>
+	<?}?>
 
 	
 	<div class='btn_ly '>

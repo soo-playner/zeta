@@ -29,11 +29,18 @@ if(!$_POST['nw_purchase']){
 	$nw_purchase = $_POST['nw_purchase'];
 }
 
+if(!$_POST['nw_enroll']){
+	$nw_enroll = 'N';
+}else{
+	$nw_enroll = $_POST['nw_enroll'];
+}
+
 $sql_common = " 
                 nw_with = '{$nw_with}',
 				nw_upstair = '{$nw_upstair}',
 				nw_change = '{$nw_change}',
-				nw_purchase = '{$nw_purchase}'";
+				nw_purchase = '{$nw_purchase}',
+				nw_enroll = '{$nw_enroll}'";
 
 $sql = "update maintenance set $sql_common ";
 
@@ -41,7 +48,7 @@ $sql = "update maintenance set $sql_common ";
 sql_query($sql);
 
 
-alert('등록되었습니다.',0);
+alert('등록/변경 되었습니다.',0);
 goto_url("./admin.sub.maintenance.php");
 
 ?>

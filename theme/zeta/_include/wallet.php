@@ -25,12 +25,21 @@ if (empty($to_date)) {$to_date =  date("Y-m-d", strtotime(date("Y-m-d")));}
 $total_deposit = $member['mb_deposit_point'] + $member['mb_deposit_calc'];
 $total_bonus = $member['mb_balance']; 
 $total_shift_amt = $member['mb_shift_amt'];
+
 $total_fund = $total_bonus;
 
-$shop_point = $total_bonus*0.1;
-$total_withraw = $total_bonus - $total_shift_amt - $shop_point;
-$available_fund = $member['mb_deposit_point'] - $member['mb_save_point'] ;
+// $shop_point = $total_bonus*0.1;
 
+// 출금가능금액 :: 총보너스 - 기출금
+$total_withraw = $total_bonus - $total_shift_amt ;
+
+// 구매가능잔고 :: 입금액 - 구매금액 = 남은금액
+$available_fund = $total_deposit ;
+
+// 마이닝합계
+$mining_acc = $member['mb_mining_1'];
+$mining_amt = $member['mb_mining_1_amt'];
+$mining_total = ($mining_acc - $mining_amt);
 
 $bonus_sql = "select * from {$g5['bonus_config']} order by idx";
 $list = sql_query($bonus_sql);
@@ -39,9 +48,10 @@ $pre_setting = sql_fetch($bonus_sql);
 $limited = $pre_setting['limited'];
 $limited_per = ($limited/100)/100;
 
-// 현재 통화 시세
+// 현재 통화(달러) 시세
 $usd_price = coin_price('usd')*1000;
-
+$fil_price = coin_prices('fil');
+$eth_price = coin_prices('eth');
 
 function coin_price($income){
 	global $g5;
@@ -56,6 +66,49 @@ function coin_price($income){
 	}
 }
 
+
+function coin_prices($income,$category = 'cost'){
+	global $g5,$usdt_rate;
+
+	$currency_sql = " SELECT * from {$g5['coin_price']} where symbol LIKE '{$income}' OR name LIKE '{$income}' ";
+	$result = sql_fetch($currency_sql);
+
+	$symbol = strtoupper($result['symbol']);
+
+	if($result['changepricedaily'] > 0){
+		$daily =  "<span class='font_red'>▲".number_format(str_replace("-","",$result['changepricedaily']),2)."% </span>";
+	}else{
+		$daily = "<span class='font_blue'>▼".number_format($result['changepricedaily'],2)."% </span>";
+	}
+
+	if($result['manual_use'] == 1){
+		$cost =  $result['manual_cost'];
+	}else{
+		$cost = $result['current_cost'];
+	}
+
+	$dollor = $cost*$usdt_rate;
+	$chart = $result['chart'];
+	$icon = $result['icon'];
+
+	if($category == 'daily'){
+		return $daily;
+	}else if($category == 'symbol'){
+		return $symbol;
+	}else if($category == 'dollor'){
+		return 	$dollor;
+	}else if($category == 'chart'){
+		return $chart;
+	}else if($category == 'daily'){
+		return $daily;
+	}else if($category == 'icon'){
+		return $icon;
+	}else if($category == 'all'){
+		return array($symbol,$cost,$dollor,$daily,$chart,$icon);
+	}else{
+		return $cost;
+	}
+}
 
 //회원 레벨 
 $member_level_array = array('일반회원','정회원','센터회원','인정회원','정회원','','','','','관리자','슈퍼관리자');
@@ -341,15 +394,36 @@ function next_exchange_rate_time(){
 	return $next_time;
 }
 
+// 마이닝상품 만료일 계산
+function expire_date($start){
+	$expire_date = date("Y-m-d", strtotime($start."+3 year"));
+	return $expire_date;
+}
+
+// 원 표시
+function shift_kor($val){
+	return Number_format($val, 0);
+}
 
 // 달러 표시
 function shift_doller($val){
 	return Number_format($val, 2);
 }
 
-// ETH 표시
-function shift_usdt($val){
-	return Number_format($val, 8);
+// 코인 표시
+function shift_coin($val){
+	return Number_format($val, COIN_NUMBER_POINT);
+}
+
+// 달러 , ETH 코인 표시
+function shift_auto($val,$coin = '원'){
+	if($coin == '$'){
+		return shift_doller($val);
+	}else if($coin == '원'){
+		return shift_kor($val);
+	}else{
+		return shift_coin($val);
+	}
 }
 
 /*숫자표시*/
@@ -443,11 +517,11 @@ function string_shift_code($val){
 function get_shop_item($table=null){
 	$array = array();
 	$sql = "SELECT * FROM g5_shop_item";
-	$sql .= " WHERE it_use = 1 ";
+	$sql .= " WHERE it_use = 1 ORDER BY it_order";
 
 	if($table != null){
 		$table = strtoupper($table);
-		$sql .= " WHERE it_use = 1 AND it_name='{$table}'";
+		$sql .= " WHERE it_use = 1 AND it_name='{$table}' ";
 	}
 	
 	$result = sql_query($sql);
@@ -464,20 +538,23 @@ function get_shop_item($table=null){
 function ordered_items($mb_id, $table=null){
 
 	$item = get_shop_item($table);
-
 	$upgrade_array = array();
-	for($i = 0; $i < count($item); $i++){
+
+	for($i = 1; $i < count($item); $i++){
 
 		if($table != null){
 			$name_lower = $table;
 		}else{
-			$name_lower = strtolower($item[$i]['it_name']);
+			$name_lower = strtolower($item[$i]['it_maker']);
 		}
 	
 		$sql = "SELECT * FROM package_".$name_lower." WHERE mb_id = '{$mb_id}' AND promote = 0";
 		$result = sql_query($sql);
 
-		for($j = 0; $j < sql_num_rows($result); $j++){
+		$result_num = sql_num_rows($result);
+
+		if($result_num > 0){
+		for($j = 0; $j < $result_num; $j++){
 			$row = sql_fetch_array($result);
 
 			$order_sql = "SELECT * FROM g5_shop_order WHERE od_id = '{$row['od_id']}'";
@@ -486,7 +563,9 @@ function ordered_items($mb_id, $table=null){
 			array_push($upgrade_array, array(
 				"it_id" => $item[$i]['it_id'],
 				"it_name" => $item[$i]['it_name'],
-				"it_price" => $item[$i]['it_point'],
+				"it_price" => $item[$i]['it_price'],
+				"it_point" => $item[$i]['it_point'],
+				"it_maker" => $item[$i]['it_maker'],
 				"it_supply_point" => $item[$i]['it_supply_point'],
 				"it_option_subject" => $item[$i]['it_option_subject'],
 				"it_supply_subject" => $item[$i]['it_supply_subject'],
@@ -500,11 +579,11 @@ function ordered_items($mb_id, $table=null){
 				// "upgrade_name" => $item[$i+1]['it_name'],
 				// "upgrade_price" => $item[$i+1]['it_point'],
 				"row" => $row
-				));
-
+			));
 		}
+		}
+		
 	}
-
 	return $upgrade_array;
 }
 
@@ -530,7 +609,6 @@ function max_item_level_array($mb_id,$func='name'){
 		return $key;
 	}
 }
-
 
 
 // 특수설정

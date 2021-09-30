@@ -166,7 +166,7 @@ function dialogModal(title, htmlBody, category,dim = true){
 	}
 	else if(category == 'confirm'){
 		$('#dialogModal .modal-body').html("<div class=chkimg><img src='"+g5_url+"/img/notice.png'></div>" + htmlBody);
-		$('#dialogModal .modal-footer').html("<button type='button' class='btn btn-secondary cancle' data-dismiss='modal' onclick='"+dimhide+"'>Cancle</button> <button type='button' class='btn btn-secondary confirm' id='modal_confirm' >OK</button>");
+		$('#dialogModal .modal-footer').html("<button type='button' class='btn btn-secondary cancle' data-dismiss='modal' onclick='"+dimhide+"'>Cancle</button> <button type='button' class='btn btn-primary confirm' id='modal_confirm' data-dismiss='modal' >OK</button>");
 		
 	}else if(category == 'warning'){
 		$('#dialogModal .modal-body').html("<div class=chkimg><img src='"+g5_url+"/img/notice.png'></div>" + htmlBody);

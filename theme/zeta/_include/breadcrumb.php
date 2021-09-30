@@ -80,22 +80,24 @@ $title = 'Dashboard';
 					<?}?>
 				</div>
 			</div>
-
+			<style>
+				.total_view_wrap .currency{font-size:12px;padding-left:3px;}
+			</style>
 			<!-- 회원상세정보 -->
 			<div class="total_view_wrap">
 				<div class="total_view_top">
 					<ul class="row top">
 						<li class="col-4">
-							<dt class="title" data-i18n="dashboard.내 잔고">총 자산</ㅇ>
-							<dd class="value"><?=number_format($member['mb_rate']*2.5)?> <?=ASSETS_CURENCY?></dd>
+							<dt class="title" >구매 가능 잔고</dt>
+							<dd class="value" style='font-size:15px;'><?=number_format($available_fund)?><span class='currency'><?=ASSETS_CURENCY?></span></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title" data-i18n="dashboard.총 보너스 합계">총 보너스 합계</dt>
-							<dd class="value"><?=number_format($total_bonus)?><?=ASSETS_CURENCY?></dd>
+							<dt class="title" >총 누적 보너스 </dt>
+							<dd class="value" style='font-size:15px;'><?=number_format($total_bonus)?><span class='currency'><?=ASSETS_CURENCY?></span></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title">출금가능잔고</dt>
-							<dd class="value"><?=number_format($total_withraw)?><?=ASSETS_CURENCY?></dd>
+							<dt class="title">출금 가능 잔고</dt>
+							<dd class="value" style='font-size:15px;'><?=number_format($total_withraw)?><span class='currency'><?=ASSETS_CURENCY?></span></dd>
 						</li>
 					</ul>
 				</div>

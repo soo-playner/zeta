@@ -22,7 +22,7 @@ include_once (G5_ADMIN_PATH.'/admin.head.php');
 ?>
 
 <link rel="stylesheet" href="/adm/css/switch.css">
-
+<link href="<?=G5_ADMIN_URL?>/css/scss/admin.sub.switch.css" rel="stylesheet">
 <form name="frmnewwin" action="./admin.sub.switch.proc.php" onsubmit="return frmnewwin_check(this);" method="post">
 <input type="hidden" name="w" value="<?php echo $w; ?>">
 
@@ -42,30 +42,43 @@ include_once (G5_ADMIN_PATH.'/admin.head.php');
     <tbody>
     
 	<tr>
-        <th scope="row"><label for="nw_with">출금 요청 금지<strong class="sound_only"> 필수</strong></label></th>
+        <th scope="row"><label for="nw_with">출금 요청<strong class="sound_only"> 필수</strong></label></th>
         <td>
             <p style="padding:0;"><input type="checkbox" id="nw_with" name="nw_with" <?if($nw['nw_with'] == 'Y') {echo "checked";}?>/><label for="nw_with" style=""><span class="ui"></span><span class="nw_with_txt">사용 설정</span></label></p>
         </td>
 
-		<th scope="row"><label for="nw_upstair"> 예치금 전환 금지<strong class="sound_only"> 필수</strong></label></th>
+		<!-- <th scope="row"><label for="nw_change"> 입금 요청<strong class="sound_only"> 필수</strong></label></th>
+		<td>
+            <p style="padding:0;"><input type="checkbox" id="nw_change" name="nw_change" <?if($nw['nw_change'] == 'Y') {echo "checked";}?>/><label for="nw_change" style=""><span class="ui"></span><span class="nw_change_txt">사용 설정</span></label></p>
+		</td> -->
+		
+	</tr>
+	
+	<tr>
+		<!-- <th scope="row"><label for="nw_upstair"> 예치금 전환 금지<strong class="sound_only"> 필수</strong></label></th>
 		<td>
             <p style="padding:0;"><input type="checkbox" id="nw_upstair" name="nw_upstair" <?if($nw['nw_upstair'] == 'Y') {echo "checked";}?>/><label for="nw_upstair" style=""><span class="ui"></span><span class="nw_upstair_txt">사용 설정</span></label></p>
 		</td>
-	</tr>
-	<!--
-	<tr>
-		<th scope="row"><label for="nw_change"> 전환 금지<strong class="sound_only"> 필수</strong></label></th>
+
+		<th scope="row"><label for="nw_change"> 입금 금지<strong class="sound_only"> 필수</strong></label></th>
 		<td>
             <p style="padding:0;"><input type="checkbox" id="nw_change" name="nw_change" <?if($nw['nw_change'] == 'Y') {echo "checked";}?>/><label for="nw_change" style=""><span class="ui"></span><span class="nw_change_txt">사용 설정</span></label></p>
-		</td>
+		</td> -->
 
-		<th scope="row"><label for="nw_purchase"> 팩 구매 금지<strong class="sound_only"> 필수</strong></label></th>
+		<th scope="row"><label for="nw_purchase"> 패키지 구매 <strong class="sound_only"> 필수</strong></label></th>
 		<td>
             <p style="padding:0;"><input type="checkbox" id="nw_purchase" name="nw_purchase" <?if($nw['nw_purchase'] == 'Y') {echo "checked";}?>/><label for="nw_purchase" style=""><span class="ui"></span><span class="nw_purchase_txt">사용 설정</span></label></p>
 		</td>
 		
 	</tr>
-	-->
+	
+
+	<tr>
+		<th scope="row"><label for="nw_enroll"> 회원가입 </label></th>
+		<td>
+            <p style="padding:0;"><input type="checkbox" id="nw_enroll" name="nw_enroll" <?if($nw['nw_enroll'] == 'Y') {echo "checked";}?>/><label for="nw_enroll" style=""><span class="ui"></span><span class="nw_enroll_txt">사용 설정</span></label></p>
+		</td>
+	</tr>
 
     </tbody>
     </table>
@@ -112,6 +125,14 @@ $(document).ready(function(){
 		}
 	});
 
+	$('#nw_enroll').on('click',function(){
+		if($('#nw_enroll').is(":checked")){
+			$('.nw_enroll_txt').html('사용함');
+		}else{
+			$('.nw_enroll_txt').html('사용안함');
+		}
+	});
+
 });
 
 
@@ -153,6 +174,14 @@ function frmnewwin_check(f)
 	}
 
 	f.nw_purchase = $('#nw_purchase').val();
+
+	if ($('input[name=nw_enroll]').is(":checked")) {
+    $('input[name=nw_enroll]').val('Y');
+	} else {
+		$('input[name=nw_enroll]').val('N');
+	}
+
+	f.nw_enroll = $('#nw_enroll').val();
 
 
     if (errmsg != "") {

@@ -33,13 +33,16 @@ if($_POST['nw_member_reset'] == 'on'){
 
     $trunc5 = sql_query(" TRUNCATE TABLE `g5_shop_order` ");
     $trunc6 = sql_query(" TRUNCATE TABLE `package_log`; ");
-    $trunc8 = sql_query(" TRUNCATE TABLE `package_p1`; ");
-    $trunc9 = sql_query(" TRUNCATE TABLE `package_p2`; ");
-    $trunc10 = sql_query(" TRUNCATE TABLE `package_p3` ");
-    $trunc11 = sql_query(" TRUNCATE TABLE `package_p4` "); 
-    $trunc12 = sql_query(" TRUNCATE TABLE `package_p5` "); 
-    $trunc13 = sql_query(" TRUNCATE TABLE `package_p6` "); 
-    $trunc14 = sql_query(" TRUNCATE TABLE `package_p7` "); 
+    
+    $pack_cnt = sql_fetch("SELECT count(it_id) as cnt from g5_shop_item WHERE it_use > 0")['cnt'];
+    $pack_name_sql = sql_fetch("SELECT it_maker from g5_shop_item WHERE it_use > 0 limit 0,1 ")['it_maker'];
+    $pack_name = substr($pack_name_sql,0,1);
+   
+    for($i=0;$i<=$pack_cnt;$i++){
+        $pack_where = "package_".$pack_name.$i;
+        sql_query(" TRUNCATE TABLE {$pack_where}; ");
+        
+    }
     $trunc15 = sql_query(" TRUNCATE TABLE `rank` ");
 
     $member_update_sql = " UPDATE g5_member set  mb_deposit_point = 0, mb_deposit_calc=0, mb_balance = 0,mb_save_point=0, mb_rate=0, sales_day='0000-00-00', rank_note='' WHERE mb_level < 9 ";

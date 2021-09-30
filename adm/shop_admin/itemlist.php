@@ -1,6 +1,7 @@
 <?php
 $sub_menu = '600300';
 include_once('./_common.php');
+include_once('../adm.wallet.php');
 
 auth_check($auth[$sub_menu], "r");
 
@@ -76,12 +77,15 @@ $result = sql_query($sql);
 $qstr  = $qstr.'&amp;sca='.$sca.'&amp;page='.$page.'&amp;save_stx='.$stx;
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
+
 ?>
 
 <div class="local_ov01 local_ov">
     <?php echo $listall; ?>
     등록된 상품 <?php echo $total_count; ?>건
 </div>
+
+<script src="<?=G5_THEME_URL?>/_common/js/common.js" crossorigin="anonymous"></script>
 
 <form name="flist" class="local_sch01 local_sch">
 <input type="hidden" name="page" value="<?php echo $page; ?>">
@@ -149,13 +153,13 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
         <!-- <th scope="col" id="th_img">이미지</th> -->
         <th scope="col" id="th_pc_title"><?php echo subject_sort_link('it_name', 'sca='.$sca); ?>지급상품명</a></th>
         <th scope="col" id="th_pc_title"><?php echo subject_sort_link('it_option_subject', 'sca='.$sca); ?>노출상품명</a></th>
-        <th scope="col" id="th_amt"><?php echo subject_sort_link('it_price', 'sca='.$sca); ?>판매가격(KRW)</a></th>
-        <th scope="col" id="th_pt"><?php echo subject_sort_link('it_point', 'sca='.$sca); ?>판매가격($)</a></th>
-        <th scope="col" id="th_pt"><?php echo subject_sort_link('it_supply_point', 'sca='.$sca); ?>PV(수당기준)</a></th>
-        <th scope="col" ><?php echo subject_sort_link('it_order', 'sca='.$sca); ?>노출순서</a></th>
-        <th scope="col" ><?php echo subject_sort_link('it_use', 'sca='.$sca, 1); ?>판매</a></th>
-        <th scope="col" ><?php echo subject_sort_link('it_hit', 'sca='.$sca, 1); ?>조회</a></th>
-        <th scope="col" >관리</th>
+        <th scope="col" id="th_amt" style='width:100px;'><?php echo subject_sort_link('it_price', 'sca='.$sca); ?>상품가격(￦)</a></th>
+        <th scope="col" id="th_pt" style='width:100px;'><?php echo subject_sort_link('it_point', 'sca='.$sca); ?>판매가격(￦)</a></th>
+        <th scope="col" id="th_pt" style='width:100px;'><?php echo subject_sort_link('it_supply_point', 'sca='.$sca); ?>MP(mining)</a></th>
+        <th scope="col" style='width:30px;'><?php echo subject_sort_link('it_order', 'sca='.$sca); ?>노출순서</a></th>
+        <th scope="col" style='width:20px;'><?php echo subject_sort_link('it_use', 'sca='.$sca, 1); ?>판매</a></th>
+        <!-- <th scope="col" style='width:30px;'><?php echo subject_sort_link('it_hit', 'sca='.$sca, 1); ?>조회</a></th> -->
+        <th scope="col" style='width:70px;'>관리</th>
         
     </tr>
     </thead>
@@ -210,22 +214,23 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
         </td>
         
 
-        <!--판매가격-->
+        <!--상품가격-->
         <td headers="th_amt" class="td_numbig td_input">
-            <label for="price_<?php echo $i; ?>" class="sound_only">판매가격</label>
-            <input type="text" name="it_price[<?php echo $i; ?>]" value="<?php echo $row['it_price']; ?>" id="price_<?php echo $i; ?>" class="frm_input sit_amt" size="7" style="width:60px;padding-right:10px;"> 만원
+            <label for="price_<?php echo $i; ?>" class="sound_only">상품가격</label>
+            <input type="text" name="it_price[<?php echo $i; ?>]" value="<?=shift_auto($row['it_price']) ?>" id="price_<?php echo $i; ?>" class="frm_input sit_amt" size="7" style="width:100px;padding-right:10px;" inputmode = "numeric"> 원
         </td>
 
         <!--판매가격-->
         <td headers="th_pt" class="td_numbig td_input" id="it_point">
-            <label for="it_point" class="sound_only">판매가격($)</label>
-            <input type="text" name="it_point[<?php echo $i; ?>]" value="<?php echo $row['it_point']; ?>" id="point_<?php echo $i; ?>" class="frm_input sit_amt" size="5" style="width:60px;padding-right:10px;"> $
+            <label for="it_point" class="sound_only">판매가격</label>
+            <button type='button' class='vat_calc' data-num = '<?=$i?>' >vat</button>
+            <input type="text" name="it_point[<?php echo $i; ?>]" value="<?=shift_auto($row['it_point']) ?>" id="point_<?php echo $i; ?>" class="frm_input sit_amt" size="5" style="width:100px;padding-right:5px;" inputmode = "numeric"> 원
         </td>
 
         <!--판매가격-->
         <td headers="th_amt" class="td_numbig td_input">
-            <label for="price_<?php echo $i; ?>" class="sound_only">PV</label>
-            <input type="text" name="it_supply_point[<?php echo $i; ?>]" value="<?php echo $row['it_supply_point']; ?>" id="supply_<?php echo $i; ?>" class="frm_input sit_amt" size="7" style="width:80px;padding-right:10px;">만원
+            <label for="price_<?php echo $i; ?>" class="sound_only">MP</label>
+            <input type="text" name="it_supply_point[<?php echo $i; ?>]" value="<?=$row['it_supply_point']; ?>" id="supply_<?php echo $i; ?>" class="frm_input sit_amt" size="7" style="width:100px;padding-right:5px;"> mh/s
         </td>
 
         
@@ -244,17 +249,17 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
    
         
         <!--판매량-->
-        <td class="td_num">
+        <!-- <td class="td_num">
             <label for="order_<?php echo $i; ?>" class="sound_only">판매량</label>
             <?php echo $row['it_hit']; ?>
-        </td>
+        </td> -->
 
 
         <!--관리-->
         <td  class="td_mng">
-            <a href="./itemform.php?w=u&amp;it_id=<?php echo $row['it_id']; ?>&amp;ca_id=<?php echo $row['ca_id']; ?>&amp;<?php echo $qstr; ?>"><span class="sound_only"><?php echo htmlspecialchars2(cut_str($row['it_name'],250, "")); ?> </span>수정</a>
+            <!-- <a href="./itemform.php?w=u&amp;it_id=<?php echo $row['it_id']; ?>&amp;ca_id=<?php echo $row['ca_id']; ?>&amp;<?php echo $qstr; ?>"><span class="sound_only"><?php echo htmlspecialchars2(cut_str($row['it_name'],250, "")); ?> </span>수정</a>
             <a href="./itemcopy.php?it_id=<?php echo $row['it_id']; ?>&amp;ca_id=<?php echo $row['ca_id']; ?>" class="itemcopy" target="_blank"><span class="sound_only"><?php echo htmlspecialchars2(cut_str($row['it_name'],250, "")); ?> </span>복사</a>
-            <a href="<?php echo $href; ?>"><span class="sound_only"><?php echo htmlspecialchars2(cut_str($row['it_name'],250, "")); ?> </span>보기</a>
+            <a href="<?php echo $href; ?>"><span class="sound_only"><?php echo htmlspecialchars2(cut_str($row['it_name'],250, "")); ?> </span>보기</a> -->
         </td>
     </tr>
 
@@ -304,7 +309,22 @@ $(function() {
         window.open(href, "copywin", "left=100, top=100, width=300, height=200, scrollbars=0");
         return false;
     });
+
+    $(".vat_calc").on('click',function(){
+        var select_num = $(this).data('num');
+        var it_price = $("#price_"+select_num).val().replace(/,/g,'');
+        var it_sell_price = 1.1 * it_price;
+
+        var it_point = $("#point_"+select_num);
+        console.log(it_point.val());
+        it_point.val(Price(it_sell_price.toFixed()));
+    });
 });
+
+// 숫자에 콤마 찍기
+function Price(x){
+	return String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
 
 function excelform(url)
 {

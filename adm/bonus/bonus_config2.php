@@ -11,24 +11,15 @@ $token = get_token();
 
 ?>
 
-<style>
-    table {width:100%;}
-    table tbody td, table tfoot td{border:0;}
-    table tbody td { height:40px;border-bottom:1px solid #f5f5f5} 
-    table tbody tr:first-child td{background:#efefef;padding-bottom:20px;border-bottom:2px solid #333;}  
-    table tbody tr:nth-child(2) td{padding-top:30px;} 
-    tfoot td{background:white}
-    .bonus_input{box-shadow:none;text-shadow:none;padding:10px;border:0;background: whitesmoke;width:80%;}
-	.btn_ly{text-align:center;}
-    .btn_confirm.btn_submit:hover{background:black !important;}
-    .bonus_source{height:36px;}
-    hr{height:1px;float:left;width:60%;display:block;background:#333;margin:20px 0;}
-</style>
-
+<link href="<?=G5_ADMIN_URL?>/css/scss/bonus/bonus_config2.css" rel="stylesheet">
 <form name="allowance" id="allowance" method="post" action="./bonus_config_update.php" onsubmit="return frmconfig_check(this);" >
 
 <div class="local_desc01 local_desc">
-    <p>마케팅수당설정 - 관리자외 설정금지
+    <p>
+        - 마케팅수당설정 - 관리자외 설정금지<br>
+        - 수당한계 : 0 또는 값이 없으면 제한없음.<br>
+        - 마이닝 : 1TERA 당 = 마이닝지급량 (고정값)(FIL)<br>
+        - 마이닝매칭 : 마이닝지급량의 % 입력
 	</p>
 </div>
 
@@ -42,9 +33,10 @@ $token = get_token();
         <th scope="col" width="40px">사용설정</th>
         <th scope="col" width="100px">수당명</th>	
         <th scope="col" width="50px">수당코드</th>
+        <th scope="col" width="80px">수당지급수단</th>
         <th scope="col" width="80px">수당한계</th>
 		<th scope="col" width="120px">수당비율 (%)<br>( 콤마로 구분)</th>
-		<th scope="col" width="80px">지급한계(대수)<br>( 콤마로 구분)</th>
+		<th scope="col" width="80px">지급한계(대수/%)<br>( 콤마로 구분)</th>
         <th scope="col" width="80px">수당지급방식</th>
         <th scope="col" width="180px">수당조건</th>
         <th scope="col" width="180px">수당설명</th>
@@ -52,18 +44,18 @@ $token = get_token();
     </thead>
 
     <tbody>
-    <?for($i=0; $row=sql_fetch_array($list); $i++){
-        if($row['used'] ==1){?>
+    <?for($i=0; $row=sql_fetch_array($list); $i++){?>
     
     <tr class='<?if($i == 0){echo 'first';}?>'>
    
     <td style="text-align:center"><input type="hidden" name="idx[]" value="<?=$row['idx']?>"><?=$row['idx']?></td>
-    <td style="text-align:center"><input type='checkbox' class='checkbox' name='check' <?php echo $row['used']==1?'checked':''; ?>>
+    <td style="text-align:center"><input type='checkbox' class='checkbox' name='check' <?php echo $row['used'] > 0?'checked':''; ?>>
         <input type="hidden" name="used[]" class='used' value="<?=$row['used']?>">
     </td>
     <td style="text-align:center"><input class='bonus_input' name="name[]"  value="<?=$row['name']?>"></input></td>
     <td style="text-align:center"><input class='bonus_input' name="code[]"  value="<?=$row['code']?>"></input></td>
     
+    <td style="text-align:center"><input class='bonus_input' name="kind[]"  value="<?=$row['kind']?>"></input></td>
 	<td style="text-align:center"><input class='bonus_input' name="limited[]"  value="<?=$row['limited']?>"></input></td>
 	<td style="text-align:center"><input class='bonus_input' name="rate[]"  value="<?=$row['rate']?>"></input></td>
     <td style="text-align:center"><input class='bonus_input' name="layer[]"  value="<?=$row['layer']?>"></input></td>
@@ -77,18 +69,45 @@ $token = get_token();
     <td style="text-align:center"><input class='bonus_input' name="bonus_condition[]"  value="<?=$row['bonus_condition']?>"></input></td>
     <td style="text-align:center"><input class='bonus_input' name="memo[]"  value="<?=$row['memo']?>"></input></td>
     </tr>
-    <?}}?>
+    <?}?>
     </tbody>
     
     <tfoot>
-        <td colspan=9 height="100px" style="padding:50px 0" class="btn_ly">
-            <input  style="align:center;padding:10px 30px;background:cornflowerblue;" type="submit" class="btn btn_confirm btn_submit" value="저장하기" id="com_send"></input>
+        <td colspan=12 height="100px" style="padding:20px 0px" class="btn_ly">
+            <input  style="align:center;padding:15px 50px;background:cornflowerblue;" type="submit" class="btn btn_confirm btn_submit" value="저장하기" id="com_send"></input>
         </td>
     </tfoot>
 </table>
 
 </div>
 </form>
+
+
+<style>
+    #mining_log{width:400px;margin: 20px;}
+    #mining_log .head{border:1px solid #eee;background:orange;display: flex;width:inherit}
+    #mining_log .body{border:1px solid #eee;display: flex;width:inherit}
+    #mining_log dt,#mining_log dd{display:block;padding:5px 10px;text-align: center;width:inherit;}
+    #mining_log dd{border-left:1px solid #eee}
+</style>
+
+<div id='mining_log'>
+    마이닝 지급량 기록 (최근 7일)
+    <div class='head'>
+        <dt>지급일</dt>
+        <dd>마이닝지급량</dd>
+    </div>
+
+    <?
+        $mining_rate_result = sql_query("SELECT day,rate from soodang_mining group by day order by day desc limit 0,7");
+        while($row = sql_fetch_array($mining_rate_result)){
+    ?>
+    <div class='body'>
+        <dt><?=$row['day']?></dt>
+        <dd><?=$row['rate']?></dd>
+    </div>
+    <?}?>
+</div>
 
 <script>
 

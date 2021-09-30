@@ -5,7 +5,7 @@ include_once('./bonus_inc.php');
 
 auth_check($auth[$sub_menu], 'r');
 
-
+$debug = 1;
 
 //회원 리스트를 읽어 온다.
 $sql_common = " FROM g5_shop_order AS o, g5_member AS m ";
@@ -45,7 +45,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
 
 $price_cond=", SUM(pv) AS hap";
 
-$sql = "SELECT o.od_date,o.pv,o.od_tno,o.od_name, m.mb_no, m.mb_id, m.mb_recommend, m.mb_name, m.mb_level, m.mb_deposit_point, m.mb_balance, m.grade
+$sql = "SELECT o.od_date,o.pv,o.upstair,o.od_tno,o.od_name, m.mb_no, m.mb_id, m.mb_recommend, m.mb_name, m.mb_level, m.mb_deposit_point, m.mb_balance, m.grade
             {$sql_common}
             {$sql_search}
             ORDER BY m.mb_no asc ";
@@ -72,7 +72,7 @@ function  excute(){
 
         $mb_id=$row['mb_id'];
         $it_id = $row['od_tno'];
-        $it_bonus = $row['pv'];
+        $it_bonus = $row['upstair'];
         $it_name = $row['od_name'];
 
         echo "<br><br><span class='title' style='font-size:30px;'>".$mb_id."</span><br>";

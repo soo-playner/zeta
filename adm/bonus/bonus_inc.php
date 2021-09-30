@@ -10,13 +10,14 @@ $now_date = date('Y-m-d');
 if($_GET['debug']){
 	$debug = 1;
 }
-
-$bonus_sql = "select * from {$g5['bonus_config']} WHERE used < 2 order by no asc";
+ 
+$bonus_sql = "select * from {$g5['bonus_config']} WHERE used > 0 order by no asc";
 $list = sql_query($bonus_sql);
 
 $pre_setting = sql_fetch($bonus_sql);
 $pre_condition ='';
 $admin_condition = " and "." mb_level < 10 ";
+
 
 // 이미지급받은경우
 $file_name = explode(".",basename($_SERVER['PHP_SELF']));
@@ -75,7 +76,7 @@ function bonus_condition_tx($bonus_condition){
 }
 
 function bonus_layer_tx($bonus_layer){
-    if($bonus_layer == ''){
+    if($bonus_layer == '' || $bonus_layer == '0'){
         $bonus_layer_tx = '전체지급';
     }else{
         $bonus_layer_tx = $bonus_layer.'단계까지 지급';
@@ -84,7 +85,7 @@ function bonus_layer_tx($bonus_layer){
 }
 
 function bonus_limit_tx($bonus_limit){
-    if($bonus_limit == ''){
+    if($bonus_limit == '' || $bonus_limit == 0){
         $bonus_limit_tx = '상한제한없음';
     }else{
         $bonus_limit_tx = (Number_format($bonus_limit*100)).'% 까지 지급';
@@ -94,15 +95,19 @@ function bonus_limit_tx($bonus_limit){
 
 
 /* 수당초과 계산 */
-function bonus_limit_check($mb_id,$bonus,$bonus_day = ''){
+function bonus_limit_check($mb_id,$bonus,$kind = '$'){
     global $bonus_limit;
+
+    if($bonus_limit == 0){
+        $bonus_limit = 1;
+    }
 
     // $mem_sql="SELECT mb_balance, mb_rate,(SELECT SUM(benefit) FROM soodang_pay WHERE mb_id ='{$mb_id}' AND DAY = '{$bonus_day}') AS b_total FROM g5_member WHERE mb_id ='{$mb_id}' ";
     $mem_sql="SELECT mb_balance, mb_rate, mb_save_point FROM g5_member WHERE mb_id ='{$mb_id}' ";
     $mem_result = sql_fetch($mem_sql);
 
     $mb_balance = $mem_result['mb_balance'];
-    $mb_pv = $mem_result['mb_save_point']*$bonus_limit;
+    $mb_pv = $mem_result['mb_rate']*$bonus_limit;
 
     if($mb_pv > 0 ){
         if( ($mb_balance + $bonus) < $mb_pv){
@@ -120,24 +125,16 @@ function bonus_limit_check($mb_id,$bonus,$bonus_day = ''){
     return array($mb_balance,$mb_pv,$mb_limit);
 }
 
-
-
-function it_item_return($it_id,$target,$func = 'id'){
-    if($func == 'id'){
-        $sql = " SELECT * from g5_shop_item WHERE it_id = '{$it_id}' ";
-    }else{
-        $where = "it_".$func;
-        $sql = " SELECT * from g5_shop_item WHERE $where = '{$it_id}' ";
-    }
+function it_item_return($it_id,$func){
+    $sql = " SELECT * from g5_shop_item WHERE it_id = '{$it_id}' ";
     $result = sql_fetch($sql);
 
     if($result){
-        return $result['it_'.$target];
+        return $result['it_'.$func];
     }else{
         return 0;
     }
 }
-
 function soodang_record($mb_id, $code, $bonus_val,$rec,$rec_adm,$bonus_day,$mb_no='',$mb_level = ''){
     global $g5,$debug,$now_datetime;
 
@@ -218,18 +215,6 @@ function get_shop_item($table=null){
 	return $array;
 }
 
-if( !function_exists( 'array_column' ) ):
-    
-    function array_column( array $input, $column_key, $index_key = null ) {
-    
-        $result = array();
-        foreach( $input as $k => $v )
-            $result[ $index_key ? $v[ $index_key ] : $k ] = $v[ $column_key ];
-        
-        return $result;
-    }
-endif;
-
 function ordered_items($mb_id, $table=null){
 
 	$item = get_shop_item($table);
@@ -282,6 +267,50 @@ function ordered_items($mb_id, $table=null){
 function array_key($list,$code,$column){
 	$key = array_search($code,array_column($list,$column));
 	return $key;
+}
+
+if(!sql_query("SELECT * from `soodang_mining`")){
+$mining_table = sql_query("CREATE table if not exists `soodang_mining`(
+    `no` int(11) NOT NULL AUTO_INCREMENT,
+    `day` date DEFAULT NULL COMMENT '지급일',
+    `allowance_name` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '수당명',
+    `mb_id` varchar(30) CHARACTER SET utf8 DEFAULT NULL COMMENT '회원아이디',
+    `mining` double DEFAULT NULL COMMENT '지급받은수당',
+    `rate` double DEFAULT NULL COMMENT '지급률',
+    `rec` text CHARACTER SET utf8 DEFAULT NULL COMMENT '메모',
+    `rec_adm` text DEFAULT NULL COMMENT '관리자메모',
+    `datetime` datetime NOT NULL COMMENT '지급실행일',
+    PRIMARY KEY (`no`),
+    KEY `mb_id` (`mb_id`)
+  )");
+}
+
+$mining_target = 'mb_mining_'.$minings[0];
+$mining_amt_target = 'mb_mining_'.$minings[0].'_amt';
+
+// 마이닝
+function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$rec_adm,$bonus_day){
+    global $g5,$debug,$now_datetime;
+
+    $soodang_sql = " insert `soodang_mining` set day='".$bonus_day."'";
+    $soodang_sql .= " ,mb_id			= '{$mb_id}' ";
+    $soodang_sql .= " ,allowance_name	= '{$code}' ";
+    $soodang_sql .= " ,mining		=  {$bonus_val} ";
+    $soodang_sql .= " ,currency		=  '{$currency}' ";
+    $soodang_sql .= " ,rate		=  {$bonus_rate} ";	
+    $soodang_sql .= " ,rec			= '{$rec}' ";
+    $soodang_sql .= " ,rec_adm		= '{$rec_adm}' ";
+    $soodang_sql .= " ,datetime		= '{$now_datetime}' ";
+    
+    if($debug){
+        echo "<code>";
+        print_r($soodang_sql);
+        echo "</code>";
+        return true;
+    }else{
+        return sql_query($soodang_sql);
+    }
+
 }
 
 

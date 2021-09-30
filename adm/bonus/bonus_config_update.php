@@ -7,15 +7,10 @@ for($i = 0 ; $i < count($_POST['idx']); $i ++){
     $name = $_POST['name'][$i];
     $code = $_POST['code'][$i];
     $rate = $_POST['rate'][$i];
-
-    // 전체설정
-    /* if($_POST['limited'][0]){
-        $limited = $_POST['limited'][0];
-    }else{
-        $limited = $_POST['limited'][$i];
-    } */
-    $limited = $_POST['limited'][$i];
     
+    $bonus_condition = $_POST['bonus_condition'][$i];
+    $kind = $_POST['kind'][$i];
+    $limited = $_POST['limited'][$i];
     $layer = $_POST['layer'][$i];
     $memo = $_POST['memo'][$i];
     $source = $_POST['source'][$i];
@@ -31,11 +26,13 @@ for($i = 0 ; $i < count($_POST['idx']); $i ++){
     name = '{$name}',
     code = '{$code}',
     limited = '{$limited}',
+    kind = '{$kind}',
     rate = '{$rate}',
     layer = '{$layer}',
     source = '{$source}',
     memo = '{$memo}',
-    used = '{$used}'
+    used = '{$used}',
+    bonus_condition = '{$bonus_condition}'
     where idx = $idx ;";
     
     $up_query = sql_query($update_bounus_set);

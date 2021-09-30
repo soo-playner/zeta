@@ -20,22 +20,25 @@ $input_val= $_POST['input_val'];
 $output_val = $_POST['output_val'];
 $pack_name= $_POST['select_pack_name'];
 $pack_id = $_POST['select_pack_id'];
+$pack_maker = $_POST['select_maker'];
 $it_supply_point = $_POST['it_supply_point'];
 
-$val = substr($pack_name,1,1);
+$val = substr($pack_maker,1,1);
 
 if($debug){
+	$mb_id = 'test9';
 	$func = 'new';
-	$input_val ='1200000'; // 포인트결제
-	$output_val ='1000'; // 구매금액
-	$pack_name = 'p1';
-	$pack_id = 2021051031;
-	$it_supply_point = 100;
+	$input_val ='330000'; // 결제금액 (부가세포함)
+	$output_val ='300000'; // 구매금액 (부가세제외)
+	$pack_name = 'Membership-Package';
+	$pack_id = 2021091720;
+	$it_supply_point = 0;
 }
 
 $target = "mb_deposit_calc";
-$target_price = coin_price('usd');
-$pv = $it_supply_point * 10000;
+
+$target_price = 1;
+$pv = $it_supply_point;
 
 if($func == "new"){
 	$orderid = date("YmdHis",time()).'01';
@@ -47,7 +50,7 @@ $sql = "insert g5_shop_order set
 	od_id				= '".$orderid."'
 	, mb_no             = '".$mb_no."'
 	, mb_id             = '".$mb_id."'
-	, od_cart_price     = ".$output_val."
+	, od_cart_price     = ".$input_val."
 	, od_cash    		= ".$target_price."
 	, od_name           = '{$pack_name}'
 	, od_tno            = '{$pack_id}'
@@ -56,7 +59,7 @@ $sql = "insert g5_shop_order set
 	, od_date           = '".$now_date."'
 	, od_settle_case    = '".$coin_val."'
 	, od_status         = '패키지구매'
-	, upstair    		= ".$input_val."
+	, upstair    		= ".$output_val."
 	, pv				= ".$pv." ";
 
 if($debug){
@@ -87,7 +90,7 @@ if($rst && $logic){
 	}
 	
 	$update_point .= ", mb_rate = ( mb_rate + {$pv}) ";
-	$update_point .= ", mb_save_point = ( mb_save_point + {$input_val}) ";
+	$update_point .= ", mb_save_point = ( mb_save_point + {$output_val}) ";
 	$update_point .= ", rank_note = '{$pack_name}', sales_day = '{$now_datetime}' ";
 	$update_point .= " where mb_id ='".$mb_id."'";
 

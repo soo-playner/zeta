@@ -10,11 +10,21 @@ define('CONFIG_MAIL_ADDR','willsoftkr@gmail.com');
 // 기준통화설정
 define('ASSETS_CURENCY','원');
 define('BALANCE_CURENCY','원');
+define('WITHDRAW_CURENCY','원');
 
-define('ASSETS_NUMBER_POINT',0);
-define('BONUS_NUMBER_POINT',0);
+
+$minings = ['eth'];
+
+define('ASSETS_NUMBER_POINT',0); // 입금 단위
+define('BONUS_NUMBER_POINT',0); // 수당계산,정산기준단위
+define('COIN_NUMBER_POINT',8); // 코인 단위
 
 // 회사지갑 설정
+define('ETH_ADDRESS','');
+
+// 이더사용 및 회사지갑 설정
+// False 설정시 현금사용
+define('USE_WALLET',FALSE);
 define('ETH_ADDRESS','');
 
 //영카트 로그인체크 주소

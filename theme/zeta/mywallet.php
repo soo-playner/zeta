@@ -22,6 +22,7 @@ $withdrwal_min_limit = $withdrwal_setting['amt_minimum'];
 $withdrwal_max_limit = $withdrwal_setting['amt_maximum'];
 $withdrwal_day_limit = $withdrwal_setting['day_limit'];
 
+
   // 수수료제외 실제 출금가능금액
   $withdrwal_total = floor($total_withraw / (1 + $withdrwal_fee * 0.01));
   if ($withdrwal_max_limit != 0 && ($total_withraw * $withdrwal_max_limit * 0.01) < $withdrwal_total) {
@@ -139,7 +140,7 @@ $result_deposit = sql_query($sql_deposit);
 $sql_common = "FROM {$g5['withdrawal']}";
 // $sql_common ="FROM wallet_withdrawal_request";
 
-$sql_search = " WHERE mb_id = '{$member['mb_id']}' ";
+$sql_search = " WHERE mb_id = '{$member['mb_id']}' and coin == {WITHDRAW_CURENCY} ";
 // $sql_search .= " AND create_dt between '{$fr_date}' and '{$to_date}' ";
 
 $sql = " select count(*) as cnt {$sql_common} {$sql_search} ";
@@ -236,7 +237,7 @@ $result_withdraw = sql_query($sql);
 
 
   <!-- 입금 요청 내역 -->
-  <div class="history_box content-box5 mt40">
+  <div class="history_box content-box mt40">
     <h3 class="hist_tit" data-i18n="deposit.입금 내역">입금 내역</h3>
     <div class="b_line2"></div>
     <? if (sql_num_rows($result_deposit) == 0) { ?>
@@ -329,7 +330,7 @@ $result_withdraw = sql_query($sql);
     </div>
 
     <!-- 출금내역 -->
-    <div class="history_box content-box5 mt40">
+    <div class="history_box content-box mt40">
       <h3 class="hist_tit" data-i18n='withdraw.출금 내역'>출금 내역</h3>
       <div class="b_line2"></div>
 
@@ -342,17 +343,24 @@ $result_withdraw = sql_query($sql);
         <div class="hist_con_row1">
           <div class="row">
             <span class="hist_date"><?= $row['create_dt'] ?></span>
-            <span class="hist_value "><?= Number_format($row['amt']) ?><?= $row['coin'] ?></span>
+            <span class="hist_value "><?= BALANCE_CURENCY ?> <?=shift_doller($row['amt_total']) ?></span>
           </div>
 
           <div class="row">
-            <span class='hist_bank'><?=$row['bank_name']?> <?=$row['bank_account']?> (<?=$row['account_name']?>)</span>
+            <span class="hist_withval"><?= BALANCE_CURENCY ?> <?= $row['amt'] ?> / <label>Fee : </label><?= BALANCE_CURENCY ?> <?= $row['fee'] ?></span>
+            <span class="hist_value status"><?=$row['out_amt']?> <?= $row['coin'] ?></span>
           </div>
 
           <div class="row">
-          <span class="hist_withval f_small">Total: - <?=Number_format($row['amt_total'])?><?= $row['coin'] ?>  / fee: <?= Number_format($row['fee']) ?><?= $row['coin'] ?></span>
+            <span class='hist_bank'><label>Address : </label><?=$row['addr']?></span>
+          </div>
+          
+          <div class="row">
+            <span class="hist_withval f_small"><label>Result :</label> </span>
             <span class="hist_value status"><? string_shift_code($row['status']) ?></span>
           </div>
+
+          
         </div>
       </div>
       <? } ?>

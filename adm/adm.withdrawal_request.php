@@ -3,13 +3,14 @@ $sub_menu = "700300";
 include_once('./_common.php');
 include_once(G5_THEME_PATH.'/_include/wallet.php');
 
-$g5['title'] = "출금 요청 내역";
-
+$g5['title'] = "수당(원화) 출금 요청 내역";
 include_once('./adm.header.php');
 
 function short_code($string, $char = 8){
 	return substr($string,0,$char)." ... ".substr($string,-8);
 }
+
+$sql_condition = "and coin = '원' " ;
 
 if($_GET['fr_id']){
 	$sql_condition .= " and A.mb_id = '{$_GET['fr_id']}' ";
@@ -68,6 +69,8 @@ if($sql_ord){
 }
 
 $sql .= " limit {$from_record}, {$rows} ";
+
+$excel_query = $sql;
 $list = sql_query($sql);
 
 function return_status_tx($val){
@@ -82,75 +85,7 @@ function return_status_tx($val){
 ?>
 
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
-
-<style type="text/css">
-	input[type="radio"] {}
-	input[type="radio"] + label{color:#999;}
-	input[type="radio"]:checked + label {color:#e50000;font-weight:bold;font-size:14px;}
-
-	table.regTb {width:100%;table-layout:fixed;border-collapse:collapse;}
-	table.regTb {border-top:solid 1px #777;}
-	table.regTb {width:100%;table-layout:fixed;border-collapse:collapse;}
-	table.regTb th,
-	table.regTb td {line-height:28px;text-align:center}
-	table.regTb th {padding: 6px 0;border: 1px solid #d1dee2;background: #e5ecef;color: #383838;letter-spacing: -0.1em;}
-	table.regTb td {padding:8px 0;border-bottom:solid 1px #ddd;border-right:solid 1px #ddd;}
-	table.regTb input[type="text"]{padding:0;padding-left:8px;height:23px;line-height:23px;border:solid 1px #ccc;background-color:#f9f9f9;}
-	table.regTb textarea {padding:0;padding-left:8px;line-height:23px;border:solid 1px #ccc;background-color:#f9f9f9;}
-	table.regTb label {cursor:pointer;}
-	
-	tfoot {
-		clear:both;
-		display: table-footer-group;
-		vertical-align: middle;
-		border-color: inherit;
-	}
-	tfoot td{line-height:18px !important;}
-	select{padding:5px 10px;min-width:80px;width:80%;}
-	span.help {font-size:11px;font-weight:normal;color:rgba(38,103,184,1);}
-
-	.btn_confirm {position:fixed;width:80px;right:10px;top:50%;z-index:9999;}
-	.btn_confirm input[type="submit"] {display:block;width:100%;height:45px;line-height:45px;background-color:rgba(230,0,68,0.6);cursor:pointer;border:none;border-radius:5px;}
-	.btn_confirm input[type="submit"]:hover {background-color:rgba(230,0,68,1);}
-	#status{height:24px;}
-
-	.adminWrp{padding: 0 20px;}
-	.adminWrp .total_right{float:right;}
-
-	.adm_wallet{position:relative;margin-right:30px;}
-	.adm_wallet span{position:relative;top:-5px;}
-	.adm_wallet input{border-radius:10px;margin-bottom:10px;}
-	.wd_btn{padding:10px;border:none;background-color:rgb(0,121,211);color:#fff;}
-
-	.td_pbal,.td_amt{font-size:13px; font-weight:600;}
-	table.regTb tr:hover td{background:papayawhip;}
-	.font_red{color:red;font-weight:600};
-	.adminWrp i {margin:0 10px;}
-
-	.eth_addr{display:inline-block;}
-	.inline_btn{display:inline-block;background:#555;color:white;margin-left:15px;font-size:13px !important;}
-	.gray{color:#666}
-
-	.local_ov strong{color:red; font-weight:600;}
-	.local_ov .tit{color:black; font-weight:600;}
-	.local_ov a{margin-left:20px;}
-	
-	.transfer{
-	border: 1px solid #ccc;
-	background: #f0f0f0;
-	height: 30px;
-	width: 75px;
-	margin: 1px;
-	margin-bottom: 20px;
-	}
-
-	.wallet_input{
-		width: 500px;
-		margin-bottom: 20px;
-		margin-left:20px;
-	}
-</style>
-
+<link href="<?=G5_ADMIN_URL?>/css/scss/adm.withdrawal_request.css" rel="stylesheet">
 
 <script>
 	$(function(){
@@ -171,9 +106,10 @@ function return_status_tx($val){
 					refund = 'N';
 				}
 			}
-
+			
 			var  coins = $(this).parent().parent().find('.coin').val();
-			// console.log(coins);
+			console.log(coins);
+			
 			$.ajax({
 					type: "POST",
 					url: "/adm/adm.request_proc.php",
@@ -253,30 +189,27 @@ $(function(){
 	<input type="submit" class="btn_submit" value="검색" style="width:100px;"/>
 </form>
 <br><br> -->
-
+ <input type="button" class="btn_submit excel" value="엑셀 다운로드" onclick="window.location.href='../excel/withdrawal_request_excel_down.php?excel_sql=<?=urlencode($excel_query)?>'" />	  
 <div class="local_ov01 local_ov">
-	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=number_format($total_hap)?></strong></a> 
+	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=shift_auto($total_out)?> <?=WITHDRAW_CURENCY?> </strong></a> 
 	<?
 		// 현재 통계치
-		$stats_sql = "SELECT status, sum(amt)  as hap, count(amt) as cnt from {$g5['withdrawal']} as A WHERE 1=1 ".$sql_condition. " GROUP BY status";
+		$stats_sql = "SELECT status, sum(out_amt)  as hap, count(out_amt) as cnt from {$g5['withdrawal']} as A WHERE 1=1 ".$sql_condition. " GROUP BY status";
 		$stats_result = sql_query($stats_sql);
 
 		while($stats = sql_fetch_array($stats_result)){
-			// $Nresult = $total_result['hap'] ? round($total_result['hap'],2) : '0';
-			// $Ncount =  $total_result['cnt'];
 			echo "<a href='./adm.withdrawal_request.php?".$qstr."&status=".$stats['status']."'><span class='tit'>";
 			echo return_status_tx($stats['status']);
 			echo "</span> : ".$stats['cnt'];
-			echo "건 = <strong>".Number_format($stats['hap'])."</strong></a>";
+			echo "건 = <strong>".shift_auto($stats['hap']).' '.WITHDRAW_CURENCY."</strong></a>";
 		}
 	?>
 </div>
 
 <div class="local_desc01 local_desc">
     <p>
-		- 출금요청시 선출금반영<br>
-        - <strong>승인 :</strong> 실제출금후 변경 <strong>취소 :</strong> 취소시 선출금액 반환<br>
-        <i class="ri-checkbox-blank-fill" style='color:rgb(160 133 90 / 100%);font-size:20px;'></i> 기출금자 <i class="ri-checkbox-blank-fill" style='color:white;font-size:20px;'></i>최초출금자
+		- 기본값 : 요청 | <strong>승인 : </strong> 수동송금처리후 변경 | <strong>취소 : </strong> 취소시 반환처리하면 차감금액 반환
+        <!-- <i class="ri-checkbox-blank-fill" style="color:green;border:1px solid #ccc;font-size:20px;"></i> : 마이닝출금 <i class="ri-checkbox-blank-fill" style="color:#4556ff;border:1px solid #ccc;font-size:20px;"></i> : 수당출금<br> -->
 	</p>
 </div>
 
@@ -287,23 +220,28 @@ $ord = isset($_REQUEST['ord']) && in_array($_REQUEST['ord'],$ord_array) ? $_REQU
 $ord_key = array_search($ord,$ord_array); // 해당 키 찾기 (0, 1)
 $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차순→내림차순
 ?>
+
 <form name="site" method="post" action="" enctype="multipart/form-data" style="margin:0px;" id="form">
 <div class="adminWrp">
 	<!--<button type="button" class="total_right btn_submit btn2" style="padding:5px 15px; margin-left:20px; " onclick="location.href='./delete_db_sol.php?id=with'">초기화</button>-->
 	<table cellspacing="0" cellpadding="0" border="0" class="regTb">
 		<thead>
-			<th style="width:3%;">선택</th>
+			<!-- <th style="width:3%;">선택</th> -->
 			<th style="width:4%;"><a href="?ord=<?php echo $ord_rev; ?>&ord_word=uid">No <?php echo $ord_arrow[$ord_key]; ?></a></th>
 			<th style="width:5%;">아이디 </th>
-			<th style="width:5%;">하부추천인</th>
+			<!-- <th style="width:5%;">하부추천인</th> -->
 			<th style="width:auto">출금정보</th>
-			<th style="width:5%;">출금코인</th>
-			<th style="width:5%;">요청금액</th>
-			<th style="width:5%;">수수료</th>
-			<th style="width:5%;">출금액</th>
-			<th style="width:5%;">출금차감액</th>
-			<!-- <th style="width:5%;">적용코인시세</th> -->
+
+			<th style="width:8%;">출금신청단위</th>
 			<th style="width:5%;">출금전잔고</th>
+			<th style="width:7%;">출금요청액</th>
+			<th style="width:10%;">출금계산액(수수료)</th>
+
+			<th style="width:8%;">출금액 <span style='color:red'>(<?=WITHDRAW_CURENCY?>)</span></th>
+			<th style="width:6%;">출금시세</th>
+			
+			<!-- <th style="width:5%;">적용코인시세</th> -->
+			
 			<th style="width:8%;">요청일시</th>
 			<th style="width:8%;">승인여부</th>
 			<th style="width:8%;">상태변경일</th>
@@ -315,38 +253,60 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 
 			$member_sql = "SELECT * from g5_member WHERE mb_id = '{$row['mb_id']}' ";
 			$mb = sql_fetch($member_sql);
+			if($row['coin'] == '원'){
+				$coin_class = 'font_blue';
+			}else{
+				$coin_class = 'font_green';
+			}
 		?>
 	
 			<tr class="<?php echo $bg; ?>">
 				
-				<td ><input type="checkbox" name="paid_BTC[]" value="<?=$row['uid']?>" class="pay_check">  </td>
+				<!-- <td ><input type="checkbox" name="paid_BTC[]" value="<?=$row['uid']?>" class="pay_check">  </td> -->
 				<td><?=$row['uid']?></td>
 				<td><a href='/adm/member_form.php?w=u&mb_id=<?=$row['mb_id']?>'><?=$row['mb_id']?></a></td>
 				<input type="hidden" value="<?=$row['mb_id']?>" name="mb_id[]">
-				<td><?=$mb['mb_child']?></td>
-				<td style="line-height:34px;">
-					<?=$row['bank_name']?>
-					|
-					<!-- <input type='text' name='bank_account' id="bank_account" value='<?=$row['bank_account']?>' style='font-size:13px;font-weight:600;margin-top:-4px'/> -->
-					<span id="bank_account" style='font-weight:600;font-size:13px;'><?=$row['bank_account']?></span>
-
-					(<?=$row['account_name']?>)
+				<!-- <td><?=$mb['mb_child']?></td> -->
+				
+				<td>
+				<?php if($row['addr'] == ''){?>
+					<?=$row['bank_name']?> | <span id="bank_account" style='font-weight:600;font-size:13px;'><?=$row['bank_account']?></span>(<?=$row['account_name']?>)
+					<button type="button" class="btn inline_btn copybutton f_right" style='margin-right:10px;vertical-align:top;'>계좌복사</button>	 
+					<?php }else{ ?>
 					<!-- <a href='https://etherscan.io/address/<?=$row['addr']?>' target='_blank'><?=short_code($row['addr'],15)?></a>  -->
-					<!-- <div class='eth_addr'><a href='https://etherscan.io/address/<?=$row['addr']?>' target='_blank'><?=$row['addr']?></a></div>-->
-					<button type="button" class="btn inline_btn copybutton f_right" style='margin-right:10px;vertical-align:top;'>계좌복사</button>	 			
+					<div class='eth_addr'><a href='https://filfox.info/ko/address/<?=$row['addr']?>' target='_blank'><?=$row['addr']?></a></div>
+					<?php } ?>			
 				</td>
-				<input type="hidden" value="<?=$row['addr']?>" name="addr[]">
 
-				<td class="gray"><?=$row['coin']?></td>
-					<input type="hidden" value="<?=$row['coin']?>" name="coin[]" class='coin'>
-				<td class="gray"><?=number_format($row['amt'],ASSETS_NUMBER_POINT)?></td>
-					<input type="hidden" value="<?=number_format($row['amt'],ASSETS_NUMBER_POINT)?>" name="amt[]">
-				<td class="gray"><?=number_format($row['fee'],ASSETS_NUMBER_POINT)?></td>
-				<td class="td_amt" style="color:red"><?=number_format($row['amt'],ASSETS_NUMBER_POINT)?></td>
-				<td class="td_amt" ><?=number_format($row['out_amt'],ASSETS_NUMBER_POINT)?></td>
-					<input type="hidden" value="<?=number_format($row['out_amt'],ASSETS_NUMBER_POINT)?>" name="out_amt[]">
-					<!-- <td><?=$row['cost']?></td> -->
-				<td class="gray"><?=number_format($row['account'],ASSETS_NUMBER_POINT)?></td>
+				<input type="hidden" value="<?=$row['addr']?>" name="addr[]">
+				<td class="td_amt"><input type="hidden" value="<?=$row['coin']?>" name="coin[]" class='coin'>
+					<?=$row['coin']?> <?if($row['coin'] == $minings[0]){echo "<br><span class='badge'>MININNG</span>";}?>
+				</td>
+				
+				<!-- 출금전잔고 -->
+				<td class="gray" style='font-size:11px;'><?=shift_auto($row['account'],$row['coin'])?></td>
+
+				<!-- 출금요청액 -->
+				<td class="td_amt <?=$coin_class?>"><?=shift_auto($row['amt_total'],$row['coin'])?></td>
+
+				<!-- 출금계산 -->
+				<td class="gray" style='line-height:18px;'>
+					<input type="hidden" value="<?=shift_auto($row['amt'],$row['coin'])?>" name="amt[]">
+					<!-- 계산액 -->
+					<?=shift_auto($row['amt'],$row['coin'])?> 
+					<!-- 수수료 -->
+					<span style='display:block;font-size:11px;'>(<?=shift_auto($row['fee'],$row['coin'])?>)</span>
+				</td>
+				
+
+				<td  class="td_amt" style="color:red">
+					<input type="hidden" value="<?=shift_auto($row['out_amt'])?>" name="out_amt[]">
+					<?=shift_auto($row['out_amt'],$row['coin'])?>
+				</td>
+				
+				<!-- 출금시세 -->
+				<td class="gray" style='font-size:11px;'><span><?=shift_auto($row['cost'],$row['coin'])?></span></td>
+				
 				<td  style="font-size:11px;"><?=timeshift($row['create_dt'])?></td>
 				<td>
 					<select name="status" uid="<?=$row['uid']?>" class='sel_<?=$row['status']?>'>
@@ -370,11 +330,11 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 		<tfoot>
 			<td>합계:</td>
 			<td><?=$total_count?></td>
-			<td colspan=4></td>
-			<td colspan=1><?=number_format($total_hap,ASSETS_NUMBER_POINT)?></td>
-			<td><?=number_format($total_fee,ASSETS_NUMBER_POINT)?></td>
-			<td colspan=1><?=number_format($total_hap,ASSETS_NUMBER_POINT)?></td>
-			<td colspan=1><?=number_format($total_out,ASSETS_NUMBER_POINT)?></td>
+			<td colspan=2></td>
+			<td colspan=1><?=shift_doller($total_amt)?></td>
+			<td><?=shift_doller($total_fee)?></td>
+			<td colspan=1></td>
+			<td colspan=1><?=shift_auto($total_out)?></td>
 			<td colspan=4></td>
 		</tfoot>
     </table>
