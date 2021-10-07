@@ -133,12 +133,12 @@ $title = 'Dashboard';
 
 					<ul class="row">
 						<li class="col-4">
-							<dt class="title" >센터회원</dt>
+							<dt class="title" >센터(지사)</dt>
 							<dd class="value"><?=get_name($member['mb_center'])?></dd>
 						</li>
 						
 
-						<li class="col-4">
+						<!-- <li class="col-4">
 							<dt class="title" >수당한계</dt>
 							<dd class="value">
 								<div class='bonus_state_bg' data-per='<?=$bonus_per?>'>
@@ -150,43 +150,44 @@ $title = 'Dashboard';
 									<p class='end'>250%</p>
 								</div>
 							</dd>
-						</li>
+						</li> -->
 
 						<li class="col-4">
-							<dt class="title" >쇼핑몰포인트</dt>
-							<dd class="value"><?=Number_format($shop_point)?><?=ASSETS_CURENCY?></dd>
+							<dt class="title"><span class='badge'>Mining : <?=Number_format($member['mb_rate'])?> mh/s</span></dt>
+							<dd class="value"><?=$mining_total?> <span style='font-size:12px;'><?=$minings[0]?></span></dd>
 						</li>
+
 						<!-- <li class="col-4">
 							<dt class="title" >보석수령(주배당)</dt>
 							<dd class="value"><?=week_jewel()?></dd>
 						</li> -->
-						<!-- <li class="col-4">
+						<li class="col-4">
 							<dt class="title" >내매출</dt>
 							<dd class="value"><?=Number_format($member['mb_save_point'])?><?=ASSETS_CURENCY?></dd>
-						</li> -->
+						</li>
 					</ul>
 
 					<ul class="row">
 						<li class="rank_title">승급조건달성</li>
 
-						<li class="col-4">
+						<!-- <li class="col-4">
 							<dt class="title">본인매출</dt>
+							<dd class="value">
+								<?=check_value($member['mb_5'])?>
+							</dd>
+						</li> -->
+
+						<li class="col-6">
+							<dt class="title">구매등급</dt>
 							<dd class="value">
 								<?=check_value($member['mb_5'])?>
 							</dd>
 						</li>
 
-						<li class="col-4">
-							<dt class="title">직추천인수</dt>
+						<li class="col-6">
+							<dt class="title">산하매출</dt>
 							<dd class="value">
 								<?=check_value($member['mb_7'])?>
-							</dd>
-						</li>
-
-						<li class="col-4">
-							<dt class="title">산하등급</dt>
-							<dd class="value">
-								<?=check_value($member['mb_9'])?>
 							</dd>
 						</li>
 						

@@ -35,11 +35,15 @@
 }
 
 .outbox:nth-child(2) .benefit {
-  background: darkmagenta;
+  background: green;
 }
 
 .outbox:nth-child(3) .benefit {
-  background: dodgerblue;
+  background: orangered;
+}
+
+.outbox:nth-child(4) .benefit {
+  background: #ef21fd;
 }
 
 /* 
@@ -176,6 +180,10 @@
 
 .orange {
   color: orangered;
+}
+
+.pink {
+  color: #ef21fd;
 }
 
 .white {

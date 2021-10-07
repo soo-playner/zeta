@@ -89,6 +89,8 @@ $result = sql_query($sql);
 								"it_id"=>$row[$i-1]['it_id'],
 								"it_name"=>$row[$i-1]['it_name'],
 								"it_price"=>$row[$i-1]['it_price'],
+								"it_point"=>$row[$i-1]['it_point'],
+								"it_cust_price"=>$row[$i-1]['it_cust_price'],
 								"it_maker"=>$row[$i-1]['it_maker'],
 								"it_supply_point"=>$row[$i-1]['it_supply_point'],
 								"it_option_subject"=>$row[$i-1]['it_option_subject'],
@@ -277,7 +279,7 @@ $result = sql_query($sql);
 
 					<div class="row">
 						<h2 class="pack_name pack_f_<?=substr($od_name,1,1)?>"><?= strtoupper($row['od_name']) ?> </h2>
-						<span class='hist_sub_price'><?=Number_format($row['upstair'])?><?=$row['od_settle_case']?></span>
+						<span class='hist_sub_price'><?=Number_format($row['od_cash'])?><?=$row['od_settle_case']?></span>
 					</div>
 				</div>
 			</div>
@@ -335,9 +337,10 @@ $(function(){
 		it_id = data[0].it_id;
 		it_name = data[0].it_name;
 		it_maker = data[0].it_maker;
-		it_price = data[0].it_price;
-		it_supply_point = data[0].it_supply_point;
-		won_price = (it_price * usd_price).toFixed();
+		it_price = data[0].it_price; //상품가격
+		it_point = data[0].it_point; //PV
+		it_supply_point = data[0].it_supply_point; //MP 
+		won_price = data[0].it_cust_price;
 		func = "new";
 		od_id = "";
 		origin_bal = '<?=$available_fund?>';
@@ -428,6 +431,7 @@ $(function(){
 					"select_pack_name" : it_name,
 					"select_pack_id" : it_id,
 					"select_maker" : it_maker,
+					"it_point" : it_point,
 					"it_supply_point" : it_supply_point
 				},
 				success: function(data) {

@@ -191,7 +191,8 @@ function get_name($id){
 	global $g5;
 	$mb_sql = "SELECT mb_nick from g5_member WHERE mb_id = '{$id}' ";
 	$result = sql_fetch($mb_sql);
-	return $result['mb_nick'];
+
+	if($result && $result['mb_nick'] != ''){return $result['mb_nick'];}else{return ' - ';}
 }
 
 
@@ -199,15 +200,14 @@ function get_name($id){
 function bonus_per($mb_id ='',$mb_balance='', $mb_limit = ''){
 	global $member,$limited_per;
 
-
 	if($mb_id == ''){
-		if($member['mb_save_point'] != 0 && $member['mb_balance'] !=0){
+		if($member['mb_save_point'] != 0 && $member['mb_balance'] !=0 && $limited_per != 0){
 			$bonus_per = ($member['mb_balance']/($member['mb_save_point'] * $limited_per));
 		}else{
 			$bonus_per = 0;
 		}
 	}else{
-		if($mb_limit != 0 && $mb_balance !=0){
+		if($mb_limit != 0 && $mb_balance !=0 && $limited_per != 0){
 			$bonus_per = ($mb_balance/($mb_limit * $limited_per));
 		}else{
 			$bonus_per = 0;
@@ -564,7 +564,8 @@ function ordered_items($mb_id, $table=null){
 				"it_id" => $item[$i]['it_id'],
 				"it_name" => $item[$i]['it_name'],
 				"it_price" => $item[$i]['it_price'],
-				"it_point" => $item[$i]['it_point'],
+                "it_cust_price" => $item[$i]['it_cust_price'],
+                "it_point" => $item[$i]['it_point'],
 				"it_maker" => $item[$i]['it_maker'],
 				"it_supply_point" => $item[$i]['it_supply_point'],
 				"it_option_subject" => $item[$i]['it_option_subject'],
@@ -574,10 +575,6 @@ function ordered_items($mb_id, $table=null){
 				"pv" => $order_row['pv'],
 				"od_time" => $order_row['od_time'],
 				"od_settle_case" => $order_row['od_settle_case'],
-				// "coin" => $order_row['od_settle_case'],
-				// "upgrade_id" => $item[$i+1]['it_id'],
-				// "upgrade_name" => $item[$i+1]['it_name'],
-				// "upgrade_price" => $item[$i+1]['it_point'],
 				"row" => $row
 			));
 		}
@@ -635,7 +632,3 @@ if( !function_exists( 'array_column' ) ):
         return $result;
     }
 endif;
-
-?>
-
-

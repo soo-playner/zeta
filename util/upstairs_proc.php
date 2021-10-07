@@ -9,6 +9,7 @@ $now_date = date('Y-m-d');
 
 $mb_id = $member['mb_id'];
 $mb_no = $member['mb_no'];
+$mb_rank = $member['rank'];
 
 // $input_val ='1';
 // $output_val ='169.09';
@@ -18,6 +19,7 @@ $coin_val = '원';
 $func = $_POST['func'];
 $input_val= $_POST['input_val'];
 $output_val = $_POST['output_val'];
+$it_point = $_POST['it_point'];
 $pack_name= $_POST['select_pack_name'];
 $pack_id = $_POST['select_pack_id'];
 $pack_maker = $_POST['select_maker'];
@@ -26,18 +28,17 @@ $it_supply_point = $_POST['it_supply_point'];
 $val = substr($pack_maker,1,1);
 
 if($debug){
-	$mb_id = 'test9';
+	$mb_id = 'test3';
 	$func = 'new';
-	$input_val ='330000'; // 결제금액 (부가세포함)
-	$output_val ='300000'; // 구매금액 (부가세제외)
+	$input_val ='5500000'; // 결제금액 (부가세포함)
+	$output_val ='5000000'; // 구매금액 (부가세제외)
 	$pack_name = 'Membership-Package';
 	$pack_id = 2021091720;
-	$it_supply_point = 0;
+	$it_point = 5000000;
+	$it_supply_point = 5;
 }
 
 $target = "mb_deposit_calc";
-
-$target_price = 1;
 $pv = $it_supply_point;
 
 if($func == "new"){
@@ -51,7 +52,7 @@ $sql = "insert g5_shop_order set
 	, mb_no             = '".$mb_no."'
 	, mb_id             = '".$mb_id."'
 	, od_cart_price     = ".$input_val."
-	, od_cash    		= ".$target_price."
+	, od_cash    		= ".$output_val."
 	, od_name           = '{$pack_name}'
 	, od_tno            = '{$pack_id}'
 	, od_receipt_time   = '".$now_datetime."'
@@ -59,7 +60,7 @@ $sql = "insert g5_shop_order set
 	, od_date           = '".$now_date."'
 	, od_settle_case    = '".$coin_val."'
 	, od_status         = '패키지구매'
-	, upstair    		= ".$output_val."
+	, upstair    		= ".$it_point."
 	, pv				= ".$pv." ";
 
 if($debug){
@@ -88,10 +89,16 @@ if($rst && $logic){
 	if($member['mb_level'] == 0){
 		$update_point .= ", mb_level = 1 " ;
 	}
+
+	if($mb_rank >= $val){
+		$update_rank = $mb_rank;
+	}else{
+		$update_rank = $val;
+	}
 	
 	$update_point .= ", mb_rate = ( mb_rate + {$pv}) ";
 	$update_point .= ", mb_save_point = ( mb_save_point + {$output_val}) ";
-	$update_point .= ", rank_note = '{$pack_name}', sales_day = '{$now_datetime}' ";
+	$update_point .= ", rank = '{$update_rank}', rank_note = '{$pack_name}', sales_day = '{$now_datetime}' ";
 	$update_point .= " where mb_id ='".$mb_id."'";
 
 	if($debug){

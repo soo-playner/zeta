@@ -246,6 +246,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 <input type="hidden" name="sst" value="<?php echo $sst ?>">
 <input type="hidden" name="sod" value="<?php echo $sod ?>">
 <input type="hidden" name="page" value="<?php echo $page ?>">
+<input type="hidden" name="rank" value="<?=$mb['rank'] ?>">
 <input type="hidden" name="token" value="">
 
 <div class="local_desc01 local_desc">
@@ -444,30 +445,49 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 			.divide-top th,.divide-top td{border-top:2px solid #333;padding-top:30px;}
 			.divide-bottom th,.divide-bottom td{border-bottom:2px solid #333;padding-bottom:30px;}
 			
-			.purchase_btn{display:inline-block;width:60px;height:40px;padding:0;}
-			.purchase_btn.pack{width:150px;margin-left:20px;color:white}
-			/* .m-pack{_background:darkturquoise;background:#e9c9b3}
-			.p-pack{_background:green;background:#3e1f9c}	 */
-			.m-pack{background:darkturquoise;}
-			.p-pack{background:#3e1f9c;}			
-			.pack_title{font-weight:600;color:#555;background:#ccc;width:100%;display:block;border-top-left-radius:5px;border-top-right-radius:5px}
+			.purchase_btn{display:inline-grid;height:40px;padding:0;}
+			.purchase_btn.pack{width:150px;margin-left:20px;color:white}			
+			.pack_title{font-weight:600;padding:1px 10px;color:#fff;min-width:50px;display:grid;border-top-left-radius:5px;border-top-right-radius:5px}
+			.color0{background:black;}
 			.pack_have{font-size:16px;font-weight:600;padding:5px;color:red}
 		</style>
 
 		<td colspan="3">
-			최고보유 패키지 : 
-			<span class='badge t_white color<?=max_item_level_array($mb['mb_id'],'number')?>'><?=max_item_level_array($mb['mb_id'])?></span>
-			<span class='divide'>|</span>
-			<?php 
-				$pack_array = package_have_return($mb['mb_id']);
-				$get_shop_item = get_shop_item();
+			최고보유 패키지 :
+			<!-- <span class='badge t_white color<?= max_item_level_array($mb['mb_id'], 'number') ?>' style='padding:15px;'><?= max_item_level_array($mb['mb_id']) ?></span> -->
+			<span class='badge t_white <?=rank_return($mb['rank'],'color')?>' style='padding:15px;'><?=rank_return($mb['rank'])?></span>
+			<span class='divide' style="margin-right:20px;">|</span>
+			<?php
+			
+			function rank_return($val,$color=''){
+				global $mb;
 
-				for($i = 0; $i < count($pack_array); $i++){
+				if($mb['rank_note'] == ''){
+					if($color ==''){
+						return '-';
+					}else{
+						return '';
+					}
+				}else{
+					if($color ==''){
+						return 'P'.$val;
+					}else{
+						return 'color'.$val;
+					}
+					
+				}
+			}
+
+			$pack_array = package_have_return($mb['mb_id']);
+			$get_shop_item = get_shop_item();
+			
+			for ($i = 0; $i < count($pack_array); $i++) {
+				
 			?>
-				<button type='button' class='btn purchase_btn' value='' data-point="<?=$get_shop_item[$i]['it_point']?>" data-name="<?=$get_shop_item[$i]['it_name']?>" data-id="<?=$get_shop_item[$i]['it_id']?>"
-				data-it_supply_point="<?=$get_shop_item[$i]['it_supply_point']?>">
-				<span class='pack_title'><?=$get_shop_item[$i]['it_name']?></span> 
-				<div class='pack_have'><span><?=$pack_array[$i]?></button>
+				<button type='button' class='btn purchase_btn' value='' data-row='<?=json_encode($get_shop_item[$i],JSON_FORCE_OBJECT)?>'>
+					<span class='pack_title color<?=$i?>'><?= $get_shop_item[$i]['it_name'] ?></span>
+					<div class='pack_have'><span><?= $pack_array[$i] ?>
+				</button>
 			<?php } ?>
 
 			<!-- <span class='divide'>|</span>
@@ -475,7 +495,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		</td>
 
 		<!-- <td colspan="2">
-			<button type='button' class='btn purchase_btn pack m-pack' data-price='1' data-name='Membership Pack' data-id='2020120890' value=''>M-PACK</button>
+			<button type='button' class='btn `purchase_btn` pack m-pack' data-price='1' data-name='Membership Pack' data-id='2020120890' value=''>M-PACK</button>
 			<button type='button' class='btn purchase_btn pack p-pack' data-price='0.8' data-name='Promotion Pack' data-id='2020120892' value=''>P-PACK</button>
 		</td> -->
 	</tr>
@@ -484,49 +504,31 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	</tr>
 
 	<script>
-
-		// 환산
-		function shift_price(income =1, val = 1, outcome =1, decimal = 2){
-		var calc = income * val / outcome;
-		return calc.toFixed(decimal);
-		}
+		$(function(){
 
 		var total_fund = '<?=$mb['mb_deposit_point']+$mb['mb_deposit_calc']?>';
 		var mb_grade = '<?=$mb['grade']?>';
 
-
 		$('.purchase_btn').on('click',function(){
-			var usd_price = "<?=$usd_price?>";
-			var item_price = $(this).data('point');
-			var item_name = $(this).data('name');
-			var item_id = $(this).data('id');
-			var item_supply_point = $(this).data('it_supply_point');
-			var select_coin = '원';
-			var selected_val = $(this).data('point')*usd_price;
-			var selected_price = Price($(this).data('point')*usd_price);
 
-			console.log(`total:${total_fund}\nprice:${selected_val}`);
-			console.log(`it_id:${item_id}\nit_sp:${item_supply_point}\ncoin:${select_coin}`);
+			var func ='new';
+			var item = $(this).data('row');
+			// console.log(item);
 
+			console.log(`total:${total_fund}\nprice:${item.it_cust_price}`);
+			// console.log(`it_id:${item_id}\nit_sp:${item_supply_point}\ncoin:${select_coin}`);
 			
 
-			/* if(item_id == '2021051040'){
-				var price_val = 0;
-			}else{
-				var price_val = selected_price;
-			} */
-
-			if (confirm("해당 회원에게 "+item_name+" 패키지를 지급하시겠습니까?\n회원 잔고에서 -"+selected_price+" 원 (이)가 차감됩니다.")) {
+			if (confirm("해당 회원에게 "+item.it_name+" 패키지를 지급하시겠습니까?\n회원 잔고에서 ￦"+Price(item.it_cust_price)+" 원 (이)가 차감됩니다.")) {
 			} else {
 				return false;
 			}
 			
-			if(item_id != '2021051040'){
-				if(Number(total_fund) < Number(selected_val) ){
-					alert("회원 잔고가 부족합니다.\n잔고지급후 사용해주세요.");
-					return false;
-				}
+			if(Number(total_fund) < Number(item.it_cust_price) ){
+				alert("회원 잔고가 부족합니다.\n잔고지급후 사용해주세요.");
+				return false;
 			}
+			
 			
 
 			$.ajax({
@@ -538,12 +540,15 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 				data:  {
 					"mb_id" : '<?=$mb['mb_id']?>',
 					"mb_no" : '<?=$mb['mb_no']?>',
-					"input_val" : selected_val,
-					"output_val" : item_price,
-					"coin_val" : select_coin,
-					"select_pack_name" : item_name,
-					"select_pack_id" : item_id,
-					"it_supply_point" : item_supply_point
+					"rank" : '<?=$mb['rank']?>',
+					"func" : func,
+					"input_val" : item.it_cust_price,
+					"output_val" : item.it_price,
+					"select_pack_name" : item.it_name,
+					"select_pack_id" : item.it_id,
+					"select_maker" : item.it_maker,
+					"it_point" : item.it_point,
+					"it_supply_point" : item.it_supply_point
 				},
 				success: function(data) {
 				
@@ -560,8 +565,9 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 				error:function(e){
 					alert('처리에러'); 
 				}
-			}); 
+			});
 		});
+	});
 	</script>
 	<tr class='divide-bottom'>
 		<th scope="row">출금계좌정보</th>			

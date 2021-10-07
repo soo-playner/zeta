@@ -602,6 +602,7 @@ while($l_row = sql_fetch_array($get_lc)){
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_rate']) ?></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"> <?=$bonus_per?>% </td>
 		<td headers="mb_list_auth" class="td_mbstat td_item" rowspan="2"><span class='badge t_white color<?=max_item_level_array($row['mb_id'],'number')?>'><?=max_item_level_array($row['mb_id'],'name')?></span></td>
+		<!-- <td headers="mb_list_auth" class="td_mbstat td_item" rowspan="2"><span class='badge t_white color<?=$row['rank']?>'>P<?=$row['rank']?></span></td> -->
 		
 		<!-- <?php /*$pack_array = package_have_return($row['mb_id']);*/ ?>
 		<td headers="mb_list_auth" class="td_mbstat td_item" rowspan="2"><?= $pack_array[0] ?></td>

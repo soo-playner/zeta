@@ -1,15 +1,16 @@
 <?php
 $sub_menu = "600200";
 include_once('./_common.php');
+// $debug = 1;
 include_once('./bonus_inc.php');
 
 auth_check($auth[$sub_menu], 'r');
 
-$debug = 1;
+
 
 //회원 리스트를 읽어 온다.
 $sql_common = " FROM g5_shop_order AS o, g5_member AS m ";
-$sql_search=" WHERE o.mb_id=m.mb_id AND od_date ='".$bonus_day."'";
+$sql_search=" WHERE o.mb_id=m.mb_id AND od_date ='".$bonus_day."' AND LENGTH(od_name) < 4 ";
 $sql_mgroup=' GROUP BY m.mb_id ORDER BY m.mb_no asc';
 
 $pre_sql = "select count(*) 
@@ -75,7 +76,7 @@ function  excute(){
         $it_bonus = $row['upstair'];
         $it_name = $row['od_name'];
 
-        echo "<br><br><span class='title' style='font-size:30px;'>".$mb_id."</span><br>";
+        echo "<br><br><span class='title block' style='font-size:30px;'>".$mb_id."</span><br>";
 
         // 추천, 후원 조건
         if($bonus_condition < 2){
@@ -106,8 +107,7 @@ function  excute(){
             }else{$today_sales = 0;} */
 
             // 관리자 제외
-            if($mb_id == 'admin' ){ break;} 
-
+            
             if($pre_condition_in){	
                 
                 $rate_cnt = it_item_return($it_id,'model');
@@ -117,23 +117,28 @@ function  excute(){
                 }
                 $benefit=($it_bonus*$bonus_rate); // 매출자 * 수당비율
 
-                list($mb_balance,$balance_limit,$benefit_limit) = bonus_limit_check($recom_id,$benefit);
+               /*  list($mb_balance,$balance_limit,$benefit_limit,$admin_cash) = bonus_limit_check($recom_id,$benefit);
 
                 echo "<code>";
                 echo "현재수당 : ".Number_format($mb_balance)."  | 수당한계 :". Number_format($balance_limit).' | ';
                 echo "발생할수당: ".Number_format($benefit)." | 지급할수당 :".Number_format($benefit_limit);
                 echo "</code><br>";
-
-                // 디버그 로그
-                if($debug){
+                if($admin_cash == 1){
+                    $rec_adm= 'fall check';
                 }
+                 */
+
+                $benefit_limit = $benefit;
                 
                 $rec=$code.' Recommend Bonus from  '.$mb_id.' | '.$it_name;
                 $rec_adm= $it_name.' | '.$it_bonus.'*'.$bonus_rate.'='.$benefit;
 
+               
+
                 // 수당제한
                 echo $recom_id." | ".Number_format($it_bonus).'*'.$bonus_rate;
 
+                
                 if($benefit > $benefit_limit && $balance_limit != 0 ){
 
                     $rec_adm .= "<span class=red> |  Bonus overflow :: ".Number_format($benefit_limit - $benefit)."</span>";
@@ -145,9 +150,9 @@ function  excute(){
                     echo "<span class=blue> ▶▶ 수당 지급 : ".Number_format($benefit)."</span>";
                     echo "<span class=red> ▶▶▶ 수당 초과 (기준매출없음) : ".Number_format($benefit_limit)." </span><br>";
                 }else if($benefit == 0){
+
                     echo "<span class=blue> ▶▶ 수당 미발생 </span>";
                 }else{
-                   
                     echo "<span class=blue> ▶▶ 수당 지급 : ".Number_format($benefit)."</span><br>";
                 }
 

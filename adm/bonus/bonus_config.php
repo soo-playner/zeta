@@ -27,8 +27,7 @@ $token = get_token();
 <div class="local_desc01 local_desc">
     <p>
         - 마케팅수당설정<br>
-        - 수당한계 : 0 또는 값이 없으면 제한없음.<br>
-        - 마이닝 : 1TERA 당 = 마이닝지급량 (고정값)(FIL)<br>
+        - 마이닝 : 1MH/S 당 지급량 (고정값)(ETH)<br>
         - 마이닝매칭 : 마이닝지급량의 % 입력
 	</p>
 </div>
@@ -84,7 +83,7 @@ $token = get_token();
     
     
     <tfoot>
-        <td colspan=9 height="100px" style="padding:30px 0" class="btn_ly">
+        <td colspan=9 height="100px" style="padding:10px 0" class="btn_ly">
             <input  style="align:center;padding:10px 30px;background:cornflowerblue;" type="submit" class="btn btn_confirm btn_submit" value="저장하기" id="com_send"></input>
         </td>
     </tfoot>

@@ -8,6 +8,7 @@
 
     $ordered_items = ordered_items($member['mb_id'],$_GET['item']);
     $mining_cnt = count($ordered_items);
+
   
     // 내 마이닝상품 리스트 기본값 1
     $list_cnt  = 1;
@@ -94,8 +95,8 @@
                         <div class="b_line4"></div>
                         <li class="row">
                             <div class="value col-10">
-                                <div class="value1">
-                                    [ <?=$ordered_items[$i]['it_point']?> Mining Power ]
+                                <div class="value1" style="font-size:18px;line-height:42px;">
+                                    <?=$ordered_items[$i]['pv']?> mh/s
                                 </div>
                                 <div class="date"><?=$ordered_items[$i]['row']['cdate']?> ~ <?=expire_date($ordered_items[$i]['row']['cdate'])?></div>
                             </div>

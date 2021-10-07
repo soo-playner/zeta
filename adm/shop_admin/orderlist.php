@@ -124,7 +124,7 @@ $qstr = "$qstr1&amp;sort1=$sort1&amp;sort2=$sort2&amp;page=$page";
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
 // 통계 데이터 산출
-$stats_sql = "select od_name, COUNT(*) AS cnt, SUM(upstair) AS amt ".$sql_common."group by od_name ";
+$stats_sql = "select od_name, COUNT(*) AS cnt, SUM(od_cash) AS amt ".$sql_common."group by od_name ";
 $stats_result = sql_query($stats_sql);
 
 
@@ -291,12 +291,12 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
 		
         <th scope="col" id="odrstat" >주문상태</th>
         <th scope="col" id="odrstat" >구매상품</th>
-        <th scope="col" id="th_odrall" >구매금액($)</th>
+        <th scope="col" id="th_odrall" >결제금액</th>
 
         <th scope="col" id="odrpay" >결제수단</th>
-		<th scope="col" id="th_odrcnt" >입금액(coin)</th>
-		<th scope="col" id="th_odrcnt" >전환비율(coin/per)</th>
-        <th scope="col" >주문합계</th>
+		<th scope="col" id="th_odrcnt" >구매가격</th>
+		<th scope="col" id="th_odrcnt" >판매실적(pv)</th>
+        <th scope="col" >MH/s</th>
 
     </tr>
     <tr>
@@ -423,13 +423,13 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
 			<?php echo $row['od_status']; ?>
         </td>
         <td rowspan="2" class="td_numsum"><?=$row['od_name']?></td>
-        <td rowspan="2" class="td_numsum"><?= number_format($row['od_cart_price'])?></td>
+        <td rowspan="2" class="td_numsum" style='text-align:right'><?= number_format($row['od_cart_price'])?> 원</td>
         <td ><?php echo $row['od_settle_case'] ?></td>
-		<td rowspan="2" style="text-align:right;padding-right:10px;font-weight:600"><?=number_format($row['upstair'])?> 원</td>
-		<td ><?php echo $row['od_cash']; ?> </td>
+		<td rowspan="2" style="text-align:right;font-weight:600"><?=number_format($row['od_cash'])?> 원</td>
+		<td ><?=number_format($row['upstair'])?> </td>
         <td >
-            <!-- <?php echo $row['od_cart_count']; ?> -->
-         1건</td>
+            <?php echo $row['pv']; ?>
+        </td>
        
 		<!-- ##end##  ## -->
 		
@@ -452,7 +452,7 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
         $tot_itemcount     = $i+1;
         $tot_orderprice    += ($row['od_cart_price'] + $row['od_send_cost'] + $row['od_send_cost2']);
         $tot_ordercancel   += $row['od_cancel_price'];
-        $tot_receiptprice  += $row['od_receipt_price'];
+        $tot_receiptprice  += $row['od_cash'];
 		/*##  ################################################*/
         $tot_receiptcash  += $row['od_receipt_cash'];
         $tot_pv  += $row['pv'];
@@ -471,19 +471,17 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
     <tfoot>
     <tr class="orderlist">
         <th scope="row" colspan="3">&nbsp;</th>
-        <td>&nbsp;</td>
+        <td><?php echo number_format($tot_odcount); ?>건</td>
         <td></td>
         <td>
             <!-- <?php echo number_format($tot_itemcount); ?>건 -->
         </td>
         <th scope="row">합 계</th>
-        <td><?php echo $tot_orderprice; ?></td>
- 
-		<!-- <td></td> -->
+        <td style='text-align:right'><?=Number_format($tot_orderprice)?> 원</td>
         <td></td>
+        <td style='text-align:right'><?=Number_format($tot_receiptprice)?> 원</td>
         <td></td>
-        <td></td>
-		<td><?php echo number_format($tot_odcount); ?>건</td>
+		<td></td>
 
     </tr>
     </tfoot>

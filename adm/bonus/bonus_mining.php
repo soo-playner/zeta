@@ -3,6 +3,8 @@ $sub_menu = "600300";
 include_once('./_common.php');
 include_once('./bonus_inc.php');
 
+
+
 $g5['title'] = '마이닝 지급 및 지급내역';
 include_once('../admin.head.php');
 
@@ -118,6 +120,17 @@ $qstr.='&fr_date='.$fr_date.'&to_date='.$to_date.'&chkc='.$chkc.'&chkm='.$chkm.'
 $qstr.='&diviradio='.$diviradio.'&r='.$r;
 $qstr.='&stx='.$stx.'&sfl='.$sfl;
 $qstr.='&aaa='.$aaa;
+
+function mining_kind($kind){
+	if($kind == 'mining'){
+		$color_class = 'green';
+	}else if($kind == 'zeta_mining'){
+		$color_class = 'pink';
+	}else{
+		$color_class = 'orange';
+	}
+	return $color_class;
+}
 
 
 include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
@@ -261,9 +274,8 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		</td>
 
 		<td width='80' style='text-align:center'><?=get_text($row['allowance_name']); ?></td>
-		<?if($row['allowance_name'] == 'mining'){$color_class = 'green';}else{$color_class = 'orange';}?>
-        <td width="100" class='bonus <?=$color_class?>'><?=Number_format($soodang,COIN_NUMBER_POINT) ?></td>
-        <td width="30" class='bonus <?=$color_class?>'><?=$row['currency']?></td>
+        <td width="100" class='bonus <?=mining_kind($row['allowance_name'])?>'><?=Number_format($soodang,COIN_NUMBER_POINT) ?></td>
+        <td width="30" class='bonus <?=mining_kind($row['allowance_name'])?>'><?=$row['currency']?></td>
 		
 
 		<td width="300"><?= $row['rec']."<br> <span class='adm'> [".$row['rec_adm']."]</span>" ?></td>

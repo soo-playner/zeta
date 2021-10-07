@@ -6,10 +6,6 @@ define('ASSETS_CURENCY','원');
 $now_datetime = date('Y-m-d H:i:s');
 $now_date = date('Y-m-d');
 
-
-if($_GET['debug']){
-	$debug = 1;
-}
  
 $bonus_sql = "select * from {$g5['bonus_config']} WHERE used > 0 order by no asc";
 $list = sql_query($bonus_sql);
@@ -96,10 +92,10 @@ function bonus_limit_tx($bonus_limit){
 
 /* 수당초과 계산 */
 function bonus_limit_check($mb_id,$bonus,$kind = '$'){
-    global $bonus_limit;
+    global $bonus_limit,$config;
 
     if($bonus_limit == 0){
-        $bonus_limit = 1;
+        $bonus_limit = 100;
     }
 
     // $mem_sql="SELECT mb_balance, mb_rate,(SELECT SUM(benefit) FROM soodang_pay WHERE mb_id ='{$mb_id}' AND DAY = '{$bonus_day}') AS b_total FROM g5_member WHERE mb_id ='{$mb_id}' ";
@@ -107,12 +103,19 @@ function bonus_limit_check($mb_id,$bonus,$kind = '$'){
     $mem_result = sql_fetch($mem_sql);
 
     $mb_balance = $mem_result['mb_balance'];
-    $mb_pv = $mem_result['mb_rate']*$bonus_limit;
+    $mb_pv = $mem_result['mb_save_point'] * $bonus_limit;
+    
+    if($mb_id == 'admin' || $mb_id == $config['cf_admin']){
+        $mb_pv = 100000000000;
+        $admin_cash = 1;
+    }
 
     if($mb_pv > 0 ){
         if( ($mb_balance + $bonus) < $mb_pv){
+            
             $mb_limit = $bonus;
         }else{
+            
             $mb_limit = $mb_pv - $mb_balance;
             if($mb_limit < 0){
                 $mb_limit = 0;
@@ -121,9 +124,11 @@ function bonus_limit_check($mb_id,$bonus,$kind = '$'){
     }else{
         $mb_limit = 0;
     }
-
-    return array($mb_balance,$mb_pv,$mb_limit);
+    
+    return array($mb_balance,$mb_pv,$mb_limit,$admin_cash);
 }
+
+
 
 function it_item_return($it_id,$func){
     $sql = " SELECT * from g5_shop_item WHERE it_id = '{$it_id}' ";
@@ -135,6 +140,7 @@ function it_item_return($it_id,$func){
         return 0;
     }
 }
+
 function soodang_record($mb_id, $code, $bonus_val,$rec,$rec_adm,$bonus_day,$mb_no='',$mb_level = ''){
     global $g5,$debug,$now_datetime;
 
@@ -173,6 +179,19 @@ function soodang_record($mb_id, $code, $bonus_val,$rec,$rec_adm,$bonus_day,$mb_n
     }
 }
 
+function soodang_extra($mb_id, $code, $bonus_val,$rec,$rec_adm,$bonus_day){
+    global $g5,$debug,$now_datetime;
+
+    $soodang_sql = " insert `soodang_extra` set day='".$bonus_day."'";
+    $soodang_sql .= " ,mb_id			= '".$mb_id."'";
+    $soodang_sql .= " ,allowance_name	= '".$code."'";
+    $soodang_sql .= " ,benefit		=  ".$bonus_val;	
+    $soodang_sql .= " ,rec			= '".$rec."'";
+    $soodang_sql .= " ,rec_adm		= '".$rec_adm."'";
+    $soodang_sql .= " ,datetime		= '".$now_datetime."'";
+    sql_query($soodang_sql);
+}
+
 
 $bonus_row = bonus_pick($code);
 if($bonus_row['limited'] > 0){
@@ -192,8 +211,15 @@ if(strpos($bonus_row['rate'],',')>0){
 $bonus_condition = $bonus_row['source'];
 $bonus_condition_tx = bonus_condition_tx($bonus_condition);
 
-$bonus_layer = $bonus_row['layer'];
+
+if(strpos($bonus_row['layer'],',')>0){
+    $bonus_layer = explode(',',$bonus_row['layer']);
+}else{
+    $bonus_layer = $bonus_row['layer'];
+}
 $bonus_layer_tx = bonus_layer_tx($bonus_layer);
+
+
 
 
 function get_shop_item($table=null){
@@ -240,7 +266,10 @@ function ordered_items($mb_id, $table=null){
 			array_push($upgrade_array, array(
 				"it_id" => $item[$i]['it_id'],
 				"it_name" => $item[$i]['it_name'],
-				"it_price" => $item[$i]['it_point'],
+				"it_price" => $item[$i]['it_price'],
+                "it_cust_price" => $item[$i]['it_cust_price'],
+                "it_point" => $item[$i]['it_point'],
+				"it_maker" => $item[$i]['it_maker'],
 				"it_supply_point" => $item[$i]['it_supply_point'],
 				"it_option_subject" => $item[$i]['it_option_subject'],
 				"it_supply_subject" => $item[$i]['it_supply_subject'],
@@ -249,10 +278,6 @@ function ordered_items($mb_id, $table=null){
 				"pv" => $order_row['pv'],
 				"od_time" => $order_row['od_time'],
 				"od_settle_case" => $order_row['od_settle_case'],
-				// "coin" => $order_row['od_settle_case'],
-				// "upgrade_id" => $item[$i+1]['it_id'],
-				// "upgrade_name" => $item[$i+1]['it_name'],
-				// "upgrade_price" => $item[$i+1]['it_point'],
 				"row" => $row
 				));
 
@@ -285,8 +310,8 @@ $mining_table = sql_query("CREATE table if not exists `soodang_mining`(
   )");
 }
 
-$mining_target = 'mb_mining_'.$minings[0];
-$mining_amt_target = 'mb_mining_'.$minings[0].'_amt';
+$mining_target = 'mb_mining_1';
+$mining_amt_target = 'mb_mining_1'.'_amt';
 
 // 마이닝
 function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$rec_adm,$bonus_day){
@@ -310,7 +335,74 @@ function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$re
     }else{
         return sql_query($soodang_sql);
     }
-
 }
 
 
+
+/* 마이닝 수당초과 계산 */
+function mining_limit_check($mb_id,$bonus){
+    global $bonus_limit,$config,$mining_target,$today;
+
+    if($bonus_limit == 0){
+        $bonus_limit = 100;
+    }
+    
+    $mem_sql="SELECT mb_balance, mb_rate, mb_save_point, {$mining_target},
+    (SELECT SUM(mining) from soodang_mining AS B  WHERE B.mb_id = A.mb_id AND day='{$today}') AS daily_mining 
+    FROM g5_member AS A WHERE mb_id ='{$mb_id}' ";
+    
+    $mem_result = sql_fetch($mem_sql);
+
+
+    $mb_mining = $mem_result[$mining_target];
+    $mb_pv = $mem_result['daily_mining'] * $bonus_limit;
+    
+    if($mb_id == 'admin' || $mb_id == $config['cf_admin']){
+        $mb_pv = 100000000000;
+        $admin_cash = 1;
+    }
+
+    if($mb_pv > 0 ){
+        if( ($mb_mining + $bonus) < $mb_pv){
+            
+            $mb_limit = $bonus;
+        }else{
+            
+            $mb_limit = $mb_pv - $mb_mining;
+            if($mb_limit < 0){
+                $mb_limit = 0;
+            }
+        }
+    }else{
+        $mb_limit = 0;
+    }
+    
+    return array($mb_mining,$mb_pv,$mb_limit,$admin_cash);
+}
+
+
+// 원 표시
+function shift_kor($val){
+	return Number_format($val, 0);
+}
+
+// 달러 표시
+function shift_doller($val){
+	return Number_format($val, 2);
+}
+
+// 코인 표시
+function shift_coin($val){
+	return Number_format($val, COIN_NUMBER_POINT);
+}
+
+// 달러 , ETH 코인 표시
+function shift_auto($val,$coin = '원'){
+	if($coin == '$'){
+		return shift_doller($val);
+	}else if($coin == '원'){
+		return shift_kor($val);
+	}else{
+		return shift_coin($val);
+	}
+}

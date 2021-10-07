@@ -12,7 +12,8 @@ $sql_member_reset = "UPDATE g5_member SET mb_balance = 0
 , mb_level = 0
 , mb_point = 0
 , sales_day = ''
-, rank_note = '' ";
+, rank_note = ''
+, rank = 0 ";
 
 // echo $sql_member_reset;
 $sql_member_result = sql_query($sql_member_reset);
