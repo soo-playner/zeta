@@ -14,6 +14,8 @@ define('WITHDRAW_CURENCY','원');
 
 
 $minings = ['eth'];
+$mining_target = 'mb_mining_1';
+$mining_amt_target = 'mb_mining_1'.'_amt';
 
 define('ASSETS_NUMBER_POINT',0); // 입금 단위
 define('BONUS_NUMBER_POINT',0); // 수당계산,정산기준단위

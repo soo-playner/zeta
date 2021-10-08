@@ -310,8 +310,6 @@ $mining_table = sql_query("CREATE table if not exists `soodang_mining`(
   )");
 }
 
-$mining_target = 'mb_mining_1';
-$mining_amt_target = 'mb_mining_1'.'_amt';
 
 // 마이닝
 function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$rec_adm,$bonus_day){

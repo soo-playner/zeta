@@ -24,21 +24,7 @@ if ($_GET['recom_referral']){
 
 <style>
 	/* 센터 닉네임 사용 추가 0720  by arcthan */
-	#center .user{
-		text-indent: -999px;
-	}
-	#center .mb_nick{
-		position: absolute;
-		margin-top: -40px;
-		left: 30px;
-		
-	}
-	.selected + .mb_nick{
-		color: white;
-	}
-	#wrapper {
-		margin-lefT: 0;
-	}
+	
 </style>
 
 
@@ -57,12 +43,14 @@ if ($_GET['recom_referral']){
 	$(function() {
 
 		onlyNumber('reg_mb_hp');
-		$('#reg_mb_hp').on('click',function(){
-			$('#reg_mb_hp + .desc_hidden').css('display','block');
+		$('.cabinet').on('click',function(){
+			$(this).next().css('display','contents');
 		});
-		$('#reg_mb_hp').on('mouseout',function(){
-			$('#reg_mb_hp + .desc_hidden').css('display','none');
+
+		$('.cabinet').on('mouseout',function(){
+			$(this).next().css('display','none');
 		})
+
 
 		/*초기설정*/
 		//$('.agreement_ly').hide();
@@ -225,7 +213,16 @@ if ($_GET['recom_referral']){
 
 		// 아이디 중복 체크
 		$('#id_check').click(function() {
+			
+
 			var registerId = $('#reg_mb_id').val();
+
+			var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
+			if( !idReg.test( registerId ) ) {
+				alert("아이디는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.");
+				return;
+			}
+
 			if (registerId.length < 5) {
 				dialogModal("ID CHECK", "Please put 5 letters or more", "failed");
 			} else {
@@ -243,7 +240,7 @@ if ($_GET['recom_referral']){
 							dialogModal("ID CHECK", res.response, 'failed');
 						} else {
 							check_id = 1;
-							dialogModal("ID CHECK", res.response, 'success');
+							dialogModal("ID CHECK", '해당아이디는 사용가능합니다.', 'success');
 						}
 					}
 				});
@@ -688,14 +685,16 @@ if ($_GET['recom_referral']){
 				<input type="text" minlength="5" maxlength="20" name="mb_name" style='padding:15px' id="reg_mb_name" required placeholder="이름"  />
 				<!-- <div class='in_btn_ly'><input type="button" id='name_check' class='btn_round check' value="name" data-i18n='[value]signUp.중복확인'></div> -->
 
-				<input type="text" minlength="5" maxlength="20" name="mb_id" style='padding:15px' id="reg_mb_id" required placeholder="" data-i18n='[placeholder]signUp.아이디' />
+				<input type="text" minlength="5" maxlength="20" name="mb_id" class='cabinet' style='padding:15px' id="reg_mb_id" required placeholder="아이디"/>
+				<span class='cabinet_inner' style=''>※영문+숫자조합 6자리 이상 입력해주세요</span>
 				<div class='in_btn_ly'><input type="button" id='id_check' class='btn_round check' value="ID Check" data-i18n='[value]signUp.중복확인'></div>
 
-				<input type="email"  id="reg_mb_email" name="mb_email" style='padding:15px'placeholder="Email address" required data-i18n='[placeholder]signUp.이메일 주소' />
+				<input type="email"  id="reg_mb_email" name="mb_email" class='cabinet' style='padding:15px'placeholder="Email address" required data-i18n='[placeholder]signUp.이메일 주소' />
+				<span class='cabinet_inner' style=''>※수신가능한 이메일주소를 직접 입력해주세요</span>
 				<div class='in_btn_ly'><input type="button" id='EmailChcek' class='btn_round check' value="Eamil" data-i18n='[value]signUp.이메일 전송'></div>
 				
-				<input type="text" name="mb_hp"  id="reg_mb_hp"  pattern="[0-9]*" style='padding:15px' required  placeholder="휴대폰번호"/>
-				<span class='desc_hidden' style='margin-top:-10px;width:100%;margin-bottom:30px;font-size:11px;padding-left:10px;color:#006df3'>※숫자만 입력해주세요</span>
+				<input type="text" name="mb_hp"  id="reg_mb_hp" class='cabinet'  pattern="[0-9]*" style='padding:15px' required  placeholder="휴대폰번호"/>
+				<span class='cabinet_inner' style=''>※'-'를 제외한 숫자만 입력해주세요</span>
 				<!-- <label class='prev_icon'><i class="ri-smartphone-line"></i></label> -->
 				
 			</div>

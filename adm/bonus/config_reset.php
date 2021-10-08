@@ -168,10 +168,15 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 					<td>
 						<p style="padding:0;"><input type="checkbox" id="nw_member_reset" name="nw_member_reset" <?if($nw['nw_member_reset']=='Y' ) {echo "checked" ;}?>/><label for="nw_member_reset"><span class="ui"></span><span class="nw_member_reset_txt">사용 설정</span></label></p>
 					</td>
-				
+				</tr>
 					<th scope="row"><label for="nw_asset_reset"> 입출금 내역 초기화<strong class="sound_only"> 필수</strong></label></th>
 					<td>
 						<p style="padding:0;"><input type="checkbox" id="nw_asset_reset" name="nw_asset_reset" <?if($nw['nw_asset_reset']=='Y' ) {echo "checked" ;}?>/><label for="nw_asset_reset"><span class="ui"></span><span class="nw_asset_reset_txt">사용 설정</span></label></p>
+					</td>
+
+					<th scope="row"><label for="nw_mining_reset"> 마이닝 내역 초기화<strong class="sound_only"> 필수</strong></label></th>
+					<td>
+						<p style="padding:0;"><input type="checkbox" id="nw_mining_reset" name="nw_mining_reset" <?if($nw['nw_mining_reset']=='Y' ) {echo "checked" ;}?>/><label for="nw_mining_reset"><span class="ui"></span><span class="nw_mining_reset_txt">사용 설정</span></label></p>
 					</td>
 				</tr>
 
@@ -231,6 +236,14 @@ include_once(G5_ADMIN_PATH . '/admin.head.php');
 				$('.nw_data_del_txt').html('사용함');
 			} else {
 				$('.nw_data_del_txt').html('사용안함');
+			}
+		});
+
+		$('#nw_mining_del').on('click', function() {
+			if ($('#nw_mining_del').is(":checked")) {
+				$('.nw_mining_del_txt').html('사용함');
+			} else {
+				$('.nw_mining_del_txt').html('사용안함');
 			}
 		});
 	});

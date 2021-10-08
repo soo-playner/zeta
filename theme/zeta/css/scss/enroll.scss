@@ -32,3 +32,31 @@
         }
     }
 }
+
+#center .user{
+    text-indent: -999px;
+}
+#center .mb_nick{
+    position: absolute;
+    margin-top: -40px;
+    left: 30px;
+    
+}
+.selected + .mb_nick{
+    color: white;
+}
+#wrapper {
+    margin-lefT: 0;
+}
+.enroll_wrap{
+    input[type="text"], input[type="number"], input[type="email"]{
+        margin-bottom:0;margin-top:15px;
+        
+        &:first-child{margin:0;}
+    }
+    .cabinet_inner{width:100%;font-size:11px;padding-left:10px;color:#006df3;display:none}
+
+    .in_btn_ly{
+        margin-top:-42px;
+    }
+}

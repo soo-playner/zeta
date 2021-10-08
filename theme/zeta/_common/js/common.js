@@ -23,6 +23,13 @@ $(document).on('keyup','input[inputmode=numeric]',function(event){
 	this.value = this.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 정규식을 이용해서 3자리 마다 , 추가 	
 }); 
 
+// 인풋 숫자 + -
+$(document).on('keyup','input[inputmode=price]',function(event){
+	this.value = this.value.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
+	this.value = this.value.replace(/,/g,'');          // ,값 공백처리
+	this.value = this.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 정규식을 이용해서 3자리 마다 , 추가 	
+}); 
+
 // 숫자에 콤마 찍기
 function Price(x){
 	return String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ",");

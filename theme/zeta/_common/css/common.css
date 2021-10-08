@@ -413,7 +413,7 @@ a.desc{font-size:13px;text-decoration: underline;color:#565656}
 .enroll_wrap #personal {position: relative;}
 
 /* #reg_mb_hp{padding-left:40px;} */
-.desc_hidden{display: none;}
+
 .enroll_wrap .prev_icon{position:relative;left:8px;top:-50px;vertical-align:middle;border-right:1px solid #ccc;padding-right:6px;}
 .enroll_wrap .prev_icon > i{font-size:20px;vertical-align: sub;}
 

@@ -187,8 +187,9 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 			var after = $(this).val().replace(/,/g,'');
 			var before ="<?=$mb['mb_deposit_point']?>";
 			console.log(after +'/'+ before);
-			var calc = (after - conv_number(before));
-			$('#be_to').val(Price(calc));
+
+			// var calc = (after - conv_number(before));
+			// $('#be_to').val(Price(calc));
 		});
 
 		function copyAddress(param){
@@ -251,7 +252,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 <div class="local_desc01 local_desc">
     <p>
-		- 인정회원의 정회원 전환은 인정회원 아래의 정회원으로 변경 사용 (표시는 같음).
+		- 센터지정시 체크시 센터명 등록 : 회원레벨 자동변경 (체크해제시 회원레벨은 수동)
 	</p>
 </div>
 
@@ -381,44 +382,70 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 	<style>
 		.fund {line-height:38px;}
-		.fund input{vertical-align: middle;line-height:38px;}
+		.fund input{vertical-align: middle;line-height:38px;padding:1px;}
 		.fund .be_to{font-size:15px;margin-left:10px;border:0;box-shadow:none;background:transparent;width:80px;}
+
+		.math_btn{width:39px;height:39px;border:1px solid #ccc; padding:1px;font-size:20px;cursor:pointer}
+		.math_btn.plus.active{background:blue;border:1px solid blue;color:white}
+		.math_btn.minus.active{background:red;border:1px solid red;color:white}
+
+		#field_upstair{padding-left:10px;font-size:13px;font-weight: 900;}
+
+		.strong{font-weight:900;font-size:13px;}
+
+		.bonus{color:#0072d1;}
+		.mining{color:green;}
+		.soodang{color:orangered;}
+		.mining_soodang{color:#ef21fd;}
+		.amt {color:red}
 	</style>
 	
 	<tr class="ly_up padding-box fund">
 		<th scope="row">보유 잔고</th>
 		
 		<td colspan="1">
-			<strong><?=Number_format($mb['mb_deposit_point']+$mb['mb_deposit_calc'] + $mb['mb_balance'])?></strong> &nbsp&nbsp (총 입금액 : <?=Number_format($mb['mb_deposit_point'])?>)
+			<strong><?=Number_format($mb['mb_deposit_point']+$mb['mb_deposit_calc'])?></strong> 원 &nbsp&nbsp (총 입금액 : <?=Number_format($mb['mb_deposit_point'])?>)
 		</td>
 		<th>수동입금 </th>
-		<td>
+		<!-- <td>
 			<input type="text" name="mb_deposit_point" value="<?=Number_format($mb['mb_deposit_point'])?>" id="field_upstair" class="frm_input wide" size="15" style="min-width:100px !important;" inputmode=numeric>
 			차액: + 
 			<input type="text" class="be_to" name="be_to" id="be_to" value="0" readonly> 	
+		</td> -->
+
+		<td>
+			<input type="hidden" name="mb_deposit_point_math" id="math_code" value="">
+			<input type="button" value="+"  class='math_btn plus'>
+			<input type="button" value="-"  class='math_btn minus'>
+			<input type="text" name="mb_deposit_point_add" value="" id="field_upstair" class="frm_input wide" size="15" style="max-width:60%" inputmode=price>
 		</td>
 
 	</tr>
 
 	<tr class="ly_up padding-box fund">
-	
-		<th scope="row">보너스 수당</th>
-			<td colspan="1"><strong><?=Number_format($mb['mb_balance'])?></strong>	&nbsp&nbsp ( <?=$bonus_per?>% )
-		</td>
 
-		<th scope="row">보너스 수당 수동 지급</th>
-			<td colspan="1"><input type="text" name="mb_balance" value="<?php echo $mb['mb_balance'] ?>" id="mb_balance" class="frm_input wide" size="15" style="min-width:100px !important;";>	
-		</td>
-		
+		<th scope="row">누적 매출 합계 (PV)</th>
+		<td colspan="1"><span class='strong soodang'><?=Number_format($mb['mb_save_point'])?> 원</span></td>
+
+		<th scope="row">총 받은보너스(수당)</th>
+		<td colspan="1"><span class='strong bonus'><?=Number_format($mb['mb_balance'])?></span> 원</td>
+
 	</tr>
 
 	<tr class="ly_up padding-box fund">
-	
-		<th scope="row">누적 매출 합계</th>
-		<td colspan="1"><?=Number_format($mb['mb_save_point'])?> 원</td>
-		
-		<th scope="row">누적 PV</th>
-		<td colspan="1"><span><?=number_format($mb['mb_rate'])?> 원</span></td>
+		<th scope="row">보유마이닝해쉬 (MH/S)</th>
+		<td colspan="1"><span class='strong mining'><?=number_format($mb['mb_rate'])?> MH/s</span></td>
+
+		<th scope="row">총 받은마이닝보너스</th>
+		<td colspan="1"><span class='strong mining_soodang'><?=Number_format($mb[$mining_target])?></span></td>
+	</tr>
+
+	<tr class="ly_up padding-box fund">
+		<th scope="row">출금총액</th>
+		<td colspan="1"><span class='strong amt'><?=number_format($mb['mb_shift_amt'])?> 원</span></td>
+
+		<th scope="row">마이닝출금액</th>
+		<td colspan="1"><span class='strong amt'><?=Number_format($mb[$mining_amt_target])?> ETH</span></td>
 	</tr>
 	
 	<!-- <tr class="ly_up padding-box week_dividend ">
@@ -506,18 +533,35 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	<script>
 		$(function(){
 
+		//수동입금 입금-차감
+		$('.math_btn').click(function(){
+			var value = $(this).val();
+			$('.math_btn').removeClass('active');
+			$(this).addClass('active');
+			$('#math_code').val(value);
+		});
+
 		var total_fund = '<?=$mb['mb_deposit_point']+$mb['mb_deposit_calc']?>';
 		var mb_grade = '<?=$mb['grade']?>';
 
+		//패키지구매처리
 		$('.purchase_btn').on('click',function(){
 
 			var func ='new';
 			var item = $(this).data('row');
-			// console.log(item);
+			var mb_item_rank = '<?=$mb['rank_note']?>';
+			var item_num = item.it_maker.substr(1,1);
+
+			console.log(mb_item_rank);
+			console.log(item_num);
 
 			console.log(`total:${total_fund}\nprice:${item.it_cust_price}`);
 			// console.log(`it_id:${item_id}\nit_sp:${item_supply_point}\ncoin:${select_coin}`);
 			
+			if(mb_item_rank == '' && item_num > 0){
+				alert("MEMBERSHIP 팩을 보유하지 않았습니다.");
+				return false;
+			}
 
 			if (confirm("해당 회원에게 "+item.it_name+" 패키지를 지급하시겠습니까?\n회원 잔고에서 ￦"+Price(item.it_cust_price)+" 원 (이)가 차감됩니다.")) {
 			} else {
@@ -528,8 +572,6 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 				alert("회원 잔고가 부족합니다.\n잔고지급후 사용해주세요.");
 				return false;
 			}
-			
-			
 
 			$.ajax({
 				type: "POST",
@@ -834,6 +876,25 @@ function fmember_submit(f)
 	if (!f.mb_icon.value.match(/\.gif$/i) && f.mb_icon.value) {
 		alert('아이콘은 gif 파일만 가능합니다.');
 		return false;
+	}
+
+	// console.log( f.mb_deposit_point_add.value );
+
+	if(f.mb_deposit_point_add.value != ''){
+		var origin_deposit_point = <?=$mb['mb_deposit_point']?>;
+
+		// console.log( f.mb_deposit_point_math.value );
+		
+		if($('#math_code').val() == ''){
+			$('.math_btn.plus').focus();
+			alert('수동입금 기호를 선택해주세요');
+			
+			return false;
+		}
+
+		if(origin_deposit_point == 0){
+			alert("최초입금처리시에는 바로처리되지 않으며,\n입금 요청 내역에서 승인처리하여야 정상입금처리됩니다. ");
+		}
 	}
 
 	// return true;

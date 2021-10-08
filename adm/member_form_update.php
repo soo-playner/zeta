@@ -69,7 +69,7 @@ if($mb_level < 10 &&  $temp_mb_level > $mb_level){
 
 $_POST['mb_center'] != "" ? $mb_center = $_POST['mb_center'] : $mb_center = '';
 $_POST['mb_balance'] != "" ? $mb_balance = $_POST['mb_balance'] : $mb_balance = 0;
-$_POST['mb_deposit_point'] != "" ? $mb_deposit_point = conv_number($_POST['mb_deposit_point']) : $mb_deposit_point = 0;
+// $_POST['mb_deposit_point'] != "" ? $mb_deposit_point = conv_number($_POST['mb_deposit_point']) : $mb_deposit_point = 0;
 $_POST['mb_block'] != "" ? $mb_block = $_POST['mb_block'] : $mb_block = 0;
 $_POST['bank_name'] != "" ? $bank_name = $_POST['bank_name'] : $bank_name = '';
 $_POST['bank_account'] != "" ? $bank_account = $_POST['bank_account'] : $bank_account = '';
@@ -114,7 +114,6 @@ $sql_common = "  mb_name = '{$_POST['mb_name']}',
 				 mb_8 = '{$_POST['mb_8']}',
 				 mb_9 = '{$temp_mp_9}',
 				 mb_balance = '{$mb_balance}',
-				 mb_deposit_point = '{$mb_deposit_point}',
 				 bank_name = '{$bank_name}',
 				 bank_account = '{$bank_account}',
 				 account_name = '{$account_name}',
@@ -203,24 +202,54 @@ else if ($w == 'u')
 		}
 	}
 
-	$deposit_adm = conv_number($_POST['be_to']);
+
+	// 수동입금처리
 	$mb_no = $_POST['mb_no'];
 
+	$deposit_adm = conv_number($_POST['mb_deposit_point_add']);
+	$deposit_code = $_POST['mb_deposit_point_math'];
+	$origin_deposit_point = $mb['mb_deposit_point'];
+	
+	
+
 	// 수동 입금
-	if($deposit_adm > 0){
+	if($deposit_adm != 0){
+
+		// 최초입금구분
+		if($origin_deposit_point == 0){
+			$process_code = 0;
+		}else{
+			$process_code = 1;
+		}
+
+		if($deposit_code == '+'){
+			$deposit_adm_code = '입금';
+			
+		}else{
+			$deposit_adm_code = '차감';
+		}
+
+		$deposit_adm_value = $deposit_code.$deposit_adm;
 		$deposit_adm_sql = "insert wallet_deposit_request set
 				mb_id             = '{$mb_id}'
-				, txhash     =  '관리자 입금'
+				, txhash     =  '관리자 {$deposit_adm_code} : {$member['mb_id']}'
 				, create_dt         = '{$todate}'
 				, create_d    		= '{$today}'
-				, status   			= '1'
+				, status   			= {$process_code}
 				, update_dt         = '{$todate}'
 				, coin          	= '원'
 				, fee    			= 0
 				, cost         		= 0
-				, amt    			= {$deposit_adm}
-				, in_amt			= {$deposit_adm}";
-		sql_query($deposit_adm_sql);
+				, amt    			= {$deposit_adm_value}
+				, in_amt			= {$deposit_adm_value}";
+
+		$deposit_adm_result = sql_query($deposit_adm_sql);
+		
+		if($process_code == 1 && $deposit_adm_result){
+			$update_sql = "UPDATE g5_member set mb_deposit_point = mb_deposit_point  {$deposit_adm_value} WHERE mb_id = '{$mb_id}' ";
+			echo $update_sql;
+			sql_query($update_sql);
+		}
 	}
 
 
@@ -273,6 +302,5 @@ else if ($w == 'u')
 }
 else
 	alert('제대로 된 값이 넘어오지 않았습니다.');
-
 	goto_url('./member_form.php?'.$qstr.'&amp;w=u&amp;mb_id='.$mb_id, false);
 ?>

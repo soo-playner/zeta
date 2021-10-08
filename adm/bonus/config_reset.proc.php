@@ -1,5 +1,6 @@
 <?php
 include_once('./_common.php');
+// include_once('./bonus_inc.php');
 include_once('../../util/purchase_proc.php');
 
 $today = date("Y-m-d H:i:s",time());
@@ -62,6 +63,16 @@ if($_POST['nw_asset_reset'] == 'on'){
     $trunc3 = sql_query(" TRUNCATE TABLE `{$g5['deposit']}` ");
 
     if($trunc3){
+        $result = 1;
+    }
+}
+
+if($_POST['nw_mining_reset'] == 'on'){
+
+    $trunc2 = sql_query(" TRUNCATE TABLE `{$g5['mining']}` ");
+    $update_member = sql_query("update g5_member set {$mining_target} = 0, {$mining_amt_target} = 0 WHERE mb_no > 1 ");
+
+    if($update_member){
         $result = 1;
     }
 }
