@@ -86,7 +86,7 @@ $(document).ready(function(){
 				<?}
 			?>
 			<li class="recommend_icon"><a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a></li>
-			<!-- <li class="support_icon"><a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a></li> -->
+			<li class="support_icon"><a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a></li>
 
 			<li class="notice_icon"><a href="/page.php?id=news"><span data-i18n="">공지사항</span></a></li>
 			<li class="question_icon"><a href="/page.php?id=support_center"><span data-i18n="">1:1문의사항</span></a></li>
