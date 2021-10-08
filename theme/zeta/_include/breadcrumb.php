@@ -162,8 +162,8 @@ $title = 'Dashboard';
 							<dd class="value"><?=week_jewel()?></dd>
 						</li> -->
 						<li class="col-4">
-							<dt class="title" >내매출</dt>
-							<dd class="value"><?=Number_format($member['mb_save_point'])?><?=ASSETS_CURENCY?></dd>
+							<dt class="title" >나의구매등급</dt>
+							<dd class="value"><?=$member['rank']?><?=rank_name($member['rank'])?></dd>
 						</li>
 					</ul>
 

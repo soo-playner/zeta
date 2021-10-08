@@ -619,6 +619,20 @@ function week_jewel(){
 	}
 }
 
+function rank_name($val){
+	if($val < 4){
+		$rank_name = '';
+	}else if($val == 4){
+		$rank_name = '메가';
+	}else if($val == 5){
+		$rank_name = '기가';
+	}else if($val == 6){
+		$rank_name = '테가';
+	}else if($val == 7){
+		$rank_name = '제타';
+	}
+}
+
 
 // array_column 5.4 대응
 if( !function_exists( 'array_column' ) ):
