@@ -24,7 +24,7 @@ $drain = 1;
 
 
 if ($debug) {
-	$uid = 12;
+	$uid = 3;
 	$status = 1;
 	$refund = 'Y';
 	$func = 'deposit';
@@ -103,11 +103,13 @@ if ($func == 'withrawal') {
 		$recomm_sql = "SELECT mb_recommend,mb_brecommend FROM g5_member WHERE mb_id = '{$mb_id}' ";
 		$recomm_result = sql_fetch($recomm_sql);
 
-		$brecomm = $recomm_result['mb_brecommend']; 
+		$brecomm = $recomm_result['mb_brecommend'];  
 
 		if($brecomm == ''){
-			$recomm = $recomm_result['mb_recommend'];
-
+			// $recomm = $recomm_result['mb_recommend'];
+			$recomm = $config['cf_admin'];
+		
+		
 			// 추천인의 회원 승급 
 				/* $upgrade_target = sql_fetch("SELECT mb_id from rank WHERE mb_id = '{$recomm}'" );
 
@@ -154,6 +156,7 @@ if ($func == 'withrawal') {
 
 				$under_brecomme_code = 'R';
 				$under_brecomme = $under_brecomme_result['mb_id'];
+
 			}else if ($direct_brecom < 1){
 				$under_brecomme_sql = "SELECT mb_id from g5_member WHERE mb_brecommend  = '{$recomm}'  and mb_brecommend_type = 'L' ";
 				$under_brecomme_result = sql_fetch($under_brecomme_sql);
@@ -406,7 +409,7 @@ function array_brecommend($recom_id, $count)
 
 
 	// $new_arr = array();
-	$b_recom_sql = "SELECT mb_id from g5_member WHERE mb_brecommend='{$recom_id}' ";
+	$b_recom_sql = "SELECT mb_id from g5_member WHERE mb_brecommend='{$recom_id}' ORDER BY mb_brecommend_type ";
 	$b_recom_result = sql_query($b_recom_sql);
 	$cnt = sql_num_rows($b_recom_result);
 

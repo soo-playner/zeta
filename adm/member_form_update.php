@@ -233,7 +233,7 @@ else if ($w == 'u')
 		$deposit_adm_sql = "insert wallet_deposit_request set
 				mb_id             = '{$mb_id}'
 				, txhash     =  '관리자 {$deposit_adm_code} : {$member['mb_id']}'
-				, create_dt         = '{$todate}'
+				, create_dt         = '{$today}'
 				, create_d    		= '{$today}'
 				, status   			= {$process_code}
 				, update_dt         = '{$todate}'
