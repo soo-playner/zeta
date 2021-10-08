@@ -7,6 +7,7 @@ $shop_item_cnt = count($shop_item);
 
     function package_have_return($mb_id,$have=0){
         global $shop_item_cnt,$item_default;
+        
         $my_package = [];
 
         if($have==1){
