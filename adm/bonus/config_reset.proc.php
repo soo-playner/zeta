@@ -46,7 +46,7 @@ if($_POST['nw_member_reset'] == 'on'){
     }
     $trunc15 = sql_query(" TRUNCATE TABLE `rank` ");
 
-    $member_update_sql = " UPDATE g5_member set  mb_deposit_point = 0, mb_deposit_calc=0, mb_balance = 0,mb_save_point=0, mb_rate=0, sales_day='0000-00-00', rank_note='' WHERE mb_level < 9 ";
+    $member_update_sql = " UPDATE g5_member set  mb_deposit_point = 0, mb_deposit_calc=0, mb_balance = 0,mb_save_point=0, mb_rate=0, sales_day='0000-00-00', rank_note='',mb_brecommend='',mb_brecommend_type='',mb_lr = 3 WHERE mb_level < 9 ";
     sql_query($member_update_sql);
 
     $sql_member_reset2 = " UPDATE g5_member set grade = 0, mb_level = 0 WHERE mb_no > 1 ";
