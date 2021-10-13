@@ -62,12 +62,12 @@ SELECT allowance_name AS cate, DAY, round(SUM(benefit),0) AS c_sum  FROM soodang
             <div class="col-sm-12 col-12 content-box round" id="<?=$row['cate']?>">
 
                 <div class="box-header row">
-                    <div class='col-8 text-left'>
-                        <span data-i18n='bonus.수당'><?=strtoupper($row['cate'])?> Bonus </span>
-                        <span class='badge'><?=$row['cnt']?></span>
+                    <div class='col-7 text-left' style='font-size:13px;font-weight:600'>
+                        <span><?=strtoupper($row['cate'])?> Bonus </span>
+                        <span class='badge' style='font-size:12px;font-weight:300'><?=$row['cnt']?></span>
                     </div>
 
-                    <div class='col-4 text-right nopadding'>
+                    <div class='col-5 text-right nopadding'>
                         <span class='d_sum font_skyblue'> + <?=Number_format($row['d_sum'])?></span>
                         <span class='btn inline caret'><i class="ri-arrow-down-s-line"></i></span>
                     </div>
