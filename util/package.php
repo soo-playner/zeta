@@ -6,6 +6,7 @@ $item_default = substr($shop_item[0]['it_maker'],0,1);
 $shop_item_cnt = count($shop_item);
 
     function package_have_return($mb_id,$have=0){
+        
         global $shop_item_cnt,$item_default;
         
         $my_package = [];
@@ -17,7 +18,7 @@ $shop_item_cnt = count($shop_item);
         }
 
         for($i=0;$i < $shop_item_cnt; $i++ ){
-            $target = "package_".$item_default.$i;
+            $target = "package_".strtolower($item_default).$i;
             $sql_r = "SELECT count(*) as cnt from {$target} WHERE mb_id = '{$mb_id}' ".$where;
             $result = sql_fetch($sql_r)['cnt'];
             array_push($my_package,$result);
