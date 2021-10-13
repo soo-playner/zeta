@@ -29,7 +29,7 @@ if($_POST['w'] == 'u'){
 		$bank_account = $_POST['bank_account'][0];
 		$account_name = $_POST['account_name'][0];
 		
-		if($function == 'wallet_addr'){
+		/* if($function == 'wallet_addr'){
 			$blocksdk_update_sql = "UPDATE blocksdk_receiving_address set eth = '{$wallet_addr}' ";
 			sql_query($blocksdk_update_sql);
 
@@ -39,13 +39,15 @@ if($_POST['w'] == 'u'){
 			wallet_addr = '{$wallet_addr}'
 			where idx = $idx ;";
 
-		}else if($function == 'bank_account'){
+		}else */ 
+		if($idx == 4){
 			$update_wallet_set = 
 			"update {$g5['wallet_config']} set 
 			bank_name = '{$bank_name}',
 			bank_account = '{$bank_account}',
 			account_name = '{$account_name}'
-			where idx = $idx ;";
+			where idx = 4 ;";
+			
 		}else{
 			$update_wallet_set = 
 			"update {$g5['wallet_config']} set 
@@ -102,6 +104,7 @@ $res = sql_query($coin_price_sql);
 
         <tbody>
 			<? while($row = sql_fetch_array($res)){ ?>
+				<?if($row['idx'] != 4){?>
 				<tr id='<?=$row['function']?>'>
 					<input type='hidden' name='w' value='u'/>
 					<td class='no'><input type='hidden' name='idx[]' value='<?=$row['idx']?>'><?=$row['idx']?></td>
@@ -117,6 +120,7 @@ $res = sql_query($coin_price_sql);
 						<td ><input type='text' name='day_limit[]' value="<?=$row['day_limit']?>"/></td>
 					<?}?>
 				</tr>
+				<?}?>
 			<?}?>
 		</tbody>
 	</table>
@@ -145,6 +149,8 @@ $res = sql_query($coin_price_sql);
 
 			while($row = sql_fetch_array($res_bank)){ ?>
 				<tr id='<?=$row['function']?>'>
+				<input type='hidden' name='w' value='u'/>
+				<input type='hidden' name='function' value='bank_account'/>
 					<td class='no'><input type='hidden' name='idx[]' value='<?=$row['idx']?>'><?=$row['idx']?></td>
 					<td ><?=$row['function_kor']?></td>
 					<td ><?=$row['function']?></td>

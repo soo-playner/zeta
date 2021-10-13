@@ -23,8 +23,8 @@ if(G5_COMMUNITY_USE === false) {
 <!-- 하단 시작 { -->
 <div id="ft">
 
-    <!-- <?php echo popular('theme/basic'); // 인기검색어, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정  ?>-->
-    <?php echo visit('theme/basic'); // 접속자집계, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정 ?>
+    <?php /*echo popular('theme/basic');*/ // 인기검색어, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정  ?>
+    <?php /*echo visit('theme/basic');*/ // 접속자집계, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정 ?>
 
     <div id="ft_catch"><img src="<?php echo G5_IMG_URL; ?>/ft.png" alt="<?php echo G5_VERSION ?>"></div>
     <div id="ft_company">

@@ -188,7 +188,7 @@ body{overflow-y: hidden;}
 
 <html>
 
-
+<script src="<?php echo G5_JS_URL ?>/common.js?ver=<?php echo G5_JS_VER; ?>"></script>
 <body onload="myFunction();" style="margin:0;">
 
 <div class="container">
