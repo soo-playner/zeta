@@ -51,6 +51,10 @@
     function category_badge($val){
         if($val == 'mining'){
             return "<span class='badge b_green'>".strtoupper($val)."</span>";
+        }else if($val == 'mega_mining'){
+            return "<span class='badge b_orange'>".strtoupper($val)."</span>";
+        }else if($val == 'zeta_mining'){
+            return "<span class='badge b_purple'>".strtoupper($val)."</span>";
         }else{
             return "<span class='badge b_orange'>".strtoupper($val)."</span>";
         }
