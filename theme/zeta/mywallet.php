@@ -139,8 +139,8 @@ $result_deposit = sql_query($sql_deposit);
 //출금내역
 $sql_common = "FROM {$g5['withdrawal']}";
 // $sql_common ="FROM wallet_withdrawal_request";
-
-$sql_search = " WHERE mb_id = '{$member['mb_id']}' and coin == {WITHDRAW_CURENCY} ";
+$WITHDRAW_CURENCY = WITHDRAW_CURENCY;
+$sql_search = " WHERE mb_id = '{$member['mb_id']}' and coin = '{$WITHDRAW_CURENCY}' ";
 // $sql_search .= " AND create_dt between '{$fr_date}' and '{$to_date}' ";
 
 $sql = " select count(*) as cnt {$sql_common} {$sql_search} ";
