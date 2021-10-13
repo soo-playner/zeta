@@ -567,6 +567,7 @@ function ordered_items($mb_id, $table=null){
                 "it_cust_price" => $item[$i]['it_cust_price'],
                 "it_point" => $item[$i]['it_point'],
 				"it_maker" => $item[$i]['it_maker'],
+				"od_name" => $item[$i]['it_maker'],
 				"it_supply_point" => $item[$i]['it_supply_point'],
 				"it_option_subject" => $item[$i]['it_option_subject'],
 				"it_supply_subject" => $item[$i]['it_supply_subject'],

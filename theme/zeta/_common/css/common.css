@@ -471,6 +471,7 @@ a.more i{font-size:18px;font-weight:500;color:#555;vertical-align: bottom;}
 .r_card_wrap {}
 .r_card_wrap .r_card_box {padding-left: 8px !important;padding-right: 8px !important;}
 .r_card_wrap p.title {margin-top: 0px;}
+.r_card_wrap p.title .more_arrow{line-height:38px;}
 .r_card_wrap .r_card{background: #b55dccd9;padding: 10px 15px 20px 13px;border:2px solid transparent;border-radius: 8px;border-top-right-radius: 25px;margin: 10px 0;box-shadow:1px 2px 5px 0 rgba(0,0,0,.22);cursor: pointer;}
 .r_card_wrap .r_card:hover {transition: all .2s; border:2px solid white;outline:0;box-shadow:0 2px 5px 0 rgba(0,0,0,0.3)}
 
@@ -493,7 +494,7 @@ a.more i{font-size:18px;font-weight:500;color:#555;vertical-align: bottom;}
 
 .r_card .title {font-size: 20px;color: white;padding-bottom: 7px;}
 
-.r_card_wrap .r_card .text_wrap {color: white;font-size: 12px;margin-top: 15px;text-align: right;}    
+.r_card_wrap .r_card .text_wrap {color: white;font-size: 12px;margin-top: 15px;}    
 .it_price{margin-top: 3px;font-size:19px;font-weight: 600;letter-spacing: 0.5px;line-height:36px;}
 .origin_price{color:rgba(255,255,255,0.8)}
 

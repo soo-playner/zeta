@@ -54,11 +54,15 @@
 							?>
 							<div class="col-12 r_card_box">
 							<a href='/page.php?id=upstairs'>
+							
 								<div class="r_card r_card_<?=substr($row['od_name'],1,1)?>">
-									<p class="title"><?=$ordered_items[$i]['it_name']?><span class='f_right'><img src="<?=G5_THEME_URL?>/img/arrow.png" alt=""></span></p>
+									<p class="title">
+										<span style='font-size:14px;'><?=$ordered_items[$i]['it_option_subject']?></span> 
+										- <?=$ordered_items[$i]['it_name']?>
+										<span class='f_right more_arrow'><img src="<?=G5_THEME_URL?>/img/arrow.png" alt=""></span>
+									</p>
 									<div class="b_blue_bottom"></div>
 									<div class="text_wrap">
-										<!-- <span class='f_left' style='font-size:15px;'><?=$row['pv']?> PV</span> -->
 										<span class="value1"><?=$row['od_time']?></span>
 									</div>
 								</div>

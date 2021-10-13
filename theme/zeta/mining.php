@@ -72,7 +72,7 @@
                 <form name="myitemform" method="get" action="<?=G5_URL?>/page.php?id=mining" style="display:contents;">
                     <input type="hidden" name="id" value='mining'/>
                     <input type="hidden" id="myitem" name="myitem" value="<?if($list_cnt == 1){echo 'all';}else{echo '';}?>"/>
-                    <?if($mining_cnt > 2){?><input type="submit" class="btn all_view" value="<?if($list_cnt == 1){echo '전체보기';}else{echo '접어두기';}?>"></input><?}?>
+                    <?if($mining_cnt > 1){?><input type="submit" class="btn all_view" value="<?if($list_cnt == 1){echo '전체보기';}else{echo '접어두기';}?>"></input><?}?>
                 </form>
 
                 <div class="mining_wrap">
