@@ -1,12 +1,18 @@
+<?
+if(!isset($g5['title'])){
+	$g5['title'] = $config['cf_title'];
+}
+?>
+
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
-	<title><?php echo $g5['title'] ?></title>
+	<title><?=$g5['title']?></title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="height=device-height , width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<link rel="shortcut icon" href="../favicon.ico" />
-	<link rel="icon" href="../favicon.ico">
+	<link rel="shortcut icon" href="<?=G5_URL?>/favicon.ico" />
+	<link rel="icon" href="<?=G5_URL?>/favicon.ico">
 	<meta name="Robots" content="ALL">
 
 	<!-- 기본 공유 설정 //-->
@@ -20,14 +26,15 @@
 	<meta name="apple-mobile-web-app-title" content="<?=G5_THEME_URL?>/img/default.png" />
 	<meta name="format-detection" content="telephone=no" />
 
+
 	<!-- 페이스북 공유 + 카카오톡 설정 //-->
-	<meta property="fb:app_id" content="" />
+	<!-- <meta property="fb:app_id" content="" /> -->
+	<meta property="og:url" content="<?=G5_URL?>" />
 	<meta property="og:type" content="website" />
 	<meta property="og:title" content="<?=$config['cf_title']?>" />
 	<meta property="og:description" content="<?=$config['cf_title']?> " />
-	<meta property="og:site_name" content="<?=$config['cf_title']?>" />
 	<meta property="og:image" content="<?=G5_THEME_URL?>/img/default.png" />
-	<meta property="og:url" content="<?=G5_URL?>" />
+	
 
 
 
