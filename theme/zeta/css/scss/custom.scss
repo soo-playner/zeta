@@ -115,7 +115,15 @@ a.btn_cancle, .btn_cancle{
 	body{background:#fff;color:white;}
 	#wrapper{max-width:767px;margin:0 auto;}
 }  */
+.adm_btn{
+    background:#FECE00;font-size:13px !important;letter-spacing:0px;
+    color:#111;font-weight:700;padding:3px 10px 2px;float:right;margin-right:15px;
+    border-radius: 15px;margin:0;
 
+    i{font-size:16px;margin-right:3px;}
+
+    
+}
 
 
 /* 유저 아이콘*/

@@ -104,7 +104,10 @@ $(document).ready(function(){
 	<?}?>
 
 	<div class="top_title">
-		<h3><a href="/"><img src= "<?=G5_THEME_URL?>/img/title.png" alt="logo"></a></h3>
+		<h3>
+			<a href="/"><img src= "<?=G5_THEME_URL?>/img/title.png" alt="logo"></a>
+			<?if($member['mb_level'] >= 9){?><button type="button" class='btn adm_btn' onclick="location.href= '<?=G5_ADMIN_URL?>'" ><i class="ri-user-settings-line"></i>Admin</button><?}?>
+		</h3>
 	</div>
 
 	<!-- <div class="lang_selection user-drop-down-section">
