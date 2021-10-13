@@ -518,7 +518,7 @@ $result_withdraw = sql_query($sql);
       }
 
       // 출금서비스 이용가능 여부 확인
-      if (nw_with == 'Y') {
+      if (nw_with == 'N') {
         dialogModal('Not available right now', '<strong>Not available right now.</strong>', 'warning');
         return false;
       }
