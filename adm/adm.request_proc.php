@@ -57,6 +57,8 @@ if ($func == 'withrawal') {
 		} else {
 			$return_result = sql_query($update_member_return);
 		}
+	}else{
+		$return_result = 1;
 	}
 
 	$sql = "UPDATE {$g5['withdrawal']} set status = '{$status}' ";
@@ -382,7 +384,6 @@ if ($func == 'withrawal') {
 
 
 /* 완료 리턴 처리*/
-	
 
 if($return_result){
 	$msg .= " 및 금액반영";

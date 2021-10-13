@@ -386,7 +386,7 @@ $(function(){
 		var nw_upstair = '<?=$nw_upstair?>'; // 점검코드
 		
 		// 부분시스템 점검
-		if(nw_upstair == 'Y'){
+		if(nw_upstair == 'N'){
 			dialogModal('Not available right now','<strong>Not available right now.</strong>','warning');
 			if(debug) console.log('error : 1');
 			return false;

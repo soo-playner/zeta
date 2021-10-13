@@ -122,8 +122,8 @@ function return_status_tx($val){
 						func : 'withrawal'
 					},
 					success: function(data) {
-						if(data.code =='0000'){
-							alert('변경되었습니다.');
+						if(data.code =='0001'){
+							alert(data.msg);
 							location.reload();
 						}else{
 							alert("처리되지 않았습니다.");
