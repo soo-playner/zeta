@@ -24,13 +24,14 @@
     $max_mining_total = $mining_total;
 
     /* 리스트 기본값*/
-    $mining_history_limit = " limit 0,1 ";
+    
+    $mining_history_limit = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining)";
     $mining_history_limit_text ='전체 내역보기';
     $mining_amt_limit = " limit 0,1 ";
     $mining_amt_limit_text = '전체 내역보기';
 
     if($_GET['history_limit'] == 'all'){
-        $mining_history_limit = "";
+        $mining_history_limit = " ORDER BY day desc ";
         $mining_history_limit_text = "최근내역만보기";
     }
 
@@ -40,7 +41,9 @@
     }
 
     // 마이닝 내역
-    $mining_history = sql_query("SELECT * from {$g5['mining']} WHERE mb_id = '{$member['mb_id']}' {$mining_history_limit} ");
+    $mining_history_sql = "SELECT * from {$g5['mining']} WHERE mb_id = '{$member['mb_id']}'  {$mining_history_limit} ";
+    // print_R($mining_history_sql);
+    $mining_history = sql_query($mining_history_sql);
     $mining_history_cnt = sql_num_rows($mining_history);
 
     // 마이닝 출금 내역

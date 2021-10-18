@@ -62,7 +62,7 @@ echo "<span class ='title' style='font-size:20px;'>".$bonus_row['name']." 수당
 echo "<strong>".strtoupper($code)." 마이닝 지급비율 :  <span class='red'>". $bonus_row['rate']."</span>  </strong> |    지급조건 -".$pre_condition.' | '.$bonus_condition_tx." | ".$bonus_layer_tx." | ".$bonus_limit_tx."<br>";
 echo "<strong>".$bonus_day."</strong><br>";
 echo "<br><span class='red'> 기준대상자(매출발생자) : ".$result_cnt."</span><br><br>";
-echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
+echo "<div class='btn' onclick=bonus_url('".$category."')>돌아가기</div>";
 
 ?>
 

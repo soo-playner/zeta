@@ -348,10 +348,10 @@ function mining_limit_check($mb_id,$bonus){
     $mem_sql="SELECT mb_balance, mb_rate, mb_save_point, {$mining_target},
     (SELECT SUM(mining) from soodang_mining AS B  WHERE B.mb_id = A.mb_id AND day='{$today}') AS daily_mining 
     FROM g5_member AS A WHERE mb_id ='{$mb_id}' ";
-    
+    print_R($mem_sql);
     $mem_result = sql_fetch($mem_sql);
 
-
+   
     $mb_mining = $mem_result[$mining_target];
     $mb_pv = $mem_result['daily_mining'] * $bonus_limit;
     
@@ -361,16 +361,15 @@ function mining_limit_check($mb_id,$bonus){
     }
 
     if($mb_pv > 0 ){
-        if( ($mb_mining + $bonus) < $mb_pv){
-            
+        if($bonus <= $mb_pv){
             $mb_limit = $bonus;
         }else{
-            
-            $mb_limit = $mb_pv - $mb_mining;
+            $mb_limit = $bonus - $mb_pv;
             if($mb_limit < 0){
                 $mb_limit = 0;
             }
         }
+        
     }else{
         $mb_limit = 0;
     }
