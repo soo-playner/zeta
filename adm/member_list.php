@@ -108,7 +108,7 @@ $sql = " select * {$sql_common} {$sql_search} {$sql_order} limit {$from_record},
 
 $result = sql_query($sql);
 
-$colspan = 11;
+$colspan = 17;
 
 
 /* 레벨 */
@@ -366,29 +366,7 @@ while($l_row = sql_fetch_array($get_lc)){
 <div class="tbl_head02 tbl_wrap" style="clear:both">
 	<table>
 	<caption><?php echo $g5['title']; ?> 목록</caption>
-	<colgroup>
-		<col width="40"/>
-		<col width="40" />
-		<col width="130" />
-		<col width="120" />
-		<col width="120" />
-		<col width="120" />
-		<col width="150" />
-		<col width="150" />
-		<col width="150" />
-		<col width="150" />
-		<col width="150" />
-		<col width="150" />
-		<col width="100" />
-		<col width="100" />
-		<col width="100" />
-		<col width="100" />
-		<col width="100" />
-		<col width="100" />
-		<col width="130" />
-		<col width="140" />
-		<col width="50" />
-	</colgroup>
+	
 	<thead>
 	<tr>
 		<th scope="col" rowspan="2" id="mb_list_chk">
@@ -399,38 +377,26 @@ while($l_row = sql_fetch_array($get_lc)){
 		<th scope="col" rowspan="2" id="mb_list_id" class="td_name center"><?php echo subject_sort_link('mb_id') ?>아이디</a></th>
 		<!--<th scope="col" rowspan="2"  id="mb_list_cert"><?php echo subject_sort_link('mb_certify', '', 'desc') ?>메일인증확인</a></th>-->
 
-		<!-- <th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">추천상위스폰서</th> -->
 		<th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">추천인</th>
 		<th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">후원인</th>
 		<!-- <th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">메일주소</th> -->
-		<!-- <th scope="col" id="mb_list_auth"  class="total" rowspan="2">TOTAL <br>fund</th>
-		<th scope="col" id="mb_list_auth"  class="bonus_total" rowspan="2">HAZ </th>
-		<th scope="col" id="mb_list_auth"  class="bonus_usdt" rowspan="2">USDT </th>  -->
 		<th scope="col" id="mb_list_auth"  class="bonus_eth" rowspan="2"><?php echo subject_sort_link('total_fund') ?>현재잔고<br></a></th>
 		<th scope="col" id="mb_list_auth2" class="bonus_calc"  rowspan="2"><?php echo subject_sort_link('deposit_point') ?>총입금액 <br></th>
 		<th scope="col" id="mb_list_auth2" class="bonus_bb"  rowspan="2"><?php echo subject_sort_link('deposit_calc') ?>사용금액<br>(출금포함)<br></th>
 		<th scope="col" id="mb_list_auth2" class="bonus_usdt" style='color:white !important' rowspan="2"><?php echo subject_sort_link('mb_shift_amt') ?>출금총액<br>(+수수료)<br></th>
 		<!-- <th scope="col" id="mb_list_auth2" class="bonus_bb bonus_calc"  rowspan="2"><?php echo subject_sort_link('deposit_calc') ?>USE <br>출금 및 구매사용</th> -->
 		<th scope="col" id="mb_list_auth2" class="bonus_bb bonus_benefit"  rowspan="2"><?php echo subject_sort_link('mb_balance') ?> 수당합계</th>
-		<th scope="col" id="mb_list_auth2" class="bonus_aa"  rowspan="2"><?php echo subject_sort_link('mb_save_point') ?> 누적매출</th>
-		<th scope="col" id="mb_list_auth2" class=""  rowspan="2"><?php echo subject_sort_link('mb_rate') ?> PV</th>
+		<th scope="col" id="mb_list_auth2" class="bonus_aa"  rowspan="2"><?php echo subject_sort_link('mb_save_point') ?> 누적매출(PV)</th>
+		<th scope="col" id="mb_list_auth2" class=""  rowspan="2"><?php echo subject_sort_link('mb_rate') ?>마이닝 (MH/s)</th>
 		<th scope="col" id="mb_list_auth2" class="bonus_bb bonus_out"  rowspan="2">수당/한계<br>(100%)</th>
-		<!-- <th scope="col" id="mb_list_auth2" class="bonus_bb"  rowspan="2" style="background:aliceblue !important">UPSTAIR ACC <br> ( 누적 예치금 )</th> -->
 		<th scope="col" rowspan="2" id="" class="item_title">상위보유패키지</th>
-		<th scope="col" id="mb_list_authcheck" style='min-width:130px;' rowspan="2">상태/<?php echo subject_sort_link('mb_level', '', 'desc') ?>회원레벨</a></th>
+		<th scope="col" id="mb_list_authcheck" style='min-width:70px;' rowspan="2">상태/<?php echo subject_sort_link('mb_level', '', 'desc') ?>회원레벨</a></th>
 		<th scope="col" id="mb_list_member"><?php echo subject_sort_link('mb_today_login', '', 'desc') ?>최종접속</a></th>
 		<th scope="col" rowspan="3" id="mb_list_mng">관리</th>
 	</tr>
 
 	<tr>
-	<!-- <th scope="col" id="mb_list_auth" class="item item1" rowspan="2"><?=$get_shop_item['0']['it_name']?> </th>
-	<th scope="col" id="mb_list_auth" class="item item2" rowspan="2"><?=$get_shop_item['1']['it_name']?> </th>
-	<th scope="col" id="mb_list_auth" class="item item3" rowspan="2"><?=$get_shop_item['2']['it_name']?> </th>
-	<th scope="col" id="mb_list_auth" class="item item4" rowspan="2"><?=$get_shop_item['3']['it_name']?> </th>
-	<th scope="col" id="mb_list_auth" class="item item4" rowspan="2"><?=$get_shop_item['4']['it_name']?> </th>
-	<th scope="col" id="mb_list_auth" class="item item4" rowspan="2"><?=$get_shop_item['5']['it_name']?> </th> -->
-
-
+	
 		<!--<th scope="col" id="mb_list_mailc"><?php echo subject_sort_link('mb_email_certify', '', 'desc') ?>메일<br>인증</a></th>-->
 		<th scope="col" id="mb_list_join"><?php echo subject_sort_link('mb_datetime', '', 'desc') ?>가입일</a></th>
 	</tr>
@@ -589,7 +555,7 @@ while($l_row = sql_fetch_array($get_lc)){
 		<!-- <td headers="mb_list_mobile" rowspan="2" class="td_mail"><?php echo get_text($row['mb_email']); ?></td> -->
 
 		<style>
-			.td_mbstat{text-align:right;padding-right:10px !important;font-size:12px;}
+			.td_mbstat{text-align:right;padding-right:10px !important;font-size:12px;width: 75px;px;}
 		</style>
 
 
@@ -601,8 +567,8 @@ while($l_row = sql_fetch_array($get_lc)){
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_save_point']) ?></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_rate']) ?></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"> <?=$bonus_per?>% </td>
-		<td headers="mb_list_auth" class="td_mbstat td_item" rowspan="2"><span class='badge t_white color<?=max_item_level_array($row['mb_id'],'number')?>'><?=max_item_level_array($row['mb_id'],'name')?></span></td>
-		<!-- <td headers="mb_list_auth" class="td_mbstat td_item" rowspan="2"><span class='badge t_white color<?=$row['rank']?>'>P<?=$row['rank']?></span></td> -->
+		<!-- <td headers="mb_list_auth" class="td_mbstat td_item" rowspan="2"><span class='badge t_white color<?=max_item_level_array($row['mb_id'],'number')?>'><?=max_item_level_array($row['mb_id'],'name')?></span></td> -->
+		<td headers="mb_list_auth" class="text-center" style='width:40px;' rowspan="2"><span class='badge t_white color<?=$row['rank']?>' ><?if($row['rank']){echo 'P'.$row['rank'];}?></span></td>
 		
 		<!-- <?php /*$pack_array = package_have_return($row['mb_id']);*/ ?>
 		<td headers="mb_list_auth" class="td_mbstat td_item" rowspan="2"><?= $pack_array[0] ?></td>
