@@ -140,7 +140,7 @@ mb_id ='{$mb_id}'
 , status = '0'
 , create_dt = '".$now_datetime."'
 , cost = '1'
-, out_amt = '{$in_amt}'
+, out_amt = '{$amt}'
 , od_type = '출금요청' ";
 
 
