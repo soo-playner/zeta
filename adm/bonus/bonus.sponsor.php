@@ -227,9 +227,9 @@ function  excute(){
                     $benefit_limit = 0;
                     echo "<span> ▶▶ 수당 미발생 </span>";
 
-                    if(!$debug){
+                   /*  if(!$debug){
                         soodang_extra($mb_id, $code, $benefit, $rec,$rec_adm,$bonus_day);
-                    }
+                    } */
                     
                 }
 
