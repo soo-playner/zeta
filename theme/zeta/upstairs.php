@@ -47,6 +47,13 @@ $result = sql_query($sql);
 .product_buy_wrap .title{padding-right:0;}
 .mining_ico{vertical-align: middle;}
 .mining_ico, .mining_ico img{margin-left:5px;height:22px;}
+.hash{color:white;font-weight:300;font-size:18px;letter-spacing:-0.25px;margin:5px 0 -10px;font-family:"Helvetica Neue","Apple SD Gothic Neo",sans-serif;    font-family: "Helvetica Neue","Apple SD Gothic Neo",sans-serif;
+    background: rgba(0,0,0,0.2);
+    padding: 0px 15px 2px 20px;
+    border-radius: 10px;
+    box-shadow: inset 1px 1px 2px rgb(0 0 0 / 80%), 1px 1px 1px rgb(255 255 255 / 30%);
+    text-align: center;}
+
 </style>
 
 <?include_once(G5_THEME_PATH.'/_include/breadcrumb.php');?>
@@ -113,9 +120,14 @@ $result = sql_query($sql);
 										<?}?>
 									</p>
 									<div class="b_blue_bottom"></div>
-									<div class="text_wrap">
-										<div class="it_price">￦<?=Number_format($row[$i-1]['it_price'])?></div>
-										<div class='origin_price'>VAT ￦<?=Number_format($row[$i-1]['it_price']*0.1)?></div>
+									<div >
+										<div class='hash'>
+											<?=$row[$i-1]['it_supply_point']?> <span class='f_small'>mh/s</span>
+										</div>
+										<div class=" text_wrap">
+											<div class="it_price">￦<?=Number_format($row[$i-1]['it_price'])?></div>
+											<div class='origin_price'>VAT ￦<?=Number_format($row[$i-1]['it_price']*0.1)?></div>
+										</div>
 									</div>
 								</div>
 							</div>
