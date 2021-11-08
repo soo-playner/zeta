@@ -24,12 +24,12 @@ $drain = 1;
 
 
 if ($debug) {
-	$uid = 3;
-	$status = 1;
+	$uid = 1;
+	$status = 4;
 	$refund = 'Y';
-	$func = 'deposit';
-	$coin = '원';
-	$in_amt = '330000';
+	$func = 'withrawal';
+	$coin = 'eth';
+	// $in_amt = '330000';
 }
 
 
@@ -45,11 +45,12 @@ if ($func == 'withrawal') {
 
 		if($coin == '원'){
 			$coin_target = "mb_deposit_calc";
-		}else{
-			$coin_target = "mb_" . strtolower($coin) . "_calc";
+			$update_member_return = "update g5_member set {$coin_target} = {$coin_target} + {$in_amt_total}, mb_shift_amt = mb_shift_amt - {$in_amt_total}  where mb_id='{$mb_id}' ";
+		}else if($coin == 'eth'){
+			$coin_target = "mb_mining_1";
+			$amt_target = "mb_mining_1_amt";
+			$update_member_return = "update g5_member set {$amt_target} = {$amt_target} - {$in_amt_total}  where mb_id='{$mb_id}' ";
 		}
-		
-		$update_member_return = "update g5_member set {$coin_target} = {$coin_target} + {$in_amt_total}, mb_shift_amt = mb_shift_amt - {$in_amt_total}  where mb_id='{$mb_id}' ";
 
 		if ($debug) {
 			print_r($update_member_return);

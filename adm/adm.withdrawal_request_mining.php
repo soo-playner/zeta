@@ -10,7 +10,7 @@ function short_code($string, $char = 8){
 	return substr($string,0,$char)." ... ".substr($string,-8);
 }
 
-$sql_condition = "and coin != '원' " ;
+$sql_condition = "and coin = 'eth' " ;
 
 if($_GET['fr_id']){
 	$sql_condition .= " and A.mb_id = '{$_GET['fr_id']}' ";
@@ -41,6 +41,7 @@ if($_GET['ord']!=null && $_GET['ord_word']!=null){
 $sql = " select count(*) as cnt, sum(amt) as hap, sum(amt_total) as amt_total, sum(fee) as feehap, sum(out_amt) as outamt from {$g5['withdrawal']} A WHERE 1=1 AND DATE_FORMAT(A.create_dt, '%Y-%m-%d') between '{$fr_date}' and '{$to_date}'	 ";
 $sql .= $sql_condition;
 $sql .= $sql_ord;
+
 $row = sql_fetch($sql);
 
 $total_count = $row['cnt'];
@@ -84,6 +85,9 @@ function return_status_tx($val){
 }
 ?>
 
+<style>
+	strong.red{color:magenta !important}
+</style>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link href="<?=G5_ADMIN_URL?>/css/scss/adm.withdrawal_request.css" rel="stylesheet">
 
@@ -122,7 +126,7 @@ function return_status_tx($val){
 						func : 'withrawal'
 					},
 					success: function(data) {
-						if(data.code =='0000'){
+						if(data.code =='0001'){
 							alert('변경되었습니다.');
 							location.reload();
 						}else{
@@ -190,8 +194,8 @@ $(function(){
 </form>
 <br><br> -->
  <input type="button" class="btn_submit excel" value="엑셀 다운로드" onclick="window.location.href='../excel/withdrawal_request_excel_down.php?excel_sql=<?=urlencode($excel_query)?>'" />	  
-<div class="local_ov01 local_ov">
-	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=shift_auto($total_out)?> <?=WITHDRAW_CURENCY?> </strong></a> 
+<div class="local_ov01 local_ov" style="line-height:18px;">
+	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=shift_auto($total_out,$minings[0])?> <?=strtoupper($minings[0])?> </strong></a> 
 	<?
 		// 현재 통계치
 		$stats_sql = "SELECT status, sum(out_amt)  as hap, count(out_amt) as cnt from {$g5['withdrawal']} as A WHERE 1=1 ".$sql_condition. " GROUP BY status";
@@ -201,9 +205,22 @@ $(function(){
 			echo "<a href='./adm.withdrawal_request.php?".$qstr."&status=".$stats['status']."'><span class='tit'>";
 			echo return_status_tx($stats['status']);
 			echo "</span> : ".$stats['cnt'];
-			echo "건 = <strong>".shift_auto($stats['hap'])."</strong></a>";
+			echo "건 = <strong>".shift_auto($stats['hap'],$minings[0]).' '.$minings[0]."</strong></a>";
 		}
+
+		// 전체 통계치
+		$all_data_sql = "SELECT SUM(mb_mining_1) as acc_mining, SUM(mb_mining_1_amt) as acc_mining_amt FROM g5_member";
+		$all_data_result = sql_fetch($all_data_sql);
+		
+		$all_mining_exc = $all_data_result['acc_mining'];
+		$all_mining_amt = $all_data_result['acc_mining_amt'];
+		$all_mining_remain = ($all_mining_exc - $all_mining_amt);
+
 	?>
+	<br>-<br>
+	전체통계 |  전체마이닝지급량 : <strong class='red'><?=shift_auto($all_mining_exc,$minings[0])?> <?=$minings[0]?></strong> | 
+	전체마이닝출금량 : <strong class='red'><?=shift_auto($all_mining_amt,$minings[0])?> <?=$minings[0]?></strong> |
+	전체마이닝출금가능(예정)량 : <strong class='red'><?=shift_auto($all_mining_remain,$minings[0])?> <?=$minings[0]?></strong> |
 </div>
 
 <div class="local_desc01 local_desc">
