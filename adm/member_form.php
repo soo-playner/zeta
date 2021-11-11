@@ -437,7 +437,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td colspan="1"><span class='strong mining'><?=number_format($mb['mb_rate'])?> MH/s</span></td>
 
 		<th scope="row">총 받은마이닝보너스</th>
-		<td colspan="1"><span class='strong mining_soodang'><?=Number_format($mb[$mining_target])?></span></td>
+		<td colspan="1"><span class='strong mining_soodang'><?=shift_auto($mb[$mining_target],'eth')?> ETH</span></td>
 	</tr>
 
 	<tr class="ly_up padding-box fund">
@@ -445,7 +445,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td colspan="1"><span class='strong amt'><?=number_format($mb['mb_shift_amt'])?> 원</span></td>
 
 		<th scope="row">마이닝출금액</th>
-		<td colspan="1"><span class='strong amt'><?=Number_format($mb[$mining_amt_target])?> ETH</span></td>
+		<td colspan="1"><span class='strong amt'><?=shift_auto($mb[$mining_amt_target],'eth')?> ETH</span></td>
 	</tr>
 	
 	<!-- <tr class="ly_up padding-box week_dividend ">
