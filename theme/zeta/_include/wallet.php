@@ -426,6 +426,22 @@ function shift_auto($val,$coin = '원'){
 	}
 }
 
+
+function shift_auto_zero($val,$coin = ASSETS_CURENCY){
+	if($val == 0 || $val ==''){
+		return '-';
+	}else{
+		if($coin == '$'){
+			return shift_doller($val);
+		
+		}else if($coin == '원'){
+			return shift_kor($val);
+		}else{
+			return shift_coin($val);
+		}
+	}
+}
+
 /*숫자표시*/
 function shift_number($val){
 	return preg_replace("/[^0-9].*/s","",$val);

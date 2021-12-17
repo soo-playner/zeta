@@ -395,11 +395,11 @@ $(function(){
 
 	// 패키지구매
 	$('#purchase').on('click', function(){
-		var nw_upstair = '<?=$nw_upstair?>'; // 점검코드
+		var nw_purchase = '<?=$nw_purchase?>'; // 점검코드
 		
 		// 부분시스템 점검
-		if(nw_upstair == 'N'){
-			dialogModal('Not available right now','<strong>Not available right now.</strong>','warning');
+		if(nw_purchase == 'N'){
+			dialogModal('System error','<strong>Not available right now.</strong>','warning');
 			if(debug) console.log('error : 1');
 			return false;
 		}

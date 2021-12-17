@@ -12,7 +12,7 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 if (empty($to_date)) $to_date = G5_TIME_YMD; */
 
 
-$rlevel = 'p1';
+$rlevel = 'p3';
 $rneth = 'ALL';
 $promote = 'ALL';
 

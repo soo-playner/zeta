@@ -68,7 +68,7 @@ if($mb_level < 10 &&  $temp_mb_level > $mb_level){
 
 
 $_POST['mb_center'] != "" ? $mb_center = $_POST['mb_center'] : $mb_center = '';
-$_POST['mb_balance'] != "" ? $mb_balance = $_POST['mb_balance'] : $mb_balance = 0;
+$_POST['mb_balance'] != "" ? $mb_balance = conv_number($_POST['mb_balance']) : $mb_balance = 0;
 // $_POST['mb_deposit_point'] != "" ? $mb_deposit_point = conv_number($_POST['mb_deposit_point']) : $mb_deposit_point = 0;
 $_POST['mb_block'] != "" ? $mb_block = $_POST['mb_block'] : $mb_block = 0;
 $_POST['bank_name'] != "" ? $bank_name = $_POST['bank_name'] : $bank_name = '';

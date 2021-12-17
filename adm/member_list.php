@@ -39,11 +39,11 @@ if ($stx) {
 			break;
 		case 'mb_tel' :
 		case 'mb_hp' :
-			$sql_search .= " ({$sfl} like '%{$stx}') ";
+			$sql_search .= " ({$sfl} like '%{$stx}%') ";
 			break;
 
 		default :
-			$sql_search .= " ({$sfl} like '{$stx}%') ";
+			$sql_search .= " ({$sfl} like '%{$stx}%') ";
 			break;
 	}
 	$sql_search .= " ) ";
@@ -142,7 +142,7 @@ function out_check($val){
 }
 
 // 통계수치
-$stats_sql = "SELECT COUNT(*) as cnt, SUM(mb_deposit_point) AS deposit, SUM(mb_balance) AS balance, SUM(mb_deposit_point+mb_deposit_calc) AS fund {$sql_common} {$sql_search}";
+$stats_sql = "SELECT COUNT(*) as cnt, SUM(mb_deposit_point) AS deposit, SUM(mb_balance) AS balance, SUM(mb_save_point) AS pv, SUM(mb_mining_1) AS mining {$sql_common} {$sql_search}";
 $stats_result = sql_fetch($stats_sql);
 ?>
 
@@ -150,6 +150,9 @@ $stats_result = sql_fetch($stats_sql);
 .local_ov strong{color:red; font-weight:600;}
 .local_ov .tit{color:black; font-weight:600;}
 .local_ov a{margin-left:20px;}
+select#sfl{padding:9px 10px;}
+#stx{padding:5px;}
+.local_sch .btn_submit{width:80px;height:33px;}
 </style>
 
 <div class="local_ov01 local_ov">
@@ -157,9 +160,10 @@ $stats_result = sql_fetch($stats_sql);
 	총회원수 <strong><?php echo number_format($total_count) ?></strong>명|
 	<?
 		if($member['mb_id'] == 'admin'){
-			echo "<span style='padding-left:10px;'>회원 총 자산 합계 <strong>".Number_format($stats_result['fund'])."</strong></span> | ";
 			echo "<span style='padding-left:10px;'>회원 총 입금 합계 <strong>".Number_format($stats_result['deposit'])."</strong></span> | ";
+			echo "<span style='padding-left:10px;'>회원 총 매출(pv) 합계 <strong>".Number_format($stats_result['pv'])."</strong></span> | ";
 			echo "<span style='padding-left:10px;'>회원 총 수당 합계 <strong>".Number_format($stats_result['balance'])."</strong></span> | ";
+			echo "<span style='padding-left:10px;'>회원 총 마이닝 보유 합계 <strong>".Number_format($stats_result['mining'],8)." ETH </strong></span> | ";
 		}
 	?>
 	
@@ -175,17 +179,17 @@ $stats_result = sql_fetch($stats_sql);
 	<label for="sfl" class="sound_only">검색대상</label>
 	<select name="sfl" id="sfl">
 		<option value="mb_id"<?php echo get_selected($_GET['sfl'], "mb_id"); ?>>회원아이디</option>
-		<option value="mb_nick"<?php echo get_selected($_GET['sfl'], "mb_nick"); ?>>닉네임</option>
+		<!-- <option value="mb_nick"<?php echo get_selected($_GET['sfl'], "mb_nick"); ?>>닉네임</option> -->
 		<option value="mb_name"<?php echo get_selected($_GET['sfl'], "mb_name"); ?>>이름</option>
 		<!-- <option value="mb_level"<?php echo get_selected($_GET['sfl'], "mb_level"); ?>>권한</option>
 		<option value="mb_email"<?php echo get_selected($_GET['sfl'], "mb_email"); ?>>E-MAIL</option> -->
-		<option value="mb_tel"<?php echo get_selected($_GET['sfl'], "mb_tel"); ?>>전화번호</option>
+		<!-- <option value="mb_tel"<?php echo get_selected($_GET['sfl'], "mb_tel"); ?>>전화번호</option> -->
 		<option value="mb_hp"<?php echo get_selected($_GET['sfl'], "mb_hp"); ?>>휴대폰번호</option>
-		<option value="mb_point"<?php echo get_selected($_GET['sfl'], "mb_point"); ?>>PV</option>
+		<!-- <option value="mb_point"<?php echo get_selected($_GET['sfl'], "mb_point"); ?>>PV</option> -->
 		<option value="mb_datetime"<?php echo get_selected($_GET['sfl'], "mb_datetime"); ?>>가입일시</option>
 		<option value="mb_ip"<?php echo get_selected($_GET['sfl'], "mb_ip"); ?>>IP</option>
 		<option value="mb_recommend"<?php echo get_selected($_GET['sfl'], "mb_recommend"); ?>>추천인</option>
-		<option value="mb_wallet"<?php echo get_selected($_GET['sfl'], "mb_wallet"); ?>>지갑</option>
+		<!-- <option value="mb_wallet"<?php echo get_selected($_GET['sfl'], "mb_wallet"); ?>>지갑</option> -->
 	</select>
 
 	<label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
@@ -221,6 +225,7 @@ $stats_result = sql_fetch($stats_sql);
 	.bonus_aa{background:yellowgreen !important}
 	.bonus_bb{background:skyblue !important}
 	.bonus_bb.bonus_out{background:deepskyblue !important}
+	.bonus_bb.green{background:green !important;color:white}
 	.bonus_bb.bonus_benefit{background:gold !important}
 	.bonus_calc{background:#3e1f9c !important; }
 	.bonus_calc a{color:white !important;font-weight:400}
@@ -237,8 +242,9 @@ $stats_result = sql_fetch($stats_sql);
 	.center {text-align:center !important;}
 	
 	.td_mail{font-size:11px;letter-spacing:-0.5px;}
+	.td_name{min-width:60px;width:80px;}
 	.bonus_eth a {color:white !important}
-
+		.name{color:#777;font-size:11px;}
 	.icon,.icon img{width:26px;height:26px;}
 
 	.badge.over{    position: absolute;
@@ -351,7 +357,7 @@ while($l_row = sql_fetch_array($get_lc)){
 
 <div class="local_desc01 local_desc">
     <p>
-		- 인정회원의 정회원 전환은 인정회원 아래의 정회원으로 변경 사용 (표시는 같음).
+		<!-- - 인정회원의 정회원 전환은 인정회원 아래의 정회원으로 변경 사용 (표시는 같음). -->
 	</p>
 </div>
 
@@ -375,10 +381,11 @@ while($l_row = sql_fetch_array($get_lc)){
 		</th>
 		<th scope="col" rowspan="2" id="" class="td_chk" style='max-width:30px;width:40px !important;'>회원등급</th>
 		<th scope="col" rowspan="2" id="mb_list_id" class="td_name center"><?php echo subject_sort_link('mb_id') ?>아이디</a></th>
+		<th scope="col" rowspan="2" id="mb_list_id" class="td_name center"><?php echo subject_sort_link('mb_name') ?>이름</a></th>
 		<!--<th scope="col" rowspan="2"  id="mb_list_cert"><?php echo subject_sort_link('mb_certify', '', 'desc') ?>메일인증확인</a></th>-->
 
-		<th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">추천인</th>
-		<th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">후원인</th>
+		<th scope="col" rowspan="2" id="mb_list_mobile" class="center">추천인</th>
+		<th scope="col" rowspan="2" id="mb_list_mobile" class="center">후원인</th>
 		<!-- <th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">메일주소</th> -->
 		<th scope="col" id="mb_list_auth"  class="bonus_eth" rowspan="2"><?php echo subject_sort_link('total_fund') ?>현재잔고<br></a></th>
 		<th scope="col" id="mb_list_auth2" class="bonus_calc"  rowspan="2"><?php echo subject_sort_link('deposit_point') ?>총입금액 <br></th>
@@ -388,9 +395,9 @@ while($l_row = sql_fetch_array($get_lc)){
 		<th scope="col" id="mb_list_auth2" class="bonus_bb bonus_benefit"  rowspan="2"><?php echo subject_sort_link('mb_balance') ?> 수당합계</th>
 		<th scope="col" id="mb_list_auth2" class="bonus_aa"  rowspan="2"><?php echo subject_sort_link('mb_save_point') ?> 누적매출(PV)</th>
 		<th scope="col" id="mb_list_auth2" class=""  rowspan="2"><?php echo subject_sort_link('mb_rate') ?>마이닝 (MH/s)</th>
-		<th scope="col" id="mb_list_auth2" class="bonus_bb bonus_out"  rowspan="2">수당/한계<br>(100%)</th>
-		<th scope="col" rowspan="2" id="" class="item_title">상위보유패키지</th>
-		<th scope="col" id="mb_list_authcheck" style='min-width:70px;' rowspan="2">상태/<?php echo subject_sort_link('mb_level', '', 'desc') ?>회원레벨</a></th>
+		<th scope="col" id="mb_list_auth2" class="bonus_bb green"  rowspan="2">마이닝보유(<?=$minings[0]?>)</th>
+		<th scope="col" rowspan="2" id="" class="item_title" style='min-width:50px;'>상위보유패키지</th>
+		<th scope="col" id="mb_list_authcheck" style='width:70px;' rowspan="2">상태/<?php echo subject_sort_link('mb_level', '', 'desc') ?>회원레벨</a></th>
 		<th scope="col" id="mb_list_member"><?php echo subject_sort_link('mb_today_login', '', 'desc') ?>최종접속</a></th>
 		<th scope="col" rowspan="3" id="mb_list_mng">관리</th>
 	</tr>
@@ -512,10 +519,11 @@ while($l_row = sql_fetch_array($get_lc)){
 		</td>
 		<td headers="mb_list_id" rowspan="2" class="td_name sv_use" style="center">
 		
-		<?php echo $mb_id ?></td>
+		<strong><?php echo $mb_id ?></strong></td>
+		<td  rowspan="2" class="td_name sv_use" style="center"><span class='name'><?php echo get_text($row['mb_name']); ?></span></td>
 		<!-- <td rowspan="2" class="center"><?php echo $sponsor ?></td> -->
-		<td rowspan="2" class="center"><?php echo $row['mb_recommend'] ?></td>
-		<td rowspan="2" class="center"><?php echo $row['mb_brecommend'] ?></td>
+		<td rowspan="2" class="td_name"><?php echo $row['mb_recommend'] ?></td>
+		<td rowspan="2" class="td_name"><?php echo $row['mb_brecommend'] ?></td>
 		<!--
 			<td headers="mb_list_name" class="td_mbname"><?php echo get_text($row['mb_name']); ?></td>
 			<td headers="mb_list_name" class="td_mbname"><?php echo get_text($row['first_name']); ?></td>-->
@@ -566,7 +574,7 @@ while($l_row = sql_fetch_array($get_lc)){
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><strong><?= Number_format($total_bonus) ?> </strong></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_save_point']) ?></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_rate']) ?></td>
-		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"> <?=$bonus_per?>% </td>
+		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=shift_auto_zero($row[$mining_target],'eth')?> </td>
 		<!-- <td headers="mb_list_auth" class="td_mbstat td_item" rowspan="2"><span class='badge t_white color<?=max_item_level_array($row['mb_id'],'number')?>'><?=max_item_level_array($row['mb_id'],'name')?></span></td> -->
 		<td headers="mb_list_auth" class="text-center" style='width:40px;' rowspan="2"><span class='badge t_white color<?=$row['rank']?>' ><?if($row['rank']){echo 'P'.$row['rank'];}?></span></td>
 		
@@ -598,9 +606,7 @@ while($l_row = sql_fetch_array($get_lc)){
 			<label for="mb_certify_ipin_<?php echo $i; ?>">아이핀</label>
 			<input type="radio" name="mb_certify[<?php echo $i; ?>]" value="hp" id="mb_certify_hp_<?php echo $i; ?>" <?php echo $row['mb_certify']=='hp'?'checked':''; ?>>
 			<label for="mb_certify_hp_<?php echo $i; ?>">휴대폰</label>
-
-			P1 <?=$row['it_pool1']?>개 / P2 - <?=$row['it_pool2']?>개 / P3 - <?=$row['it_pool3']?>개 / P4 - <?=$row['it_pool4']?>개 / G - <?=$row['it_GPU']?>개
-			</td>-->
+		-->
 
 
 		<!--<td headers="mb_list_tel" class="td_tel"><?php echo get_text($row['mb_tel']); ?></td>

@@ -89,12 +89,16 @@
 						</li>
 					</ul>
 
-					<ul class='row person_info'>
-						<li class='col-12 mt20 '>
+					<ul class='row person_info' style='margin-top:20px;'>
+						<li class='col-12'>
 							<label>모바일</label>  
-							<p class='mb20'><?=format_phone($member['mb_hp'])?></p>
-							
+
+							<div class='row mt20 mb20 '>
+								<div class='col-8' style='padding-left:30px;'><p><?=format_phone($member['mb_hp'])?></p></div>
+								<div class='col-4 text-right'><input type="button" value="수정/변경" class="btn inline white num_pop_open pop_open" ></div>
+							</div>
 						</li>
+					
 
 						<li class='col-12 mt20'>
 							<label data-i18n="profile.이메일">Email</label>  

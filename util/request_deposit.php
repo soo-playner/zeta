@@ -31,7 +31,7 @@ if($pre_result['cnt'] < 1){
   }
 
   // 입금알림 텔레그램 API
-  // curl_tele_sent('[ZETABYTE][입금요청] '.$mb_id.'('.$txhash.') 님의 '.Number_format($d_price).'입금요청이 있습니다.');
+  curl_tele_sent('[ZETABYTE][입금요청] '.$mb_id.'('.$txhash.') 님의 '.Number_format($d_price).'입금요청이 있습니다.');
 
   if($result){
     echo json_encode(array("response"=>"OK", "data"=>'complete'));

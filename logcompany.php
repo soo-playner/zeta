@@ -30,11 +30,11 @@ define('USE_WALLET',FALSE);
 define('ETH_ADDRESS','');
 
 //영카트 로그인체크 주소
-if(strpos($_SERVER['HTTP_HOST'],"localhost") !== false){
+/* if(strpos($_SERVER['HTTP_HOST'],"localhost") !== false){
     $port_number = "";
     define('SHOP_URL',"http://localhost:{$port_number}/bbs/login_check.php");
 }else{
     define('SHOP_URL',"http://khanshop.willsoft.kr/bbs/login_check.php");
-}
+} */
 
 ?>

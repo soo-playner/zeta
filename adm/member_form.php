@@ -309,18 +309,18 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<?}?>
 		-->
 		</td>
-		<!-- <th scope="row"><label for="mb_hp">휴대폰번호</label></th>
+		<th scope="row"><label for="mb_hp">휴대폰번호</label></th>
 		<td>
-			<input type="text" name="nation_number" value="<?php echo $mb['nation_number'] ?>" id="nation_number" class="frm_input" style="height:36px;text-align:center" size="5" maxlength="50">
+			<!-- <input type="text" name="nation_number" value="<?php echo $mb['nation_number'] ?>" id="nation_number" class="frm_input" style="height:36px;text-align:center" size="5" maxlength="50"> -->
 			<input type="text" name="mb_hp" value="<?php echo $mb['mb_hp'] ?>" id="mb_hp" class="frm_input  wide" size="15" maxlength="20">
 			
-			<?if($member['mb_certify'] == 1){?>
+			<!-- <?if($member['mb_certify'] == 1){?>
 				<img src="<?=G5_THEME_URL?>/_images/okay_icon.gif" alt="인증됨" style="width:15px;"> 인증됨
 			<?}else{?>
 				<img src="<?=G5_THEME_URL?>/_images/x_icon.gif" alt="인증안됨" style="width:15px;"> 인증안됨
-			<?}?>
+			<?}?> -->
 			
-		</td> -->
+		</td>
 	</tr>
 
 	<tr>
@@ -333,12 +333,12 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	</tr>
 
 
-	<tr class="hidden">
+	<!-- <tr class="hidden">
 		<th scope="row"><label for="mb_homepage">홈페이지</label></th>
 		<td><input type="text" name="mb_homepage" value="<?php echo $mb['mb_homepage'] ?>" id="mb_homepage" class="frm_input" maxlength="255" size="15"></td>
 		<th scope="row"><label for="mb_tel">전화번호</label></th>
 		<td><input type="text" name="mb_tel" value="<?php echo $mb['mb_tel'] ?>" id="mb_tel" class="frm_input" size="15" maxlength="20"></td>
-	</tr>
+	</tr> -->
 
 	
 
@@ -398,6 +398,8 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		.soodang{color:orangered;}
 		.mining_soodang{color:#ef21fd;}
 		.amt {color:red}
+
+		.no-input{border:none;text-align:right;width:auto;}
 	</style>
 	
 	<tr class="ly_up padding-box fund">
@@ -428,7 +430,8 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td colspan="1"><span class='strong soodang'><?=Number_format($mb['mb_save_point'])?> 원</span></td>
 
 		<th scope="row">총 받은보너스(수당)</th>
-		<td colspan="1"><span class='strong bonus'><?=Number_format($mb['mb_balance'])?></span> 원</td>
+		<td colspan="1"><span class='strong bonus'>
+			<input type="hidden" class='no-input' name="mb_balance" value="<?=Number_format($mb['mb_balance'])?>" readonly> <?=Number_format($mb['mb_balance'])?> 원</td>
 
 	</tr>
 
