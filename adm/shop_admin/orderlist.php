@@ -127,6 +127,15 @@ $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목�
 $stats_sql = "select od_name, COUNT(*) AS cnt, SUM(od_cash) AS amt ".$sql_common."group by od_name ";
 $stats_result = sql_query($stats_sql);
 
+// 구매상품명 리턴
+
+function  od_name_return_rank($val){
+    if(strlen($val) < 5){
+        return substr($val,1,1);
+    }else{
+        return 0;
+    }
+}
 
 // 주문삭제 히스토리 테이블 필드 추가
 if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ", false)) {
@@ -136,11 +145,17 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
                     ADD `de_datetime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' AFTER `de_ip` ", true);
 }
 ?>
+
 <style>
 	.local_ov strong{color:red; font-weight:600;}
 	.local_ov .tit{color:black; font-weight:600;}
 	.local_ov a{margin-left:20px;padding-right:10px;}
+
+    .od_cancle{border:1px solid #ccc;background:white;border-radius: 0;padding:5px 10px;}
+    .od_cancle:hover{background: black;;border:1px solid black;color:white}
+    .cancle_log_btn{border-radius: 0;}
 </style>
+<link rel="stylesheet" href="/adm/css/scss/admin_custom.css">
 
 <form name="frmorderlist" class="local_sch01 local_sch">
 <input type="hidden" name="doc" value="<?php echo $doc; ?>">
@@ -254,8 +269,10 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
     <button type="button" onclick="javascript:set_date('지난주');">지난주</button>
     <button type="button" onclick="javascript:set_date('지난달');">지난달</button>
     <button type="button" onclick="javascript:set_date('전체');">전체</button>
-    <input type="submit" value="검색" class="btn_submit">
+    <input type="submit" value="검색" class="btn_submit" style='width:100px;'> | 
+    <button type='button' class="btn cancle_log_btn" style='margin-left:10px'>취소 내역보기</button>
 </div>
+
 </form>
 
 
@@ -286,17 +303,18 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
             <input type="checkbox" name="chkall" value="1" id="chkall" onclick="check_all(this.form)">
         </th>
         <th scope="col" id="th_odrid" >회원ID</th>
-        <th scope="col" id="odrstat" >매출일자</th>
+        <th scope="col" id="odrstat" >구매(매출)일자</th>
         <th scope="col" id="th_odrnum" rowspan="2" colspan="2"><a href="<?php echo title_sort("od_id", 1)."&amp;$qstr1"; ?>">주문번호</a></th>
 		
         <th scope="col" id="odrstat" >주문상태</th>
-        <th scope="col" id="odrstat" >구매상품</th>
+        <th scope="col" id="odrstat" ><a href="<?php echo title_sort("od_name", 1)."&amp;$qstr1"; ?>">구매상품</th>
         <th scope="col" id="th_odrall" >결제금액</th>
 
         <th scope="col" id="odrpay" >결제수단</th>
 		<th scope="col" id="th_odrcnt" >구매가격</th>
 		<th scope="col" id="th_odrcnt" >판매실적(pv)</th>
-        <th scope="col" >MH/s</th>
+        <th scope="col" >마이닝(MH/s)</th>
+        <th scope="col" >관리</th>
 
     </tr>
     <tr>
@@ -418,18 +436,17 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
         </td>
 		
 		
-		<td class="td_odrstatus">
+		<td class="td_odrstatus" style="width:150px;">
             <input type="hidden" name="current_status[<?php echo $i ?>]" value="<?php echo $row['od_status'] ?>">
 			<?php echo $row['od_status']; ?>
         </td>
-        <td rowspan="2" class="td_numsum"><?=$row['od_name']?></td>
+        <td rowspan="2" class="td_numsum " ><span class='badge t_white color<?=od_name_return_rank($row['od_name'])?>' ><?=$row['od_name']?></span></td>
         <td rowspan="2" class="td_numsum" style='text-align:right'><?= number_format($row['od_cart_price'])?> 원</td>
         <td ><?php echo $row['od_settle_case'] ?></td>
 		<td rowspan="2" style="text-align:right;font-weight:600"><?=number_format($row['od_cash'])?> 원</td>
 		<td ><?=number_format($row['upstair'])?> </td>
-        <td >
-            <?php echo $row['pv']; ?>
-        </td>
+        <td > <?php echo $row['pv']; ?></td>
+        <td > <input type='button' class='btn od_cancle' value='구매취소' data-id="<?=$row['od_id']?>"></td>
        
 		<!-- ##end##  ## -->
 		
@@ -482,7 +499,7 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
         <td style='text-align:right'><?=Number_format($tot_receiptprice)?> 원</td>
         <td></td>
 		<td></td>
-
+        <td></td>
     </tr>
     </tfoot>
     </table>
@@ -570,6 +587,42 @@ $(function(){
         var opt = "width=600,height=450,left=10,top=10";
         window.open(this.href, "win_excel", opt);
         return false;
+    });
+
+
+    // 구매취소 추가 
+    $(".od_cancle").on('click',function(){
+
+        if (confirm("해당구매건을 취소하시겠습니까?\n구매시 사용되었던금액이 반환됩니다.")) {
+        } else {
+            return false;
+        }
+
+        var od_id = $(this).data('id');
+        
+        $.ajax({
+        url: './order_proc.php',
+        type: 'POST',
+        cache: false,
+        dataType: 'json',
+        data: {
+          "od_id": od_id
+        },
+        success: function(result) {
+          if (result.response == "OK") {
+            alert("해당건 구매가 취소되었습니다.");
+            location.reload();
+          }else{
+            alert("정상처리되지 않았습니다.");
+            location.reload();
+          }
+        },
+        error: function(e) {
+            alert("시스템오류로 정상처리되지 않았습니다.");
+        }
+
+      });
+
     });
 });
 
