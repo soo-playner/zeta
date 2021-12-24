@@ -651,6 +651,27 @@ function rank_name($val){
 }
 
 
+function retrun_tx_func($tx,$coin){
+	if(strtolower($coin) == 'eth'){
+		return "<a href='https://etherscan.io/tx/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
+	}else if(strtolower($coin) =='fil'){
+		return "<a href ='https://filfox.info/ko/message/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
+	}else{
+		return $tx;
+	}
+}
+
+function retrun_fil_addr_func($tx,$coin){
+	if(strtolower($coin) == 'eth'){
+		return "<a href='https://etherscan.io/address/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
+	}else if(strtolower($coin) =='fil'){
+		return "<a href ='https://filfox.info/ko/address/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
+	}else{
+		return $tx;
+	}
+}
+
+
 // array_column 5.4 대응
 if( !function_exists( 'array_column' ) ):
     

@@ -291,8 +291,7 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 					<?=$row['bank_name']?> | <span id="bank_account" style='font-weight:600;font-size:13px;'><?=$row['bank_account']?></span>(<?=$row['account_name']?>)
 					<button type="button" class="btn inline_btn copybutton f_right" style='margin-right:10px;vertical-align:top;'>계좌복사</button>	 
 					<?php }else{ ?>
-					<!-- <a href='https://etherscan.io/address/<?=$row['addr']?>' target='_blank'><?=short_code($row['addr'],15)?></a>  -->
-					<div class='eth_addr'><a href='https://filfox.info/ko/address/<?=$row['addr']?>' target='_blank'><?=$row['addr']?></a></div>
+					<div class='eth_addr'><?=retrun_fil_addr_func($row['addr'],$row['coin'])?></div>
 					<?php } ?>			
 				</td>
 
