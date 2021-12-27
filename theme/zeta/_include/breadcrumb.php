@@ -40,6 +40,29 @@ $title = 'Dashboard';
 ?>
 
 
+<style>
+	.dash_news{position:absolute;z-index:1000;border-top:1px solid #f0f0f0;border-radius:0;padding:10px 20px 20px;background:whitesmoke;box-shadow:0 5px 5px 2px #ccc}
+	.dash_news h5 {font-size:16px;font-weight:800;line-height:40px;margin-bottom: 10px;
+    border-bottom: 2px solid white;
+    padding-bottom: 5px;}
+	.dash_news h5 i{font-weight:300;}
+	.close_today.btn{margin:0;    background: #111;
+    color: white;
+    padding: 0 10px;
+    margin: 5px 10px;
+    font-size: 11px !important;
+    border-radius: 5px;
+    height: 30px;}
+
+	.notice_open{    border-radius: 50%;
+    background: white;
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+    margin-top: 5px;}
+	.notice_open i{font-size:20px;color:red}
+</style>
+
 <section class='breadcrumb'>
 		<!-- 공지사항 -->
 		<?if($notice_result_num > 0){ ?>
@@ -47,12 +70,14 @@ $title = 'Dashboard';
 			<div class="col-sm-12 col-12 content-box round dash_news" style='margin-bottom:-10px;'>
 				<h5>
 					<span class="title" data-i18n='dashboard.공지사항' >Notification</span>
-					<i class="ri-close-circle-line close_news" style="font-size: 30px;float: right;margin-bottom: 15px;cursor: pointer;"></i>
+					
+					<i class="ri-close-circle-line close_news" style="font-size: 30px;float: right;cursor: pointer;"></i>
+					<button class=" f_right btn line_btn close_today" >
+						<span data-i18n="dashboard.오늘하루 열지않기"> Close for 24hrs</span>
+					</button>
 					<!-- <img class="close_news f_right small" src="<?=G5_THEME_URL?>/_images/close_round.gif" alt="공지사항 닫기"> -->
 				<!-- 				
-					<button class="close_today f_right btn line_btn" >
-						<span data-i18n="dashboard.오늘하루 열지않기"> Close for 24hrs</span>
-					</button> -->
+					 -->
 				</h5>
 
 				<?while( $row = sql_fetch_array($notice_sql_query) ){ ?>
@@ -75,7 +100,7 @@ $title = 'Dashboard';
 
 					<?if($notice_result_num > 0){ ?>
 						<button class="btn text-white b_darkblue_round notice_open f_right" >
-							<span data-i18n="dashboard.공지사항"> Notification</span>
+						<i class="ri-alarm-warning-line"></i>
 						</button>
 					<?}?>
 				</div>
@@ -212,7 +237,7 @@ $title = 'Dashboard';
 	$(function(){
 
 		// 공지사항 - 하단공지로 사용안함
-		/* var notice_open = getCookie('notice');
+		var notice_open = getCookie('notice');
 
 		if(notice_open == '1'){
 			$('.dash_news').css("display","none");
@@ -236,7 +261,7 @@ $title = 'Dashboard';
 		$('.notice_open').click(function(){
 			$('.dash_news').css("display","block");
 			$(this).css("display","none");
-		}); */
+		});
 
 	});
 </script>
@@ -248,6 +273,7 @@ $title = 'Dashboard';
 	});
 
 	$(document).ready(function() {
+		
 		$('.collapse').on('show.bs.collapse', function() {
 			var img_src_down = "<?php echo G5_THEME_URL?>/img/arrow_down.png";
 			$('.collap p').css('display','block');
