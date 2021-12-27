@@ -35,7 +35,7 @@ function active_check($val, $target){
     }
 }
 
-$colspan = 6;
+$colspan = 8;
 
 $sql_common = " FROM g5_shop_order A left JOIN g5_member B ON A.mb_id = B.mb_id ";
 $sql_search = " where B.mb_center = '{$select_id}' and B.mb_center != '' ";
@@ -81,6 +81,7 @@ if($debug){
     echo "=====================";
     echo "<br>";
 }
+
 $excel_sql = urlencode($sql);
 $result = sql_query($sql);
 
@@ -258,6 +259,7 @@ function fvisit_submit(act)
         <th>회원의 추천인</th>
         <th>기간매출금액</th>
         <th>기간PV</th>
+        <th>멤버쉽결제</th>
         <th>센터수당</th>
     </tr>
     </thead>
@@ -266,15 +268,19 @@ function fvisit_submit(act)
     <?php
     for ($i=0; $row=sql_fetch_array($result); $i++) {
 
-        $order_total_sql = "SELECT sum(upstair) as upstair_total, sum(pv) as pv_total from g5_shop_order WHERE mb_id = '{$row['mb_id']}' AND od_date >= '{$fr_date}' AND od_date < '{$to_date}' ";
+        $order_total_sql = "SELECT sum(upstair) as upstair_total, sum(pv) as pv_total from g5_shop_order WHERE mb_id = '{$row['mb_id']}' AND od_date >= '{$fr_date}' AND od_date <= '{$to_date}' ";
         $order_total = sql_fetch($order_total_sql);
         
+        $membership_sql = " SELECT * from g5_shop_order WHERE mb_id = '{$row['mb_id']}' AND od_date >= '{$fr_date}' AND od_date <= '{$to_date}' AND od_cash = 300000 ";
+        $membership_yn = sql_fetch($membership_sql)['od_cash'];
 
         $bg = 'bg'.($i%2);
         $total_hap += $order_total['upstair_total'];
         $total_pv +=  $order_total['pv_total'];
         $center_bonus = $order_total['pv_total']*0.02;
         $total_center_bonus += $center_bonus ;
+        $membership_total += $membership_yn; 
+        
     ?>
    
     <tr class="<?php echo $bg; ?>">
@@ -286,8 +292,9 @@ function fvisit_submit(act)
         <td class='text-center'><?=$row['mb_open_date']?></td>
         <td class='text-center'><?=$row['mb_recommend']?></td>
         <td class='text-center'><?=Number_format($order_total['upstair_total'])?></td>
-        <td class='text-center'><?=Number_format($order_total['pv_total'])?></td>	
-        <td class='text-center'><?=Number_format($center_bonus)?></td>			
+        <td class='text-center'><?=Number_format($order_total['pv_total'])?></td>
+        <td class='text-center'><?=Number_format($membership_yn)?></td>			
+        <td class='text-center'>0</td>			
     </tr>
 
     <?php
@@ -303,6 +310,7 @@ function fvisit_submit(act)
         <td colspan='2'></td>
         <td><?=number_format($total_hap)?><?=BALANCE_CURENCY?></td>
         <td><?=number_format($total_pv)?><?=BALANCE_CURENCY?></td>
+        <td><?=number_format($membership_total)?></td>
         <td><?=number_format($total_center_bonus)?><?=BALANCE_CURENCY?></td>
     </tfoot>
 
