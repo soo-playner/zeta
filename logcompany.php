@@ -24,17 +24,21 @@ define('COIN_NUMBER_POINT',8); // 코인 단위
 // 회사지갑 설정
 define('ETH_ADDRESS','');
 
+// 텔레그램 설정
+define('TELEGRAM_ALERT_USE',FALSE);
+
 // 이더사용 및 회사지갑 설정
 // False 설정시 현금사용
 define('USE_WALLET',FALSE);
 define('ETH_ADDRESS','');
 
+
 //영카트 로그인체크 주소
-/* if(strpos($_SERVER['HTTP_HOST'],"localhost") !== false){
+if(strpos($_SERVER['HTTP_HOST'],"localhost") !== false){
     $port_number = "";
     define('SHOP_URL',"http://localhost:{$port_number}/bbs/login_check.php");
 }else{
     define('SHOP_URL',"http://khanshop.willsoft.kr/bbs/login_check.php");
-} */
+}
 
 ?>
