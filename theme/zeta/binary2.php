@@ -6,6 +6,8 @@
 
 	login_check($member['mb_id']);
 
+    $binary_location = 'g5_member_binary';
+
 	if($_GET['start_id']){
 		$start_id = $_GET['start_id'];
 	}else{
@@ -19,7 +21,7 @@
 
 	function get_left_bottom($start_id){
 
-		$sql = "select mb_id from g5_member where mb_brecommend='".$start_id."' and mb_brecommend_type='L'";
+		$sql = "select mb_id FROM {$binary_location} WHERE  mb_brecommend='".$start_id."' and mb_brecommend_type='L'";
 		$rst = sql_fetch($sql);
 		$temp = $rst['mb_id'];
 
@@ -27,7 +29,7 @@
 		$left_bottom  = $temp;
 
 		while(true){
-			$sql2 = "select mb_id from g5_member where mb_brecommend='".$temp."' and mb_brecommend_type='L'";
+			$sql2 = "select mb_id FROM {$binary_location} WHERE  mb_brecommend='".$temp."' and mb_brecommend_type='L'";
 			$rst2 = sql_fetch($sql2);
 
 			if($rst2['mb_id']!=null &&  $rst2!=""){
@@ -45,13 +47,13 @@
 
 	function get_right_bottom($start_id){
 
-		$sql = "select mb_id from g5_member where mb_brecommend='".$start_id."' and mb_brecommend_type='R' ";
+		$sql = "select mb_id FROM {$binary_location} WHERE  mb_brecommend='".$start_id."' and mb_brecommend_type='R' ";
 		$rst = sql_fetch($sql);
 		$temp = $rst['mb_id'];
 		if($temp==null || $temp==""){return '';}
 		$right_bottom  = $temp;
 		while(true){
-			$sql2 = "select mb_id from g5_member where mb_brecommend='".$temp."' and mb_brecommend_type='R' ";
+			$sql2 = "select mb_id FROM {$binary_location} WHERE  mb_brecommend='".$temp."' and mb_brecommend_type='R' ";
 			$rst2 = sql_fetch($sql2);
 
 			if($rst2['mb_id']!=null && $rst2!=""){
@@ -74,8 +76,8 @@
 
 
 
-$sql = "select mb_id as b_recomm from g5_member where mb_brecommend='".$start_id."' and mb_brecommend_type='L'";
-$sql_r = "select mb_id as b_recomm2 from g5_member where mb_brecommend='".$start_id."' and mb_brecommend_type='R'";
+$sql = "select mb_id as b_recomm FROM {$binary_location} WHERE  mb_brecommend='".$start_id."' and mb_brecommend_type='L'";
+$sql_r = "select mb_id as b_recomm2 FROM {$binary_location} WHERE  mb_brecommend='".$start_id."' and mb_brecommend_type='R'";
 
 $brst = sql_fetch($sql);
 $brst_r = sql_fetch($sql_r);
@@ -97,16 +99,16 @@ array_push($b_recom_arr, $brst_r['b_recomm2']);
 
 //왼쪽1
 if($brst['b_recomm']){
-	$brst2 = sql_fetch("select mb_id as b_recomm from g5_member where mb_brecommend='".$brst['b_recomm']."' and mb_brecommend_type='L'");
-	$brst2_r = sql_fetch("select mb_id as b_recomm2 from g5_member where mb_brecommend='".$brst['b_recomm']."' and mb_brecommend_type='R'");
+	$brst2 = sql_fetch("select mb_id as b_recomm FROM {$binary_location} WHERE  mb_brecommend='".$brst['b_recomm']."' and mb_brecommend_type='L'");
+	$brst2_r = sql_fetch("select mb_id as b_recomm2 FROM {$binary_location} WHERE  mb_brecommend='".$brst['b_recomm']."' and mb_brecommend_type='R'");
 }
 	array_push($b_recom_arr,$brst2['b_recomm']);
 	array_push($b_recom_arr,$brst2_r['b_recomm2']);
 
 //오른쪽1
 if($brst_r['b_recomm2']){
-	$brst3 = sql_fetch("select mb_id as b_recomm from g5_member where mb_brecommend='".$brst_r['b_recomm2']."' and mb_brecommend_type='L'");
-	$brst3_r = sql_fetch("select mb_id as b_recomm2 from g5_member where mb_brecommend='".$brst_r['b_recomm2']."' and mb_brecommend_type='R'");
+	$brst3 = sql_fetch("select mb_id as b_recomm FROM {$binary_location} WHERE  mb_brecommend='".$brst_r['b_recomm2']."' and mb_brecommend_type='L'");
+	$brst3_r = sql_fetch("select mb_id as b_recomm2 FROM {$binary_location} WHERE  mb_brecommend='".$brst_r['b_recomm2']."' and mb_brecommend_type='R'");
 }
 	array_push($b_recom_arr,$brst3['b_recomm']);
 	array_push($b_recom_arr,$brst3_r['b_recomm2']);
@@ -116,16 +118,16 @@ if($brst_r['b_recomm2']){
 
 //왼쪽2
 if($brst2['b_recomm']){
-	$brst4 = sql_fetch("select mb_id as b_recomm from g5_member where mb_brecommend='".$brst2['b_recomm']."' and mb_brecommend_type='L'");
-	$brst4_r = sql_fetch("select mb_id as b_recomm2 from g5_member where mb_brecommend='".$brst2['b_recomm']."' and mb_brecommend_type='R'");
+	$brst4 = sql_fetch("select mb_id as b_recomm FROM {$binary_location} WHERE  mb_brecommend='".$brst2['b_recomm']."' and mb_brecommend_type='L'");
+	$brst4_r = sql_fetch("select mb_id as b_recomm2 FROM {$binary_location} WHERE  mb_brecommend='".$brst2['b_recomm']."' and mb_brecommend_type='R'");
 }
 	array_push($b_recom_arr,$brst4['b_recomm']);
 	array_push($b_recom_arr,$brst4_r['b_recomm2']);
 
 //오른쪽2
 if($brst2_r['b_recomm2']){
-	$brst5 = sql_fetch("select mb_id as b_recomm from g5_member where mb_brecommend='".$brst2_r['b_recomm2']."' and mb_brecommend_type='L'");
-	$brst5_r = sql_fetch("select mb_id as b_recomm2 from g5_member where mb_brecommend='".$brst2_r['b_recomm2']."' and mb_brecommend_type='R'");
+	$brst5 = sql_fetch("select mb_id as b_recomm FROM {$binary_location} WHERE  mb_brecommend='".$brst2_r['b_recomm2']."' and mb_brecommend_type='L'");
+	$brst5_r = sql_fetch("select mb_id as b_recomm2 FROM {$binary_location} WHERE  mb_brecommend='".$brst2_r['b_recomm2']."' and mb_brecommend_type='R'");
 }
 	array_push($b_recom_arr,$brst5['b_recomm']);
 	array_push($b_recom_arr,$brst5_r['b_recomm2']);
@@ -135,16 +137,16 @@ if($brst2_r['b_recomm2']){
 
 //왼쪽3
 if($brst3['b_recomm']){
-	$brst6 = sql_fetch("select mb_id as b_recomm from g5_member where mb_brecommend='".$brst3['b_recomm']."' and mb_brecommend_type='L'");
-	$brst6_r = sql_fetch("select mb_id as b_recomm2 from g5_member where mb_brecommend='".$brst3['b_recomm']."' and mb_brecommend_type='R'");
+	$brst6 = sql_fetch("select mb_id as b_recomm FROM {$binary_location} WHERE  mb_brecommend='".$brst3['b_recomm']."' and mb_brecommend_type='L'");
+	$brst6_r = sql_fetch("select mb_id as b_recomm2 FROM {$binary_location} WHERE  mb_brecommend='".$brst3['b_recomm']."' and mb_brecommend_type='R'");
 }
 	array_push($b_recom_arr,$brst6['b_recomm']);
 	array_push($b_recom_arr,$brst6_r['b_recomm2']);
 
 //오른쪽3
 if($brst3_r['b_recomm2']){
-	$brst7 = sql_fetch("select mb_id as b_recomm from g5_member where mb_brecommend='".$brst3_r['b_recomm2']."' and mb_brecommend_type='L'");
-	$brst7_r = sql_fetch("select mb_id as b_recomm2 from g5_member where mb_brecommend='".$brst3_r['b_recomm2']."' and mb_brecommend_type='R'");
+	$brst7 = sql_fetch("select mb_id as b_recomm FROM {$binary_location} WHERE  mb_brecommend='".$brst3_r['b_recomm2']."' and mb_brecommend_type='L'");
+	$brst7_r = sql_fetch("select mb_id as b_recomm2 FROM {$binary_location} WHERE  mb_brecommend='".$brst3_r['b_recomm2']."' and mb_brecommend_type='R'");
 }
 	array_push($b_recom_arr,$brst7['b_recomm']);
 	array_push($b_recom_arr,$brst7_r['b_recomm2']);
@@ -157,17 +159,17 @@ $left_point = array();$right_point = array();
 
 for($i=1;$i<=15;$i++){
 
-	$left = sql_fetch("select mb_id  from g5_member where mb_brecommend='".$b_recom_arr[$i]."' and mb_brecommend_type='L'")['mb_id'];
+	$left = sql_fetch("select mb_id  FROM {$binary_location} WHERE  mb_brecommend='".$b_recom_arr[$i]."' and mb_brecommend_type='L'")['mb_id'];
 	$left_acc = sql_fetch("select IFNULL(SUM(noo + (SELECT sum(pv) FROM g5_shop_order WHERE mb_id ='{$left}') ),0) as hap from brecom_bonus_noo where mb_id ='{$left}' order by day desc limit 0 ,1");
 
-	$right = sql_fetch("select mb_id  from g5_member where mb_brecommend='".$b_recom_arr[$i]."' and mb_brecommend_type='R'")['mb_id'];
+	$right = sql_fetch("select mb_id  FROM {$binary_location} WHERE  mb_brecommend='".$b_recom_arr[$i]."' and mb_brecommend_type='R'")['mb_id'];
 	$right_acc = sql_fetch("select IFNULL(SUM(noo + (SELECT sum(pv) FROM g5_shop_order WHERE mb_id ='{$right}') ),0) as hap from brecom_bonus_noo where mb_id ='{$right}' order by day desc limit 0 ,1");
 
 	array_push($left_point, $left_acc['hap']);
 	array_push($right_point, $right_acc['hap']);
 
 
-	$sql = "select mb_id,mb_level,grade,mb_rate,(SELECT count(mb_id) FROM g5_member WHERE mb_recommend = '{$b_recom_arr[$i]}') as direct_cnt from g5_member where  mb_id ='{$b_recom_arr[$i]}' ";
+	$sql = "select mb_id,mb_level,grade,mb_rate,(SELECT count(mb_id) FROM {$binary_location} WHERE  mb_recommend = '{$b_recom_arr[$i]}') as direct_cnt FROM {$binary_location} WHERE   mb_id ='{$b_recom_arr[$i]}' ";
 	$rem_info = sql_fetch($sql);
 
 	$member_info[$i]['mb_id'] = $rem_info['mb_id'];
@@ -179,12 +181,12 @@ for($i=1;$i<=15;$i++){
 
 
 //본인 데이터 고정
-$left_sql = " SELECT mb_rate, (SELECT noo FROM brecom_bonus_noo WHERE mb_id ='{$brst['b_recomm']}' ) AS noo FROM g5_member WHERE mb_id = '{$brst['b_recomm']}' ";
+$left_sql = " SELECT mb_rate, (SELECT noo FROM brecom_bonus_noo WHERE mb_id ='{$brst['b_recomm']}' ) AS noo FROM {$binary_location} WHERE  mb_id = '{$brst['b_recomm']}' ";
 $mb_self_left_result = sql_fetch($left_sql);
 $mb_self_left_acc = $mb_self_left_result['mb_rate'] + $mb_self_left_result['noo'];
 $mb_self_left_noo_result = $mb_self_left_acc ;
 
-$right_sql = " SELECT mb_rate, (SELECT noo FROM brecom_bonus_noo WHERE mb_id ='{$brst_r['b_recomm2']}' ) AS noo FROM g5_member WHERE mb_id = '{$brst_r['b_recomm2']}' ";
+$right_sql = " SELECT mb_rate, (SELECT noo FROM brecom_bonus_noo WHERE mb_id ='{$brst_r['b_recomm2']}' ) AS noo FROM {$binary_location} WHERE  mb_id = '{$brst_r['b_recomm2']}' ";
 $mb_self_right_result = sql_fetch($right_sql);
 $mb_self_right_acc = $mb_self_right_result['mb_rate'] + $mb_self_right_result['noo'];
 $mb_self_right_noo_result = $mb_self_right_acc ;
@@ -243,7 +245,7 @@ if($mem_self <= 0){
 								<?$leg_stack = array();?>
 								<?
 									if($start_id!=$member['mb_id']){
-										$get_list_higher  = "select mb_brecommend from g5_member where mb_id='".$start_id."'";
+										$get_list_higher  = "select mb_brecommend FROM {$binary_location} WHERE  mb_id='".$start_id."'";
 										$higher_id = sql_fetch($get_list_higher);
 										array_push($leg_stack, $higher_id['mb_brecommend']);
 								?>
@@ -251,7 +253,7 @@ if($mem_self <= 0){
 								<?
 									while(true){
 										if($higher_id['mb_brecommend'] != $member['mb_id']){
-										$get_list_higher  = "select mb_brecommend from g5_member where mb_id='".$higher_id['mb_brecommend']."'";
+										$get_list_higher  = "select mb_brecommend FROM {$binary_location} WHERE  mb_id='".$higher_id['mb_brecommend']."'";
 										$higher_id = sql_fetch($get_list_higher);
 								?>
 										<? array_push($leg_stack, $higher_id['mb_brecommend']);?>
@@ -351,10 +353,10 @@ if($mem_self <= 0){
 
 								<?}else{?>
 								<div class="lvl-open" id="<?echo $i ;?>" >
-									<!-- <select class="form-control">
+									<select class="form-control">
 										<option selected value="" data-i18n='binary.회원선택하기'>Select Member</option>
 									</select>
-									<button class="addMem b_skyblue b_radius_5"><span data-i18n='binary.등록하기'>Add member</span></button> -->
+									<button class="addMem b_skyblue b_radius_5"><span data-i18n='binary.등록하기'>Add member</span></button>
 								</div>
 								<?}//else end
 								}//for end?>
@@ -394,10 +396,10 @@ if($mem_self <= 0){
 								}
 								else{?>
 								<div class="lvl-open" id="<?echo $i ;?>" >
-									<!-- <select class="form-control">
+									<select class="form-control">
 										<option selected="" value="" data-i18n='binary.회원선택하기'>Select Member</option>
 									</select>
-									<button class="addMem b_skyblue b_radius_5"><span data-i18n='binary.등록하기'>등록하기</span></button> -->
+									<button class="addMem b_skyblue b_radius_5"><span data-i18n='binary.등록하기'>등록하기</span></button>
 								</div>
 								<?}//else end
 								}//for end?>
@@ -432,7 +434,7 @@ if($mem_self <= 0){
 					$distance=0;
 
 					while($mb_id!=$start_id){
-						$get_recommend  = "select mb_recommend from g5_member where mb_id='".$mb_id."'";
+						$get_recommend  = "select mb_recommend FROM {$binary_location} WHERE  mb_id='".$mb_id."'";
 						$rst_recom = sql_fetch($get_recommend);
 						$mb_id = $rst_recom['mb_recommend'];
 						$distance++;
@@ -443,7 +445,7 @@ if($mem_self <= 0){
 					//SELECT * FROM  `pinna_nation_code`
 					$nation_rst = sql_fetch($member_nation);
 
-					$get_recom = "select count(mb_recommend) as recom_cnt from g5_member where mb_recommend = '".$start_id."'";
+					$get_recom = "select count(mb_recommend) as recom_cnt FROM {$binary_location} WHERE  mb_recommend = '".$start_id."'";
 					$recom_rst = sql_fetch($get_recom);
 
 					?>

@@ -25,8 +25,7 @@
   width: 90%;
   margin: 30px auto;
   text-align: center;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .refer_link_wrap .qr_wrap img {
   max-width: 300px;

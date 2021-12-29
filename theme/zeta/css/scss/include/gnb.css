@@ -69,8 +69,7 @@ header .top_title {
   background: #fff;
   color: #29386b;
   text-align: left;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 15px 20px;
 }
 header .top_title > a {
@@ -98,14 +97,11 @@ header .left_gnbWrap {
   top: 0;
   background-color: #fff;
   z-index: 999;
-  -webkit-transition: all 0.3s;
   transition: all 0.3s;
   visibility: hidden;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
-  -webkit-transition: all 0.2s;
   transition: all 0.2s;
   /*   i {
         margin-right: 7px;
@@ -146,12 +142,8 @@ header .left_gnbWrap .user-content .userid {
 }
 header .left_gnbWrap .user-content .user_wrap {
   margin-right: 5px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   height: 80px;
 }
 header .left_gnbWrap .user-content .user_wrap button {
@@ -170,16 +162,10 @@ header .left_gnbWrap .b_line3 {
 header .left_gnbWrap .left_gnb {
   padding: 10px 0;
   overflow-y: auto;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: column;
-          flex-flow: column;
+  flex-flow: column;
   height: calc(100% - 200px);
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  justify-content: space-around;
 }
 header .left_gnbWrap .left_gnb li a {
   display: inline-block;
@@ -384,8 +370,7 @@ a.close:link {
     position: fixed;
     visibility: visible;
     left: 0;
-    -webkit-box-shadow: 1px 0 10px rgba(0, 0, 0, 0.15);
-            box-shadow: 1px 0 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 1px 0 10px rgba(0, 0, 0, 0.15);
   }
 
   #wrapper {
