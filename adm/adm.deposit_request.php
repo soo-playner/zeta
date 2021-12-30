@@ -259,8 +259,8 @@ $result = sql_query($sql);
         <th scope="col" width='10%'>입금처리금액</th>
         <th scope="col" width='5%'>입금종류</th>
         <th scope="col" width='10%'>승인여부</th>
-        <th scope="col" width='5%'>요청시간</th>
-        <th scope="col" width='15%'>상태변경일</th>
+        <th scope="col" width='12%'>요청시간</th>
+        <th scope="col" width='12%'>상태변경일</th>
         <th scope="col" width='15%'>추가항목</th>
     </tr>
     </thead>

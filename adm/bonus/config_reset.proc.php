@@ -5,6 +5,7 @@ include_once('../../util/purchase_proc.php');
 
 $today = date("Y-m-d H:i:s",time());
 $todate = date("Y-m-d",time());
+$datemd = date("mdis",time());
 
 if($_GET['debug']) $debug = 1;
 
@@ -76,6 +77,25 @@ if($_POST['nw_mining_reset'] == 'on'){
         $result = 1;
     }
 }
+
+if($_POST['nw_binary_reset'] == 'on'){
+    $copy_table = "g5_member_".$datemd;
+    $table_copy_sql = "CREATE TABLE IF NOT EXISTS {$copy_table} SELECT * FROM `g5_member` ";
+    
+    $table_copy_result = sql_query($table_copy_sql);
+
+    if($table_copy_result){
+        $update_member = sql_query("update g5_member set mb_brecommend = '', mb_brecommend_type = '',mb_bre_time='',mb_lr = '0' WHERE mb_no > 1 ");
+        $trunc14 = sql_query(" TRUNCATE TABLE `g5_member_bclass` ");
+        $del_binary2 = sql_query("DELETE from g5_member_binary WHERE NO > 2 ");
+        
+    }
+    
+    if($del_binary2){
+        $result = 1;
+    }
+}
+
 
 if($_POST['nw_data_test'] == 'on'){
     
