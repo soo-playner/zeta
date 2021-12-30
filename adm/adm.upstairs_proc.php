@@ -81,9 +81,9 @@ $calc_value = conv_number($input_val);
 if($rst && $logic){
 
 	$update_point = " UPDATE g5_member set $target = ($target - $calc_value) ";
+	$mb_level = sql_fetch("SELECT mb_level from g5_member WHERE mb_id = '{$mb_id}' ")['mb_level'];
 
-
-	if($member['mb_level'] == 0){
+	if($mb_level == 0){
 		$update_point .= ", mb_level = 1 " ;
 	}
 
