@@ -97,6 +97,32 @@ $result = sql_query($sql);
 
 <script>
 	$(function(){
+        // 바이너리 추가
+        $('.add_binary').on('click',function(){
+            var mb_id = $(this).data('id');
+
+            $.ajax({
+                url: '/adm/adm.add_binary.php',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    mb_id : mb_id
+                },
+                success: function(res) {
+                    if(res.result == "success"){
+                        alert(res.msg);
+                        location.reload();
+                    }else{
+                        alert("처리되지 않았습니다.");
+                    }
+                },
+                error: function(e){
+                    if(debug) dialogModal('ajax ERROR','IO ERROR','failed'); 
+                }
+                
+            });
+
+        });
 
 		$('.regTb [name=status]').on('change',function(e){
             var refund = 'N';
@@ -216,7 +242,7 @@ $result = sql_query($sql);
 <div class="local_desc01 local_desc">
     <p>
         <strong>- 요청확인중 :</strong> 기본값 | <strong>승인 :</strong> 입금금액 포인트 반영 | <strong>대기 :</strong> 확인처리중 | <strong>불가 :</strong> 입금자, 입금액 불일치 - 입금액변경하여 처리가능 | <strong>취소 :</strong> 미승인처리<br>
-        - 상태값 승인 => 입금액 반영시에만 회원에게 포인트 지급처리
+        <strong>- 후원레그2 추가 : </strong> 기존회원중 후원레그2 수동 추가 (신규입금자는 입금승인시 자동처리)
 	</p>
 </div>
 
@@ -229,12 +255,13 @@ $result = sql_query($sql);
         <th scope="col" width='8%'>아이디</th>
         <th scope="col" width='8%'>추천인</th>
         <th scope="col" width='10%'>입금자명</th>
-        <th scope="col" width='15%'>입금요청금액</th>
-        <th scope="col" width='15%'>입금처리금액</th>
+        <th scope="col" width='10%'>입금요청금액</th>
+        <th scope="col" width='10%'>입금처리금액</th>
         <th scope="col" width='5%'>입금종류</th>
         <th scope="col" width='10%'>승인여부</th>
-        <th scope="col" width='10%'>요청시간</th>
+        <th scope="col" width='5%'>요청시간</th>
         <th scope="col" width='15%'>상태변경일</th>
+        <th scope="col" width='15%'>추가항목</th>
     </tr>
     </thead>
     <tbody>
@@ -247,9 +274,10 @@ $result = sql_query($sql);
         if($duplicate > 1){$row_dup = 'row_dup';}else{$row_dup = '';}
 
         $member_sql = "SELECT A.mb_recommend,A.mb_sponsor,B.mb_brecommend from g5_member A, g5_member B WHERE A.mb_id = '{$row['mb_id']}' AND B.mb_id = A.mb_recommend";
-        // echo $member_sql;
         $member_result = sql_fetch($member_sql);
 
+        $member_binary = sql_fetch("SELECT mb_id from g5_member_binary WHERE mb_id = '{$row['mb_id']}' ")['mb_id'];
+        
     ?>
    
     <tr class=" <?=$row_dup?>">
@@ -258,7 +286,7 @@ $result = sql_query($sql);
         <td style='color:#666'><?=$member_result['mb_recommend']?></td>
         <td ><?=$row['txhash']?></td>
         <td><?=Number_format($row['in_amt'],ASSETS_NUMBER_POINT)?></td>
-        <td><input type='text' class='reg_text input_amt_val' style='font-weight:600;color:blue' value='<?=Number_format($row['in_amt'],ASSETS_NUMBER_POINT)?>' inputmode="numeric"></td>
+        <td><input type='text' class='reg_text input_amt_val' style='font-weight:600;color:blue;text-align:right' value='<?=Number_format($row['in_amt'],ASSETS_NUMBER_POINT)?>' inputmode="numeric"></td>
         <td class='coin'><?=strtoupper($row['coin']);?></td>
         <td>
             <!-- <?=status($row['status'])?> -->
@@ -272,6 +300,11 @@ $result = sql_query($sql);
         </td>
         <td><?=$row['create_dt']?></td>
         <td><?=$row['update_dt']?></td>
+        <td>
+            <?if(!$member_binary){?>
+                <input type="button" class="inline_btn add_binary" value='후원레그2 추가' data-id='<?=$row['mb_id']?>'></input>
+            <?}?>
+        </td>
     </tr>
 
     <?php

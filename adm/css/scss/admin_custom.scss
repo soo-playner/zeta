@@ -23,3 +23,17 @@
 .color6 {background: #2b3a6d !important;}
 .color9 {background: #6214ab !important;}
 .color10 {background: #6214ab !important;}
+
+.inline_btn{
+  background:rgba(255,255,255,0.5);
+  border:1px solid #ccc;
+  padding:5px 10px;
+  margin:0 5px;
+  box-shadow: 1px 1px 0px rgba(0,0,0,0.25);
+  cursor: pointer;
+}
+.inline_btn:hover{
+  background:black;
+  border:1px solid black;
+  color:white;
+}

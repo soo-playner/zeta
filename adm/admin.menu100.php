@@ -24,7 +24,7 @@ if(version_compare(phpversion(), '5.3.0', '>=') && defined('G5_BROWSCAP_USE') &&
 }
 
 $menu['menu100'][] = array('100400', '부가서비스', G5_ADMIN_URL.'/service.php', 'cf_service');
-$menu['menu100'][] = array('100610', '암호화폐 설정', G5_ADMIN_URL.'/blocksdk/cointx.php', 'cf_service');
+// $menu['menu100'][] = array('100610', '암호화폐 설정', G5_ADMIN_URL.'/blocksdk/cointx.php', 'cf_service');
 // $menu['menu100'][] = array('100600', '텔레그램 플러그인 설정', G5_ADMIN_URL.'/telegram_setting.php', 'cf_service');
 }else{}
 ?>

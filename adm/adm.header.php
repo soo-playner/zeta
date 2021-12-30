@@ -8,7 +8,7 @@ if (empty($to_date)) $to_date = G5_TIME_YMD;
 $qstr = "fr_date=".$fr_date."&amp;to_date=".$to_date."&amp;to_id=".$fr_id;
 $query_string = $qstr ? '?'.$qstr : '';
 ?>
-
+<link rel="stylesheet" href="/adm/css/scss/admin_custom.css">
 <style>
     .local_sch02 div.sch_last{display:inline-block;margin-left:15px;}
     .local_sch02 strong{width:inherit;padding-right:5px;}
