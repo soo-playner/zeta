@@ -32,7 +32,7 @@ endif;
 
 //회원 리스트를 읽어 온다.
 $sql_common = " FROM g5_member";
-$sql_search=" WHERE rank > 1 AND mb_level < 7";
+$sql_search=" WHERE rank > 0 AND mb_level < 7";
 $sql_mgroup=" ORDER BY mb_no asc";
 
 $pre_sql = "select * 
@@ -268,10 +268,10 @@ function  excute(){
 
 
         if($benefit > 0 && $benefit_limit > 0){
-            $rec=$code.' Bonus By '.$bonus_layer.' step | '.$mining_matching_hash.' MH :: '.shift_auto($benefit_limit,COIN_NUMBER_POINT).' '.$minings[0];
+            $rec=$code.' Bonus By '.$matching_lvl.' | '.$mining_matching_hash.' MH :: '.shift_auto($benefit_limit,COIN_NUMBER_POINT).' '.$minings[0];
             $rec_adm =  $mining_matching_hash.' * '.$mining_rate.' * '.$bonus_rates.' = '.shift_auto($benefit_limit,COIN_NUMBER_POINT);
 
-            $record_result = mining_record($mb_id, $code, $benefit_limit,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day);
+            $record_result = mining_record($mb_id, $code, $benefit_limit,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day,$mining_matching_hash);
 
             
             if($record_result){

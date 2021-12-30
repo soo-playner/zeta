@@ -65,8 +65,8 @@ function bonus_condition_tx($bonus_condition){
         $bonus_condition_tx = '추천 계보';
     }else if($bonus_condition == 2){
         $bonus_condition_tx = '후원(바이너리) 계보';
-    }else{
-        $bonus_condition_tx='';
+    }else if($bonus_condition == 3){
+        $bonus_condition_tx='후원2(바이너리) 계보';
     }
     return $bonus_condition_tx;
 }
@@ -312,7 +312,7 @@ $mining_table = sql_query("CREATE table if not exists `soodang_mining`(
 
 
 // 마이닝
-function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$rec_adm,$bonus_day){
+function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$rec_adm,$bonus_day,$hash = 0){
     global $g5,$debug,$now_datetime;
 
     $soodang_sql = " insert `soodang_mining` set day='".$bonus_day."'";
@@ -324,6 +324,8 @@ function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$re
     $soodang_sql .= " ,rec			= '{$rec}' ";
     $soodang_sql .= " ,rec_adm		= '{$rec_adm}' ";
     $soodang_sql .= " ,datetime		= '{$now_datetime}' ";
+    $soodang_sql .= " ,hash		= {$hash} ";
+    
     
     if($debug){
         echo "<code>";
@@ -355,10 +357,7 @@ function mining_limit_check($mb_id,$bonus){
     $mb_mining = $mem_result[$mining_target];
     $mb_pv = $mem_result['daily_mining'] * $bonus_limit;
     
-    if($mb_id == 'admin' || $mb_id == $config['cf_admin']){
-        $mb_pv = 100000000000;
-        $admin_cash = 1;
-    }
+    
 
     if($mb_pv > 0 ){
         if($bonus <= $mb_pv){

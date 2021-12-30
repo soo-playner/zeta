@@ -14,6 +14,8 @@
 .outbox:nth-child(2) .benefit{background:green}
 .outbox:nth-child(3) .benefit{background:orangered}
 .outbox:nth-child(4) .benefit{background:#ef21fd}
+.outbox:nth-child(5) .benefit{background:#6f00ff;}
+.outbox:nth-child(6) .benefit{background:#0260b9;}
 /* 
 .outbox:nth-child(2) .benefit{background:royalblue}
 .outbox:nth-child(3) .benefit{background:cornflowerblue}
@@ -41,7 +43,7 @@
 .search_item + .allow_btn{border:1px solid #666; padding:12px 10px;margin-right:10px;height:40px;cursor:pointer}
 .search_item.active + .allow_btn{background:greenyellow;border:1px solid lightskyblue;}
 
-.btn_submit.search{width:140px;height:40px;}
+.btn_submit.search{width:100px;height:40px;}
 .btn_submit.excel{width:80px;background:green;height:40px;}
 
 .sysbtn{background:lightyellow;border-bottom:1px solid #ccc;display:block;height:25px;width:100%;text-align:right;padding-top:10px;margin-bottom:15px;}
@@ -57,6 +59,8 @@
 .adm, .green{color:green}
 .orange {color:orangered;}
 .pink {color:#ef21fd;}
+.purple {color:#6f00ff;}
+.deepblue {color:#0260b9;}
 .white{background:white;}
 .red{color:red;}
 
