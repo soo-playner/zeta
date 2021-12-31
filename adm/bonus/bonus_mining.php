@@ -40,7 +40,7 @@ for ($i=1; $row=sql_fetch_array($list); $i++) {
 			$html.=" checked='true' ";
 		}
 
-		$html.=" value='".$row['code']."'><label for='".$nnn."' class='allow_btn'>". $row['name']."보너스</label>";
+		$html.=" value='".$row['code']."'><label for='".$nnn."' class='allow_btn'>". $row['name']."</label>";
 	}
 
 	if(${"allowance_chk".$i}!=''){
@@ -124,10 +124,14 @@ $qstr.='&aaa='.$aaa;
 function mining_kind($kind){
 	if($kind == 'mining'){
 		$color_class = 'green';
+	}else if($kind == 'mega_mining'){
+		$color_class = 'orange';
 	}else if($kind == 'zeta_mining'){
 		$color_class = 'pink';
-	}else{
-		$color_class = 'orange';
+	}else if($kind == 'zetaplus_mining'){
+		$color_class = 'purple';
+	}else if($kind == 'super_mining'){
+		$color_class = 'deepblue';
 	}
 	return $color_class;
 }
@@ -144,7 +148,6 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		<strong>마이닝 :</strong> 수당설정에서 마이닝 지급량 설정후 지급 <br>
 	</p>
 </div>
-
 
 <link href="<?=G5_ADMIN_URL?>/css/scss/bonus/bonus_mining.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
@@ -174,7 +177,9 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 				</li>
 			<?}else{?>
 				<li class='outbox left-border'>
-				<button type='button' name="act_button"  class="frm_input benefit" onclick="bonus_excute('<?=$code?>','<?=$row['name']?>');"> <i class="ri-medal-fill" style='font-size:16px; vertical-align:sub'></i> 직급 승급 </button>
+				<button type='button' name="act_button"  class="frm_input benefit" onclick="bonus_excute('<?=$code?>','<?=$row['name']?>');"> 
+					<i class="ri-medal-fill" style='font-size:16px; vertical-align:sub'></i> 
+				직급 승급 </button>
 				<br><input type="submit" name="act_button" value="회원 <?=$row['name']?> 내역"  class="view_btn" onclick="bonus_view('<?=$code?>');">
 				</li>
 			<?}?>
@@ -182,17 +187,6 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 		
 	<?}?>
 
-	<!-- <li class="outbox left-border">
-		<input type="submit" name="act_button" value=" 보너스지급 취소(되돌리기)"  class="frm_input benefit red" onclick="bonus_cancle();">
-	</li> -->
-	<!-- <?if($member['mb_id'] == 'admin'){?>
-		<li class="outbox left-border">
-			<input type="submit" name="act_button" value="보너스초기화"  class="frm_input benefit red" onclick="bonus_reset();">
-		</li>
-		<li class="outbox left-border">
-			<input type="submit" name="act_button" value="승급테스트DB생성"  class="frm_input benefit black" onclick="bonus_dumy();">
-		</li>
-	<?}?> -->
 </div>
 
 
@@ -220,9 +214,9 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			</select>
 
 			<label for="stx" class="sound_only">검색어<strong class="sound_only"> 필수</strong></label>
-			<input type="text" name="stx" value="<?php echo $stx ?>" id="stx" class="frm_input">
-			| 검색 기간 : <input type="text" name="start_dt" id="start_dt" placeholder="From" class="frm_input" value="<?=$fr_date?>" /> 
-			~ <input type="text" name="end_dt" id="end_dt" placeholder="To" class="frm_input" value="<?=$to_date?>"/>
+			<input type="text" name="stx" value="<?php echo $stx ?>" id="stx" style="padding-left:5px;" class="frm_input">
+			| 검색 기간 : <input type="text" name="start_dt" id="start_dt" placeholder="From" class="frm_input" style='width:70px;padding-left:5px;' value="<?=$fr_date?>" /> 
+			~ <input type="text" name="end_dt" id="end_dt" placeholder="To" class="frm_input" style='width:70px;padding-left:5px;' value="<?=$to_date?>"/>
 			
 			<?=$html?>
 		
