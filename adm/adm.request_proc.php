@@ -392,7 +392,7 @@ if ($result) {
 }
 
 if ($recom_update_result) {
-	$msg .= "\n{$mb_id} :: 자동 후원인 등록 = {$now_brecom['id']} - $now_type \n";
+	$msg .= "\n[ {$mb_id} ]\n자동 후원인 등록 = {$now_brecom['id']} - $now_type \n";
 }
 
 if($random_recom_update_result){

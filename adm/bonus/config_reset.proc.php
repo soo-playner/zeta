@@ -88,10 +88,10 @@ if($_POST['nw_binary_reset'] == 'on'){
         $update_member = sql_query("update g5_member set mb_brecommend = '', mb_brecommend_type = '',mb_bre_time='',mb_lr = '0' WHERE mb_no > 1 ");
         $trunc14 = sql_query(" TRUNCATE TABLE `g5_member_bclass` ");
         $del_binary2 = sql_query("DELETE from g5_member_binary WHERE NO > 2 ");
-        
+        $auto_count = sql_query("ALTER TABLE g5_member_binary AUTO_INCREMENT = 3");
     }
     
-    if($del_binary2){
+    if($auto_count){
         $result = 1;
     }
 }
