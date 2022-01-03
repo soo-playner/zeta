@@ -20,6 +20,23 @@ if(isset($mb_id) && $func){
         add_binary2($mb_id);
     }else if($func == 1){
         add_binary($mb_id);
+    }else if ($func == 3){
+        remove_binary($mb_id);
+    }
+}
+
+function remove_binary($mb_id){
+    $remove_binary_sql = "UPDATE g5_member set mb_brecommend='', mb_brecommend_type='',mb_bre_time='',mb_lr = 0 WHERE mb_id = '{$mb_id}' ";
+    $result1 = sql_query($remove_binary_sql);
+
+    $remove_binary2_sql = "DELETE FROM g5_member_binary WHERE mb_id = '{$mb_id}' ";
+    $result2 = sql_query($remove_binary2_sql);
+
+    if($result1 && $result2){
+        $msg = $mb_id. " 님의 후원레그 정보가 초기화 되었습니다.";
+        echo (json_encode(array("result" => "success", "code" => "0001", "msg" => $msg), JSON_UNESCAPED_UNICODE));
+    }else{
+        echo (json_encode(array("result" => "failed", "code" => "0002", "msg" => "처리에러"), JSON_UNESCAPED_UNICODE));
     }
 }
 
@@ -34,7 +51,8 @@ function add_binary($mb_id){
 
     if ($brecomm == '') {
         // $recomm = $recomm_result['mb_recommend'];
-        $recomm = $config['cf_admin'];
+        // $recomm = $config['cf_admin'];
+        $recomm = 'zbzzang';
 
         // 직후원인
         $direct_brecom_sql  =  "SELECT COUNT(mb_id) as cnt from g5_member WHERE mb_brecommend  = '{$recomm}' ";

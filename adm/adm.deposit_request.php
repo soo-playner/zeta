@@ -94,6 +94,9 @@ $result = sql_query($sql);
 
     .btn1{background:#e4f1ff}
     .btn2{background:#f9f1d3}
+    .btn3{background:#fd9898}
+
+    .time{font-size:11px;letter-spacing: -0.5px;}
 
 </style>
 
@@ -259,14 +262,15 @@ $result = sql_query($sql);
         <th scope="col" width='5%'>no</th>
         <th scope="col" width='8%'>아이디</th>
         <th scope="col" width='8%'>추천인</th>
-        <th scope="col" width='10%'>입금자명</th>
-        <th scope="col" width='10%'>입금요청금액</th>
+        <th scope="col" width='8%'>입금자명</th>
+        <th scope="col" width='8%'>입금요청금액</th>
         <th scope="col" width='10%'>입금처리금액</th>
-        <th scope="col" width='5%'>입금종류</th>
-        <th scope="col" width='10%'>승인여부</th>
+        <th scope="col" width='4%'>입금종류</th>
+        <th scope="col" width='8%'>승인여부</th>
         <th scope="col" width='12%'>요청시간</th>
         <th scope="col" width='12%'>상태변경일</th>
         <th scope="col" width='20%'>추가항목</th>
+        <th scope="col" width='10%'>추가항목2</th>
     </tr>
     </thead>
     <tbody>
@@ -305,8 +309,8 @@ $result = sql_query($sql);
                 <option <?=$row['status'] == 4 ? 'selected':'';?> value=4>취소</option>
             </select>	
         </td>
-        <td><?=$row['create_dt']?></td>
-        <td><?=$row['update_dt']?></td>
+        <td class='time'><?=$row['create_dt']?></td>
+        <td class='time'><?=$row['update_dt']?></td>
         <td>
             <?if(!$member_binary){?>
                 <input type="button" class="inline_btn add_binary btn1" value='후원레그+' data-id='<?=$row['mb_id']?>' data-func='1'></input>
@@ -316,6 +320,10 @@ $result = sql_query($sql);
                 <input type="button" class="inline_btn add_binary btn2" value='후원레그2+' data-id='<?=$row['mb_id']?>' data-func='2'></input>
             <?}?>
         </td>
+        <td>
+            <?if($member_binary || $member_binary2){?>
+                <input type="button" class="inline_btn add_binary btn3" value='후원레그삭제' data-id='<?=$row['mb_id']?>' data-func='3'></input>
+            <?}?></td>
     </tr>
 
     <?php
