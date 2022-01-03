@@ -92,6 +92,9 @@ $result = sql_query($sql);
 	.local_ov .tit{color:black; font-weight:600;}
 	.local_ov a{margin-left:20px;}
 
+    .btn1{background:#e4f1ff}
+    .btn2{background:#f9f1d3}
+
 </style>
 
 
@@ -100,13 +103,15 @@ $result = sql_query($sql);
         // 바이너리 추가
         $('.add_binary').on('click',function(){
             var mb_id = $(this).data('id');
+            var func = $(this).data('func');
 
             $.ajax({
                 url: '/adm/adm.add_binary.php',
                 type: 'POST',
                 dataType: 'json',
                 data: {
-                    mb_id : mb_id
+                    mb_id : mb_id,
+                    func : func
                 },
                 success: function(res) {
                     if(res.result == "success"){
@@ -261,7 +266,7 @@ $result = sql_query($sql);
         <th scope="col" width='10%'>승인여부</th>
         <th scope="col" width='12%'>요청시간</th>
         <th scope="col" width='12%'>상태변경일</th>
-        <th scope="col" width='15%'>추가항목</th>
+        <th scope="col" width='20%'>추가항목</th>
     </tr>
     </thead>
     <tbody>
@@ -276,7 +281,9 @@ $result = sql_query($sql);
         $member_sql = "SELECT A.mb_recommend,A.mb_sponsor,B.mb_brecommend from g5_member A, g5_member B WHERE A.mb_id = '{$row['mb_id']}' AND B.mb_id = A.mb_recommend";
         $member_result = sql_fetch($member_sql);
 
-        $member_binary = sql_fetch("SELECT mb_id from g5_member_binary WHERE mb_id = '{$row['mb_id']}' ")['mb_id'];
+        $member_binary_sql = sql_fetch("SELECT A.mb_brecommend,B.mb_id FROM g5_member A  LEFT JOIN g5_member_binary B ON A.mb_id = B.mb_id WHERE A.mb_id ='{$row['mb_id']}' ");
+        $member_binary = $member_binary_sql['mb_brecommend'];
+        $member_binary2 = $member_binary_sql['mb_id'];
         
     ?>
    
@@ -302,7 +309,11 @@ $result = sql_query($sql);
         <td><?=$row['update_dt']?></td>
         <td>
             <?if(!$member_binary){?>
-                <input type="button" class="inline_btn add_binary" value='후원레그2 추가' data-id='<?=$row['mb_id']?>'></input>
+                <input type="button" class="inline_btn add_binary btn1" value='후원레그+' data-id='<?=$row['mb_id']?>' data-func='1'></input>
+            <?}?>
+
+            <?if(!$member_binary2){?>
+                <input type="button" class="inline_btn add_binary btn2" value='후원레그2+' data-id='<?=$row['mb_id']?>' data-func='2'></input>
             <?}?>
         </td>
     </tr>
