@@ -624,6 +624,10 @@ $(function(){
       });
 
     });
+
+    $('.cancle_log_btn').on('click',function(){
+        location.href = "../order_delete.php";
+    });
 });
 
 function set_date(today)
