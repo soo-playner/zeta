@@ -154,7 +154,6 @@ function array_brecommend($recom_id, $count=0)
             $b_recom_result_l['mb_id'] = '';
         }
         $b_recom_arr_l[$count]['recom']= $b_recom_result_l['mb_id'];
-        $b_recom_arr_l[$count]['nation']= $b_recom_result_l['nation_number'];
         array_push($b_recom_arr_lr[$count], $b_recom_arr_l[$count]);
         
         

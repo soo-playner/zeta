@@ -108,7 +108,8 @@ if ($func == 'withrawal') {
 
 		if ($brecomm == '') {
 			// $recomm = $recomm_result['mb_recommend'];
-			$recomm = $config['cf_admin'];
+			// $recomm = $config['cf_admin'];
+			$recomm = 'zbzzang';
 
 
 			// 추천인의 회원 승급 
