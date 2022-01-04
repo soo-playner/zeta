@@ -720,7 +720,7 @@ if($mem_self <= 0){
 		$('.leg-name').click(function(){
 			var move_id = $(this).attr("name");
 			if(move_id){
-				location.replace(g5_url + "/page.php?id=binary&start_id="+move_id);
+				location.replace(g5_url + "/page.php?id=binary2&start_id="+move_id);
 			}
 		});
 
@@ -732,7 +732,7 @@ if($mem_self <= 0){
 			//나머지가 0이면 Left //나머지가 1이면 Right
 			//alert (b_recom_arr[id_check]);
 			if(id_check!=1){
-				location.replace(g5_url + "/page.php?id=binary&start_id="+b_recom_arr[id_check]);
+				location.replace(g5_url + "/page.php?id=binary2&start_id="+b_recom_arr[id_check]);
 			}
 			//alert (add_id);
 		});
@@ -775,7 +775,7 @@ if($mem_self <= 0){
 //		var left_bottom = $('.8').val();
 		var left_bottom =  "<?=$left_bottom?>";
 		if(left_bottom!=null && left_bottom!=""){
-			location.replace(g5_url + "/page.php?id=binary&start_id="+left_bottom);
+			location.replace(g5_url + "/page.php?id=binary2&start_id="+left_bottom);
 		}
 		else
 			//alert("Can't move left bottom");
@@ -783,7 +783,7 @@ if($mem_self <= 0){
 	});
 
 	$("#go_top").click(function(){
-		location.replace(g5_url + "/page.php?id=binary&start_id=<?=$member['mb_id']?>");
+		location.replace(g5_url + "/page.php?id=binary2&start_id=<?=$member['mb_id']?>");
 	});
 
 	$("#go_up_one").click(function(){
@@ -802,7 +802,7 @@ if($mem_self <= 0){
 			success: function(data) {
 					//alert(data.result);
 					if(data.result!="")
-						location.replace(g5_url + "/page.php?id=binary&start_id="+data.result);
+						location.replace(g5_url + "/page.php?id=binary2&start_id="+data.result);
 					else
 						 //alert("Now member is Top");
 						 commonModal('Notice',"Now member is Top",80);
@@ -813,7 +813,7 @@ if($mem_self <= 0){
 	$("#right_top").click(function(){
 		var right_bottom = "<?=$right_bottom?>";
 		if(right_bottom!=null && right_bottom!=""){
-			location.replace(g5_url + "/page.php?id=binary&start_id="+right_bottom);
+			location.replace(g5_url + "/page.php?id=binary2&start_id="+right_bottom);
 		}
 		else
 			//alert("Can't move left bottom");
@@ -824,7 +824,7 @@ if($mem_self <= 0){
 
 function go_member(go_id){
 	//location.replace(g5_url + "/page.php?id=binary&start_id="+data.result);
-	location.replace(g5_url + "/page.php?id=binary&start_id="+go_id);
+	location.replace(g5_url + "/page.php?id=binary2&start_id="+go_id);
 }
 </script>
 
