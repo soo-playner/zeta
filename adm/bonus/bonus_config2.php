@@ -84,7 +84,7 @@ $token = get_token();
 
 
 <style>
-    #mining_log{width:400px;margin: 20px;}
+    #mining_log{width:600px;margin: 20px;}
     #mining_log .head{border:1px solid #eee;background:orange;display: flex;width:inherit}
     #mining_log .body{border:1px solid #eee;display: flex;width:inherit}
     #mining_log dt,#mining_log dd{display:block;padding:5px 10px;text-align: center;width:inherit;}
@@ -96,15 +96,19 @@ $token = get_token();
     <div class='head'>
         <dt>지급일</dt>
         <dd>마이닝지급량</dd>
+        <dd class="blue" style='color:white'>마이닝보너스지급총량</dd>
     </div>
 
     <?
         $mining_rate_result = sql_query("SELECT day,rate from soodang_mining group by day order by day desc limit 0,7");
         while($row = sql_fetch_array($mining_rate_result)){
+            $mining_bonus_exc_sql = "SELECT SUM(mining) as mining_total FROM soodang_mining WHERE day = '{$row['day']}' ";
+            $mining_bonus_exc = sql_fetch($mining_bonus_exc_sql);
     ?>
     <div class='body'>
         <dt><?=$row['day']?></dt>
         <dd><?=$row['rate']?></dd>
+        <dd><?=shift_auto($mining_bonus_exc['mining_total'],8)?></dd>
     </div>
     <?}?>
 </div>

@@ -3,7 +3,8 @@
 	include_once('./_common.php');
     include_once(G5_THEME_PATH.'/_include/wallet.php');
 	include_once(G5_THEME_PATH.'/_include/gnb.php');
-
+    
+    login_check($member['mb_id']);
 	$title = '마이닝';
 
     $ordered_items = ordered_items($member['mb_id'],$_GET['item']);
@@ -24,14 +25,15 @@
     $max_mining_total = $mining_total;
 
     /* 리스트 기본값*/
-    
-    $mining_history_limit = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining)";
+    $mining_history_limit1 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining)";
+    $mining_history_limit2 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining)";
     $mining_history_limit_text ='전체 내역보기';
-    $mining_amt_limit = " limit 0,1 ";
+    $mining_amt_limit = "limit 0,1 ";
     $mining_amt_limit_text = '전체 내역보기';
 
     if($_GET['history_limit'] == 'all'){
-        $mining_history_limit = " ORDER BY day desc ";
+        $mining_history_limit1 = " ";
+        $mining_history_limit2 = " ORDER BY day desc ";
         $mining_history_limit_text = "최근내역만보기";
     }
 
@@ -41,7 +43,14 @@
     }
 
     // 마이닝 내역
-    $mining_history_sql = "SELECT * from {$g5['mining']} WHERE mb_id = '{$member['mb_id']}'  {$mining_history_limit} ";
+    // $mining_history_sql = "SELECT * from {$g5['mining']} WHERE mb_id = '{$member['mb_id']}'  {$mining_history_limit} GROUP BY allowance_name ";
+    $mining_history_sql = "SELECT *
+FROM soodang_mining
+WHERE mb_id = 'zbzzang' AND allowance_name != 'super_mining' {$mining_history_limit1} UNION
+SELECT NO, DAY,allowance_name,mb_id, SUM(mining) AS mining,currency,rate,rec,rec_adm, DATETIME,HASH
+FROM soodang_mining
+WHERE mb_id = 'zbzzang' AND allowance_name = 'super_mining' {$mining_history_limit2}";
+
     // print_R($mining_history_sql);
     $mining_history = sql_query($mining_history_sql);
     $mining_history_cnt = sql_num_rows($mining_history);
@@ -57,16 +66,18 @@
         }else if($val == 'mega_mining'){
             return "<span class='badge b_orange'>".strtoupper($val)."</span>";
         }else if($val == 'zeta_mining'){
+            return "<span class='badge b_pink'>".strtoupper($val)."</span>";
+        }else if($val == 'zetaplus_mining'){
             return "<span class='badge b_purple'>".strtoupper($val)."</span>";
-        }else{
-            return "<span class='badge b_orange'>".strtoupper($val)."</span>";
+        }else if($val == 'super_mining'){
+            return "<span class='badge b_blue'>".strtoupper($val)."</span>";
         }
     }
 ?>
 
     <?include_once(G5_THEME_PATH.'/_include/breadcrumb.php');?>
     <link href="<?=G5_THEME_URL?>/css/scss/page/mining.css" rel="stylesheet">
-
+    
     <main>
         <div id="mining" class="container mining">
 
@@ -196,9 +207,19 @@
                         <?while($row = sql_fetch_array($mining_history)){?>
                         <ul class="row">
                             <li class="col-3 hist_date"><?=$row['day']?></li>
-                            <li class="col-4 hist_td"><?=category_badge($row['allowance_name'])?></li>
-                            <li class="col-5 hist_value"><?=shift_coin($row['mining'])?> <?=strtoupper($row['currency'])?></li>
-                            <li class="col-12 hist_rec"><?=$row['rec']?></li>
+                            <li class="col-5 hist_td"><?=category_badge($row['allowance_name'])?>
+                            <? if($row['allowance_name'] == 'super_mining'){ echo "<a href='/page.php?id=mining_detail&day={$row['day']}' class='btn more_record' style='margin:0' data-day='".$row['day']."'><i class='ri-menu-add-line'></i></a>";}?>
+                            </li>
+                            <li class="col-4 hist_value"><?=shift_coin($row['mining'])?> <?=strtoupper($row['currency'])?></li>
+                            <li class="col-12 hist_rec">
+                                <? 
+                                    if($row['allowance_name'] != 'super_mining'){ 
+                                        echo $row['rec'];
+                                    }else{
+                                        echo "click more btn";
+                                    }
+                                ?>
+                            </li>
                         </ul>
                         <?}?>
                         

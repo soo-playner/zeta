@@ -39,20 +39,20 @@ header h5{line-height: 28px;}
 <main>
     <div class='container'>
 
-        <div class="col-sm-12 col-12 content-box round" id="<?= $cate ?>">
+        <div class="col-sm-12 col-12 mt30 content-box round" id="<?= $cate ?>">
             <div class="box-header row">
                 <?
                     $sub_sql = "SELECT *,SUM(benefit) as total_benefit FROM soodang_pay WHERE day = '{$val['day']}' AND mb_id = '{$member['mb_id']}' and allowance_name='{$val['cate']}' GROUP BY DAY";
                     $sub_result = sql_query($sub_sql);
                     while($row_ = sql_fetch_array($sub_result) ){?>
-                <div class='col-8 text-left'>
-                    <span><?= $row_['day'] ?></span>
-                    <span style="font-size:80%"> [<?= strtoupper($row_['allowance_name']) ?> BONUS ]</span>
+                <div class='col-7 text-left'>
+                    <span style="font-size:15px"><?= $row_['day'] ?></span>
+                    <span style="font-size:13px"> [ <?= strtoupper($row_['allowance_name']) ?> ]</span>
                 </div>
 
-                <div class='col-4 text-right'>
+                <div class='col-5 text-right'>
                     <span> <i class="ri-add-line"></i></span>
-                    <span><?=Number_format($row_['total_benefit'],BONUS_NUMBER_POINT) ?> <?=BALANCE_CURENCY?></span>
+                    <span><?=Number_format($row_['total_benefit'],BONUS_NUMBER_POINT) ?> </span>
                 </div>
                 <?}?>
             </div>
@@ -69,10 +69,10 @@ header h5{line-height: 28px;}
                     $detail_result = sql_query($detail_sql);
                     while($rows = sql_fetch_array($detail_result) ){?>
                 <div class="block row">
-                    <div class='col-9 text-left'>
-                        <span class='b_hist_exp'><?= $rows['rec'] ?></span>
+                    <div class='col-8 text-left' >
+                        <span class='b_hist_exp' style='font-size:12px;'><?= $rows['rec'] ?></span>
                     </div>
-                    <div class='col-3 text-right'>
+                    <div class='col-4 text-right'>
                         <span> <i class="ri-add-line"></i></span>
                         <span><?=Number_format($rows['benefit'],BONUS_NUMBER_POINT) ?><?=BALANCE_CURENCY?></span>
                     </div>

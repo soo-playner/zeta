@@ -263,13 +263,13 @@ $result = sql_query($sql);
         <th scope="col" width='8%'>아이디</th>
         <th scope="col" width='8%'>추천인</th>
         <th scope="col" width='8%'>입금자명</th>
-        <th scope="col" width='8%'>입금요청금액</th>
-        <th scope="col" width='10%'>입금처리금액</th>
+        <th scope="col" width='10%'>입금요청금액</th>
+        <th scope="col" width='12%'>입금처리금액</th>
         <th scope="col" width='4%'>입금종류</th>
         <th scope="col" width='8%'>승인여부</th>
         <th scope="col" width='12%'>요청시간</th>
         <th scope="col" width='12%'>상태변경일</th>
-        <th scope="col" width='20%'>추가항목</th>
+        <th scope="col" width='16%'>추가항목</th>
         <th scope="col" width='10%'>추가항목2</th>
     </tr>
     </thead>

@@ -5,6 +5,7 @@ include_once(G5_THEME_PATH . '/_include/gnb.php');
 // include_once(G5_LIB_PATH . '/blocksdk.lib.php');
 // include_once(G5_LIB_PATH.'/crypto.lib.php');
 
+login_check($member['mb_id']);
 $title = 'Mywallet';
 
 

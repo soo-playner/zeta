@@ -130,7 +130,6 @@ $(function(){
     });
 
     $('.caret').click(function(){
-
         $(this).parent().parent().parent().find('.history_detail').slideToggle(300);
     });
 
