@@ -30,6 +30,8 @@ if( !function_exists( 'array_column' ) ):
     }
 endif;
 
+//슈퍼마이닝 초기화 
+$super_mining_reset = sql_query("UPDATE g5_member set super_mining = 0;");
 
 //회원 리스트를 읽어 온다.
 $sql_common = " FROM soodang_mining";
@@ -127,7 +129,7 @@ function  excute(){
         echo "수당계산 : ".$super_rate.' * '.$mining_rate.' * '.$bonus_rates.' = '.$benefit;
         echo "</code>";
 
-        list($mb_balance,$balance_limit,$benefit_limit) = mining_limit_check($mb_id,$benefit);
+        list($mb_balance,$balance_limit,$benefit_limit) = mining_limit_check($mb_id,$benefit,$bonus_limit,$code);
 
         echo "<code>";
         echo "현재수당 : ".shift_auto($mb_balance,COIN_NUMBER_POINT)."  | 수당한계 :". shift_auto($balance_limit,COIN_NUMBER_POINT).' | ';
@@ -163,7 +165,7 @@ function  excute(){
 
             
             if($record_result){
-                $balance_up = "update g5_member set {$mining_target} = {$mining_target} + {$benefit_limit}, super_mining = {$super_rate}  where mb_id = '{$mb_id}' ";
+                $balance_up = "update g5_member set {$mining_target} = {$mining_target} + {$benefit_limit}, super_mining = super_mining + {$super_rate}  where mb_id = '{$mb_id}' ";
 
                 // 디버그 로그
                 if($debug){

@@ -340,40 +340,34 @@ function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$re
 
 
 /* 마이닝 수당초과 계산 */
-function mining_limit_check($mb_id,$bonus){
-    global $bonus_limit,$config,$mining_target,$today;
-
-    if($bonus_limit == 0){
-        $bonus_limit = 100;
-    }
+function mining_limit_check($mb_id,$bonus,$bonus_limit,$code){
+    global $config,$mining_target,$today;
     
-    $mem_sql="SELECT mb_balance, mb_rate, mb_save_point, {$mining_target},
-    (SELECT SUM(mining) from soodang_mining AS B  WHERE B.mb_id = A.mb_id AND day='{$today}') AS daily_mining 
-    FROM g5_member AS A WHERE mb_id ='{$mb_id}' ";
+    $mining_rate = sql_fetch("SELECT rate FROM wallet_bonus_config WHERE code ='mining' ")['rate'];
     
+    $mem_sql="SELECT mb_balance, mb_rate, mb_save_point, {$mining_target}, (SELECT SUM(mining) FROM soodang_mining WHERE allowance_name = '{$code}' AND day = '{$today}' AND mb_id ='{$mb_id}' ) AS daily FROM g5_member WHERE mb_id ='{$mb_id}' ";
     $mem_result = sql_fetch($mem_sql);
-
    
-    $mb_mining = $mem_result[$mining_target];
-    $mb_pv = $mem_result['daily_mining'] * $bonus_limit;
-    
-    
+    $mb_mining = $mem_result[$mining_target]; 
+    $daily = $mem_result['daily'];
+    $mb_pv = ($mem_result['mb_rate'] * $mining_rate * $bonus_limit) - $daily;
+
+    // echo "<code>수당한계계산 : (".$mem_result['mb_rate']." * ".$mining_rate." * ".$bonus_limit.") - ".$daily. " = ".$mb_pv."</code>";
 
     if($mb_pv > 0 ){
         if($bonus <= $mb_pv){
             $mb_limit = $bonus;
         }else{
-            $mb_limit = $bonus - $mb_pv;
+            $mb_limit = $mb_pv;
             if($mb_limit < 0){
                 $mb_limit = 0;
             }
         }
-        
     }else{
         $mb_limit = 0;
     }
     
-    return array($mb_mining,$mb_pv,$mb_limit,$admin_cash);
+    return array($daily,$mb_pv,$mb_limit);
 }
 
 
