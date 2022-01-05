@@ -45,13 +45,13 @@
     // 마이닝 내역
     // $mining_history_sql = "SELECT * from {$g5['mining']} WHERE mb_id = '{$member['mb_id']}'  {$mining_history_limit} GROUP BY allowance_name ";
     $mining_history_sql = "SELECT *
-FROM soodang_mining
-WHERE mb_id = 'zbzzang' AND allowance_name != 'super_mining' {$mining_history_limit1} UNION
-SELECT NO, DAY,allowance_name,mb_id, SUM(mining) AS mining,currency,rate,rec,rec_adm, DATETIME,HASH
-FROM soodang_mining
-WHERE mb_id = 'zbzzang' AND allowance_name = 'super_mining' {$mining_history_limit2}";
+    FROM soodang_mining
+    WHERE mb_id = '{$member['mb_id']}' AND allowance_name != 'super_mining' {$mining_history_limit1} UNION
+    SELECT NO, DAY,allowance_name,mb_id, SUM(mining) AS mining,currency,rate,rec,rec_adm, DATETIME,HASH
+    FROM soodang_mining
+    WHERE mb_id = '{$member['mb_id']}' AND allowance_name = 'super_mining' {$mining_history_limit2}
+    ";
 
-    // print_R($mining_history_sql);
     $mining_history = sql_query($mining_history_sql);
     $mining_history_cnt = sql_num_rows($mining_history);
 

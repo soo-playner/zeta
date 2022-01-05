@@ -39,15 +39,20 @@
 					<a href="/bbs/register_form.php" class="btn btn_wd btn_secondary"><span data-i18n="login.신규 회원 등록하기">Create new account</span></a>
 					<!-- <a href="javascript:temp_block();" class="btn btn_wd btn_default"><span data-i18n="login.신규 회원 등록하기">Create new account</span></a> -->
 					<a href="<?=G5_THEME_URL?>/find_pw.php"class='desc'>FORGOT PASSWORD?</a>
-						<!--<a href="<?=G5_BBS_URL?>/password_lost.php" class='desc'>lost password?</a>
-						<a href="mailto:hazinformatioin@gmail.com" onclick='showhelp();' class='desc'>Need you Help?</a>
-						<p class='helpmail'>hazinformatioin@gmail.com</p>-->
+						
 				</div>
 
 			</form>
-		</div>
 
+			
+		</div>
+		
 	</div>
+
+	<div class='footer'>
+		<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+	</div>
+	
 </section>
 
 
@@ -65,7 +70,7 @@
 		}
 	}
 	function temp_block(){
-	commonModal("Notice",'디파인 방문을 환영합니다.<br />사전 가입이 마감되었습니다.<br />가입하신 회원은 로그인 해주세요.<br /><br />Welcome to One-EtherNet.<br />Pre-subscription is closed.<br />If you are a registered member,<br />please log in.',220);
+	commonModal("Notice",'방문을 환영합니다.<br />사전 가입이 마감되었습니다.<br />가입하신 회원은 로그인 해주세요.<br /><br />Welcome to One-EtherNet.<br />Pre-subscription is closed.<br />If you are a registered member,<br />please log in.',220);
 	}
 </script>
 

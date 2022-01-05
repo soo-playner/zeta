@@ -786,6 +786,10 @@ if ($_GET['recom_referral']){
 	</div>
 
 </div>
+
+<div class='footer'>
+		<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+	</div>
 </section>
 
 <div class="gnb_dim"></div>

@@ -36,6 +36,20 @@ function check_value($val){
 	return $icon;
 }
 
+function percent_value($value){
+	if($value < 1){
+		$return  = '-';
+	}else{
+		$return  = sprintf('%0.2f', ($value/100) );
+	} 
+	return $return;
+}
+
+function side_exp($val){
+	return "<span class='sideexp'>".$val."</span>";
+}
+
+
 $title = 'Dashboard';
 ?>
 
@@ -61,6 +75,8 @@ $title = 'Dashboard';
     margin-right: 10px;
     margin-top: 5px;}
 	.notice_open i{font-size:20px;color:red}
+
+	.sideexp{font-size:11px;letter-spacing:-0.5px;}
 </style>
 
 <section class='breadcrumb'>
@@ -113,55 +129,66 @@ $title = 'Dashboard';
 				<div class="total_view_top">
 					<ul class="row top">
 						<li class="col-4">
-							<dt class="title" >구매 가능 잔고</dt>
-							<dd class="value" style='font-size:15px;'><?=number_format($available_fund)?><span class='currency'><?=ASSETS_CURENCY?></span></dd>
+							<dt class="title" >총 추천 보너스</dt>
+							<dd class="value" style='font-size:15px;'><?=shift_auto($total_bonus)?><span class='currency'></span></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title" >총 누적 보너스 </dt>
-							<dd class="value" style='font-size:15px;'><?=number_format($total_bonus)?><span class='currency'><?=ASSETS_CURENCY?></span></dd>
+							<dt class="title" >출금 가능 포인트 </dt>
+							<dd class="value" style='font-size:15px;'><?=shift_auto($total_withraw)?><span class='currency'></span></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title">출금 가능 잔고</dt>
-							<dd class="value" style='font-size:15px;'><?=number_format($total_withraw)?><span class='currency'><?=ASSETS_CURENCY?></span></dd>
+							<dt class="title">출금 가능 코인</dt>
+							<dd class="value" style='font-size:15px;'><?=shift_auto($mining_total,$minings[0])?><span class='currency'><?=$minings[0]?></span></dd>
 						</li>
-					</ul>
+					</ul> 
 				</div>
 				<div class="total_view_top collapse" id="collapseExample">
 					<ul class="row">
 						<li class="col-4">
-							<dt class="title" data-i18n="dashboard.직추천인">직추천인</dt>
-							<dd class="value"><?=$direct_reffer?></dd>
+							<dt class="title" >마이 해쉬</dt>
+							<dd class="value"><?=$member['mb_rate']?> <?=side_exp($mining_hash[0])?></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title" data-i18n="dashboard.추천산하">추천산하</dt>
-							<dd class="value"><?=division_count($member['mb_child'] - 1)?>명</dd>
+							<dt class="title" >총보너스해시</dt>
+							<dd class="value"><?=division_count($member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining'])?> <?=side_exp($mining_hash[0])?></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title" data-i18n="dashboard.추천산하매출">추천산하매출</dt>
-							<dd class="value"><?=Number_format($recom_sale)?> </dd>
+							<dt class="title" >메가풀 보너스 해쉬</dt>
+							<dd class="value"><?=percent_value($member['recom_mining'])?> <?=side_exp($mining_hash[0])?> </dd>
 						</li>
 					</ul>
 					<ul class="row">
 						<li class="col-4">
-							<dt class="title" data-i18n="dashboard.후원인">후원인</dt>
-							<dd class="value"><?=secure_id($member['mb_brecommend'])?></dd>
+							<dt class="title">제타풀 보너스 해쉬</dt>
+							<dd class="value"><?=percent_value($member['brecom_mining'])?> <?=side_exp($mining_hash[0])?></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title" data-i18n="dashboard.후원산하">후원산하</dt>
-							<dd class="value"><?=division_count($member['mb_b_child'] -1)?>명</dd>
+							<dt class="title">제타2풀 보너스 해쉬</dt>
+							<dd class="value"><?=percent_value($member['brecom2_mining'])?> <?=side_exp($mining_hash[0])?></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title" data-i18n="dashboard.후원산하매출">후원산하매출</dt>
-							<dd class="value"><?=Number_format($brecom_sale)?> </dd>
+							<dt class="title" >슈퍼풀 보너스 해쉬</dt>
+							<dd class="value"><?=percent_value($member['super_mining'])?> <?=side_exp($mining_hash[0])?> </dd>
 						</li>
 					</ul>
 
 					<ul class="row">
-						<li class="col-4">
-							<dt class="title" >센터(지사)</dt>
-							<dd class="value"><?=get_name($member['mb_center'])?></dd>
+					<li class="col-4">
+							<!-- <dt class="title"><span class='badge'>Mining : <?=Number_format($member['mb_rate'])?> mh/s</span></dt>
+							<dd class="value"><?=$mining_total?> <span style='font-size:12px;'><?=$minings[0]?></span></dd> -->
+							<dt class="title" >직추천인</dt>
+							<dd class="value"><?=$direct_reffer?></dd>
 						</li>
-						
+
+						<li class="col-4">
+							<dt class="title" >나의구매등급</dt>
+							<dd class="value"><?=$member['rank_note']?><?=rank_name($member['rank_note'])?></dd>
+						</li>
+
+						<li class="col-4">
+							<dt class="title" >승급대상포인트</dt>
+							<dd class="value"><?=Number_format($member['recom_sales'])?> </dd>
+						</li>
 
 						<!-- <li class="col-4">
 							<dt class="title" >수당한계</dt>
@@ -177,19 +204,7 @@ $title = 'Dashboard';
 							</dd>
 						</li> -->
 
-						<li class="col-4">
-							<dt class="title"><span class='badge'>Mining : <?=Number_format($member['mb_rate'])?> mh/s</span></dt>
-							<dd class="value"><?=$mining_total?> <span style='font-size:12px;'><?=$minings[0]?></span></dd>
-						</li>
-
-						<!-- <li class="col-4">
-							<dt class="title" >보석수령(주배당)</dt>
-							<dd class="value"><?=week_jewel()?></dd>
-						</li> -->
-						<li class="col-4">
-							<dt class="title" >나의구매등급</dt>
-							<dd class="value"><?=$member['rank']?><?=rank_name($member['rank'])?></dd>
-						</li>
+						
 					</ul>
 
 					<ul class="row">
@@ -210,7 +225,7 @@ $title = 'Dashboard';
 						</li>
 
 						<li class="col-6">
-							<dt class="title">산하매출</dt>
+							<dt class="title">승급대상포인트</dt>
 							<dd class="value">
 								<?=check_value($member['mb_7'])?>
 							</dd>

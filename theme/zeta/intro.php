@@ -43,7 +43,7 @@ body{overflow-y: hidden;}
 }
 
 .intro_title{
-	color:white;position:fixed;bottom:50px;text-align:center;width:100%;
+	color:white;position:fixed;bottom:10px;text-align:center;width:100%;
 }
 .intro_title p {line-height:26px;letter-spacing:0;}
 
@@ -205,6 +205,7 @@ body{overflow-y: hidden;}
 
 	<div class='intro_title'>
 		<p><?=$config['cf_title']?></p>
+		<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
 	</div>
 </div>
 

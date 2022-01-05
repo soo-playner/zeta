@@ -95,11 +95,16 @@ $(document).ready(function(){
 			<!-- <li class="shopping_mall_icon"><a href="javascript:move_to_shop();"><span data-i18n="">쇼핑몰</span></a></li> -->
 			<!-- <div class="b_line3"></div> -->
 			
+			
+
 			<ul class="logout_wrap row">
-				<li class="logout_icon"><a href="javascript:void(0);" class="logout_pop_open"><span data-i18n="">로그아웃</span></a></li>
+				<li class="foot_btn logout_icon"><a href="javascript:void(0);" class="logout_pop_open"><span data-i18n="">로그아웃</span></a></li>
 				<li class="h_line"></li>
-				<li class="terms_icon"><a href="/page.php?id=member_term"><span data-i18n="">회원약관</span></a></li>
+				<li class="foot_btn terms_icon"><a href="/page.php?id=member_term"><span data-i18n="">회원약관</span></a></li>
 			</ul>
+			<div class='gnb-footer'>
+				<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+			</div>
 		</ul>		
 	</nav>
 	<?}?>
@@ -111,16 +116,7 @@ $(document).ready(function(){
 		</h3>
 	</div>
 
-	<!-- <div class="lang_selection user-drop-down-section">
-		<div class="lang-sel">
-			<select class="custom-select" id="lang">
-				<option value="kor" selected>언어선택</option>
-				<option value="kor">한국어</option>
-				<option value="eng" selected>English</option>
-				<option value="chn">中文</option>
-			</select>
-		</div>
-	</div> -->
+	
 
 </header>
 
