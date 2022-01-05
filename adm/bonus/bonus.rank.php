@@ -2,7 +2,7 @@
 
 $sub_menu = "600200";
 include_once('./_common.php');
-$debug = 1;
+// $debug = 1;
 include_once('./bonus_inc.php');
 
 auth_check($auth[$sub_menu], 'r');
@@ -417,7 +417,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                     $rank_option3 = 0;
                     $rank_grade = '';
                     $rank_cnt = 0;
-                    echo "<br><span class='title' >[ " . $row['mb_id'] . " ] </span>";
+                    echo "<br><br><br><span class='title' >[ " . $row['mb_id'] . " ] </span>";
 
                     // 관리자 제외
                     if ($mb_level > 9) {
@@ -527,14 +527,16 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         $recom_sales_value = Number_format($recom_sales);
                         
                         echo "<br>산하추천(3대)매출 : <span class='blue'>" .$recom_sales_value. "</span>";
+                        
                         if( $recom_sales >= $lvlimit_recom[$i]*$lvlimit_recom_val){
                             $rank_cnt += 1;
                             $rank_option2 = 1;
                             echo "<span class='red'> == OK </span>";
                         }
-                        echo "<br><span class='desc'>└ 추천하부3대 : ";
-                        echo ($recom_id);
-                        echo "</span>";
+
+                        // echo "<br><span class='desc'>└ 추천하부3대 : ";
+                        // echo ($recom_id);
+                        // echo "</span>";
                         
                         
                         /* if($recom_week_sales){
@@ -565,7 +567,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         /* $rank_record_sql = "INSERT INTO (mb_id,rank,option1,option1_result,option2,option2_result,option3,option3_result) VALUE ";
                         $rank_record_mem_sql .= "('{$row['mb_id']}',{$i},'{$mem_cnt}',{$rank_option1},'{$mem_pv}',{$rank_option2},'{$rank_grade}',{$rank_option3})"; */
 
-                        $update_mem_rank = "UPDATE g5_member SET ";
+                        $update_mem_rank = "UPDATE g5_member SET recom_sales = {$recom_sales}, ";
                         $update_mem_rank .= "mb_4 = '{$item_rank}',mb_5= '{$rank_option1}' ";
                         $update_mem_rank .= ",mb_6 = '{$recom_sales}',mb_7= '{$rank_option2}' ";
                         $update_mem_rank .= "WHERE mb_id = '{$row['mb_id']}' ";

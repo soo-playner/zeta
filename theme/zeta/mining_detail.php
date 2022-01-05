@@ -1,8 +1,8 @@
 <?
     include_once('./_common.php');
-    include_once(G5_THEME_PATH.'/_include/gnb.php');
     include_once(G5_THEME_PATH.'/_include/wallet.php');
-    
+    include_once(G5_THEME_PATH.'/_include/gnb.php');
+   
     $title = 'Mining_record';
     $mining_day = $_GET['day'];
     $category = 'super_mining';
