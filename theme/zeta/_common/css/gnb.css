@@ -90,6 +90,10 @@ header .left_gnbWrap .left_gnb .logout_wrap a {}
 	#wrapper{max-width:inherit; position:initial;left:0;margin-left:300px;}
 	header .left_gnbWrap .close {left:-20%;}
 }
+@media screen and (max-width:380px){
+	.user-info{padding:0 10px;}
+	.notice_open{margin-right:0 !important;}
+}
 /* 
 @media screen and (max-width:992px){
 	header .left_gnbWrap .left_gnb li a {height: 47px;line-height:47px;}

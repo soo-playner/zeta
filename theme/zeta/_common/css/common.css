@@ -1041,7 +1041,7 @@ input.input_price{font-size:16px;text-align: right;color:black;}
 .box-header .d_sum{font-size:90%;vertical-align: top;}
 .box-body{margin:5px 0;}
 
-.history_detail .inblock{background:transparent;padding:10px 0;line-height:38px;}
+.history_detail .inblock{background:transparent;line-height:34px;}
 .history_detail .inblock:last-child{margin-bottom:-10px;}
 .history_detail .inblock:hover{background:#e1e1e1}
 .history_detail .inblock dt{width:38%;text-align:left;padding-left:15px;font-size: 14px;}
@@ -1056,10 +1056,11 @@ input.input_price{font-size:16px;text-align: right;color:black;}
 .content-box .caret{margin-right:5px;}
 
 #daily.content-box{border-left:3px solid cornflowerblue}
-#direct.content-box{border-left:3px solid steelblue}
+#direct.content-box{border-left:3px solid sienna}
 #rollup.content-box{border-left:3px solid slateblue}
 #level.content-box{border-left:3px solid slategray}
 #center.content-box{border-left:3px solid teal}
+#sponsor.content-box{border-left:3px solid steelblue}
 
 
 @media only screen and (max-width: 450px) {

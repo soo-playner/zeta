@@ -138,4 +138,25 @@
 }
 
 .b_orange{background:orangered;}
-    .b_purple{background:#c73bda;}
+.b_pink{background:#ef21fd;}
+.b_purple{background:#6f00ff}
+.b_blue{background:#073a69 !important}
+
+.hist_value{color:#073a69}
+
+.btn.more_record i{font-size:18px;}
+
+.content-box{
+    &.mining_detail{
+        font-size:13px;
+        border-bottom:4px solid #073a69;
+    }
+
+    &.mining_history{
+        font-size:13px;
+        border-left:4px solid #073a69;
+    }
+    
+    .m_hist_exp {font-size:11px;}
+    .hist_value2{font-size:13px;}
+}
