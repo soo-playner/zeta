@@ -79,7 +79,7 @@ header .left_gnbWrap .left_gnb .logout_wrap .h_line {margin:13px 10px;}
 
 .center_page:hover{background: #eff3f9}
 
-
+.menuback + .top_title{padding-left:40px;}
 .gnb_dim{position: absolute;width: 100%;height: 100%;background: rgba(0,0,0,0.6);top: 0;left:0;display: none;z-index:50}
 
 .lang_selection{position:absolute;right:15px;top:8px;}
@@ -112,3 +112,4 @@ header .left_gnbWrap .left_gnb .logout_wrap .h_line {margin:13px 10px;}
 @media screen and (max-width:320px){
 	header .left_gnbWrap .left_gnb li a {height: 33px;line-height:33px;}
 } */
+

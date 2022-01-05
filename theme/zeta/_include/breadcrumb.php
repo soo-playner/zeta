@@ -163,7 +163,7 @@ $title = 'Dashboard';
 							<dd class="value"><?=percent_value($member['brecom_mining'])?> <?=side_exp($mining_hash[0])?></dd>
 						</li>
 						<li class="col-4">
-							<dt class="title">제타2풀 보너스 해쉬</dt>
+							<dt class="title">제타+풀 보너스 해쉬</dt>
 							<dd class="value"><?=percent_value($member['brecom2_mining'])?> <?=side_exp($mining_hash[0])?></dd>
 						</li>
 						<li class="col-4">
