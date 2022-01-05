@@ -150,7 +150,7 @@ $title = 'Dashboard';
 						</li>
 						<li class="col-4">
 							<dt class="title" >총보너스해시</dt>
-							<dd class="value"><?=division_count($member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining'])?> <?=side_exp($mining_hash[0])?></dd>
+							<dd class="value"><?=percent_value($member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining'])?> <?=side_exp($mining_hash[0])?></dd>
 						</li>
 						<li class="col-4">
 							<dt class="title" >메가풀 보너스 해쉬</dt>
