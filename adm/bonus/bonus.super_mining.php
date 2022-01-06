@@ -109,14 +109,22 @@ function  excute(){
         echo "<div class='box title'> 직추천인(스폰서) : <span class='blue'>".$mb_id."</span></div>";
 
         // 직추천자수 
-        $mem_cnt_sql = "SELECT count(*) as cnt FROM g5_member where mb_recommend = '{$mb_id}' AND mb_level > 0 ";
+        $mem_cnt_sql = "SELECT count(*) as cnt,(SELECT mb_index from g5_member WHERE mb_id = '{$mb_id}' ) as mb_index FROM g5_member where mb_recommend = '{$mb_id}' AND mb_level > 0 ";
         $mem_cnt_result = sql_fetch($mem_cnt_sql);
         $mem_cnt = $mem_cnt_result['cnt'];
+        $mem_index = $mem_cnt_result['mb_index'];
+
+        if($mem_index == 2 && $mem_cnt < $mem_index){
+            $mem_cnt = $mem_index;
+        }
+
+
         if($mem_cnt < 2){
             $mem_cnt_color = "red";
         }else{
             $mem_cnt_color = "blue";
         }
+
 
         echo "▶▶▶▶▶ 직추천인(스폰서)의 LV1 직추천인 : <span class='".$mem_cnt_color."'>".$mem_cnt."</span>";
         echo "<br><br>";

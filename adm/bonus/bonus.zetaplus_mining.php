@@ -237,10 +237,16 @@ function  excute(){
         echo "▶▶▶데일리 마이닝지급량  :  <span class='blue'>".$mining_rate." eth</span> / 1mh<br>";
         echo "▶▶▶▶매칭수당지급량 : ".$bonus_rates.' '.$minings[0]."<br>";
 
+        
         // 직추천자수 
-        $mem_cnt_sql = "SELECT count(*) as cnt FROM g5_member where mb_recommend = '{$mb_id}' AND mb_level > 0 ";
+        $mem_cnt_sql = "SELECT count(*) as cnt,(SELECT mb_index from g5_member WHERE mb_id = '{$mb_id}' ) as mb_index FROM g5_member where mb_recommend = '{$mb_id}' AND mb_level > 0 ";
         $mem_cnt_result = sql_fetch($mem_cnt_sql);
         $mem_cnt = $mem_cnt_result['cnt'];
+        $mem_index = $mem_cnt_result['mb_index'];
+        
+        if($mem_index == 2 && $mem_cnt < $mem_index){
+            $mem_cnt = $mem_index;
+        }
 
         $benefit = ($mining_matching_hash*$mining_rate)*$bonus_rates;
 
