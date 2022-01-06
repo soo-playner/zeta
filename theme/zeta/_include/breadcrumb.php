@@ -53,15 +53,16 @@ function remain_hash($val,$rate){
 	global $member;
 
 	if($val > 0){
-		$remain_value = ($member['mb_rate']*$rate - percent_value($val));
-		if($remain_value < 0){
+		$remain_value = Number_format($val/$member['mb_rate']);
+		
+		if($remain_value > (100*$rate) ){
 			$color_code = 'red';
 		}else{
 			$color_code = '';
 		}
 
-		$remain = "<span class='remain_mining'><i class='ri-rest-time-line ".$color_code."'></i>";
-		$remain .= "<span class='".$color_code."'>".$remain_value."</span>";
+		$remain = "<span class='remain_mining'><i class='ri-compass-2-fill ".$color_code."'></i>";
+		$remain .= "<span class='".$color_code."'>".$remain_value." %</span>";
 		$remain .= "</span>";
 	}else{
 		$remain = '';
@@ -99,7 +100,7 @@ $title = 'Dashboard';
 
 	.sideexp{font-size:11px;letter-spacing:-0.5px;}
 	.remain_mining{line-height:14px;color:#999;font-size:12px;display:block;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;margin-bottom:-5px;}
-	.remain_mining i{padding-right:5px;}
+	.remain_mining i{padding-right:5px;font-size:16px;font-weight:500}
 	.remain_mining .red{color:red;}
 </style>
 
