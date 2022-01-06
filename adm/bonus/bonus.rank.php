@@ -29,6 +29,7 @@ $levelup_result = bonus_pick($code);
 
 // 구매등급기준
 $lvlimit_sales_level = explode(',', $levelup_result['rate']);
+
 $lvlimit_sales_level_val = 6000000;
 
 
@@ -77,6 +78,19 @@ function grade_name($val)
 
     return $grade_name;
 }
+
+if( !function_exists( 'array_column' ) ):
+    
+    function array_column( array $input, $column_key, $index_key = null ) {
+    
+        $result = array();
+        foreach( $input as $k => $v )
+            $result[ $index_key ? $v[ $index_key ] : $k ] = $v[ $column_key ];
+        
+        return $result;
+    }
+endif;
+
 
 /* 승급기준 로그 출력 */
 echo "<br><code>회원직급 승급 조건   |   기준조건 :" . $pre_condition . "<br>";
@@ -183,6 +197,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
         }
         return $mem_list;
     }
+    
     /* 결과 합계 */
     function array_index_sum($list, $key,$category)
     {
@@ -370,7 +385,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
             global $bonus_day, $week_frdate, $week_todate, $grade_cnt, $code, $lvlimit_cnt, $lvlimit_sales_level, $lvlimit_recom, $lvlimit_recom_val, $lvlimit_pv;
             global $debug,$mem_list;
 
-            for ($i = $grade_cnt - 1; $i > -1; $i--) {
+            for ($i = $grade_cnt; $i > -1; $i--) {
                 $cnt_sql = "SELECT count(*) as cnt From {$g5['member_table']} WHERE grade = {$i} {$search_condition}" . $admin_condition . $pre_condition . " ORDER BY mb_no";
                 
                 $cnt_result = sql_fetch($cnt_sql);
@@ -515,6 +530,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
 
                         // 내 구매등급  
                         echo "<br>본인 아이템등급 : <span class='blue'>P" . Number_format($item_rank) . "</span>";
+                        
                         if ($item_rank >= $lvlimit_sales_level[$i]) {
                             $rank_cnt += 1;
                             $rank_option1 = 1;
@@ -522,8 +538,10 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         }
 
                         // 산하 추천 3대 매출 -  save_point 기준
+
                         $mem_result = return_down_manager($mb_id,3);
                         $recom_sales = array_index_sum($mem_result,'mb_save_point','int');
+
                         if(!$recom_sales){
                             $recom_sales = 0;
                         }
