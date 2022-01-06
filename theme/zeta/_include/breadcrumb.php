@@ -49,6 +49,27 @@ function side_exp($val){
 	return "<span class='sideexp'>".$val."</span>";
 }
 
+function remain_hash($val,$rate){
+	global $member;
+
+	if($val > 0){
+		$remain_value = ($member['mb_rate']*$rate - percent_value($val));
+		if($remain_value < 0){
+			$color_code = 'red';
+		}else{
+			$color_code = '';
+		}
+
+		$remain = "<span class='remain_mining'><i class='ri-rest-time-line ".$color_code."'></i>";
+		$remain .= "<span class='".$color_code."'>".$remain_value."</span>";
+		$remain .= "</span>";
+	}else{
+		$remain = '';
+	}
+
+	return $remain;
+}
+
 
 $title = 'Dashboard';
 ?>
@@ -77,6 +98,9 @@ $title = 'Dashboard';
 	.notice_open i{font-size:20px;color:red}
 
 	.sideexp{font-size:11px;letter-spacing:-0.5px;}
+	.remain_mining{line-height:14px;color:#999;font-size:12px;display:block;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;margin-bottom:-5px;}
+	.remain_mining i{padding-right:5px;}
+	.remain_mining .red{color:red;}
 </style>
 
 <section class='breadcrumb'>
@@ -107,6 +131,7 @@ $title = 'Dashboard';
 
 		<div class="user-info">
 			<!-- 회원기본정보 -->
+			
 			<div class='user-content' style='border-radius:20px;line-height:40px;'>
 				<div>
 					<span class='userid user_level'><?=$user_icon?></span>
@@ -127,6 +152,7 @@ $title = 'Dashboard';
 			<!-- 회원상세정보 -->
 			<div class="total_view_wrap">
 				<div class="total_view_top">
+				
 					<ul class="row top">
 						<li class="col-4">
 							<dt class="title" >총 추천 보너스</dt>
@@ -154,21 +180,21 @@ $title = 'Dashboard';
 						</li>
 						<li class="col-4">
 							<dt class="title" >메가풀 보너스 해쉬</dt>
-							<dd class="value"><?=percent_value($member['recom_mining'])?> <?=side_exp($mining_hash[0])?> </dd>
+							<dd class="value"><?=percent_value($member['recom_mining'])?> <?=side_exp($mining_hash[0])?> <?=remain_hash($member['recom_mining'],3)?></dd>
 						</li>
 					</ul>
 					<ul class="row">
 						<li class="col-4">
 							<dt class="title">제타풀 보너스 해쉬</dt>
-							<dd class="value"><?=percent_value($member['brecom_mining'])?> <?=side_exp($mining_hash[0])?></dd>
+							<dd class="value"><?=percent_value($member['brecom_mining'])?> <?=side_exp($mining_hash[0])?><?=remain_hash($member['brecom_mining'],3)?></dd>
 						</li>
 						<li class="col-4">
 							<dt class="title">제타+풀 보너스 해쉬</dt>
-							<dd class="value"><?=percent_value($member['brecom2_mining'])?> <?=side_exp($mining_hash[0])?></dd>
+							<dd class="value"><?=percent_value($member['brecom2_mining'])?> <?=side_exp($mining_hash[0])?><?=remain_hash($member['brecom2_mining'],3)?></dd>
 						</li>
 						<li class="col-4">
 							<dt class="title" >슈퍼풀 보너스 해쉬</dt>
-							<dd class="value"><?=percent_value($member['super_mining'])?> <?=side_exp($mining_hash[0])?> </dd>
+							<dd class="value"><?=percent_value($member['super_mining'])?> <?=side_exp($mining_hash[0])?><?=remain_hash($member['super_mining'],1)?></dd>
 						</li>
 					</ul>
 

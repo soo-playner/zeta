@@ -447,7 +447,7 @@ a.more i{font-size:18px;font-weight:500;color:#555;vertical-align: bottom;}
 .user-content .notice_button button{font-size: 12px !important;height: 22px;line-height: 10px;float: right;margin-top: 10px;}
 
 .total_view_wrap {}
-.total_view_wrap li{text-align:center;font-weight: bold;padding:15px 0 10px;}
+.total_view_wrap li{text-align:center;font-weight: bold;padding:15px 0 0px;}
 .total_view_wrap li .title {color:#29386b;font-size: 12px;line-height:20px;}
 .total_view_wrap li .value {color: #3b86ff;font-size: 15px;line-height:24px;}
 .collapse .row{border-top:1px solid #f3f7ff;}
