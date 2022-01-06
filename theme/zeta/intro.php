@@ -17,7 +17,7 @@ body{overflow-y: hidden;}
   display: none;
   text-align: center;
   position:absolute;
-  bottom:15vh;
+  bottom:30vh;
   width:100%;
   z-index:1000;
 }
@@ -31,7 +31,7 @@ body{overflow-y: hidden;}
 
 #myBar {
   width: 1%;
-  height: 3px;
+  height: 2px;
 }
 
 .animate-bottom {
@@ -49,12 +49,12 @@ body{overflow-y: hidden;}
 
 @-webkit-keyframes animatebottom {
   from { bottom:-10%; opacity:0 }
-  to { bottom:15vh; opacity:1 }
+  to { bottom:30vh; opacity:1 }
 }
 
 @keyframes animatebottom {
   from{ bottom:-10%; opacity:0 }
-  to{ bottom:15vh; opacity:1 }
+  to{ bottom:30vh; opacity:1 }
 }
 
 
@@ -205,7 +205,7 @@ body{overflow-y: hidden;}
 
 	<div class='intro_title'>
 		<p><?=$config['cf_title']?></p>
-		<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+		<p class='copyright text-shadow'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
 	</div>
 </div>
 

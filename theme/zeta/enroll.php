@@ -34,11 +34,12 @@ if ($_GET['recom_referral']){
 	var verify = false;
 	var recommned = "<?= $mb_recommend ?>";
 	var recommend_search = false;
+	var center_search = false;
 
 	if (recommned) {
 		recommend_search = true;
 	}
-	//console.log(recommend_search);
+	console.log(`센터검색 : ${center_search}`);
 
 	$(function() {
 
@@ -443,7 +444,7 @@ if ($_GET['recom_referral']){
 								vHtml.append($("<div style='color:red;>").addClass('non_user').html(obj.mb_id));
 							}
 						}
-/* 
+						/* 
 						if (obj.mb_level > 0) {
 							
 
@@ -488,13 +489,16 @@ if ($_GET['recom_referral']){
 
 
 					$(target_type + ' .modal-footer #btnSave').click(function() {
-						recommend_search = true;
+
 						if(type == 2){
-							$('#reg_mb_center_nick').val($(target_type + ' .modal-body .user.selected').html())
+							$('#reg_mb_center_nick').val($(target_type + ' .modal-body .user.selected').html());
 							$(target).val($(target_type + ' .modal-body .user.selected + .mb_nick').html());
+							center_search = true;
 						}else{
 							$(target).val($(target_type + ' .modal-body .user.selected').html());
+							recommend_search = true;
 						}
+						$(target).attr("readonly",true);
 						$(target_type).modal('hide');
 					});
 
@@ -533,7 +537,7 @@ if ($_GET['recom_referral']){
 		}
 		*/
 
-		
+		console.log(`센터검색 : ${center_search}\n센터: ${f.mb_center.value}`);
 		
 
 		//추천인 검사
@@ -550,6 +554,10 @@ if ($_GET['recom_referral']){
 		//센터멤버 검사
 		if (f.mb_center.value == '' || f.mb_center.value == 'undefined') {
 			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
+			return false;
+		}
+		if (!center_search) {
+			commonModal('recommend check', '<strong>센터정보를 검색하여 선택해 주세요.</strong>', 80);
 			return false;
 		}
 		
