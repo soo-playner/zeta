@@ -1029,6 +1029,7 @@ input.input_price{font-size:16px;text-align: right;color:black;}
 /* bonus history */
 .bonus_history .total_view_wrap .total_view_top p{color: #3b86ff;}
 .bonus_history .total_view_wrap .total_view_top span {color: #29386b;}
+.total_view_top .row.top{padding-bottom:15px;}
 #search-container{}
 #search-container li{padding-left:0;list-style: none;margin-top: 15px;}
 #search-container li:first-child{padding-right:5px;}

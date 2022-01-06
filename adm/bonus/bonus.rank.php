@@ -40,7 +40,7 @@ $lvlimit_recom_val = 1000000;
 //회원 리스트를 읽어 온다.
 $sql_common = " FROM g5_member ";
 // $sql_search=" WHERE o.mb_id=m.mb_id AND DATE_FORMAT(o.od_time,'%Y-%m-%d')='".$bonus_day."'";
-$search_condition = " and mb_level > 0 and rank > 3 ";
+$search_condition = " and mb_level > 0  ";
 $sql_search = " WHERE grade < {$grade_cnt} {$search_condition} " . $pre_condition . $admin_condition;
 $sql_mgroup = " GROUP BY grade ORDER BY grade asc ";
 
@@ -372,6 +372,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
 
             for ($i = $grade_cnt - 1; $i > -1; $i--) {
                 $cnt_sql = "SELECT count(*) as cnt From {$g5['member_table']} WHERE grade = {$i} {$search_condition}" . $admin_condition . $pre_condition . " ORDER BY mb_no";
+                
                 $cnt_result = sql_fetch($cnt_sql);
 
                 $sql = "SELECT * FROM {$g5['member_table']} WHERE grade = {$i} {$search_condition}" . $admin_condition . $pre_condition . " ORDER BY mb_no ";
@@ -523,6 +524,9 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         // 산하 추천 3대 매출 -  save_point 기준
                         $mem_result = return_down_manager($mb_id,3);
                         $recom_sales = array_index_sum($mem_result,'mb_save_point','int');
+                        if(!$recom_sales){
+                            $recom_sales = 0;
+                        }
                         $recom_id = array_index_sum($mem_result,'mb_id','text');
                         $recom_sales_value = Number_format($recom_sales);
                         
@@ -567,8 +571,8 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         /* $rank_record_sql = "INSERT INTO (mb_id,rank,option1,option1_result,option2,option2_result,option3,option3_result) VALUE ";
                         $rank_record_mem_sql .= "('{$row['mb_id']}',{$i},'{$mem_cnt}',{$rank_option1},'{$mem_pv}',{$rank_option2},'{$rank_grade}',{$rank_option3})"; */
 
-                        $update_mem_rank = "UPDATE g5_member SET recom_sales = {$recom_sales}, ";
-                        $update_mem_rank .= "mb_4 = '{$item_rank}',mb_5= '{$rank_option1}' ";
+                        $update_mem_rank = "UPDATE g5_member SET recom_sales = {$recom_sales} ";
+                        $update_mem_rank .= ",mb_4 = '{$item_rank}',mb_5= '{$rank_option1}' ";
                         $update_mem_rank .= ",mb_6 = '{$recom_sales}',mb_7= '{$rank_option2}' ";
                         $update_mem_rank .= "WHERE mb_id = '{$row['mb_id']}' ";
 
