@@ -37,10 +37,13 @@ function check_value($val){
 }
 
 function percent_value($value){
+	global $mining_hash;
+	
 	if($value < 1){
 		$return  = '-';
 	}else{
 		$return  = sprintf('%0.2f', ($value/100) );
+		$return .= " ".side_exp($mining_hash[0]);
 	} 
 	return $return;
 }
@@ -177,25 +180,25 @@ $title = 'Dashboard';
 						</li>
 						<li class="col-4">
 							<dt class="title" >총보너스해시</dt>
-							<dd class="value"><?=percent_value($member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining'])?> <?=side_exp($mining_hash[0])?></dd>
+							<dd class="value"><?=percent_value($member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining'])?></dd>
 						</li>
 						<li class="col-4">
 							<dt class="title" >메가풀 보너스 해쉬</dt>
-							<dd class="value"><?=percent_value($member['recom_mining'])?> <?=side_exp($mining_hash[0])?> <?=remain_hash($member['recom_mining'],3)?></dd>
+							<dd class="value"><?=percent_value($member['recom_mining'])?>  <?=remain_hash($member['recom_mining'],3)?></dd>
 						</li>
 					</ul>
 					<ul class="row">
 						<li class="col-4">
 							<dt class="title">제타풀 보너스 해쉬</dt>
-							<dd class="value"><?=percent_value($member['brecom_mining'])?> <?=side_exp($mining_hash[0])?><?=remain_hash($member['brecom_mining'],3)?></dd>
+							<dd class="value"><?=percent_value($member['brecom_mining'])?> <?=remain_hash($member['brecom_mining'],3)?></dd>
 						</li>
 						<li class="col-4">
 							<dt class="title">제타+풀 보너스 해쉬</dt>
-							<dd class="value"><?=percent_value($member['brecom2_mining'])?> <?=side_exp($mining_hash[0])?><?=remain_hash($member['brecom2_mining'],3)?></dd>
+							<dd class="value"><?=percent_value($member['brecom2_mining'])?> <?=remain_hash($member['brecom2_mining'],3)?></dd>
 						</li>
 						<li class="col-4">
 							<dt class="title" >슈퍼풀 보너스 해쉬</dt>
-							<dd class="value"><?=percent_value($member['super_mining'])?> <?=side_exp($mining_hash[0])?><?=remain_hash($member['super_mining'],1)?></dd>
+							<dd class="value"><?=percent_value($member['super_mining'])?> <?=remain_hash($member['super_mining'],1)?></dd>
 						</li>
 					</ul>
 
