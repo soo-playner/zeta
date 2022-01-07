@@ -17,7 +17,7 @@ body{overflow-y: hidden;}
   display: none;
   text-align: center;
   position:absolute;
-  bottom:30vh;
+  bottom:15vh;
   width:100%;
   z-index:1000;
 }
@@ -34,6 +34,9 @@ body{overflow-y: hidden;}
   height: 2px;
 }
 
+.btn.btn_primary{background:linear-gradient(90deg,#fd3737,#34090f)}
+.btn.btn_primary:hover{background:linear-gradient(90deg,#fd3737,#fd3737)}
+
 .animate-bottom {
   position: relative;
   -webkit-animation-name: animatebottom;
@@ -49,12 +52,12 @@ body{overflow-y: hidden;}
 
 @-webkit-keyframes animatebottom {
   from { bottom:-10%; opacity:0 }
-  to { bottom:30vh; opacity:1 }
+  to { bottom:15vh; opacity:1 }
 }
 
 @keyframes animatebottom {
   from{ bottom:-10%; opacity:0 }
-  to{ bottom:30vh; opacity:1 }
+  to{ bottom:15vh; opacity:1 }
 }
 
 
@@ -204,8 +207,8 @@ body{overflow-y: hidden;}
 	</div>
 
 	<div class='intro_title'>
-		<p><?=$config['cf_title']?></p>
-		<p class='copyright text-shadow'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+		<p class='company' style="line-height:16px;color:#6a6306"> 제타랩스 주식회사 | 사업자등록번호 356-87-02523 <br> 고객센터 : 02-6205-1112 | 이메일 : theo@zetabyte.kr</p>
+		<p class='copyright' style="color:#6a6306">Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
 	</div>
 </div>
 

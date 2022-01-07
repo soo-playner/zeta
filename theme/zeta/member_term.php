@@ -31,6 +31,15 @@ $title = '회원약관';
         <p class="mb-2">개인정보 수집 및 이용약관</p>
         <div class="white mb-4 contents"><?=conv_content($array[1]['wr_content'],2)?></div>
 	</div>
+    
+    <div class='footer' style='bottom:20px;'>
+        <p class='company mb10'> 제타랩스 주식회사 | 사업자등록번호 356-87-02523 <br> 고객센터 : 02-6205-1112 | 이메일 : theo@zetabyte.kr</p>
+        
+        <p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+    </div>
 </main>
+
+
+
 
 <? include_once(G5_THEME_PATH.'/_include/tail.php'); ?>
