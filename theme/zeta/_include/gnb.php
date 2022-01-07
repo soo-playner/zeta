@@ -40,7 +40,7 @@ $(document).ready(function(){
 </script>
 
 
-<section id="wrapper" >
+<section id="wrapper" class="<?if($menubar){echo "menu_back_gnb";}?>" >
 <header>
 	<?if($menubar){?>
 	<div class="menuback">

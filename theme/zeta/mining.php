@@ -53,8 +53,6 @@
     ";
 
 
-echo $mining_history_sql;
-
     $mining_history = sql_query($mining_history_sql);
     $mining_history_cnt = sql_num_rows($mining_history);
 

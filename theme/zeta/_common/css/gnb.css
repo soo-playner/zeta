@@ -90,8 +90,10 @@ header .left_gnbWrap .left_gnb .logout_wrap .h_line {margin:13px 10px;}
 	header .left_gnbWrap{height: 100vh; position: fixed; visibility:visible; left:0; box-shadow:1px 0 10px rgba(0,0,0,0.15);}
 	header .top_title h3{margin-left:0;}
 	#wrapper{max-width:inherit; position:initial;left:0;margin-left:300px;}
+	#wrapper.menu_back_gnb{margin-left:0;}
 	header .left_gnbWrap .close {left:-20%;}
 }
+
 @media screen and (max-width:380px){
 	.user-info{padding:0 10px;}
 	.notice_open{margin-right:0 !important;}
