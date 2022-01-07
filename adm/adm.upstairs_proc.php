@@ -94,7 +94,7 @@ if($rst && $logic){
 	}
 	
 	$update_point .= ", mb_rate = ( mb_rate + {$pv}) ";
-	$update_point .= ", mb_save_point = ( mb_save_point + {$output_val}) ";
+	$update_point .= ", mb_save_point = ( mb_save_point + {$it_point}) ";
 	$update_point .= ", rank = '{$update_rank}', rank_note = '{$pack_name}', sales_day = '{$now_datetime}' ";
 	$update_point .= " where mb_id ='".$mb_id."'";
 
