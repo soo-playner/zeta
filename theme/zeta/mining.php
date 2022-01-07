@@ -26,14 +26,14 @@
 
     /* 리스트 기본값*/
     $mining_history_limit1 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining)";
-    $mining_history_limit2 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining)";
+    $mining_history_limit2 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining) GROUP BY DAY";
     $mining_history_limit_text ='전체 내역보기';
     $mining_amt_limit = "limit 0,1 ";
     $mining_amt_limit_text = '전체 내역보기';
 
     if($_GET['history_limit'] == 'all'){
         $mining_history_limit1 = " ";
-        $mining_history_limit2 = " ORDER BY day desc ";
+        $mining_history_limit2 = "GROUP BY DAY ORDER BY day desc ";
         $mining_history_limit_text = "최근내역만보기";
     }
 
@@ -49,8 +49,12 @@
     WHERE mb_id = '{$member['mb_id']}' AND allowance_name != 'super_mining' {$mining_history_limit1} UNION
     SELECT NO, DAY,allowance_name,mb_id, SUM(mining) AS mining,currency,rate,rec,rec_adm, DATETIME,HASH
     FROM soodang_mining
-    WHERE mb_id = '{$member['mb_id']}' AND allowance_name = 'super_mining' GROUP BY DAY {$mining_history_limit2}
+    WHERE mb_id = '{$member['mb_id']}' AND allowance_name = 'super_mining'  {$mining_history_limit2} 
     ";
+
+
+echo $mining_history_sql;
+
     $mining_history = sql_query($mining_history_sql);
     $mining_history_cnt = sql_num_rows($mining_history);
 
