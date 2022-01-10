@@ -189,7 +189,11 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                     $list['mb_id'] = $row['mb_id'];
                     $list['mb_save_point'] = $row['mb_save_point'];
                     $list['depth'] = $count;
-                    
+
+                    /* echo $row['mb_id'];
+                    echo " :".Number_format($row['mb_save_point']);
+                    echo "<br>"; */
+
                     array_push($mem_list,$list);
                     recommend_downtree($row['mb_id'],$count,$cnt,$mem_list);
                 }
@@ -198,22 +202,32 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
         return $mem_list;
     }
     
-    /* 결과 합계 */
+    /* 결과 합계 중복제거*/
     function array_index_sum($list, $key,$category)
     {
         $sum = null;
         $count = 0;
         $a = array_count_values(array_column($list, $key));
+        
 
         foreach ($a as $key => $value) {
+            
             if($category == 'int'){
-                $sum +=$key; 
+                // echo $key." ";
+                $sum += $key; 
+                // echo "= ".$sum."<br>";
             }else if ($category == 'text'){
-                $sum .=$key.' | '; 
+                $sum .= $key.' | '; 
             }
         }
         return $sum;
     }
+
+    /* 결과 합계 */
+    function array_int_sum($list, $key){
+        return array_sum(array_column($list, $key));
+    }
+
 
     /*추천 상부라인 */
     /* function return_up_manager($mb_id,$cnt=0){
@@ -538,10 +552,11 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         }
 
                         // 산하 추천 3대 매출 -  save_point 기준
-
+                        
                         $mem_result = return_down_manager($mb_id,3);
-                        $recom_sales = array_index_sum($mem_result,'mb_save_point','int');
+                        $recom_sales = array_int_sum($mem_result,'mb_save_point','int');
 
+                        
                         if(!$recom_sales){
                             $recom_sales = 0;
                         }
