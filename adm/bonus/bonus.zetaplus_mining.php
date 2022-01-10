@@ -239,7 +239,7 @@ function  excute(){
 
         
         // 직추천자수 
-        $mem_cnt_sql = "SELECT count(*) as cnt,(SELECT mb_index from g5_member WHERE mb_id = '{$mb_id}' ) as mb_index FROM g5_member where mb_recommend = '{$mb_id}' AND mb_level > 0 ";
+        $mem_cnt_sql = "SELECT count(*) as cnt,(SELECT mb_index from g5_member WHERE mb_id = '{$mb_id}' ) as mb_index FROM g5_member where mb_recommend = '{$mb_id}' AND mb_level > 0 AND rank > 1 ";
         $mem_cnt_result = sql_fetch($mem_cnt_sql);
         $mem_cnt = $mem_cnt_result['cnt'];
         $mem_index = $mem_cnt_result['mb_index'];

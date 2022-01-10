@@ -35,7 +35,7 @@ $lvlimit_sales_level_val = 6000000;
 
 // 추천산하매출기준
 $lvlimit_recom = explode(',', $levelup_result['layer']);
-$lvlimit_recom_val = 1000000;
+$lvlimit_recom_val = 10000000;
 
 
 //회원 리스트를 읽어 온다.
@@ -399,7 +399,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
             global $bonus_day, $week_frdate, $week_todate, $grade_cnt, $code, $lvlimit_cnt, $lvlimit_sales_level, $lvlimit_recom, $lvlimit_recom_val, $lvlimit_pv;
             global $debug,$mem_list;
 
-            for ($i = $grade_cnt; $i > -1; $i--) {
+            for ($i = $grade_cnt-1; $i > -1; $i--) {
                 $cnt_sql = "SELECT count(*) as cnt From {$g5['member_table']} WHERE grade = {$i} {$search_condition}" . $admin_condition . $pre_condition . " ORDER BY mb_no";
                 
                 $cnt_result = sql_fetch($cnt_sql);
@@ -610,7 +610,9 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         $update_mem_rank .= "WHERE mb_id = '{$row['mb_id']}' ";
 
                         if ($debug) {
+                            echo "<code>";
                             print_R($update_mem_rank);
+                            echo "</code>";
                             // sql_query($update_mem_rank);
                         } else {
                             sql_query($update_mem_rank);
