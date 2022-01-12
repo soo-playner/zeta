@@ -50,13 +50,15 @@ function recommend_uptree($mb_id){
 function return_down_manager($mb_no,$cnt=0){
 	global $config,$g5,$mem_list;
 
-	$mb_result = sql_fetch("SELECT mb_id,mb_level,grade,mb_rate from g5_member WHERE mb_no = '{$mb_no}' ");
+	$mb_result = sql_fetch("SELECT mb_id,mb_level,grade,mb_rate,rank,recom_sales from g5_member WHERE mb_no = '{$mb_no}' ");
 	$list = [];
 	$list['mb_id'] = $mb_result['mb_id'];
 	$list['mb_level'] = $mb_result['mb_level'];
 	$list['grade'] = $mb_result['grade'];
 	$list['depth'] = 0;
 	$list['mb_rate'] = $mb_result['mb_rate'];
+	$list['recom_sales'] = $mb_result['recom_sales'];
+	$list['rank'] = $mb_result['rank'];
 	
 	$mb_add = sql_fetch("SELECT COUNT(mb_id) as cnt,IFNULL( (SELECT noo  from  recom_bonus_noo WHERE mb_id = '{$mb_result['mb_id']}' ) ,0) AS noo FROM g5_member WHERE mb_recommend = '{$mb_result['mb_id']}' ");
 	
@@ -76,7 +78,7 @@ function recommend_downtree($mb_id,$count=0,$cnt = 0){
 
 	if($cnt == 0 || ($cnt !=0 && $count < $cnt)){
 		
-		$recommend_tree_result = sql_query("SELECT mb_id,mb_level,grade,mb_rate from g5_member WHERE mb_recommend = '{$mb_id}' ");
+		$recommend_tree_result = sql_query("SELECT mb_id,mb_level,grade,mb_rate,rank,recom_sales from g5_member WHERE mb_recommend = '{$mb_id}' ");
 		$recommend_tree_cnt = sql_num_rows($recommend_tree_result);
 		if($recommend_tree_cnt > 0 ){
 			++$count;
@@ -86,6 +88,8 @@ function recommend_downtree($mb_id,$count=0,$cnt = 0){
 				$list['mb_level'] = $row['mb_level'];
 				$list['grade'] = $row['grade'];
 				$list['mb_rate'] = $row['mb_rate'];
+				$list['recom_sales'] = $row['recom_sales'];
+				$list['rank'] = $row['rank'];
 				
 				$mb_add = sql_fetch("SELECT COUNT(mb_id) as cnt,IFNULL( (SELECT noo  from  recom_bonus_noo WHERE mb_id = '{$row['mb_id']}' ) ,0) AS noo FROM g5_member WHERE mb_recommend = '{$row['mb_id']}' ");
 	

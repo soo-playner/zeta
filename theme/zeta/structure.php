@@ -292,7 +292,7 @@ var gradeMap = {
 				member.gradelvl = member.grade;
 
 				// 구매한 최고 패키지
-				$.ajax({  
+				/* $.ajax({  
 					url: "/util/ajax.max_package.php",  
 					data: {mb_id : member.mb_id},  
 					type: 'POST',
@@ -301,7 +301,7 @@ var gradeMap = {
 					success: function(res){
 						member.maxItem = res.result;
 					}
-				});
+				}); */
 
 			});
 
@@ -457,8 +457,9 @@ var gradeMap = {
 					row.find('.level').text(member.grade+' s');
 					row.find('.lvl-container').attr('class',"gr_"+member.grade);
 					row.find('.direct_cnt').html("<i class='ri-user-star-line'></i>" + member.cnt);
-					row.find('.pv').html("PV : " + Price(member.mb_rate/10000));
-					row.find('.acc').html("ACC : "+ Price(member.noo/10000));
+					row.find('.package').html("<i class='ri-vip-diamond-fill'></i>" + member.rank);
+					row.find('.pv').html("마이닝해쉬 : <strong class='hp'>" + Price(member.mb_rate)+' mh/s </strong>');
+					row.find('.acc').html("승급포인트 : <strong class='pv'>"+ Price(member.recom_sales)+"</strong>");
 
 					vHtml.append(row);
 				});
@@ -511,6 +512,11 @@ var gradeMap = {
 	<style>
 		.toggle{float:right;width:38px;height:38px;display:inline-block;font-size:18px;text-align:center;font-weight:300;color:#ccc}
 		.toggle i{vertical-align:middle;line-height:36px;}
+		.badge.package{ background:none;border:1px solid #2b3a6d;color:#2b3a6d;font-size:12px;line-height:10px;padding:4px 10px;}
+		.badge.package i{font-size:12px;margin-right:2px;}
+		.hp{margin-right:5px;}
+		.toggle{margin-top:-25px;}
+		.mbpoint{padding-left:15px;}
 	</style>
 
 	<main>
@@ -540,7 +546,7 @@ var gradeMap = {
 				</div>
 
 				
-				<div class="desc font_red" style='font-size:11px'>[ 금액단위 : 만원 ]</div>
+				<!-- <div class="desc font_red" style='font-size:11px'>[ 금액단위 : 만원 ]</div> -->
 				<div class="main-container content-box tree-container">
 					<div class="bin_top" >추천 조직도</div>
 					
@@ -556,10 +562,10 @@ var gradeMap = {
 							<span class="lvl-username"></span>
 							<span class="level badge"></span>
 							<span class="direct_cnt badge"></span>
-							<span class='divided'></span>
-							<!-- <span class="package"></span> -->
+							<span class="badge package "></span><br>
+							<!-- <span class='divided'></span> -->
 							<p class='mbpoint'>
-								<span class="pv"></span><br>
+								<span class="pv"></span>|&nbsp
 								<span class="acc"></span>
 							</p>
 							<span class='toggle'><i class="ri-line-height"></i></span>

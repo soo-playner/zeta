@@ -262,6 +262,7 @@ $result = sql_query($sql);
         <th scope="col" width='5%'>no</th>
         <th scope="col" width='8%'>아이디</th>
         <th scope="col" width='8%'>추천인</th>
+        <th scope="col" width='8%'>센터</th>
         <th scope="col" width='8%'>입금자명</th>
         <th scope="col" width='10%'>입금요청금액</th>
         <th scope="col" width='12%'>입금처리금액</th>
@@ -270,7 +271,7 @@ $result = sql_query($sql);
         <th scope="col" width='12%'>요청시간</th>
         <th scope="col" width='12%'>상태변경일</th>
         <th scope="col" width='16%'>추가항목</th>
-        <th scope="col" width='10%'>추가항목2</th>
+        <!-- <th scope="col" width='10%'>추가항목2</th> -->
     </tr>
     </thead>
     <tbody>
@@ -282,7 +283,7 @@ $result = sql_query($sql);
         $duplicate = $duplicate_result['cnt'];
         if($duplicate > 1){$row_dup = 'row_dup';}else{$row_dup = '';}
 
-        $member_sql = "SELECT A.mb_recommend,A.mb_sponsor,B.mb_brecommend from g5_member A, g5_member B WHERE A.mb_id = '{$row['mb_id']}' AND B.mb_id = A.mb_recommend";
+        $member_sql = "SELECT A.mb_recommend,A.mb_sponsor,B.mb_brecommend,(SELECT mb_nick from g5_member WHERE mb_id = A.mb_center) as mb_center from g5_member A, g5_member B WHERE A.mb_id = '{$row['mb_id']}' AND B.mb_id = A.mb_recommend";
         $member_result = sql_fetch($member_sql);
 
         $member_binary_sql = sql_fetch("SELECT A.mb_brecommend,B.mb_id FROM g5_member A  LEFT JOIN g5_member_binary B ON A.mb_id = B.mb_id WHERE A.mb_id ='{$row['mb_id']}' ");
@@ -295,6 +296,7 @@ $result = sql_query($sql);
         <td ><?php echo $row['uid'] ?></td>
         <td style='color:#333;font-weight:600'><a href='/adm/member_form.php?sst=&sod=&sfl=&stx=&page=&w=u&mb_id=<?=$row['mb_id']?>' target='_blank'><?=$row['mb_id'] ?></a></td>
         <td style='color:#666'><?=$member_result['mb_recommend']?></td>
+        <td style='color:#666'><?=$member_result['mb_center']?></td>
         <td ><?=$row['txhash']?></td>
         <td><?=Number_format($row['in_amt'],ASSETS_NUMBER_POINT)?></td>
         <td><input type='text' class='reg_text input_amt_val' style='font-weight:600;color:blue;text-align:right' value='<?=Number_format($row['in_amt'],ASSETS_NUMBER_POINT)?>' inputmode="numeric"></td>
@@ -312,6 +314,7 @@ $result = sql_query($sql);
         <td class='time'><?=$row['create_dt']?></td>
         <td class='time'><?=$row['update_dt']?></td>
         <td>
+           
             <?if(!$member_binary){?>
                 <input type="button" class="inline_btn add_binary btn1" value='후원레그+' data-id='<?=$row['mb_id']?>' data-func='1'></input>
             <?}?>
@@ -320,10 +323,10 @@ $result = sql_query($sql);
                 <input type="button" class="inline_btn add_binary btn2" value='후원레그2+' data-id='<?=$row['mb_id']?>' data-func='2'></input>
             <?}?>
         </td>
-        <td>
+        <!-- <td>
             <?if($member_binary || $member_binary2){?>
                 <input type="button" class="inline_btn add_binary btn3" value='후원레그삭제' data-id='<?=$row['mb_id']?>' data-func='3'></input>
-            <?}?></td>
+            <?}?></td> -->
     </tr>
 
     <?php
