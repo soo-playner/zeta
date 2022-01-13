@@ -257,8 +257,8 @@ function fvisit_submit(act)
         <th>회원아이디</th>
         <th>회원가입일</th>
         <th>회원의 추천인</th>
-        <th>기간매출금액</th>
-        <th>기간PV</th>
+        <th>기간매출(PV)금액</th>
+        <th>해쉬</th>
         <th>멤버쉽결제</th>
         <th>센터수당</th>
     </tr>
