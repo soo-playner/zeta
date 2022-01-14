@@ -449,7 +449,19 @@ span.f_blue {
   font-weight:600;
   color:blue;
 }
+span.f_pink {
+  font-weight:600;
+  color:#ff1288;
+}
+span.f_green{
+  color:green;
+  font-weight:300;
+}
 
 .pool_img{display:none;}
 .lvl_img{
   width:30px;}
+
+.mt5{
+  margin-top:5px;
+}

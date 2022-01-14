@@ -45,13 +45,15 @@ $sql = "SELECT c.c_id,c.c_class,(
 	FROM g5_member
 	WHERE mb_id=c.c_id) AS m_no
 	,(select mb_rate FROM g5_member WHERE mb_id=c.c_id) AS mb_rate
+	, ( select recom_sales FROM g5_member WHERE mb_id=c.c_id) AS recom_sales
+	,(select mb_save_point FROM g5_member WHERE mb_id=c.c_id) AS mb_save_point
 	,(select grade FROM g5_member WHERE mb_id=c.c_id) AS grade
 	,(SELECT mb_child FROM g5_member WHERE mb_id=c.c_id) AS mb_children
 	FROM g5_member m
 	JOIN ".$class_name." c ON m.mb_id=c.mb_id
 	WHERE c.mb_id='{$member['mb_id']}' AND c.c_id='$go_id'
 ";
-// print_R($sql);
+
 $srow = sql_fetch($sql);
 $my_depth = strlen($srow['c_class']);
 
@@ -110,21 +112,22 @@ if ($order_proc==1){
 
 }
 
-//���̳ʸ� ���� ���� ����
+
 if ($srow['b_recomm']){
-	$left_sql = " SELECT mb_rate, (SELECT noo FROM brecom_bonus_noo WHERE mb_id ='{$srow['b_recomm']}' ) AS noo FROM g5_member WHERE mb_id = '{$srow['b_recomm']}' ";
+	$left_sql = " SELECT mb_rate,mb_save_point, (SELECT noo FROM brecom_bonus_noo WHERE mb_id ='{$srow['b_recomm']}' ) AS noo FROM g5_member WHERE mb_id = '{$srow['b_recomm']}' ";
+	
 	$mb_self_left_result = sql_fetch($left_sql);
-	$mb_self_left_acc = $mb_self_left_result['mb_rate'] + $mb_self_left_result['noo'];
+	$mb_self_left_acc = $mb_self_left_result['mb_save_point'] + $mb_self_left_result['noo'];
 	$row6['tpv'] = $mb_self_left_acc ;
+	
 }else{
 	$row6['tpv'] = 0;
 }
 
-//���̳ʸ� ������ ���� ����
 if ($srow['b_recomm2']){
-	$right_sql = " SELECT mb_rate, (SELECT noo FROM brecom_bonus_noo WHERE mb_id ='{$srow['b_recomm2']}' ) AS noo FROM g5_member WHERE mb_id = '{$srow['b_recomm2']}' ";
+	$right_sql = " SELECT mb_rate,mb_save_point, (SELECT noo FROM brecom_bonus_noo WHERE mb_id ='{$srow['b_recomm2']}' ) AS noo FROM g5_member WHERE mb_id = '{$srow['b_recomm2']}' ";
 	$mb_self_right_result = sql_fetch($right_sql);
-	$mb_self_right_acc = $mb_self_right_result['mb_rate'] + $mb_self_right_result['noo'];
+	$mb_self_right_acc = $mb_self_right_result['mb_save_point'] + $mb_self_right_result['noo'];
 	$row7['tpv'] = $mb_self_right_acc ;
 }else{
 	$row7['tpv'] = 0;
@@ -134,18 +137,14 @@ $sql    = "select c_class from ".$class_name." where mb_id='".$member['mb_id']."
 $row4   = sql_fetch($sql);
 $mdepth = (strlen($row4['c_class'])/2);
 
-			$mb_my_sales=$row2['tpv'];
-			$mb_habu_sum=$row3['tpv'];
-
-			if($mb_my_sales==''){ $mb_my_sales=0; }
-			if($mb_habu_sum==''){$mb_habu_sum=0;}
-
-			$sql  = "update g5_member set mb_my_sales=".$mb_my_sales." , mb_habu_sum=".$mb_habu_sum."   where mb_id='".$member['mb_id']."'";
-			sql_query($sql);
+			
 
 			if (!$srow['b_child']) $srow['b_child']=1;
 			//if (!$srow['c_child']) $srow['c_child']=1;
 
+			$member_info_data = sql_fetch("SELECT * FROM g5_member_info WHERE mb_id ='{$srow['c_id']}' order by date desc limit 0,1 ");
+			$recom_info = json_decode($member_info_data['recom_info'],true);
+			$brecom_info = json_decode($member_info_data['brecom_info'],true);
 
 if ($srow['c_class']){
 ?>
@@ -154,19 +153,20 @@ if ($srow['c_class']){
 			[<?=(strlen($srow['c_class'])/2)-1?>-<?=($srow['c_child'])?>-<?=($srow['b_child']-1)?>]
 			|<?=get_member_label($srow['mb_level'])?>
 			|<?=$srow['c_id']?>|<?=$srow['c_name']?>
-			|<?=number_format($row3['tpv'])?>
-			|<?=number_format($row5['tpv'])?>
+			|<?=Number_format($brecom_info['LEFT']['hash'])?>
+				|<?=Number_format($brecom_info['RIGHT']['hash'])?>
 			|<?=$srow['mb_level']?>
-			|<?=number_format($row6['tpv'])?>
-			|<?=number_format($row7['tpv'])?>
-			|999
+			|<?=pv($brecom_info['LEFT']['sales'])?>
+			|<?=pv($brecom_info['RIGHT']['sales'])?>
+			|<?=pv($srow['recom_sales'])?>
 			|<?=($srow['mb_children']-1)?>
-			|3
+			|<?=pv($srow['mb_save_point'])?>
 			|<?=$srow['grade']?>
 			|<?=Number_format($srow['mb_rate'])?>
-			|<?=(strlen($srow['c_class'])/2)-1?>
+			|<?=pv($recom_info['sales_10'])?>
 			|<?=($srow['c_child'])?>
 			|<?=($srow['b_child']-1)?>
+			|<?=Number_format($recom_info['hash_10'])?
 			|<?=$gubun?>
 
 
