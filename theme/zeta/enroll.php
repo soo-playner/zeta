@@ -7,6 +7,11 @@ $phone_auth = 0;
 include_once(G5_THEME_PATH.'/_include/head.php');
 include_once(G5_THEME_PATH.'/_include/gnb.php');
 
+if($nw['nw_enroll'] == 'Y'){
+}else{
+	alert("현재 서비스를 이용할수없습니다.");
+	break;
+}
 
 $service_term = get_write("g5_write_agreement", 1);
 $private_term = get_write("g5_write_agreement", 2);

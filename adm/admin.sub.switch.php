@@ -27,7 +27,7 @@ include_once (G5_ADMIN_PATH.'/admin.head.php');
 <input type="hidden" name="w" value="<?php echo $w; ?>">
 
 <div class="local_desc01 local_desc">
-    <p> 서비스 사용설정을 안함으로 하면 해당 메뉴/서비스 사용이 중지됩니다.<br>
+    <p> 서비스 사용설정을 안함으로 하면 해당 메뉴/서비스가 중지됩니다.<br>
 
 	</p>
 </div>
@@ -42,16 +42,20 @@ include_once (G5_ADMIN_PATH.'/admin.head.php');
     <tbody>
     
 	<tr>
-        <th scope="row"><label for="nw_with">출금 요청<strong class="sound_only"> 필수</strong></label></th>
-        <td>
-            <p style="padding:0;"><input type="checkbox" id="nw_with" name="nw_with" <?if($nw['nw_with'] == 'Y') {echo "checked";}?>/><label for="nw_with" style=""><span class="ui"></span><span class="nw_with_txt">사용 설정</span></label></p>
-        </td>
-
 		<!-- <th scope="row"><label for="nw_change"> 입금 요청<strong class="sound_only"> 필수</strong></label></th>
 		<td>
             <p style="padding:0;"><input type="checkbox" id="nw_change" name="nw_change" <?if($nw['nw_change'] == 'Y') {echo "checked";}?>/><label for="nw_change" style=""><span class="ui"></span><span class="nw_change_txt">사용 설정</span></label></p>
-		</td> -->
-		
+		</td>
+
+		<th scope="row"><label for="nw_change"> 입금<strong class="sound_only"> 필수</strong></label></th>
+		<td>
+            <p style="padding:0;"><input type="checkbox" id="nw_change" name="nw_change" <?if($nw['nw_change'] == 'Y') {echo "checked";}?>/><label for="nw_change" style=""><span class="ui"></span><span class="nw_change_txt">사용 설정</span></label></p>
+		</td> 
+ 		-->
+		<th scope="row"><label for="nw_with">입출금<strong class="sound_only"> 필수</strong></label></th>
+        <td>
+            <p style="padding:0;"><input type="checkbox" id="nw_with" name="nw_with" <?if($nw['nw_with'] == 'Y') {echo "checked";}?>/><label for="nw_with" style=""><span class="ui"></span><span class="nw_with_txt">사용 설정</span></label></p>
+        </td>
 	</tr>
 	
 	<tr>
@@ -59,11 +63,8 @@ include_once (G5_ADMIN_PATH.'/admin.head.php');
 		<td>
             <p style="padding:0;"><input type="checkbox" id="nw_upstair" name="nw_upstair" <?if($nw['nw_upstair'] == 'Y') {echo "checked";}?>/><label for="nw_upstair" style=""><span class="ui"></span><span class="nw_upstair_txt">사용 설정</span></label></p>
 		</td>
-
-		<th scope="row"><label for="nw_change"> 입금 금지<strong class="sound_only"> 필수</strong></label></th>
-		<td>
-            <p style="padding:0;"><input type="checkbox" id="nw_change" name="nw_change" <?if($nw['nw_change'] == 'Y') {echo "checked";}?>/><label for="nw_change" style=""><span class="ui"></span><span class="nw_change_txt">사용 설정</span></label></p>
-		</td> -->
+		-->
+		
 
 		<th scope="row"><label for="nw_purchase"> 패키지 구매 <strong class="sound_only"> 필수</strong></label></th>
 		<td>

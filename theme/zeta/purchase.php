@@ -2,24 +2,24 @@
 	include_once('./_common.php');
 	include_once(G5_THEME_PATH.'/_include/gnb.php'); 
 	include_once(G5_THEME_PATH.'/_include/shop.php');
-	//print_r($member);
-
 	
-	$sql = " select * from maintenance";
-	$nw = sql_fetch($sql);
+	login_check($member['mb_id']);
+
+	echo "<br>";
+	echo "=====================";
+	print_R('sadfasdfasdf');
+	echo "=====================";
+	echo "<br>";
+	print_r($nw['nw_purchase']);
 
 	if($nw['nw_purchase'] == 'Y'){
 		$nw_purchase = 'Y';
+		include_once(G5_PATH.'/service_pop.php');
 	}else{
 		$nw_purchase = 'N';
+		alert("현재 서비스를 이용할수없습니다.");
+		break;
 	}
-
-	if($nw_purchase == 'Y'){
-		include_once(G5_PATH.'/service_pop.php');
-	}
-
-
-	login_check($member['mb_id']);
 ?>
 	<script>
 		$(function() {

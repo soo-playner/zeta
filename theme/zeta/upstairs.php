@@ -6,6 +6,15 @@ include_once(G5_PATH . '/util/package.php');
 
 login_check($member['mb_id']);
 
+if($nw['nw_purchase'] == 'Y'){
+	$nw_purchase = 'Y';
+	// include_once(G5_PATH.'/service_pop.php');
+}else{
+	$nw_purchase = 'N';
+	alert("현재 서비스를 이용할수없습니다.");
+	break;
+}
+
 $title = 'upstairs';
 
 // $pack_sql = "SELECT it_id, it_name,it_price,it_point,it_supply_point,it_use,it_option_subject, ca_id,ca_id3, it_maker FROM g5_shop_item WHERE it_use > 0 order by it_order asc ";

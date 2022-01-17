@@ -75,9 +75,11 @@ $(document).ready(function(){
 			<!-- <li class="dashboard_icon"><a href="/"><span data-i18n="">대쉬보드</span></a></li> -->
 
 			<li class="profile_icon"><a href="/page.php?id=profile"><span data-i18n="">개인정보&보안설정</span></a></li>
-			<li class="mywallet_icon"><a href="/page.php?id=mywallet"><span data-i18n="">입출금</span></a></li> 
+			<?if($nw['nw_with'] == 'Y'){?>
+			<li class="mywallet_icon"><a href="/page.php?id=mywallet"><span data-i18n="">입출금</span></a></li> <?}?>
 			<li class="mining_icon"><a href="/page.php?id=mining"><span data-i18n="">마이닝</span></a></li>
-			<li class="upstairs_icon"><a href="/page.php?id=upstairs"><span data-i18n="">패키지구매</span></a></li>
+			<?if($nw['nw_purchase'] == 'Y'){?>
+			<li class="upstairs_icon"><a href="/page.php?id=upstairs"><span data-i18n="">패키지구매</span></a></li> <?}?>
 
 			<li class="bonus_history_icon"><a href="/page.php?id=bonus_history"><span data-i18n="">보너스내역</span></a></li>
 			<?
