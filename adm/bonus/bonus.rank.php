@@ -4,6 +4,7 @@ $sub_menu = "600200";
 include_once('./_common.php');
 // $debug = 1;
 include_once('./bonus_inc.php');
+include_once(G5_PATH.'/util/recommend.php');
 
 auth_check($auth[$sub_menu], 'r');
 
@@ -157,240 +158,136 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
 
     
 
-    /*추천 하부라인 */
-    function return_down_manager($mb_id,$cnt=0){
-        global $config,$g5,$mem_list;
+        /*추천 하부라인 */
+        function return_down_tree($mb_id,$cnt=0){
+            global $config,$g5,$mem_list;
 
-        $mb_result = sql_fetch("SELECT mb_id,mb_rate from g5_member WHERE mb_id = '{$mb_id}' ");
+            $mb_result = sql_fetch("SELECT mb_id,mb_level,grade,mb_rate,mb_save_point,rank,recom_sales from g5_member WHERE mb_id = '{$mb_id}' ");
+            $result = recommend_downtrees($mb_result['mb_id'],0,$cnt);
+            return $result;
+        }
+
         
-        // 본인제외
-        // $list = [];
-        // $list['mb_id'] = $mb_result['mb_id'];
-        // $list['mb_rate'] = $mb_result['mb_rate'];
-        // $mem_list = [$list];
+        function recommend_downtrees($mb_id,$count=0,$cnt = 0){
+            global $mem_list;
 
-        $result = recommend_downtree($mb_result['mb_id'],0,$cnt);
-        return $result;
-    }
+            if($cnt == 0 || ($cnt !=0 && $count < $cnt)){
+                
+                $recommend_tree_result = sql_query("SELECT mb_id,mb_level,grade,mb_rate,mb_save_point,rank,recom_sales from g5_member WHERE mb_recommend = '{$mb_id}' ");
+                $recommend_tree_cnt = sql_num_rows($recommend_tree_result);
+        
+                if($recommend_tree_cnt > 0 ){
+                    ++$count;
+                    while($row = sql_fetch_array($recommend_tree_result)){
+                        
+                        /* $list['mb_id'] = $row['mb_id'];
+                        $list['mb_save_point'] = $row['mb_save_point'];
+                        $list['mb_rate'] = $row['mb_rate'];
+                        $list['recom_sales'] = $row['recom_sales'];
+                        $list['rank'] = $row['rank'];
+                        $list['depth'] = $count; */
 
-    
-    function recommend_downtree($mb_id,$count=0,$cnt = 0){
-        global $mem_list;
+                        /* echo $row['mb_id'];
+                        echo " :".Number_format($row['mb_save_point']);
+                        echo "<br>"; */
 
-        if($cnt == 0 || ($cnt !=0 && $count < $cnt)){
-            
-            $recommend_tree_result = sql_query("SELECT mb_id,mb_rate,mb_save_point from g5_member WHERE mb_recommend = '{$mb_id}' ");
-            $recommend_tree_cnt = sql_num_rows($recommend_tree_result);
-    
-            if($recommend_tree_cnt > 0 ){
-                ++$count;
-                while($row = sql_fetch_array($recommend_tree_result)){
-                    // $list['mb_rate'] = $row['mb_rate'];
-                    $list['mb_id'] = $row['mb_id'];
-                    $list['mb_save_point'] = $row['mb_save_point'];
-                    $list['depth'] = $count;
-
-                    /* echo $row['mb_id'];
-                    echo " :".Number_format($row['mb_save_point']);
-                    echo "<br>"; */
-
-                    array_push($mem_list,$list);
-                    recommend_downtree($row['mb_id'],$count,$cnt,$mem_list);
+                        array_push($mem_list,$row);
+                        recommend_downtrees($row['mb_id'],$count,$cnt);
+                    }
                 }
             }
+            return $mem_list;
         }
-        return $mem_list;
-    }
     
-    /* 결과 합계 중복제거*/
-    function array_index_sum($list, $key,$category)
-    {
-        $sum = null;
-        $count = 0;
-        $a = array_count_values(array_column($list, $key));
-        
+        /* 후원 조건 검사 */
+        /* function brecom_grade($mb_id, $grade_condition = 1, $sales_condition = 0)
+        {
+            global $config, $brcomm_arr, $debug;
+            $origin = $mb_id;
 
-        foreach ($a as $key => $value) {
+            // 후원 하부 L,R 구분
+            list($leg_list, $cnt) = brecommend_direct($mb_id);
+
+            if ($cnt == 2) {
+
+                $L_member = $leg_list[0]['mb_id'];
+                $R_member = $leg_list[1]['mb_id'];
+
+
+                $brcomm_arr = [];
+                array_push($brcomm_arr, $leg_list[0]);
+                $manager_list_L = brecommend_array($L_member, 0);
             
-            if($category == 'int'){
-                // echo $key." ";
-                $sum += $key; 
-                // echo "= ".$sum."<br>";
-            }else if ($category == 'text'){
-                $sum .= $key.' | '; 
-            }
-        }
-        return $sum;
-    }
 
-    /* 결과 합계 */
-    function array_int_sum($list, $key){
-        return array_sum(array_column($list, $key));
-    }
+                $brcomm_arr = [];
+                array_push($brcomm_arr, $leg_list[1]);
+                $manager_list_R = brecommend_array($R_member, 0);
+                
 
-
-    /*추천 상부라인 */
-    /* function return_up_manager($mb_id,$cnt=0){
-    global $config;
-    $origin = $mb_id;
-    $manager_list = [];
-    $i = 0;
-        if($mb_id != 'admin' && $mb_id != $config['cf_admin']){
-            
-            if($cnt == 0){
-                do{
-                    $manager = recommend_uptree($mb_id);
-                    $mb_id = $manager;
-                    array_push($manager_list,$manager);
-                }while( 
-                    $manager != 'dfine'
-                );
-            
-                if(count($manager_list) < 2){
-                    return $origin;
-                }else{
-                    return $manager_list[count($manager_list)-2];
-                }
-            }else{
-                do{
-                    $i++;
-                    $manager = recommend_uptree($mb_id);
-                    $mb_id = $manager;
-                    array_push($manager_list,$manager);
-                }while( $i < $cnt );
-
-                return $manager_list[$cnt-1];
-            }
-        }else{
-            return $mb_id;
-        } 
-    }
-
-    function recommend_uptree($mb_id){
-        $result = sql_fetch("SELECT mb_recommend,mb_level from g5_member WHERE mb_id = '{$mb_id}' ");
-        return $result['mb_recommend'];
-    }
-    */
-
-
-
-
-    // brecom_grade('test2');
-
-    $brcomm_arr = [];
-
-    function brecom_grade($mb_id, $grade_condition = 1, $sales_condition = 0)
-    {
-        global $config, $brcomm_arr, $debug;
-        $origin = $mb_id;
-
-        // 후원 하부 L,R 구분
-        list($leg_list, $cnt) = brecommend_direct($mb_id);
-
-        if ($cnt == 2) {
-
-            $L_member = $leg_list[0]['mb_id'];
-            $R_member = $leg_list[1]['mb_id'];
-
-
-            $brcomm_arr = [];
-            array_push($brcomm_arr, $leg_list[0]);
-            $manager_list_L = brecommend_array($L_member, 0);
-            /* echo "<br><br> L ::<br>";
-    print_R($manager_list_L); */
-
-            $brcomm_arr = [];
-            array_push($brcomm_arr, $leg_list[1]);
-            $manager_list_R = brecommend_array($R_member, 0);
-            /* echo "<br><br> R ::<br>";
-    print_R($manager_list_R); */
-
-            /* 하부등급 확인 */
-            // echo "<br><span> 직급 :: ";
-            list($L_grade_array, $L_grade_count) = array_index_sort($manager_list_L, 'grade', $grade_condition);
-            list($R_grade_array, $R_grade_count) = array_index_sort($manager_list_R, 'grade', $grade_condition);
-            // if($debug){echo "<code>";print_R($L_grade_array);echo "<br>";print_R($R_grade_array);echo "</code>";}
-            // echo "L : ".$L_grade_count.' / R :'.$R_grade_count;
-            echo "</span>";
-
-            /* 하부매출 확인 */
-            if ($sales_condition > 0) {
-                // echo "<br><span> 매출 :: ";
-                list($L_sales_array, $L_sales_count) = array_index_sort($manager_list_L, 'mb_rate', $sales_condition);
-                list($R_sales_array, $R_sales_count) = array_index_sort($manager_list_R, 'mb_rate', $sales_condition);
-                // if($debug){echo "<code>";print_R($L_sales_array);echo "<br>";print_R($R_sales_array);echo "</code>";}
-                // echo "L : ".$L_sales_count.' / R :'.$R_sales_count;
+                
+                // echo "<br><span> 직급 :: ";
+                list($L_grade_array, $L_grade_count) = array_index_sort($manager_list_L, 'grade', $grade_condition);
+                list($R_grade_array, $R_grade_count) = array_index_sort($manager_list_R, 'grade', $grade_condition);
+                // if($debug){echo "<code>";print_R($L_grade_array);echo "<br>";print_R($R_grade_array);echo "</code>";}
+                // echo "L : ".$L_grade_count.' / R :'.$R_grade_count;
                 echo "</span>";
-                return array($L_member, $L_grade_array, $L_grade_count, $R_member, $R_grade_array, $R_grade_count, $L_sales_count, $R_sales_count);
+
+                
+                if ($sales_condition > 0) {
+                    list($L_sales_array, $L_sales_count) = array_index_sort($manager_list_L, 'mb_rate', $sales_condition);
+                    list($R_sales_array, $R_sales_count) = array_index_sort($manager_list_R, 'mb_rate', $sales_condition);
+                    
+                    echo "</span>";
+                    return array($L_member, $L_grade_array, $L_grade_count, $R_member, $R_grade_array, $R_grade_count, $L_sales_count, $R_sales_count);
+                } else {
+                    return array($L_member, $L_grade_array, $L_grade_count, $R_member, $R_grade_array, $R_grade_count);
+                }
+            } else if ($cnt < 2) {
+                echo "<span>후원 L,R 라인 없음</span>";
             } else {
-                return array($L_member, $L_grade_array, $L_grade_count, $R_member, $R_grade_array, $R_grade_count);
+
+                echo "<span>후원인 초과</span>";
             }
-        } else if ($cnt < 2) {
-
-            echo "<span>후원 L,R 라인 없음</span>";
-        } else {
-
-            echo "<span>후원인 초과</span>";
-        }
-    }
+        } */
 
 
+        /* $mem_result = return_down_tree('arcthan',10);
+        $recom_info_sales = array_int_sum($mem_result,'mb_save_point','int');
+        $recom_info_hash = array_int_sum($mem_result,'mb_rate','int');
 
-    // 후원인 하부 회원 
-    /* function brecommend_array($brecom_id, $count)
-    {
-        global $brcomm_arr;
+        echo "<code>";
+        echo "<br>////////// 추천 10대<br>";
+        echo "SALES :".$recom_info_sales;
+        echo "<br>";
+        echo "hash :".$recom_info_hash;
+        echo "</code>";
 
-        // $new_arr = array();
-        $b_recom_sql = "SELECT mb_id,grade,mb_rate,mb_save_point,mb_brecommend_type from g5_member WHERE mb_brecommend='{$brecom_id}' ";
-        $b_recom_result = sql_query($b_recom_sql);
-        $cnt = sql_num_rows($b_recom_result);
+        // 산하 후원 10대 매출, 해쉬기록
+        list($mem_result_l,$mem_result_r) = return_brecommend('arcthan',5,false);
 
-        if ($cnt < 1) {
-            // 마지막
-        } else {
-            ++$count;
-            while ($row = sql_fetch_array($b_recom_result)) {
-                brecommend_array($row['mb_id'], $count);
-                // print_R($count.' :: '.$row['mb_id'].' | type ::'.$row['grade']);
-                // $brcomm_arr[$count]['id'] = $brecom_id;
-                array_push($brcomm_arr, $row);
-            }
-        }
-        return $brcomm_arr;
-    } */
+        $brecom_info_l_hash = array_int_sum($mem_result_l,'mb_rate','int');
+        $brecom_info_l_sales = array_int_sum($mem_result_l,'mb_save_point','int');
 
-    /* 
-    function brecommend_direct($mb_id)
-    {
+        $brecom_info_r_hash = array_int_sum($mem_result_r,'mb_rate','int');
+        $brecom_info_r_sales = array_int_sum($mem_result_r,'mb_save_point','int');
 
-        $down_leg = array();
-        $sql = "SELECT mb_id,grade,mb_rate,mb_save_point,mb_brecommend_type FROM g5_member where mb_brecommend = '{$mb_id}' AND mb_brecommend != '' ORDER BY mb_brecommend_type ASC ";
-        $sql_result = sql_query($sql);
-        $cnt = sql_num_rows($sql_result);
+        echo "<code>";
+        print_R($mem_result_l);
+        echo "<br<br>>////////// 후원 10대 L- ".count($mem_result_l);
+        echo "<br>";
+        echo "SALES :".$brecom_info_l_sales;
+        echo "<br>";
+        echo "hash :".$brecom_info_l_hash;
 
-        while ($result = sql_fetch_array($sql_result)) {
-            array_push($down_leg, $result);
-        }
-        return array($down_leg, $cnt);
-    } */
+        echo "<br><br>";
+        print_R($mem_result_r);
+        echo "<br<br>>////////// 후원 10대 R- ".count($mem_result_r);
+        echo "<br>";
+        echo "SALES :".$brecom_info_r_sales;
+        echo "<br>";
+        echo "hash :".$brecom_info_r_hash;
+        echo "</code>"; */
 
-
-
-    // 배열정렬 + 지정값 이상 카운팅
-    /* function array_index_sort($list, $key, $average)
-    {
-        $count = 0;
-        $a = array_count_values(array_column($list, $key));
-
-        foreach ($a as $key => $value) {
-
-            if ($key >= $average) {
-                $count += intval($value);
-            }
-        }
-        return array($a, $count);
-    } */
 
         function  excute()
         {
@@ -439,6 +336,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                     $mb_rate = $row['mb_rate'];
                     $grade = $row['grade'];
                     $item_rank = $row['rank'];
+                    $all_hash = $row['recom_mining']+$row['brecom_mining']+$row['brecom2_mining']+$row['super_mining'];
 
                     // $star_rate = $bonus_rate[$i-1]*0.01;
 
@@ -552,11 +450,9 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         }
 
                         // 산하 추천 3대 매출 -  save_point 기준
-                        
-                        $mem_result = return_down_manager($mb_id,3);
+                        $mem_result = return_down_tree($mb_id,3);
                         $recom_sales = array_int_sum($mem_result,'mb_save_point','int');
 
-                        
                         if(!$recom_sales){
                             $recom_sales = 0;
                         }
@@ -574,7 +470,100 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         // echo "<br><span class='desc'>└ 추천하부3대 : ";
                         // echo ($recom_id);
                         // echo "</span>";
+
+
+
+
+                        // 기록용 
+                        // 산하 추천 10대 매출, 해쉬기록 
+                        $mem_result = return_down_tree($mb_id,10);
+                        $recom_info_sales = array_int_sum($mem_result,'mb_save_point','int');
+                        $recom_info_hash = array_int_sum($mem_result,'mb_rate','int');
+
+                        if($debug){
+                        echo "<code>";
+                        echo "<br>////////// 추천 10대<br>";
+                        echo "SALES :".$recom_info_sales;
+                        echo "<br>";
+                        echo "hash :".$recom_info_hash;
+                        echo "</code>";
+                        }
+
+                        // 산하 후원 10대 매출, 해쉬기록
+                        list($mem_result_l,$mem_result_r) = return_brecommend($mb_id,10,false);
+
+                        $cnt_l =count($mem_result_l);
+                        $brecom_info_l_hash = array_int_sum($mem_result_l,'mb_rate','int');
+                        $brecom_info_l_sales = array_int_sum($mem_result_l,'mb_save_point','int');
+
+                        $cnt_r =count($mem_result_r);
+                        $brecom_info_r_hash = array_int_sum($mem_result_r,'mb_rate','int');
+                        $brecom_info_r_sales = array_int_sum($mem_result_r,'mb_save_point','int');
+
+                        $brecom_info_lr_hash = $brecom_info_l_hash + $brecom_info_r_hash;
+                        $brecom_info_lr_sales = $brecom_info_l_sales + $brecom_info_r_sales;
                         
+                        if($debug){
+                        echo "<code>";
+                        // print_R($mem_result_l);
+                        echo "<br>////////// 후원 10대<br>";
+                        echo "SALES L:".$brecom_info_l_sales;
+                        echo "<br>";
+                        echo "hash L:".$brecom_info_l_hash;
+                        echo "<br><br>";
+                        // print_R($mem_result_r);
+                        echo "<br>";
+                        echo "SALES R:".$brecom_info_r_sales;
+                        echo "<br>";
+                        echo "hash R:".$brecom_info_r_hash;
+                        echo "</code>"; 
+                        }
+                        
+                        if($recom_info_sales > 0){
+                            /* echo "<code>";
+                            echo "<br>해쉬 : ".$row['mb_rate'];
+                            echo "<br>메가풀 : ".$row['recom_mining'];
+                            echo "<br>제타풀 : ".$row['brecom_mining'];
+                            echo "<br>제타+ : ".$row['brecom2_mining'];
+                            echo "<br>슈퍼 :".$row['super_mining'];
+                            echo "<br>총보너스 :".($row['recom_mining']+$row['brecom_mining']+$row['brecom2_mining']+$row['super_mining']);
+                            echo "<br>승급대상 :".$row['recom_sales'];
+                            echo "<br>";
+                            echo "</code>"; */
+
+                            $recom_info_data = "INSERT into g5_member_info(mb_id,date, recom_info,brecom_info,hash_info) values('{$mb_id}', '{$bonus_day}',json_object(
+                                'hash_10', $recom_info_hash, 
+                                'sales_10', $recom_info_sales, 
+                                'sales_3', {$row['recom_sales']}
+                            ), json_object(
+                                'hash_10', $brecom_info_lr_hash, 
+                                'sales_10', $brecom_info_lr_sales,
+                                'LEFT', json_object(
+                                    'cnt', $cnt_l,
+                                    'hash', $brecom_info_l_hash,
+                                    'sales', $brecom_info_l_sales
+                                    ),
+                                'RIGHT',json_object(
+                                    'cnt', $cnt_r,
+                                    'hash', $brecom_info_r_hash,
+                                    'sales', $brecom_info_r_sales
+                                )
+                            ), json_object(
+                                'hash', {$row['mb_rate']}, 
+                                'mega', {$row['recom_mining']}, 
+                                'zeta', {$row['brecom_mining']},
+                                'zetaplus', {$row['brecom2_mining']},
+                                'super', {$row['super_mining']},
+                                'all', {$all_hash}
+                            ))";
+
+                            if($debug){
+                                print_R($recom_info_data);
+                            }else{
+                                sql_query( $recom_info_data );
+                            }
+                            
+                        }
                         
                         /* if($recom_week_sales){
                             $sum_sale = array_sum($recom_week_sales);

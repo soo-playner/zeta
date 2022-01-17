@@ -46,7 +46,7 @@ $max_depth = ($my_depth+($max_org_num*2));
 			};
 			var zNodes =[
 		<?
-		$sql = "select c.c_id,c.c_class,(select mb_level from g5_member where mb_id=c.c_id) as mb_level,(select pool_level from g5_member where mb_id=c.c_id) as pool_level,(select mb_name from g5_member where mb_id=c.c_id) as c_name,(select count(*) from g5_member where mb_recommend=c.c_id) as c_child,(select mb_b_child from g5_member where mb_id=c.c_id) as b_child,(select mb_id from g5_member where mb_brecommend=c.c_id and mb_brecommend_type='L' limit 1) as b_recomm,(select mb_id from g5_member where mb_brecommend=c.c_id and mb_brecommend_type='R' limit 1) as b_recomm2,(select count(mb_no) from g5_member where ".$recommend_name."=c.c_id and mb_leave_date = '') as m_child, (select it_pool1 from g5_member where mb_id=c.c_id) as it_pool1, (select it_pool2 from g5_member where mb_id=c.c_id) as it_pool2, (select it_pool3 from g5_member where mb_id=c.c_id) as it_pool3, (select it_pool4 from g5_member where mb_id=c.c_id) as it_pool4, (select it_GPU from g5_member where mb_id=c.c_id) as it_GPU from g5_member m join ".$class_name." c on m.mb_id=c.mb_id where c.mb_id='{$member['mb_id']}' and c.c_class like '{$crow['c_class']}%' and length(c.c_class)<".$max_depth." order by c.c_class";
+		$sql = "select c.c_id,c.c_class,(select mb_level from g5_member where mb_id=c.c_id) as mb_level,(select mb_name from g5_member where mb_id=c.c_id) as c_name,(select count(*) from g5_member where mb_recommend=c.c_id) as c_child,(select mb_b_child from g5_member where mb_id=c.c_id) as b_child,(select mb_id from g5_member where mb_brecommend=c.c_id and mb_brecommend_type='L' limit 1) as b_recomm,(select mb_id from g5_member where mb_brecommend=c.c_id and mb_brecommend_type='R' limit 1) as b_recomm2,(select count(mb_no) from g5_member where ".$recommend_name."=c.c_id and mb_leave_date = '') as m_child from g5_member m join ".$class_name." c on m.mb_id=c.mb_id where c.mb_id='{$member['mb_id']}' and c.c_class like '{$crow['c_class']}%' and length(c.c_class)<".$max_depth." order by c.c_class";
 		
 		
 		$result = sql_query($sql);
@@ -139,11 +139,7 @@ $max_depth = ($my_depth+($max_org_num*2));
 			//if (!$row['c_child']) $row['c_child']=1;
 
 			$name_line = "<img src='/img/".$row['mb_level'].".png' class='pool' /> [";
-			if($row['it_pool1'] > 0) {$name_line .= "<img src='/img/P1.png' class='pool' />";}
-			if($row['it_pool2'] > 0) {$name_line .= "<img src='/img/P2.png' class='pool' />";}
-			if($row['it_pool3'] > 0) {$name_line .= "<img src='/img/P3.png' class='pool' />";}
-			if($row['it_pool4'] > 0) {$name_line .= "<img src='/img/P4.png' class='pool' />";}
-			if($row['it_GPU'] > 0) {$name_line .= "<img src='/img/P5.png' class='pool' />";}
+			
 
 			$name_line .= "] [".((strlen($row['c_class'])/2)-1)."-".($row['c_child'])."-".($row['b_child']-1)."]".$row['c_name']."(".$row['c_id'].")  <img src='/adm/img/dot.gif' /> 누적매출".number_format($row3['tpv']/$order_split)."<img src='/adm/img/dot.gif' /> 30일매출 ".number_format($row5['tpv']/$order_split)."<img src='/adm/img/dot.gif' /> 바이너리레그매출".number_format($row6['tpv']/$order_split)."-".number_format($row7['tpv']/$order_split);
 		?>

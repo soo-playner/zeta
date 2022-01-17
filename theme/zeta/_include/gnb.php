@@ -95,7 +95,7 @@ $(document).ready(function(){
 			<!-- <li class="shopping_mall_icon"><a href="javascript:move_to_shop();"><span data-i18n="">쇼핑몰</span></a></li> -->
 			<!-- <div class="b_line3"></div> -->
 			
-			
+			<div class='gnb_bottom text-center hidden'><i class="ri-arrow-down-s-line" style='font-size:20px;vertical-align:top'></i></div>
 
 			<ul class="logout_wrap row">
 				<li class="foot_btn logout_icon"><a href="javascript:void(0);" class="logout_pop_open"><span data-i18n="">로그아웃</span></a></li>
@@ -131,6 +131,33 @@ $(document).ready(function(){
 
 	$( document ).ajaxStop(function() { 
 		$('.wrap-loading').addClass('display-none');
+	});
+
+	$(function(){
+		var left_gnb = $('.left_gnb');
+		if(left_gnb.height() < 600){
+			$(".gnb_bottom").css('display','block');
+
+			$(left_gnb).scroll(function () {
+				var gnb_height = $(left_gnb).scrollTop();
+				
+				if(gnb_height > 30){
+					$(".gnb_bottom i").attr('class','ri-arrow-up-s-line')
+				}else if(gnb_height < 30){
+					$(".gnb_bottom i").attr('class','ri-arrow-down-s-line')
+				}
+			}); 
+
+			$(left_gnb).scroll(function () {
+				var gnb_height = $(left_gnb).scrollTop();
+				
+				if(gnb_height > 30){
+					$(".gnb_bottom i").attr('class','ri-arrow-up-s-line')
+				}else if(gnb_height < 30){
+					$(".gnb_bottom i").attr('class','ri-arrow-down-s-line')
+				}
+			}); 
+		}
 	});
 
 	function move_to_shop(){

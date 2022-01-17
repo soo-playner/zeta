@@ -583,14 +583,7 @@ $(function(){
                 <label for="chk_all_it_point_type">전체적용</label>
             </td>
         </tr>
-		  <tr>
-			<th scope="row"><label for="pool_level">Pool_level</label></th>
-            <td>
-              <?php echo help("상품의 풀 레벨을 입력합니다."); ?>
-                <input type="text" name="pool_level" value="<?php echo $it['pool_level']; ?>" id="pool_level" class="frm_input" size="8">
-            </td>
-           
-		</tr>
+		 
         <tr>
             <th scope="row"><label for="it_point">PV</label></th>
             <td>
