@@ -125,10 +125,11 @@ else
 
 <div class="local_desc01 local_desc">
     <p>
-		- <span class='f_green'>MH : </span>보유 마이닝해쉬 (ETH)<br>
-        - <span class='f_blue'>PV : </span> 매출금액(PV), 단위 : 만원<br>
-		- <span class='f_pink'>ACC : </span> 승급대상포인트 (추천 하부 3대 매출), 단위 : 만원<br>
-		- <span style='color:red'>LR </span> 추천/후원 하부 10대 매출/ 해쉬<br>
+		- <span class='f_green'>MH : </span>보유 마이닝해쉬 (ETH)&nbsp&nbsp
+        - <span class='f_blue'>PV : </span> 매출금액(PV), 단위 : 만원&nbsp&nbsp
+		- <span class='f_pink'>ACC : </span> 승급대상포인트 (추천 하부 3대 매출), 단위 : 만원&nbsp&nbsp
+		- <span style='color:red'>LR </span> 추천/후원 하부 10대 매출&nbsp&nbsp
+		- <span class='f_green'>LR# </span> 추천/후원 하부 10대 해쉬 &nbsp&nbsp
 	</p>
 </div>
 
@@ -381,7 +382,7 @@ if (!$to_date) $to_date = Date("Y-m-d", time());
 	}
 	.orgchart .node .title .box_foot .hash{
 		line-height:14px;
-		color:#767676;
+		color:green;
 	}
 	.dec.p_left{
 		left:0;
@@ -478,7 +479,7 @@ if ($now_id){
 if ($member['mb_org_num']){
 	$max_org_num = $member['mb_org_num'];
 }else{
-	$max_org_num = 4;
+	$max_org_num = 8;
 }
 $org_num     = 0;
 

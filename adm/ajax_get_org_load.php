@@ -8,7 +8,7 @@ if ($member['mb_org_num']){
 }else{
 	$max_org_num = 50;
 }
-$org_num     = 0;
+$org_num     = 8;
 
 
 if ($gubun=="B"){
@@ -166,7 +166,7 @@ if ($srow['c_class']){
 			|<?=pv($recom_info['sales_10'])?>
 			|<?=($srow['c_child'])?>
 			|<?=($srow['b_child']-1)?>
-			|<?=Number_format($recom_info['hash_10'])?
+			|<?=Number_format($recom_info['hash_10'])?>
 			|<?=$gubun?>
 
 

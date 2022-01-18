@@ -11,7 +11,7 @@ function pv($value){
 
 
 $max_num    = 800;
-$max_up_num = 4; //5단계만 보이길 원하실 경우 4로 하시면 됩니다.
+$max_up_num = 10; //5단계만 보이길 원하실 경우 4로 하시면 됩니다.
 $rd_num   = 0;
 $ru_num   = 0;
 $brd_num  = 0;

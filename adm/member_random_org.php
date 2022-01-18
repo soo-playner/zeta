@@ -3,7 +3,6 @@ $sub_menu = "650200";
 
 include_once('./_common.php');
 include_once(G5_THEME_PATH.'/_include/wallet.php');
-include_once('./inc.member.class.php');
 auth_check($auth[$sub_menu], 'r');
 
 $token = get_token();
@@ -11,13 +10,6 @@ $token = get_token();
 
 $g5['title'] = '후원 조직도2';
 include_once ('./admin.head.php');
-
-/* 
-if($member['avatar_last'] > 0){
-    $avatar_id = $member['mb_id'].'_'.sprintf("%02d", $member['avatar_last']);
-    $avatar_list_sql = "SELECT * from g5_avatar_log WHERE mb_id = '{$member['mb_id']}' ";
-    $avatar_list_result = sql_query($avatar_list_sql);
-} */
 
 if($_GET['start_id']){
     $start_id = $_GET['start_id'];
@@ -135,46 +127,280 @@ $b_recom_arr_lr[2] = array();
 $b_recom_arr_lr[3] = array();
 
 
-array_brecommend($start_result['mb_id']);
+// array_brecommend($start_result['mb_id']);
 
-/* echo "<br><br>RESULT :: <br>"; 
-print_R($b_recom_arr_lr[0][0]['recom']); */
+$brcomm_arr = [];
 
-function array_brecommend($recom_id, $count=0)
+// 후원인 하부 회원 
+function return_brecommend($mb_id,$limit,$binding = false){
+	global $config, $brcomm_arr, $debug;
+	$origin = $mb_id;
+
+	list($leg_list, $cnt) = brecommend_direct($mb_id);
+
+	$L_member = $leg_list[0]['mb_id'];
+	$R_member = $leg_list[1]['mb_id'];
+
+	// echo "L : ".	$L_member;
+	// echo "R : ".	$R_member;
+	
+	if($L_member){
+		$brcomm_arr_L = array();
+		array_push($brcomm_arr_L, $leg_list[0]);
+		$manager_list_L = brecommend_array($L_member, 1 , $limit);
+		$brcomm_arr_L = array_merge($brcomm_arr_L,arr_sort($manager_list_L,'count'));
+	}else{
+		$brcomm_arr_L = [];
+	}
+	$brcomm_arr  = array();
+	
+	if($R_member){
+		$brcomm_arr_R = array();
+		array_push($brcomm_arr_R, $leg_list[1]);
+		$manager_list_R = brecommend_array($R_member, 1 , $limit);
+		$brcomm_arr_R = array_merge($brcomm_arr_R,arr_sort($manager_list_R,'count'));
+	}else{
+		$brcomm_arr_R = [];
+	}
+
+	$brcomm_arr  = array();
+	
+	if(!$binding){
+		return array($brcomm_arr_L,$brcomm_arr_R); 
+	}else{
+		return array_merge($brcomm_arr_L,$brcomm_arr_R);
+	}
+	
+}
+
+function brecommend_array($brecom_id, $count, $limit =0)
+{
+	global $brcomm_arr;
+
+	// $new_arr = array();
+	$b_recom_sql = "SELECT mb_id,mb_brecommend_type, {$count} as count from g5_member_binary WHERE mb_brecommend='{$brecom_id}' ORDER BY mb_brecommend_type ASC ";
+	$b_recom_result = sql_query($b_recom_sql);
+	$cnt = sql_num_rows($b_recom_result);
+	
+	if($limit != 0 && $count >= $limit){
+		
+	}else{
+		if ($cnt < 1) {
+			// 마지막
+		} else {
+			++$count;
+
+			while ($row = sql_fetch_array($b_recom_result)) {
+				brecommend_array($row['mb_id'], $count, $limit);
+				array_push($brcomm_arr, $row);
+			}
+			
+		}
+	}
+	
+	return $brcomm_arr;
+}
+
+
+/* function brecommend_direct($mb_id)
+{
+
+	$down_leg = array();
+	$sql = "SELECT mb_id, mb_brecommend_type FROM g5_member_binary where mb_brecommend = '{$mb_id}' AND mb_brecommend != '' ORDER BY mb_brecommend_type ASC ";
+	$sql_result = sql_query($sql);
+	$cnt = sql_num_rows($sql_result);
+
+	while ($result = sql_fetch_array($sql_result)) {
+		array_push($down_leg, $result);
+	}
+	return array($down_leg, $cnt);
+} */
+
+function brecommend_direct_auto($mb_id)
+{
+	$b_recom_arr_lr = array();
+
+	$b_recom_sql_l = "SELECT mb_id from g5_member_binary WHERE mb_brecommend='{$mb_id}' and mb_brecommend_type = 'L' ";
+	$b_recom_result_l = sql_fetch($b_recom_sql_l);
+
+	if(!$b_recom_result_l['mb_id']){
+		$b_recom_result_l['mb_id'] = '';
+	}
+	array_push($b_recom_arr_lr, $b_recom_result_l);
+	
+	$b_recom_sql_r = "SELECT mb_id from g5_member_binary WHERE mb_brecommend='{$mb_id}' and mb_brecommend_type = 'R' ";
+	$b_recom_result_r = sql_fetch($b_recom_sql_r);
+
+	if(!$b_recom_result_r['mb_id']){
+		$b_recom_result_r['mb_id'] = '';
+	}
+	array_push($b_recom_arr_lr, $b_recom_result_r);
+	
+	return $b_recom_arr_lr;
+}
+
+
+if(count($b_recom_arr_l[0]) < 2){
+	if($b_recom_arr_l[0]['mb_brecommend_type'] == 'L'){
+
+	}else{
+
+	}
+}
+
+
+// 배열정렬 + 지정값 이상 카운팅
+function array_index_sort($list, $key, $average)
+{
+	$count = 0;
+	$a = array_count_values(array_column($list, $key));
+
+	foreach ($a as $key => $value) {
+
+		if ($key >= $average) {
+			$count += intval($value);
+		}
+	}
+	return array($a, $count);
+}
+
+// php 버전 대응 패치
+if( !function_exists( 'array_column' ) ):
+    
+    function array_column( array $input, $column_key, $index_key = null ) {
+    
+        $result = array();
+        foreach( $input as $k => $v )
+            $result[ $index_key ? $v[ $index_key ] : $k ] = $v[ $column_key ];
+        
+        return $result;
+    }
+endif;
+
+
+// 배열정렬 
+function arr_sort($array, $key, $sort='asc') {
+	$keys = array();
+	$vals = array();
+
+	foreach ($array as $k=>$v) {
+		$i = $v[$key].'.'.$k;
+		$vals[$i] = $v;
+		array_push($keys, $k);
+	}
+
+	unset($array);
+
+	if ($sort=='asc') {
+		ksort($vals);
+	} else {
+		krsort($vals);
+	}
+
+	$ret = array_combine($keys, $vals);
+	unset($keys);
+	unset($vals);
+
+	return $ret;
+}
+
+/* 결과 합계 중복제거*/
+function array_index_sum($list, $key,$category)
+{
+	$sum = null;
+	$count = 0;
+	$a = array_count_values(array_column($list, $key));
+	
+
+	foreach ($a as $key => $value) {
+		
+		if($category == 'int'){
+			// echo $key." ";
+			$sum += $key; 
+			// echo "= ".$sum."<br>";
+		}else if ($category == 'text'){
+			$sum .= $key.' | '; 
+		}
+	}
+	return $sum;
+}
+
+/* 결과 합계 */
+function array_int_sum($list, $key){
+	return array_sum(array_column($list, $key));
+}
+
+function insert_array($arr, $idx, $add){       
+	$arr_front = array_slice($arr, 0, $idx); //처음부터 해당 인덱스까지 자름
+	$arr_end = array_slice($arr, $idx); //해당인덱스 부터 마지막까지 자름
+	$arr_front[] = $add;//새 값 추가
+	return array_merge($arr_front, $arr_end);
+}
+
+// list($b_recom_arr_l,$b_recom_arr_r) = return_brecommend($start_result['mb_id'],4,false);
+
+/* print_R($b_recom_arr_l);
+echo "<br><br>";
+print_R($b_recom_arr_r); */
+/* 
+for($i=1; $i < 14; $i++){
+	
+	if($i == 1 && $b_recom_arr_l[$i]['mb_brecommend_type'] != 'L'){
+		$b_recom_arr_l = insert_array($b_recom_arr_l, $i, ['mb_id' => '','mb_brecommend_type' =>'']);
+		$b_recom_arr_l = insert_array($b_recom_arr_l, $i+2, ['mb_id' => '','mb_brecommend_type' =>'']);
+		$b_recom_arr_l = insert_array($b_recom_arr_l, $i+3, ['mb_id' => '','mb_brecommend_type' =>'']);
+	}
+
+
+	if($i == 1  && $b_recom_arr_r[$i]['mb_brecommend_type'] != 'L'){
+		$b_recom_arr_r = insert_array($b_recom_arr_r, $i, ['mb_id' => '','mb_brecommend_type' =>'']);
+		$b_recom_arr_r = insert_array($b_recom_arr_r, $i+2, ['mb_id' => '','mb_brecommend_type' =>'']);
+		$b_recom_arr_r = insert_array($b_recom_arr_r, $i+3, ['mb_id' => '','mb_brecommend_type' =>'']);
+	}
+} */
+
+
+
+// $b_recom_arr_lr = return_brecommend($start_result['mb_id'],4,true);
+/* print_R($b_recom_arr_l);
+echo "<br><br>";
+print_R($b_recom_arr_r); */
+
+/* function array_brecommend($recom_id, $count=0)
 {
     global $b_recom_arr_lr,$b_recom_arr_l,$b_recom_arr_r;
     
+	
 	$b_recom_sql = "SELECT mb_id from g5_member_binary WHERE mb_brecommend='{$recom_id}' ORDER BY mb_brecommend_type asc ";
 	$b_recom_result = sql_query($b_recom_sql);
 	$cnt = sql_num_rows($b_recom_result);
-    
-        $b_recom_sql_l = "SELECT mb_id from g5_member_binary WHERE mb_brecommend='{$recom_id}' and mb_brecommend_type = 'L' ";
-        $b_recom_result_l = sql_fetch($b_recom_sql_l);
-        if(!$b_recom_result_l['mb_id']){
-            $b_recom_result_l['mb_id'] = '';
-        }
-        $b_recom_arr_l[$count]['recom']= $b_recom_result_l['mb_id'];
-        array_push($b_recom_arr_lr[$count], $b_recom_arr_l[$count]);
-        
-        
-        $b_recom_sql_r = "SELECT mb_id from g5_member_binary WHERE mb_brecommend='{$recom_id}' and mb_brecommend_type = 'R' ";
-        $b_recom_result_r = sql_fetch($b_recom_sql_r);
-        if(!$b_recom_result_r['mb_id']){
-            $b_recom_result_r['mb_id'] = '';
-        }
-        $b_recom_arr_r[$count]['recom']= $b_recom_result_r['mb_id'];
-        array_push($b_recom_arr_lr[$count], $b_recom_arr_r[$count]);
-        
-    $count++;
-    if($count < 4){
-        while ($row = sql_fetch_array($b_recom_result)) {
-            // echo "<br>count: ".$count."  |  ".$row['mb_id'];
-            array_brecommend($row['mb_id'], $count);
-        }
-    }
-    
-}
 
+
+	$b_recom_sql_l = "SELECT mb_id from g5_member_binary WHERE mb_brecommend='{$recom_id}' and mb_brecommend_type = 'L' ";
+	$b_recom_result_l = sql_fetch($b_recom_sql_l);
+	if(!$b_recom_result_l['mb_id']){
+		$b_recom_result_l['mb_id'] = 'none';
+	}
+	$b_recom_arr_l[$count]['recom']= $b_recom_result_l['mb_id'];
+	array_push($b_recom_arr_lr[$count], $b_recom_arr_l[$count]);
+	
+	
+	$b_recom_sql_r = "SELECT mb_id from g5_member_binary WHERE mb_brecommend='{$recom_id}' and mb_brecommend_type = 'R' ";
+	$b_recom_result_r = sql_fetch($b_recom_sql_r);
+	if(!$b_recom_result_r['mb_id']){
+		$b_recom_result_r['mb_id'] = 'none';
+	}
+	$b_recom_arr_r[$count]['recom']= $b_recom_result_r['mb_id'];
+	array_push($b_recom_arr_lr[$count], $b_recom_arr_r[$count]);
+
+	$count++;
+	if($count < 3){
+		while ($row = sql_fetch_array($b_recom_result)) {
+			// echo "<br>count: ".$count."  |  ".$row['mb_id'];
+			array_brecommend($row['mb_id'], $count);
+		}
+	} 
+} */
 
 function milloin_number($val){
 	return Number_format($val/10000);		
@@ -185,8 +411,6 @@ function milloin_number($val){
 
 
 	<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
-	<!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
-	<!-- <link rel="stylesheet" type="text/css" href="<?=G5_THEME_URL?>/_common/css/level_structure.css"> -->
     <link rel="stylesheet" type="text/css" href="<?=G5_THEME_URL?>/_common/css/binary.css">
 	<link rel="stylesheet" type="text/css" href="<?=G5_THEME_URL?>/css/scss/custom.css">
     <script src="/adm/admin.js" type="text/javascript"></script>   
@@ -267,7 +491,7 @@ function milloin_number($val){
 						<div class="lvl1"> 
 							<div class="lvl" id="1">
 
-
+								
 								<div class="box" id="1" >
 									<!-- 템플릿 -->
 									<span class="lvl-icon" style='margin-right:0'><?=user_icon($start_result['mb_id'],'icon')?></span>
@@ -292,17 +516,26 @@ function milloin_number($val){
 
 
 						<div class="lvl2"> <!--2단계-->
-						<?for($i=0; $i<2;$i++){
-                            $tree = 0;
-							if($b_recom_arr_lr[$tree][$i]['recom']){?>
-                                <div class="lvl" id="<?=$i?>" data-tree='<?=$tree?>' data-name='<?=$b_recom_arr_lr[$tree][$i]['recom']?>'>
+
+						<?
+						$leg_list = brecommend_direct_auto($start_result['mb_id']);
+						array_push($b_recom_arr_l,$leg_list[0]);
+						array_push($b_recom_arr_r,$leg_list[1]);
+
+						for($i=0; $i<2;$i++){
+							$target = $leg_list[$i]['mb_id'];
+
+							if($target != ''){?>
+                                <div class="lvl" id="<?=$i?>" data-tree='<?=$tree?>' data-name='<?=$target?>'>
 									<!-- 템플릿 -->
 									<div class="box" id="1" >
-									<span class="lvl-icon" style='margin-right:0'><?=user_icon($b_recom_arr_lr[$tree][$i]['recom'],'icon')?></span>
-									<div class='userid'><?=$b_recom_arr_lr[$tree][$i]['recom']?></div>
+									<span class="lvl-icon" style='margin-right:0'><?=user_icon($target,'icon')?></span>
+									<div class='userid'><?=$target?></div>
 									</div>
                                 </div>
-                            <?}else{?>
+                            <?}else{
+								
+								?>
                                 <div class="lvl" id="<?echo $i ;?>" >
 								<div class='box'>
                                 -
@@ -325,13 +558,27 @@ function milloin_number($val){
 
 
 						<div class="lvl3"> <!--3단계-->
-						<?for($i=0; $i<4;$i++){
+						<?
+						
+						$b_recom_arr_l = brecommend_direct_auto($b_recom_arr_l[0]['mb_id']);
+						$b_recom_arr_r = brecommend_direct_auto($b_recom_arr_r[0]['mb_id']);
+
+						for($i=0; $i<4;$i++){
 							$tree = 1;
-							if($b_recom_arr_lr[$tree][$i]['recom']){?>
-                                <div class="lvl" id="<?=$i?>" data-tree='<?=$tree?>' data-name='<?=$b_recom_arr_lr[$tree][$i]['recom']?>'>
+							$count = $i%2;
+
+							if($i < 2){
+								$target = $b_recom_arr_l[$count];
+							}else{
+								$target = $b_recom_arr_r[$count];
+							}
+							
+
+							if($target['mb_id']){?>
+                                <div class="lvl" id="" data-tree='<?=$tree?>' data-name='<?=$target['mb_id']?>'>
 								<div class="box" id="1" >
-									<span class="lvl-icon" style='margin-right:0'><?=user_icon($b_recom_arr_lr[$tree][$i]['recom'],'icon')?></span>
-									<div class='userid'><?=$b_recom_arr_lr[$tree][$i]['recom']?></div>
+									<span class="lvl-icon" style='margin-right:0'><?=user_icon($target['mb_id'],'icon')?></span>
+									<div class='userid'><?=$target['mb_id']?></div>
 									</div>
                                 </div>
                             <?}else{?>
@@ -361,26 +608,46 @@ function milloin_number($val){
                             </div>
 						</div>
 
-
+						
                         <div class="lvl4"> <!--4단계-->
-                            <?for($i=0; $i<8;$i++){
-                                $tree = 2;
-                                if($b_recom_arr_lr[$tree][$i]['recom']){?>
-                                    <div class="lvl" id="<?=$i?>" data-tree='<?=$tree?>' data-name='<?=$b_recom_arr_lr[$tree][$i]['recom']?>'>
-										<div class="box" id="1" >
-										<span class="lvl-icon" style='margin-right:0'><?=user_icon($b_recom_arr_lr[$tree][$i]['recom'],'icon')?></span>
-										<div class='userid'><?=$b_recom_arr_lr[$tree][$i]['recom']?></div>
-										</div>
-                                    </div>
-                                <?}else{?>
-                                    <div class="lvl" id="<?echo $i ;?>" > <div class='box'>
-                                    -
-                                    </div></div>
-                                <?}
+                            <?
+							$b_recom_arr_l_1 = brecommend_direct_auto($b_recom_arr_l[0]['mb_id']);
+							$b_recom_arr_l_2 = brecommend_direct_auto($b_recom_arr_l[1]['mb_id']);
+							$b_recom_arr_l = array();
+							$b_recom_arr_l = array_merge($b_recom_arr_l_1,$b_recom_arr_l_2);
+							
+							$b_recom_arr_r_1 = brecommend_direct_auto($b_recom_arr_r[0]['mb_id']);
+							$b_recom_arr_r_2 = brecommend_direct_auto($b_recom_arr_r[1]['mb_id']);
+							$b_recom_arr_r = array();
+							$b_recom_arr_r = array_merge($b_recom_arr_r_1,$b_recom_arr_r_2);
+
+							for($i=0; $i<8;$i++){
+                               $tree = 3;
+							   $count = $i%4;
+   
+							   if($i < 4){
+								   $target = $b_recom_arr_l[$count];
+							   }else{
+								   $target = $b_recom_arr_r[$count];
+							   }
+   
+							   if($target['mb_id']){?>
+								   <div class="lvl" id="<?=$count+$tree?>" data-tree='<?=$tree?>' data-name='<?=$target['mb_id']?>'>
+								   <div class="box" id="1" >
+									   <span class="lvl-icon" style='margin-right:0'><?=user_icon($target['mb_id'],'icon')?></span>
+									   <div class='userid'><?=$target['mb_id']?></div>
+									   </div>
+								   </div>
+							   <?}else{?>
+								   <div class="lvl" id="<?echo $i ;?>" > <div class='box'>
+								   -
+								   </div></div>
+							   <?}
                             }?>
                         </div>
                         <!--line-->
-						<div class="line_con">
+						
+						<!-- <div class="line_con">
 							<div class="line_set w12">
                                 <div class="line_top w50"></div>
 								<div class="line_under w50"></div>
@@ -416,23 +683,33 @@ function milloin_number($val){
                             </div>
                         </div>
                         
-                        <div class="lvl4"> <!--5단계-->
+                        <div class="lvl4">
+							
+
                             <?for($i=0; $i<16;$i++){
-                                $tree = 3;
-                                if($b_recom_arr_lr[$tree][$i]['recom']){?>
-                                    <div class="lvl" id="<?=$i?>" data-tree='<?=$tree?>' data-name='<?=$b_recom_arr_lr[$tree][$i]['recom']?>'>
-										<div class="box" id="1" >
-										<span class="lvl-icon" style='margin-right:0'><?=user_icon($b_recom_arr_lr[$tree][$i]['recom'],'icon')?></span>
-										<div class='userid'><?=$b_recom_arr_lr[$tree][$i]['recom']?></div>
+                                $tree = 7;
+								$count = $i%8;
+	
+								if($i < 4){
+									$target = $b_recom_arr_l[$tree+$count];
+								}else{
+									$target = $b_recom_arr_r[$tree+$count];
+								}
+	
+								if($target['mb_id']){?>
+									<div class="lvl" id="<?=$count+$tree?>" data-tree='<?=$tree?>' data-name='<?=$target['mb_id']?>'>
+									<div class="box" id="1" >
+										<span class="lvl-icon" style='margin-right:0'><?=user_icon($target['mb_id'],'icon')?></span>
+										<div class='userid'><?=$target['mb_id']?></div>
 										</div>
-                                    </div>
-                                <?}else{?>
-                                    <div class="lvl" id="<?echo $i ;?>" > <div class='box'>
-                                    -
-                                    </div></div>
-                                <?}
+									</div>
+								<?}else{?>
+									<div class="lvl" id="<?echo $i ;?>" > <div class='box'>
+									-
+									</div></div>
+								<?}
                             }?>
-                        </div>
+                        </div> -->
 
 					</div>
 
