@@ -2,6 +2,7 @@
 include_once('./_common.php');
 
 //include_once(G5_LIB_PATH.'/mailer.lib.php');
+include_once(G5_LIB_PATH.'/Telegram/telegram_api.php');
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -50,9 +51,17 @@ if($method == 'GET'){
 	}
 	print json_encode($rows);
 }else if($method == 'POST'){
-	sql_query("insert into ticket(topic, subject, mb_no, create_date) values ({$_POST[topic]},'{$_POST[subject]}', {$member[mb_no]}, now())");
+	$write_result = sql_query("insert into ticket(topic, subject, mb_no, create_date) values ({$_POST[topic]},'{$_POST[subject]}', {$member[mb_no]}, now())");
 	$idx = sql_insert_id();
 
+	if($write_result){
+		 // 입금알림 텔레그램 API
+		 if(TELEGRAM_ALERT_USE){
+			$sumary_subject = mb_strimwidth($_POST['subject'], 0, 20, "...");
+			curl_tele_sent("[ZETABYTE][1:1문의] ".$member['mb_id']." 님이 (".$sumary_subject.")  문의 내용을 남겼습니다.",2);
+		  }
+	}
+	
 	sql_query("insert into ticket_child(content, pid, mb_no, create_date) values ('{$_POST[content]}', ".$idx.", $member[mb_no], now())");
 
 	// 메일 전송

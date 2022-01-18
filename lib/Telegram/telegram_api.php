@@ -1,7 +1,7 @@
 <?php
 // if (!defined('_GNUBOARD_')) exit;
 
-if($_GET['debug']){
+/* if($_GET['debug']){
     echo "TEST";
     $api_code = "1897463083:AAF_xiQeS06nEFj0Eqt9jL4KiL1zrCYT45U";
     $chat_id = "-1001413702347";
@@ -18,16 +18,19 @@ if($_GET['debug']){
     @curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   
     $exec = curl_exec($ch);
 }
+ */
 
-
-function curl_tele_sent($text){
+function curl_tele_sent($text,$where = 1){
     
  if(!$text){
         exit("No Data!!");
     } // end
-    
-    $row = sql_fetch(" select bot_api_code, bot_chat_id from telegram_setting where idx = 1 ");
-    
+
+    if($where == 2){
+        $row = sql_fetch(" select bot_api_code, bot_chat_id from telegram_setting where idx = 2");
+    }else{
+        $row = sql_fetch(" select bot_api_code, bot_chat_id from telegram_setting where idx = 1 ");
+    }
 
     if(!$row['bot_api_code'] && !$row['bot_chat_id']){
         exit();
@@ -38,7 +41,7 @@ function curl_tele_sent($text){
     $chat_id = $row['bot_chat_id']; // 822~~
 
     $curl_url = "https://api.telegram.org/bot{$api_code}/sendMessage?chat_id={$chat_id}&text={$text}";
-    print_R($curl_url);
+    // print_R($curl_url);
 
     @curl_setopt($ch, CURLOPT_URL, $curl_url);
     @curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);     
@@ -46,9 +49,6 @@ function curl_tele_sent($text){
     @curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);   
     $exec = curl_exec($ch);
     
-    
 } // curl_tele_sent end 
-
-
 
 ?>
