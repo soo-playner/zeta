@@ -109,11 +109,11 @@ function recommend_downtree($mb_id,$count=0,$cnt = 0){
 
 $brcomm_arr = [];
 // 후원인 하부 회원 
-function return_brecommend($mb_id,$limit,$binding = false){
+function return_brecommend($mb_id,$limit,$binding = false,$where = 1 ){
 	global $config, $brcomm_arr, $debug;
 	$origin = $mb_id;
 
-	list($leg_list, $cnt) = brecommend_direct($mb_id);
+	list($leg_list, $cnt) = brecommend_direct($mb_id,$where);
 
 	$L_member = $leg_list[0]['mb_id'];
 	$R_member = $leg_list[1]['mb_id'];
@@ -121,19 +121,27 @@ function return_brecommend($mb_id,$limit,$binding = false){
 	// echo "L : ".	$L_member;
 	// echo "R : ".	$R_member;
 	
-	$brcomm_arr_L = [];
-	array_push($brcomm_arr_L, $leg_list[0]);
-	$manager_list_L = brecommend_array($L_member, 1 , $limit);
-	$brcomm_arr_L = array_merge($brcomm_arr_L,arr_sort($manager_list_L,'count'));
+	if($L_member){
+		$brcomm_arr_L = array();
+		array_push($brcomm_arr_L, $leg_list[0]);
+		$manager_list_L = brecommend_array($L_member, 1 , $limit,$where);
+		$brcomm_arr_L = array_merge($brcomm_arr_L,arr_sort($manager_list_L,'count'));
+	}else{
+		$brcomm_arr_L = [];
+	}
+	$brcomm_arr  = array();
 	
-	
-	
-	$brcomm_arr_R = [];
-	array_push($brcomm_arr_R, $leg_list[1]);
-	$manager_list_R = brecommend_array($R_member, 1 , $limit);
-	$brcomm_arr_R = array_merge($brcomm_arr_R,arr_sort($manager_list_R,'count'));
-	
+	if($R_member){
+		$brcomm_arr_R = array();
+		array_push($brcomm_arr_R, $leg_list[1]);
+		$manager_list_R = brecommend_array($R_member, 1 , $limit);
+		$brcomm_arr_R = array_merge($brcomm_arr_R,arr_sort($manager_list_R,'count'));
+	}else{
+		$brcomm_arr_R = [];
+	}
 
+	$brcomm_arr  = array();
+	
 	if(!$binding){
 		return array($brcomm_arr_L,$brcomm_arr_R); 
 	}else{
@@ -142,13 +150,17 @@ function return_brecommend($mb_id,$limit,$binding = false){
 	
 }
 
-function brecommend_array($brecom_id, $count, $limit =0)
+function brecommend_array($brecom_id, $count, $limit =0,$where =1)
 {
 	global $brcomm_arr;
 
-
 	// $new_arr = array();
-	$b_recom_sql = "SELECT mb_id,grade,mb_rate,mb_save_point,mb_brecommend_type, {$count} as count from g5_member WHERE mb_brecommend='{$brecom_id}' ORDER BY mb_brecommend_type ASC ";
+	if($where == 2){
+		$where = 2;
+		$b_recom_sql = "SELECT A.mb_id,A.mb_brecommend_type,B.grade,B.mb_rate,B.mb_save_point, {$count}  AS count FROM g5_member_binary A LEFT JOIN g5_member B ON A.mb_id = B.mb_id WHERE A.mb_brecommend = '{$brecom_id}' AND A.mb_brecommend != '' ORDER BY mb_brecommend_type ASC";
+	}else{
+		$b_recom_sql = "SELECT mb_id,grade,mb_rate,mb_save_point,mb_brecommend_type, {$count} as count from g5_member WHERE mb_brecommend='{$brecom_id}' ORDER BY mb_brecommend_type ASC ";
+	}
 	$b_recom_result = sql_query($b_recom_sql);
 	$cnt = sql_num_rows($b_recom_result);
 	
@@ -161,7 +173,7 @@ function brecommend_array($brecom_id, $count, $limit =0)
 			++$count;
 
 			while ($row = sql_fetch_array($b_recom_result)) {
-				brecommend_array($row['mb_id'], $count, $limit);
+				brecommend_array($row['mb_id'], $count, $limit,$where);
 				// print_R($count.' :: '.$row['mb_id'].' | type ::'.$row['grade']);
 				// $brcomm_arr[$count]['count'] = $count;
 				array_push($brcomm_arr, $row);
@@ -174,11 +186,15 @@ function brecommend_array($brecom_id, $count, $limit =0)
 }
 
 
-function brecommend_direct($mb_id)
+function brecommend_direct($mb_id,$where = 1)
 {
 
 	$down_leg = array();
-	$sql = "SELECT mb_id,grade,mb_rate,mb_save_point,mb_brecommend_type, 1 AS count FROM g5_member where mb_brecommend = '{$mb_id}' AND mb_brecommend != '' ORDER BY mb_brecommend_type ASC ";
+	if($where == 2){
+		$sql = "SELECT A.mb_id,A.mb_brecommend_type,B.grade,B.mb_rate,B.mb_save_point, 1 AS count FROM g5_member_binary A LEFT JOIN g5_member B ON A.mb_id = B.mb_id WHERE A.mb_brecommend = '{$mb_id}' AND A.mb_brecommend != '' ORDER BY mb_brecommend_type ASC";
+	}else{
+		$sql = "SELECT mb_id,grade,mb_rate,mb_save_point,mb_brecommend_type, 1 AS count FROM g5_member where mb_brecommend = '{$mb_id}' AND mb_brecommend != '' ORDER BY mb_brecommend_type ASC ";
+	}
 	$sql_result = sql_query($sql);
 	$cnt = sql_num_rows($sql_result);
 

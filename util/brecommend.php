@@ -34,14 +34,18 @@ function return_brecommend($mb_id,$limit,$binding = false){
     $L_member = $leg_list[0]['mb_id'];
     $R_member = $leg_list[1]['mb_id'];
     
-    
+    $brcomm_arr = [];
     $brcomm_arr_L = [];
+    $manager_list_L = [];
+
     array_push($brcomm_arr_L, $leg_list[0]);
     $manager_list_L = brecommend_array($L_member, 1 , $limit);
     $brcomm_arr_L = array_merge($brcomm_arr_L,arr_sort($manager_list_L,'count'));
 
     $brcomm_arr = [];
     $brcomm_arr_R = [];
+    $manager_list_R =[];
+
     array_push($brcomm_arr_R, $leg_list[1]);
     $manager_list_R = brecommend_array($R_member, 1 , $limit);
     $brcomm_arr_R = array_merge($brcomm_arr_R,arr_sort($manager_list_R,'count'));

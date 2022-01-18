@@ -1,3 +1,3 @@
 <?
-Header("Location:./sales.php");
+// Header("Location:./sales.php");
 ?>

@@ -18,6 +18,14 @@ if (!$debug) {
         alert($bonus_day . " 해당일 승급이 이미 완료 되었습니다.");
         die;
     }
+
+    $record_check_sql = "select mb_id from g5_member_info where date='" . $bonus_day . "'";
+    $get_record = sql_fetch($record_check_sql);
+
+    if ($get_record['mb_id']) {
+        $record_delete = "DELETE FROM g5_member_info WHERE date = '{$bonus_day}' ";
+        sql_query($record_delete);
+    }
 }
 
 // 직급 승급
@@ -128,6 +136,44 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
             excute();
         }
 
+         /* $mem_result = return_down_tree('one0780',10);
+        $recom_info_sales = array_int_sum($mem_result,'mb_save_point','int');
+        $recom_info_hash = array_int_sum($mem_result,'mb_rate','int');
+
+        echo "<code>";
+        echo "<br>////////// 추천 10대<br>";
+        echo "SALES :".$recom_info_sales;
+        echo "<br>";
+        echo "hash :".$recom_info_hash;
+        echo "</code>"; */
+
+        // 산하 후원 10대 매출, 해쉬기록
+        /* list($mem_result_l,$mem_result_r) = return_brecommend('one0780',10,false);
+
+        $brecom_info_l_hash = array_int_sum($mem_result_l,'mb_rate','int');
+        $brecom_info_l_sales = array_int_sum($mem_result_l,'mb_save_point','int');
+
+        $brecom_info_r_hash = array_int_sum($mem_result_r,'mb_rate','int');
+        $brecom_info_r_sales = array_int_sum($mem_result_r,'mb_save_point','int');
+
+        echo "<br><br>";
+        echo "<code>";
+        print_R($mem_result_l);
+        echo "<br<br>////////// 후원 10대 L- ".count($mem_result_l);
+        echo "<br>";
+        echo "SALES :".$brecom_info_l_sales;
+        echo "<br>";
+        echo "hash :".$brecom_info_l_hash;
+
+        echo "<br><br>";
+        print_R($mem_result_r);
+        echo "<br<br>>////////// 후원 10대 R- ".count($mem_result_r);
+        echo "<br>";
+        echo "SALES :".$brecom_info_r_sales;
+        echo "<br>";
+        echo "hash :".$brecom_info_r_hash;
+        echo "</code>"; */
+
         //직하부매출
         /* function recom_sales($mb_id){
             $mem_recom_sql = "SELECT * FROM g5_member where mb_recommend = '{$mb_id}' ";
@@ -180,17 +226,6 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                     ++$count;
                     while($row = sql_fetch_array($recommend_tree_result)){
                         
-                        /* $list['mb_id'] = $row['mb_id'];
-                        $list['mb_save_point'] = $row['mb_save_point'];
-                        $list['mb_rate'] = $row['mb_rate'];
-                        $list['recom_sales'] = $row['recom_sales'];
-                        $list['rank'] = $row['rank'];
-                        $list['depth'] = $count; */
-
-                        /* echo $row['mb_id'];
-                        echo " :".Number_format($row['mb_save_point']);
-                        echo "<br>"; */
-
                         array_push($mem_list,$row);
                         recommend_downtrees($row['mb_id'],$count,$cnt);
                     }
@@ -251,42 +286,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
         } */
 
 
-        /* $mem_result = return_down_tree('arcthan',10);
-        $recom_info_sales = array_int_sum($mem_result,'mb_save_point','int');
-        $recom_info_hash = array_int_sum($mem_result,'mb_rate','int');
-
-        echo "<code>";
-        echo "<br>////////// 추천 10대<br>";
-        echo "SALES :".$recom_info_sales;
-        echo "<br>";
-        echo "hash :".$recom_info_hash;
-        echo "</code>";
-
-        // 산하 후원 10대 매출, 해쉬기록
-        list($mem_result_l,$mem_result_r) = return_brecommend('arcthan',5,false);
-
-        $brecom_info_l_hash = array_int_sum($mem_result_l,'mb_rate','int');
-        $brecom_info_l_sales = array_int_sum($mem_result_l,'mb_save_point','int');
-
-        $brecom_info_r_hash = array_int_sum($mem_result_r,'mb_rate','int');
-        $brecom_info_r_sales = array_int_sum($mem_result_r,'mb_save_point','int');
-
-        echo "<code>";
-        print_R($mem_result_l);
-        echo "<br<br>>////////// 후원 10대 L- ".count($mem_result_l);
-        echo "<br>";
-        echo "SALES :".$brecom_info_l_sales;
-        echo "<br>";
-        echo "hash :".$brecom_info_l_hash;
-
-        echo "<br><br>";
-        print_R($mem_result_r);
-        echo "<br<br>>////////// 후원 10대 R- ".count($mem_result_r);
-        echo "<br>";
-        echo "SALES :".$brecom_info_r_sales;
-        echo "<br>";
-        echo "hash :".$brecom_info_r_hash;
-        echo "</code>"; */
+       
 
 
         function  excute()
@@ -459,6 +459,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         $recom_id = array_index_sum($mem_result,'mb_id','text');
                         $recom_sales_value = Number_format($recom_sales);
                         
+
                         echo "<br>산하추천(3대)매출 : <span class='blue'>" .$recom_sales_value. "</span>";
                         
                         if( $recom_sales >= $lvlimit_recom[$i]*$lvlimit_recom_val){
@@ -467,6 +468,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                             echo "<span class='red'> == OK </span>";
                         }
 
+                        $mem_list = array();
                         // echo "<br><span class='desc'>└ 추천하부3대 : ";
                         // echo ($recom_id);
                         // echo "</span>";
@@ -476,9 +478,10 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
 
                         // 기록용 
                         // 산하 추천 10대 매출, 해쉬기록 
-                        $mem_result = return_down_tree($mb_id,10);
-                        $recom_info_sales = array_int_sum($mem_result,'mb_save_point','int');
-                        $recom_info_hash = array_int_sum($mem_result,'mb_rate','int');
+                        $mem_result_10 = array();
+                        $mem_result_10 = return_down_tree($mb_id,10);
+                        $recom_info_sales = array_int_sum($mem_result_10,'mb_save_point','int');
+                        $recom_info_hash = array_int_sum($mem_result_10,'mb_rate','int');
 
                         if($debug){
                         echo "<code>";
@@ -488,7 +491,9 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         echo "hash :".$recom_info_hash;
                         echo "</code>";
                         }
-
+                        $mem_list = array();
+                        
+                        
                         // 산하 후원 10대 매출, 해쉬기록
                         list($mem_result_l,$mem_result_r) = return_brecommend($mb_id,10,false);
 
@@ -645,6 +650,8 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         } // if $rank_cnt
 
                         $mem_list = array();
+                        $mem_result_l = array();
+                        $mem_result_r = array();
                     } // if else
                 } //while
 

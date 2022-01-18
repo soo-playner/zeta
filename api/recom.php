@@ -1,34 +1,20 @@
 <?php
 include_once('./_common.php');
 // include_once(G5_ADMIN_PATH.'/bonus_inc.php');
-$title="zetabyte :: API - 추천산하매출";
+$title="zetabyte :: API - 추천산하검색";
 include_once('./header.php');
-$matching_lvl = 3;
+$matching_lvl = $_REQUEST['mb_layer'];
 $member = $_REQUEST['mb_id'];
 
 ?>
+<link rel="stylesheet" href="./api.css">
 
-<style>
-    body{width:100%;}
-    #container{width:100%;}
-    .inpuset {width:100%;padding:20px 0;}
-    .inpuset .mb_input{padding:5px;line-height:30px;font-size:16px;font-weight:600}
-    .inpuset .mb_submit{width:100px;height:42px;border:0;background:black;color:white;cursor: pointer;}
-    .mb_name{font-size:20px;font-weight:600;}
-    li{width:100%;max-width:500px; list-style:none;border-top:1px solid #ccc;line-height:36px;}
-    li.title{background:ghostwhite;line-height:50px;}
-    li span{display:inline-block;}
-    .li_foot{background:ghostwhite;line-height:50px;font-weight:600;text-align:center}
-    .header{width:120px;font-weight:600;color:black;text-align:left;}
-    .layer{width:60px;color:#999;text-align:center;}
-    .price{min-width:150px;text-align:right;}
-    a,a:visited, a:link{color:black;text-decoration:none;}
-    a:hover{text-decoration:underline;}
-</style>
-
+<h2 class='title'>추천산하검색</h2>
 <div class='inpuset'>
-    <form action="./sales.php" method="POST">
-        <input type='text' name='mb_id' class='mb_input' placeholder="검색할 회원아이디">
+    <form action="./recom.php" method="POST">
+        <input type='text' name='mb_id' class='mb_input ' placeholder="검색할 회원아이디">
+        <input type='text' name='mb_layer' class='mb_input small' placeholder="검색할 단계">
+        
         <input type='submit' value='검색' class='mb_submit'>
     </form>
 </div>
@@ -36,12 +22,14 @@ $member = $_REQUEST['mb_id'];
 <?
 if($member){ 
 ?>
+
 <div id='container'>
 <div class="mb_name">검색회원 : <?=$member?></div>
 <li class='title'>
     <span class="header">회원</span>
     <span class="layer">대수</span>
     <span class='price'>매출금액</span>
+    <span class='rate'>보유해쉬</span>
 </li>
 </div>
 
@@ -66,6 +54,18 @@ function  excute($mb,$category){
 
             echo "<li class='li_foot'>";
             echo "합계 :: ￦ ".number_format($mining_matching_sum);
+            echo "</li>";
+        }else if($category == 'all'){
+            
+            $mining_down_tree_result = return_down_manager($result['mb_id'],$matching_lvl);
+            $mining_matching_sales = array_sum(array_column($mining_down_tree_result, 'mb_save_point'));
+            $mining_matching_rate = array_sum(array_column($mining_down_tree_result, 'mb_rate'));
+
+            echo "<li class='li_foot'>";
+            echo "<span class='header'>".count($mining_down_tree_result)." 명</span>";
+            echo "<span class='layer'></span>";
+            echo "<span class='price'>".number_format($mining_matching_sales)."</span>";
+            echo "<span class='rate'>".number_format($mining_matching_rate)."</span>";
             echo "</li>";
         }
     }else{
@@ -113,6 +113,9 @@ function recommend_downtree($mb_id,$count=0,$cnt = 0){
                 echo "<span class='price'>";
                 echo Number_format($list['mb_save_point']);
                 echo "</span>";
+                echo "<span class='rate'>";
+                echo Number_format($list['mb_rate']);
+                echo "</span>";
                 echo "</li>";
 
 				array_push($mem_list,$list);
@@ -138,7 +141,7 @@ if( !function_exists( 'array_column' ) ):
 endif;
 
 if($member){
-    excute($member,'sales');
+    excute($member,'all');
 }
 ?>
 
