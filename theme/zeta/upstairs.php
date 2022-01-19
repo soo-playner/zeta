@@ -12,7 +12,6 @@ if($nw['nw_purchase'] == 'Y'){
 }else{
 	$nw_purchase = 'N';
 	alert("현재 서비스를 이용할수없습니다.");
-	break;
 }
 
 $title = 'upstairs';
