@@ -6,7 +6,7 @@ include_once(G5_LIB_PATH.'/icode.sms.lib.php');
 login_check($member['mb_id']);
 // $debug = 1;
 
-$otp_key = mt_rand(1, 999999);
+$otp_key = mt_rand(100000, 999999);
 $mb_id = $member['mb_id'];
 $mb_hp = $member['mb_hp'];
 
