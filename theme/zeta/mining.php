@@ -78,7 +78,16 @@
 
     <?include_once(G5_THEME_PATH.'/_include/breadcrumb.php');?>
     <link href="<?=G5_THEME_URL?>/css/scss/page/mining.css" rel="stylesheet">
-    
+    <style>
+    input[type='text'].modal_input{background: #ededed;
+        margin-top: 10px;
+        box-shadow: inset 1px 1px 1px rgb(0 0 0 / 50%);
+        border: 0;
+        text-align: center;
+        width: 50%;}
+    .time_remained{display:block;text-align:center}
+    .processcode{color:red;display:block;text-align:center;font-size:13px;}
+    </style>
     <main>
         <div id="mining" class="container mining">
 
@@ -146,7 +155,7 @@
                 
                     <div class="input_address">
                         <label class="sub_title">- 출금주소</label><span class='comment'></span>
-                        <input type="text" id="withdrawal-address" class="send_coin b_ghostwhite f_small" placeholder="Enter the Account address (<?=$minings[0]?>)" data-i18n='[placeholder]withdraw.ETH 출금 주소를 입력해주세요' value="<?=$member['withdraw_wallet']?>">
+                        <input type="text" id="withdrawal-address" class="send_coin b_ghostwhite f_small" placeholder="ETH 출금 주소를 입력해주세요" value=<? if($member['withdraw_wallet'] != '0'){echo $member['withdraw_wallet']; }else{} ?>>
                     </div>
 
                     <div class="input_shift_value">
@@ -328,6 +337,53 @@
             var max_limit = '<?= $max_limit ?>';
             var day_limit = '<?= $day_limit ?>';
 
+            // 문자인증
+            var time_reamin = false;
+            var is_sms_submitted = false;
+            var check_pin = false;
+            var process_step = false;
+
+            function input_timer(time,where){
+            var time = time;
+            var min = '';
+            var serc = '';
+
+            var x = setInterval(function(){
+                min = parseInt(time/50);
+                sec = time%60;
+
+                $(where).html(min + "분 " + sec + "초");
+                time--;
+
+                if(time < 0){
+                clearInterval(x);
+                $(where).html("시간초과");
+                time_reamin = false;
+                }
+            },1000)
+            }
+
+            function check_auth_mobile(val){
+            $.ajax({
+                type: "POST",
+                url: "./util/check_auth_sms.php",
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: {
+                    pin: val,
+                },
+                success: function(res) {
+                    if (res.result == "success") {
+                    check_pin = true;
+                    } else {
+                    check_pin = false;
+                    }
+                }
+                });
+            }
+            
+
             // 최대출금가능금액
             var mb_max_limit = '<?=$max_mining_total?>';
             // console.log(` min_limit : ${min_limit}\n max_limit:${max_limit}\n day_limit:${day_limit}\n fee: ${fee}`);
@@ -447,7 +503,7 @@
                     return false;
                 }
 
-                if (!mb_block) {
+                process_pin_mobile().then(function (){
                     $.ajax({
                     type: "POST",
                     url: "./util/withdrawal_coin_proc.php",
@@ -476,14 +532,71 @@
                         }
                     }
                     });
-
-                } else {
-                    dialogModal('Withdraw Failed', "<p>Not available right now</p>", 'failed');
-                }
                 });
-
+                
             });
 
+        
+
+            function process_pin_mobile(){
+
+            return new Promise(
+                function(resolve,reject){
+                dialogModal('본인인증', "<p>모바일로 전송된 인증코드 6자리를 입력해주세요<br><input type='text' class='modal_input' id='auth_mobile_pin' name='auth_mobile_pin'></input><span class='time_remained'></span><span class='processcode'></span></p>", 'confirm');
+
+                if( is_sms_submitted == false ){
+                is_sms_submitted = true;
+
+                $.ajax({
+                    type: "POST",
+                    url: "./util/send_auth_sms.php",
+                    cache: false,
+                    async: false,
+                    dataType: "json",
+                    data: {
+                    mb_id: mb_id,
+                    },
+                    success: function(res) {
+                    if (res.result == "success") {
+                        time_reamin = true;
+                        input_timer(res.time,'.time_remained');
+
+                        $('#modal_confirm').on('click',function(){
+                        
+                        if(!time_reamin){
+                            is_sms_submitted = false;
+                            alert("시간초과로 다시 시도해주세요");
+                        }else{
+                            var input_pin_val = $("#auth_mobile_pin").val();
+                            check_auth_mobile(input_pin_val);
+
+                            if(!check_pin){
+                            $(".processcode").html("인증코드가 일치하지 않습니다.");
+                            return false;
+                            }else{
+                            is_sms_submitted = false;
+                            process_step = true;
+                            resolve();
+                            }
+                            
+                        }
+                        });
+
+                        $('#dialogModal .cancle').on('click',function(){
+                        is_sms_submitted = false;
+                        });
+                        
+                    }
+                    }
+                });
+
+                }else{
+                alert('잠시 후 다시 시도해주세요.');
+                }
+            });
+            }
+
+        });
     </script>
 
 <? include_once(G5_THEME_PATH.'/_include/tail.php'); ?>
