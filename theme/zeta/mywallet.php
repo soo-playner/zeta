@@ -7,7 +7,6 @@ include_once(G5_THEME_PATH . '/_include/gnb.php');
 
 if($nw['nw_with'] == 'N'){
   alert("현재 서비스를 이용할수없습니다.");
-  break;
 }
 
 login_check($member['mb_id']);
