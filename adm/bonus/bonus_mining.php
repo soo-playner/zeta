@@ -13,7 +13,7 @@ auth_check($auth[$sub_menu], 'r');
 
 
 // 기간설정
-if (empty($fr_date)) $fr_date = date("Y-m-d", strtotime(date("Y-m-d")."-7 day"));
+if (empty($fr_date)) $fr_date = date("Y-m-d", strtotime(date("Y-m-d")."-1 day"));
 if (empty($to_date)) $to_date = G5_TIME_YMD;
 
 if($_GET['start_dt']){
@@ -101,7 +101,7 @@ $row = sql_fetch($sql);
 $total_count = $row['cnt'];
 
 $colspan = 7;
-$rows = $config['cf_page_rows'];
+$rows = 50;
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
