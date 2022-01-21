@@ -168,6 +168,17 @@ $result_withdraw = sql_query($sql);
 
 <? include_once(G5_THEME_PATH . '/_include/breadcrumb.php'); ?>
 
+<style>
+  input[type='text'].modal_input{background: #ededed;
+    margin-top: 10px;
+    box-shadow: inset 1px 1px 1px rgb(0 0 0 / 50%);
+    border: 0;
+    text-align: center;
+    width: 50%;}
+  .time_remained{display:block;text-align:center}
+  .processcode{color:red;display:block;text-align:center;font-size:13px;}
+</style>
+
 <main>
   <div class='container mywallet'>
 
@@ -277,6 +288,9 @@ $result_withdraw = sql_query($sql);
 
   <!-- 출금 -->
   <section id='withdraw' class='loadable'>
+    <form name=''>
+
+    </form>
     <div class="col-sm-12 col-12 content-box round mt20">
       <h3 class="wallet_title" data-i18n="withdraw.출금">출금</h3>
       <span class="desc"> 총 출금 가능액 : <?= number_format($withdrwal_total) ?> <?= ASSETS_CURENCY ?></span>
@@ -320,7 +334,6 @@ $result_withdraw = sql_query($sql);
         <div class="verifyContainerOTP">
           <label class="sub_title" data-i18n="">- 출금 비밀번호</label>
           <input type="password" id="pin_auth_with" class="b_ghostwhite" name="pin_auth_code" placeholder="Please enter 6-digits pin number" maxlength="6" data-i18n='[placeholder]withdraw.6 자리 핀코드를 입력해주세요'>
-
         </div>
       </div>
 
@@ -504,18 +517,65 @@ $result_withdraw = sql_query($sql);
       });
     });
 
+    var time_reamin = false;
+    var is_sms_submitted = false;
+    var check_pin = false;
+    var process_step = false;
 
+    function input_timer(time,where){
+      var time = time;
+      var min = '';
+      var serc = '';
+
+      var x = setInterval(function(){
+        min = parseInt(time/50);
+        sec = time%60;
+
+        $(where).html(min + "분 " + sec + "초");
+        time--;
+
+        if(time < 0){
+          clearInterval(x);
+          $(where).html("시간초과");
+          time_reamin = false;
+        }
+      },1000)
+    }
+
+    function check_auth_mobile(val){
+      $.ajax({
+          type: "POST",
+          url: "./util/check_auth_sms.php",
+          dataType: "json",
+          cache: false,
+          async: false,
+          data: {
+            pin: val,
+          },
+          success: function(res) {
+            if (res.result == "success") {
+              check_pin = true;
+            } else {
+              check_pin = false;
+            }
+          }
+        });
+    }
+  
+    
+     
     // 출금요청
     $('#Withdrawal_btn').on('click', function() {
 
       var inputVal = $('#sendValue').val().replace(/,/g, '');
-      console.log(` out_min_limit : ${out_min_limit}\n out_max_limit:${out_max_limit}\n out_day_limit:${out_day_limit}\n out_fee: ${out_fee}`);
-    
+      // console.log(` out_min_limit : ${out_min_limit}\n out_max_limit:${out_max_limit}\n out_day_limit:${out_day_limit}\n out_fee: ${out_fee}`);
+      
 
       // 출금계좌정보확인
       var withdrawal_bank_name = $('#withdrawal_bank_name').val();
       var withdrawal_account_name = $('#withdrawal_account_name').val();
       var withdrawal_bank_account = $('#withdrawal_bank_account').val();
+
 
       if (withdrawal_bank_name == '' || withdrawal_bank_account == '' || withdrawal_account_name == '') {
         dialogModal('Check input field ', '<strong> Please check withdrawal account.</strong>', 'warning');
@@ -546,9 +606,9 @@ $result_withdraw = sql_query($sql);
         dialogModal('check input quantity', '<strong> 1회 출금 가능금액은 ' + Price(out_max_limit) + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
         return false;
       }
+      
+      process_pin_mobile().then(function (){
 
-
-      if (!mb_block) {
         $.ajax({
           type: "POST",
           url: "./util/withdrawal_proc.php",
@@ -577,12 +637,75 @@ $result_withdraw = sql_query($sql);
           }
         });
 
+      });
+
+      /* if (!mb_block) {
       } else {
         dialogModal('Withdraw Failed', "<p>Not available right now</p>", 'failed');
-      }
+      } */
 
     });
 
+
+    function process_pin_mobile(){
+
+      return new Promise(
+        function(resolve,reject){
+        dialogModal('본인인증', "<p>모바일로 전송된 인증코드 6자리를 입력해주세요<br><input type='text' class='modal_input' id='auth_mobile_pin' name='auth_mobile_pin'></input><span class='time_remained'></span><span class='processcode'></span></p>", 'confirm');
+
+        if( is_sms_submitted == false ){
+          is_sms_submitted = true;
+
+          $.ajax({
+            type: "POST",
+            url: "./util/send_auth_sms.php",
+            cache: false,
+            async: false,
+            dataType: "json",
+            data: {
+              mb_id: mb_id,
+            },
+            success: function(res) {
+              if (res.result == "success") {
+                time_reamin = true;
+                input_timer(res.time,'.time_remained');
+
+                $('#modal_confirm').on('click',function(){
+                  
+                  if(!time_reamin){
+                    is_sms_submitted = false;
+                    alert("시간초과로 다시 시도해주세요");
+                  }else{
+                    var input_pin_val = $("#auth_mobile_pin").val();
+                    check_auth_mobile(input_pin_val);
+
+                    if(!check_pin){
+                      $(".processcode").html("인증코드가 일치하지 않습니다.");
+                      return false;
+                    }else{
+                      is_sms_submitted = false;
+                      process_step = true;
+                      resolve();
+                    }
+                    
+                  }
+                });
+
+                $('#dialogModal .cancle').on('click',function(){
+                  is_sms_submitted = false;
+                });
+                
+              }
+            }
+          });
+
+        }else{
+          alert('잠시 후 다시 시도해주세요.');
+        }
+      });
+    }
+
+    
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /* 입금 */
@@ -730,4 +853,6 @@ $result_withdraw = sql_query($sql);
           correctLevel : QRCode.CorrectLevel.H
       });
   } */
+
+  
 </script>
