@@ -95,7 +95,9 @@
 
 							<div class='row mt20 mb20 '>
 								<div class='col-8' style='padding-left:30px;'><p><?=format_phone($member['mb_hp'])?></p></div>
-								<div class='col-4 text-right'><input type="button" value="수정/변경" class="btn inline white num_pop_open pop_open" ></div>
+								<?if($member['mb_hp'] == '' || $member['mb_certify'] != 1){?>
+									<div class='col-4 text-right'><input type="button" value="수정/변경" class="btn inline white num_pop_open pop_open" ></div>
+								<?}?>
 							</div>
 						</li>
 					
@@ -114,6 +116,8 @@
 								<input type="button" value="Change" class="btn inline white email_pop_open pop_open" data-i18n="[value]profile.변경">
 							</li>
 						 -->
+
+						 
 					</ul>
 					<?php if($member['bank_name'] && $member['bank_account'] && $member['account_name']){?>
 					<ul class='row person_info'>
@@ -553,14 +557,15 @@ $(function() {
 				<!-- <input type="input" id="nation_num" value='' placeholder="Country" maxlength="3" readonly>
 				<input type="input" id="hp_num" value='<?=substr(str_replace('-','',$member['mb_hp']), 1);?>' placeholder="Phone Number(Number only)" readonly>
 					-->
+				<!-- <div class='current'><?=" + ".$member['nation_number']." ".$member['mb_hp']?></div> -->
 				<div class='current'><?=" + ".$member['nation_number']." ".$member['mb_hp']?></div>
 			</div>
 
 
-			<label for="" data-i18n="popup.새로운 전화번호">New phone number</label>
+			<label for="" >새로운 전화번호 (ex: 01011112222)</label>
 			<div class="num_pop_div clear_fix">
-				<input type="text" id="new_nation_num" value="<?=$member['nation_number']?>" placeholder="Country" maxlength="3" data-i18n='[placeholder]popup.국가번호' readonly>
-				<input type="text" id="new_hp_num" value="" placeholder="Phone Number(Number only)" data-i18n='[placeholder]popup.전화번호(숫자만)'>
+				<!-- <input type="text" id="new_nation_num" value="<?=$member['nation_number']?>" placeholder="Country" maxlength="3" data-i18n='[placeholder]popup.국가번호' readonly> -->
+				<input type="text" id="new_hp_num" value="" style="width:100%;margin-left:0;" placeholder="전화번호(숫자만)" >
 			</div>
 
 
@@ -590,6 +595,8 @@ $(function() {
 
 	<script>
 		$(function() {
+			onlyNumber('new_hp_num');
+
 			$('.num_pop_open').click(function(){
 				$('.num_pop_wrap').css("display","block");
 			});

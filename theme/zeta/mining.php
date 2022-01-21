@@ -343,6 +343,8 @@
             var check_pin = false;
             var process_step = false;
 
+            var mb_hp = '<?=$member['mb_hp']?>';
+
             function input_timer(time,where){
             var time = time;
             var min = '';
@@ -473,6 +475,16 @@
                 
                 var inputVal = $('#sendValue').val().replace(/,/g, '');
 
+                 // 모바일 등록 여부 확인
+                if(mb_hp == '' || mb_hp.length < 10){
+                    dialogModal('정보수정', '<strong> 안전한 출금을 위해 인증가능한 모바일 번호를 등록해주세요.</strong>', 'warning');
+                    
+                    $('.closed').on('click',function(){
+                    location.href='/page.php?id=profile';
+                    })
+                    return false;
+                }
+                
                 // 출금주소 입력확인
                 if($('#withdrawal-address').val() == ""){
                     dialogModal('empty wallet address', '<strong> wallet address to withdraw </strong>', 'warning');
@@ -542,7 +554,7 @@
 
             return new Promise(
                 function(resolve,reject){
-                dialogModal('본인인증', "<p>모바일로 전송된 인증코드 6자리를 입력해주세요<br><input type='text' class='modal_input' id='auth_mobile_pin' name='auth_mobile_pin'></input><span class='time_remained'></span><span class='processcode'></span></p>", 'confirm');
+                dialogModal('본인인증', "<p>"+maskingFunc.phone(mb_hp)+"<br>모바일로 전송된 인증코드 6자리를 입력해주세요<br><input type='text' class='modal_input' id='auth_mobile_pin' name='auth_mobile_pin'></input><span class='time_remained'></span><span class='processcode'></span></p>", 'confirm');
 
                 if( is_sms_submitted == false ){
                 is_sms_submitted = true;
