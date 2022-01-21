@@ -348,17 +348,17 @@ $result_withdraw = sql_query($sql);
         <div class="hist_con_row1">
           <div class="row">
             <span class="hist_date"><?= $row['create_dt'] ?></span>
-            <span class="hist_value "><?= BALANCE_CURENCY ?> <?=shift_doller($row['amt_total']) ?></span>
+            <span class="hist_value "> <?=shift_auto($row['amt_total']) ?><?= BALANCE_CURENCY ?></span>
           </div>
 
           <div class="row">
-            <span class="hist_withval"><?= BALANCE_CURENCY ?> <?= $row['amt'] ?> / <label>Fee : </label><?= BALANCE_CURENCY ?> <?= $row['fee'] ?></span>
-            <span class="hist_value status"><?=$row['out_amt']?> <?= $row['coin'] ?></span>
+            <span class="hist_withval"> <?= shift_auto($row['amt']) ?> <?= BALANCE_CURENCY ?> / <label>Fee : </label> <?= shift_auto($row['fee']) ?><?= BALANCE_CURENCY ?></span>
+            <span class="hist_value status"><?=shift_auto($row['out_amt'])?> <?= $row['coin'] ?></span>
           </div>
 
-          <div class="row">
+          <!-- <div class="row">
             <span class='hist_bank'><label>Address : </label><?=$row['addr']?></span>
-          </div>
+          </div> -->
           
           <div class="row">
             <span class="hist_withval f_small"><label>Result :</label> </span>
