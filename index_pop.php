@@ -93,6 +93,7 @@ a.btn-layerClose:hover {
   background-color: #1f326a;
   color: #fff;
 }
+#pop-header img{width:auto;height:150px;}
 hr{width:95%;border-top-style:dashed}
 .title p span{}
 </style>
@@ -105,8 +106,8 @@ hr{width:95%;border-top-style:dashed}
 <div class="pop-conts">
 <!--content //-->
 <br>
-	<div style="text-align:center;margin:0 auto;">
-		<img src="<?=G5_THEME_URL?>/img/logo.png" width="50%" >
+	<div id='pop-header'style="text-align:center;margin:-30px auto -10px;height:150px">
+		<img src="<?=G5_THEME_URL?>/img/logo.png" >
 	</div>
 <hr>
 

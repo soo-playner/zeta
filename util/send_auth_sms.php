@@ -100,7 +100,7 @@ if($debug){
             $log = $SMS->Log;
             $log = @iconv('euc-kr', 'utf-8', $log);
 
-            sql_query("insert into {$g5['sms5_history_table']} set wr_no='{$wr_no}', wr_renum=0, bg_no=0, mb_id='{$member['mb_id']}', bk_no='{$member['mb_no']}', hs_name='".addslashes($member['mb_name'])."', hs_hp='{$send_number}', hs_datetime='".G5_TIME_YMDHIS."', hs_flag='$hs_flag', hs_code='$hs_code', hs_memo='".addslashes($hs_memo)."', hs_log='".addslashes($log)."'", false);
+            sql_query("insert into {$g5['sms5_history_table']} set wr_no='{$wr_no}', wr_renum=0, bg_no=0, mb_id='{$member['mb_id']}', bk_no='{$member['mb_no']}', hs_name='".addslashes($member['mb_name'])."', hs_hp='{$receive_number}', hs_datetime='".G5_TIME_YMDHIS."', hs_flag='$hs_flag', hs_code='$hs_code', hs_memo='".addslashes($hs_memo)."', hs_log='".addslashes($log)."'", false);
         }
         $SMS->Init(); // 보관하고 있던 결과값을 지웁니다.
 
