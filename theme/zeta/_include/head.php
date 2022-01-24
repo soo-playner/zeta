@@ -26,6 +26,11 @@ if(!isset($g5['title'])){
 	<meta name="apple-mobile-web-app-title" content="<?=G5_THEME_URL?>/img/default.png" />
 	<meta name="format-detection" content="telephone=no" />
 
+	<!-- 브라우저 캐시 삭제 -->
+	<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+	<meta http-equiv="Expires" content="-1">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache">
 
 	<!-- 페이스북 공유 + 카카오톡 설정 //-->
 	<!-- <meta property="fb:app_id" content="" /> -->
