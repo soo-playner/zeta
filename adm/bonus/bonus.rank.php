@@ -482,6 +482,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         $mem_result_10 = return_down_tree($mb_id,10);
                         $recom_info_sales = array_int_sum($mem_result_10,'mb_save_point','int');
                         $recom_info_hash = array_int_sum($mem_result_10,'mb_rate','int');
+                        $recom_cnt = count($mem_result_10);
 
                         if($debug){
                         echo "<code>";
@@ -507,7 +508,8 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
 
                         $brecom_info_lr_hash = $brecom_info_l_hash + $brecom_info_r_hash;
                         $brecom_info_lr_sales = $brecom_info_l_sales + $brecom_info_r_sales;
-                        
+                        $brecom_cnt = $cnt_l + $cnt_r;
+
                         if($debug){
                         echo "<code>";
                         // print_R($mem_result_l);
@@ -539,10 +541,12 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                             $recom_info_data = "INSERT into g5_member_info(mb_id,date, recom_info,brecom_info,hash_info) values('{$mb_id}', '{$bonus_day}',json_object(
                                 'hash_10', $recom_info_hash, 
                                 'sales_10', $recom_info_sales, 
-                                'sales_3', {$row['recom_sales']}
+                                'sales_3', {$row['recom_sales']},
+                                'cnt', $recom_cnt
                             ), json_object(
                                 'hash_10', $brecom_info_lr_hash, 
                                 'sales_10', $brecom_info_lr_sales,
+                                'cnt', $brecom_cnt,
                                 'LEFT', json_object(
                                     'cnt', $cnt_l,
                                     'hash', $brecom_info_l_hash,
