@@ -199,6 +199,11 @@ function onlyNumber(id){
 	}
 }
 
+// 코인 숫자 8자리
+function coin_val(val){
+	return Number(val).toFixed(8);
+}
+
 
 // 보너스게이지
 function move(bonus_per,main = 0) {

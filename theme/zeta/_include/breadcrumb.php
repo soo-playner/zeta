@@ -22,6 +22,9 @@ $brecom_sale =  refferer_habu_sales($member['mb_id'],'b');
 // $recom_sale_power = refferer_habu_sales_power($member['mb_id']);
 // $recom_sale_weak = ($recom_sale - $recom_sale_power);
 
+// 총보너스 
+$total_hash = $member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining'];
+
 // 공지사항
 $notice_sql = "select * from g5_write_notice where wr_1 = '1' order by wr_datetime desc limit 0,1";
 $notice_sql_query = sql_query($notice_sql);
@@ -52,7 +55,7 @@ function side_exp($val){
 	return "<span class='sideexp'>".$val."</span>";
 }
 
-function remain_hash($val,$rate){
+function remain_hash($val,$rate,$exp = true){
 	global $member;
 
 	if($val > 0){
@@ -64,9 +67,13 @@ function remain_hash($val,$rate){
 			$color_code = '';
 		}
 
-		$remain = "<span class='remain_mining'><i class='ri-compass-2-fill ".$color_code."'></i>";
-		$remain .= "<span class='".$color_code."'>".$remain_value." %</span>";
-		$remain .= "</span>";
+		if(!$exp){
+			$remain = $remain_value;
+		}else{
+			$remain = "<span class='remain_mining'><i class='ri-compass-2-fill ".$color_code."'></i>";
+			$remain .= "<span class='".$color_code."'>".$remain_value." %</span>";
+			$remain .= "</span>";
+		}
 	}else{
 		$remain = '';
 	}
@@ -180,7 +187,7 @@ $title = 'Dashboard';
 						</li>
 						<li class="col-4">
 							<dt class="title" >총보너스해시</dt>
-							<dd class="value"><?=percent_value($member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining'])?></dd>
+							<dd class="value"><?=percent_value($total_hash)?></dd>
 						</li>
 						<li class="col-4">
 							<dt class="title" >메가풀 보너스 해쉬</dt>

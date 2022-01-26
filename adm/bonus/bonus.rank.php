@@ -510,6 +510,21 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         $brecom_info_lr_sales = $brecom_info_l_sales + $brecom_info_r_sales;
                         $brecom_cnt = $cnt_l + $cnt_r;
 
+
+                        list($mem2_result_l,$mem2_result_r) = return_brecommend($mb_id,10,false,2);
+
+                        $cnt2_l =count($mem2_result_l);
+                        $brecom2_info_l_hash = array_int_sum($mem2_result_l,'mb_rate','int');
+                        $brecom2_info_l_sales = array_int_sum($mem2_result_l,'mb_save_point','int');
+
+                        $cnt2_r =count($mem2_result_r);
+                        $brecom2_info_r_hash = array_int_sum($mem2_result_r,'mb_rate','int');
+                        $brecom2_info_r_sales = array_int_sum($mem2_result_r,'mb_save_point','int');
+
+                        $brecom2_info_lr_hash = $brecom2_info_l_hash + $brecom2_info_r_hash;
+                        $brecom2_info_lr_sales = $brecom2_info_l_sales + $brecom2_info_r_sales;
+                        $brecom2_cnt = $cnt2_l + $cnt2_r;
+
                         if($debug){
                         echo "<code>";
                         // print_R($mem_result_l);
@@ -538,7 +553,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                             echo "<br>";
                             echo "</code>"; */
 
-                            $recom_info_data = "INSERT into g5_member_info(mb_id,date, recom_info,brecom_info,hash_info) values('{$mb_id}', '{$bonus_day}',json_object(
+                            $recom_info_data = "INSERT into g5_member_info(mb_id,date, recom_info,brecom_info,brecom2_info,hash_info) values('{$mb_id}', '{$bonus_day}',json_object(
                                 'hash_10', $recom_info_hash, 
                                 'sales_10', $recom_info_sales, 
                                 'sales_3', {$row['recom_sales']},
@@ -556,6 +571,20 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                                     'cnt', $cnt_r,
                                     'hash', $brecom_info_r_hash,
                                     'sales', $brecom_info_r_sales
+                                )
+                            ),json_object(
+                                'hash_10', $brecom2_info_lr_hash, 
+                                'sales_10', $brecom2_info_lr_sales,
+                                'cnt', $brecom2_cnt,
+                                'LEFT', json_object(
+                                    'cnt', $cnt2_l,
+                                    'hash', $brecom2_info_l_hash,
+                                    'sales', $brecom2_info_l_sales
+                                    ),
+                                'RIGHT',json_object(
+                                    'cnt', $cnt2_r,
+                                    'hash', $brecom2_info_r_hash,
+                                    'sales', $brecom2_info_r_sales
                                 )
                             ), json_object(
                                 'hash', {$row['mb_rate']}, 
