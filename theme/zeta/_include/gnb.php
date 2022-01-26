@@ -78,6 +78,7 @@ $(document).ready(function(){
 			<?if($nw['nw_with'] == 'Y'){?>
 			<li class="mywallet_icon"><a href="/page.php?id=mywallet"><span data-i18n="">입출금</span></a></li> <?}?>
 			<li class="mining_icon"><a href="/page.php?id=mining"><span data-i18n="">마이닝</span></a></li>
+			<li class="recommend_icon"><a href="/page.php?id=mypool"><span data-i18n="">마이풀</span></a></li>
 			<?if($nw['nw_purchase'] == 'Y'){?>
 			<li class="upstairs_icon"><a href="/page.php?id=upstairs"><span data-i18n="">패키지구매</span></a></li> <?}?>
 
@@ -88,8 +89,8 @@ $(document).ready(function(){
 				<?}
 			?>
 			<li class="recommend_icon"><a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a></li>
-			<li class="support_icon"><a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a></li>
-			<li class="support_icon"><a href="/page.php?id=binary2"><span data-i18n="">후원조직도2</span></a></li>
+			<!-- <li class="support_icon"><a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a></li>
+			<li class="support_icon"><a href="/page.php?id=binary2"><span data-i18n="">후원조직도2</span></a></li> -->
 
 			<li class="notice_icon"><a href="/page.php?id=news"><span data-i18n="">공지사항</span></a></li>
 			<li class="question_icon"><a href="/page.php?id=support_center"><span data-i18n="">1:1문의사항</span></a></li>

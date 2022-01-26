@@ -1,0 +1,750 @@
+<?
+include_once('./_common.php');
+include_once(G5_THEME_PATH . '/_include/wallet.php');
+include_once(G5_THEME_PATH . '/_include/gnb.php');
+login_check($member['mb_id']);
+
+$title = 'My Pool';
+$chart_express_cnt = 5;
+
+if(!isset($history_limit)){$history_limit = $chart_express_cnt;}
+
+$chart_data = [];
+$pool_data_sql = "SELECT * FROM g5_member_info WHERE mb_id = '{$member['mb_id']}' order by date desc limit 0,{$chart_express_cnt}";
+$pool_data = sql_query($pool_data_sql);
+while ($row = sql_fetch_array($pool_data)) {
+    array_push($chart_data, $row);
+}
+
+
+$mining_data = [];
+$mining_data_sql = sql_query("SELECT day,mining,rate FROM soodang_mining WHERE mb_id = '{$member['mb_id']}' AND allowance_name ='mining' ORDER by day desc LIMIT 0,{$chart_express_cnt}");
+while ($row = sql_fetch_array($mining_data_sql)) {
+    array_push($mining_data, $row);
+}
+
+$mega_data = [];
+$mega_mining_sql = sql_query("SELECT day,mining,rate,rec_adm FROM soodang_mining WHERE mb_id = '{$member['mb_id']}' AND allowance_name ='mega_mining' ORDER by day desc LIMIT 0,{$chart_express_cnt}");
+while ($row = sql_fetch_array($mega_mining_sql)) {
+    array_push($mega_data, $row);
+}
+
+$zeta_data = [];
+$zeta_mining_sql = sql_query("SELECT day,mining,rate,rec_adm FROM soodang_mining WHERE mb_id = '{$member['mb_id']}' AND allowance_name ='zeta_mining' ORDER by day desc LIMIT 0,{$chart_express_cnt}");
+while ($row = sql_fetch_array($zeta_mining_sql)) {
+    array_push($zeta_data, $row);
+}
+
+$zetaplus_data = [];
+$zetaplus_mining_sql = sql_query("SELECT day,mining,rate,rec_adm FROM soodang_mining WHERE mb_id = '{$member['mb_id']}' AND allowance_name ='zetaplus_mining' ORDER by day desc LIMIT 0,{$chart_express_cnt}");
+while ($row = sql_fetch_array($zetaplus_mining_sql)) {
+    array_push($zetaplus_data, $row);
+}
+
+$super_data = [];
+$super_mining_sql = sql_query("SELECT day,sum(mining)as mining,rate,rec_adm FROM soodang_mining WHERE mb_id = '{$member['mb_id']}' AND allowance_name ='super_mining' Group by day ORDER by day desc LIMIT 0,{$chart_express_cnt}");
+while ($row = sql_fetch_array($super_mining_sql)) {
+    array_push($super_data, $row);
+}
+
+
+function round_number($value){
+    return Number_format(Round($value));
+}
+?>
+
+<? include_once(G5_THEME_PATH . '/_include/breadcrumb.php'); ?>
+
+<?
+function remain_bonus($value, $rate)
+{
+    global $member;
+
+    $limit = $member['mb_rate'] * $rate;
+    $remain_bonus = Number_format($value / $limit);
+
+    return $remain_bonus;
+}
+
+$bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['brecom_mining'], 3), remain_bonus($member['brecom2_mining'], 3), remain_bonus($member['super_mining'], 1), '100'];
+?>
+
+<link rel="stylesheet" href="<?= G5_THEME_URL ?>/css/default.css">
+<script src="<?= G5_URL ?>/js/common.js"></script>
+
+<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet" />
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<link href="<?= G5_THEME_URL ?>/assets/chart.css" rel="stylesheet">
+
+
+<style>
+    #minings .nav_set ul{width:100%;min-height:40px;border-bottom:1px solid #ccc;margin-bottom:10px;display:flex}
+    #minings .nav_set .nav{display:inline-block;font-size:13px; padding:10px 3px;width:24.9%;text-align:center;cursor: pointer;}
+    #minings .nav_set .nav.active{border-bottom:2px solid blue}
+
+    .nav_con{display:none;animation: slidein 0.5s ease-out;-webkit-animation: slidein 0.5s ease-out;}
+    .nav_con.active{display:block;}
+
+    #minings .box-header{display:block;}
+    .box-body ul{margin:15px 0;border-bottom:2px dotted #ccc;padding-bottom:10px;}
+    .box-body .date{font-size:12px;letter-spacing:-0.5px; color:#0c4ddf}
+    .box-body .mining{font-size:17px;font-weight:700;font-family: Montserrat, Arial, sans-serif;line-height:30px;color:#1a1a1a}
+    .box-body .rec_adm{font-size:11px;color:#777;}
+    .box-body .from_id{font-size:14px;color:#333;padding:0 5px;font-weight:600;background:#dddeeb;display:inline-block;font-family: Montserrat, Arial, sans-serif;border-right:2px solid #222}
+    
+    .sparkline{width:100%;}
+
+</style>
+<main>
+    <div class='container'>
+        
+        <div class="row sparkboxes mt-4">
+            <div class="col-md-12">
+                <div class="box box5">
+
+                    <div class="details" style='transform:scale(0.9) translate(-14px, 10px)'>
+                        <a href="#myminings" class="card_btn">
+                            <h2><?=round(($total_hash / 100), 2) ?></h2>
+                            <h4>Total Mining <br></h4>
+                        </a>
+                    </div>
+
+                    <div id="spark5"></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box box1">
+                    <div class="details">
+                        <a href="#megaminings" class="card_btn">
+                            <h2><?= round(($member['recom_mining'] / 100), 2) ?></h2>
+                            <h4>MegaMining</h4>
+                        </a>
+                    </div>
+                    <div id="spark1"></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box box2">
+                    <div class="details">
+                        <a href="#zetaminings" class="card_btn">
+                            <h2><?= round(($member['brecom_mining'] / 100), 2) ?></h2>
+                            <h4>ZetaMining</h4>
+                        </a>
+                    </div>
+                    <div id="spark2"></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box box3">
+                    <div class="details">
+                        <a href="#zetaplusminings" class="card_btn">
+                            <h2><?= round(($member['brecom2_mining'] / 100), 2) ?></h2>
+                            <h4>Zeta Plus</h4>
+                        </a>
+                    </div>
+                    <div id="spark3"></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="box box4">
+                    <div class="details">
+                        <a href="#superminings" class="card_btn">
+                            <h2><?= round(($member['super_mining'] / 100), 2) ?></h2>
+                            <h4>SuperMining</h4>
+                        </a>
+                    </div>
+                    <div id="spark4"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class='container'>
+        <div class="row">
+            <div class='r_card_wrap content-box round mt30 col-md-6'>
+                <p class='title'> 총 마이닝 보너스 구성 및 상한 </p>
+                <div style='max-width:400px;width:100%;text-align:center;margin:0 auto;'>
+                    <div id="circleChart"></div>
+                </div>
+            </div>
+
+            <div class='r_card_wrap content-box round mt30 col-md-6' id="myminings">
+                <p class='title'> 데일리 마이닝 보너스</p>
+                <div style='max-width:400px;width:100%;text-align:center;margin:0 auto;'>
+                    <div id="mychart"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        
+        <div class='r_card_wrap content-box round mt30' id="minings">
+            
+            <div class='nav_set'>
+                <ul>
+                    <li class='nav mega active' data-id="mega">메가</li>
+                    <li class='nav zeta' data-id="zeta">제타</li>
+                    <li class='nav zetaplus' data-id="zetaplus">제타플러스</li>
+                    <li class='nav super' data-id="super">슈퍼</li>
+                    <li class='nav my' data-id="my">마이닝</li>
+                </ul> 
+            </div>
+
+
+            <!-- 메가마이닝 -->
+            <div class="nav_con" id ="container_mega" data-id="mega">
+
+                <div class="box-header" >
+                    
+                    <div class="block row sparkboxes">
+                        <?
+                           $recom_data = json_decode($chart_data[0]['recom_info'],true);
+                           $recom_cnt = $recom_data['cnt'];
+                           $recom_sales_10 = $recom_data['sales_10'];
+                           $recom_sales_3 = $recom_data['sales_3'];
+
+                        ?>
+                        <div class="col-12 mb20">
+                            <div class="box" >
+                                <ul>
+                                    <li class='col-4'>
+                                        <h3><?=round_number($member['recom_mining'])?></h3>
+                                        <h6>메가풀 해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=round_number($member['mb_rate']*300)?></h3>
+                                        <h6>목표해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=$recom_cnt?></h3>    
+                                        <h6>참여인원 </h6>
+                                    </li>
+                                </ul>
+                                <div id="megaspark1" class="sparkline"></div>
+                            </div>
+                        </div>
+
+                        <div id="megachart" class="mt30" style="width:100%;margin:0 15px; "></div>
+
+                        <div class="col-6">
+                            <div class="box  white" >
+                                <h3><?=round_number($recom_sales_10)?></h3>
+                                <h6>10대 매출 </h6>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="box  white" >
+                                <h3><?=round_number($recom_sales_3)?></h3>
+                                <h6>승급대상포인트(3대)</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-body mt20"></div>
+
+                <div><button type="button" class="btn wd more_btn">더보기</button></div>
+
+            </div>
+
+
+
+
+            <!-- 제타마이닝 -->
+            <div class="nav_con" id ="container_zeta" data-id="zeta">
+                <div class="box-header" >
+                    <div class="block row sparkboxes">
+                        <?
+                           $brecom_data = json_decode($chart_data[0]['brecom_info'],true);
+                           $brecom_cnt = $brecom_data['cnt'];
+                           $brecom_L = $brecom_data['LEFT'];
+                           $brecom_R = $brecom_data['RIGHT'];
+                        ?>
+                        <div class="col-12 mb20">
+                            <div class="box" >
+                                <ul>
+                                    <li class='col-4'>
+                                        <h3><?=round_number($member['brecom_mining'])?></h3>
+                                        <h6>제타풀 해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=round_number($member['mb_rate']*300)?></h3>
+                                        <h6>목표해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=$brecom_cnt?></h3>    
+                                        <h6>참여인원 </h6>
+                                    </li>
+                                </ul>
+                                <div id="zetaspark1" class="sparkline"></div>
+                            </div>
+                        </div>
+
+                        <div id="zetachart" class="mt30" style="width:100%;margin:0 15px; "></div>
+
+
+                        <div class="col-6">
+                            <div class="box  white" >
+                                <h2>LEFT </h2>
+                                <h3 class='mt10'><?=round_number($brecom_L['sales'])?></h3>
+                                <h6>매출</h6>
+                                <h3 class='mt10'><?=round_number($brecom_L['hash'])?></h3>
+                                <h6>해쉬 </h6>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="box  white" >
+                                <h2>RIGHT </h2>
+                                <h3 class='mt10'><?=round_number($brecom_R['sales'])?></h3>
+                                <h6>매출</h6>
+                                <h3 class='mt10'><?=round_number($brecom_R['hash'])?></h3>
+                                <h6>해쉬 </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-body mt20"></div>
+
+                <div><button type="button" class="btn wd more_btn">더보기</button></div>
+            </div>
+
+
+
+            <!-- 제타+마이닝 -->
+            <div class="nav_con" id ="container_zetaplus" data-id="zetaplus">
+                <div class="box-header" >
+                    <div class="block row sparkboxes">
+                        <?
+                            $brecom2_data = json_decode($chart_data[0]['brecom2_info'],true);
+                            $brecom2_cnt = $brecom2_data['cnt'];
+                            $brecom2_L = $brecom2_data['LEFT'];
+                            $brecom2_R = $brecom2_data['RIGHT'];
+                        ?>
+                        <div class="col-12 mb20">
+                            <div class="box" >
+                                <ul>
+                                    <li class='col-4'>
+                                        <h3><?=round_number($member['brecom2_mining'])?></h3>
+                                        <h6>제타+ 해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=round_number($member['mb_rate']*300)?></h3>
+                                        <h6>목표해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=$brecom2_cnt?></h3>    
+                                        <h6>참여인원 </h6>
+                                    </li>
+                                </ul>
+                                <div id="zetaplusspark1" class="sparkline"></div>
+                            </div>
+                        </div>
+
+                        <div id="zetapluschart" class="mt30" style="width:100%;margin:0 15px; "></div>
+
+
+                        <div class="col-6">
+                            <div class="box  white" >
+                                <h2>LEFT </h2>
+                                <h3 class='mt10'><?=round_number($brecom2_L['sales'])?></h3>
+                                <h6>매출</h6>
+                                <h3 class='mt10'><?=round_number($brecom2_L['hash'])?></h3>
+                                <h6>해쉬 </h6>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="box  white" >
+                                <h2>RIGHT </h2>
+                                <h3 class='mt10'><?=round_number($brecom2_R['sales'])?></h3>
+                                <h6>매출</h6>
+                                <h3 class='mt10'><?=round_number($brecom2_R['hash'])?></h3>
+                                <h6>해쉬 </h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="box-body mt20"></div>
+
+                <div><button type="button" class="btn wd more_btn">더보기</button></div>
+            </div>
+
+            <!-- 슈퍼 마이닝 -->
+            <div class="nav_con" id ="container_super" data-id="super">
+                <div class="box-header" >
+                    <div class="block row sparkboxes">
+                        <?
+                            $super_info = sql_fetch("SELECT day,COUNT(NO) AS cnt FROM soodang_mining WHERE mb_id = '{$member['mb_id']}' and allowance_name='super_mining' GROUP BY DAY ORDER BY DAY DESC LIMIT 0,1");
+
+                        ?>
+                        <div class="col-12 mb20">
+                            <div class="box" >
+                                <ul>
+                                    <li class='col-4'>
+                                        <h3><?=round_number($member['super_mining'])?></h3>
+                                        <h6>슈퍼 해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=round_number($member['mb_rate']*100)?></h3>
+                                        <h6>목표해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=$super_info['cnt']?></h3>    
+                                        <h6>참여인원 </h6>
+                                    </li>
+                                </ul>
+                                <div id="superspark1" class="sparkline"></div>
+                            </div>
+                        </div>
+
+                        <div id="superchart" class="mt30" style="width:100%;margin:0 15px; "></div>
+
+
+                        <div class="col-12">
+                            <div class="box  white" >
+                                <h3>보너스 달성률</h3>
+                                    <?if($member['super_mining'] >= 100){?>
+                                        <h2>" <span class='font_red'><?=remain_hash($member['super_mining'],1,false)?>%</span> 초과달성 "</h2>
+                                    <?}else{?>
+                                        <h3>" <?= (100 - remain_hash($member['super_mining'],1,false))?> % 미달 "</h3>
+                                    <?}?>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="box-body mt20"></div>
+
+                <div><button type="button" class="btn wd more_btn">더보기</button></div>
+            </div>
+
+            <!-- 마이 마이닝 -->
+            <div class="nav_con" id ="container_my" data-id="my">
+                <div class="box-header" >
+                    <div class="block row sparkboxes">
+                        <?
+                            // $super_info = sql_fetch("SELECT day,COUNT(NO) AS cnt FROM soodang_mining WHERE mb_id = '{$member['mb_id']}' and allowance_name='super_mining' GROUP BY DAY ORDER BY DAY DESC LIMIT 0,1");
+                        ?>
+                        <div class="col-12 mb20">
+                            <div class="box" >
+                                <!-- <ul>
+                                    <li class='col-4'>
+                                        <h3><?=round_number($member['my_mining'])?></h3>
+                                        <h6>슈퍼 해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=round_number($member['mb_rate']*100)?></h3>
+                                        <h6>목표해쉬 </h6>
+                                    </li>
+                                    <li  class='col-4'>
+                                        <h3><?=$super_info['cnt']?></h3>    
+                                        <h6>참여인원 </h6>
+                                    </li>
+                                </ul> -->
+                                <div id="myspark1" class="sparkline"></div>
+                            </div>
+                        </div>
+
+
+                        <!-- <div class="col-6">
+                            <div class="box  white" >
+                                <h2>LEFT </h2>
+                                <h3 class='mt10'><?=round_number($brecom2_L['sales'])?></h3>
+                                <h6>매출</h6>
+                                <h3 class='mt10'><?=round_number($brecom2_L['hash'])?></h3>
+                                <h6>해쉬 </h6>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="box  white" >
+                                <h2>RIGHT </h2>
+                                <h3 class='mt10'><?=round_number($brecom2_R['sales'])?></h3>
+                                <h6>매출</h6>
+                                <h3 class='mt10'><?=round_number($brecom2_R['hash'])?></h3>
+                                <h6>해쉬 </h6>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="box-body mt20"></div>
+
+                <div><button type="button" class="btn wd more_btn">더보기</button></div>
+            </div>
+        </div>
+
+<!-- 
+        <div class='r_card_wrap content-box round mt30' id="zetaminings">
+            <p class='title'> 제타마이닝 </p>
+
+            <div style='max-width:400px;width:100%;text-align:center;margin:0 auto;'>
+                <div id="zetachart"></div>
+            </div>
+
+            <div class="box-header">
+                <div class="row sparkboxes">
+                    <div class="col-6">
+                        <div class="box" >
+                            <h3><?= $member['mb_rate'] ?></h3>
+                            <h6>후원 L 라인 </h6>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="box" >
+                            <h3><?= $member['mb_rate'] ?></h3>
+                            <h6>후원 R 라인 </h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class='r_card_wrap content-box round mt30' id="zetaplusminings">
+            <p class='title'> 제타플러스 </p>
+            <div style='max-width:400px;width:100%;text-align:center;margin:0 auto;'>
+                <div id="radialBarBottom"></div>
+            </div>
+        </div>
+
+        <div class='r_card_wrap content-box round mt30' id="superminings">
+            <p class='title'> 슈퍼마이닝 </p>
+            <div style='max-width:400px;width:100%;text-align:center;margin:0 auto;'>
+                <div id="superchart"></div>
+            </div>
+        </div> -->
+
+
+
+        <!-- <div class="col-sm-12 col-12 content-box mining_detail round mt20" id="<?= $cate ?>">
+            <div class="box-header row">
+                <?
+
+                ?>
+                <div class='col-12 text-left'>
+                    <span><?= $sub_result['day'] ?></span>
+                    <span class='m_hist_exp'> [<?= strtoupper($sub_result['allowance_name']) ?> BONUS ]</span>
+                </div>
+            </div>
+            <div class='row'>
+                <div class='col-12 text-right hist_value'>
+                    <span><?= shift_auto($sub_result['total_mining'], 'eth') ?> <?= $minings[0] ?></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-12 content-box mining_history round  mb20">
+            <div class="box-header">
+                <h4><i class="ri-calendar-event-line"></i> <?= $mining_day ?></h4>
+            </div>
+
+            <div class="box-body">
+                    <?
+                    $detail_sql = "SELECT * FROM soodang_mining WHERE day = '{$mining_day}' AND mb_id = '{$member['mb_id']}' and allowance_name='{$category}' ";
+                    $detail_result = sql_query($detail_sql);
+                    while ($rows = sql_fetch_array($detail_result)) {
+                        $detail = explode('|', $rows['rec']);
+                    ?>
+                <div class="block row">
+                    <div class='col-7 text-left' style='padding-right:0;'>
+                        <span class='m_hist_exp'>
+                            <?= $detail[0] ?><br>
+                            <?= $detail[1] ?>
+                        </span>
+                    </div>
+                    <div class='col-5 text-right '>
+                        <span> <i class="ri-add-line"></i></span>
+                        <span class='hist_value2'><?= shift_auto($rows['mining'], 'eth') ?> <?= $minings[0] ?></span>
+                    </div>
+                </div>
+                <? } ?>
+            </div>
+
+        </div> -->
+</main>
+
+
+<div class="gnb_dim"></div>
+</section>
+
+
+<script>
+    var chartData = <?= json_encode($chart_data) ?>;
+    var bonusData = <?= json_encode($bonus_data) ?>;
+
+    var miningData = <?= json_encode($mining_data) ?>;
+    var megaData = <?= json_encode($mega_data) ?>;
+    var zetaData = <?= json_encode($zeta_data) ?>;
+    var zetaplusData = <?= json_encode($zetaplus_data) ?>;
+    var superData = <?= json_encode($super_data) ?>;
+
+    // var left_brecom =  dataset(chartData,'brecom_info','LEFT','sales',0);
+    // var right_brecom = dataset(chartData,'brecom_info','RIGHT','sales',0);
+    // console.log(left_brecom);
+
+    function dataset(array, key, key2 = '', key3 = '', math = 1) {
+        var returnData = [];
+
+        for (i = 0; i < array.length; i++) {
+            if (key2 == '') {
+                returnData.push(array[i][key]);
+            } else {
+                var arrayIn = JSON.parse(array[i][key]);
+
+                if (math == 0) {
+                    if (key3 == '') {
+                        returnData.push((arrayIn[key2]));
+                    } else {
+                        returnData.push((arrayIn[key2][key3]));
+                    }
+                } else {
+                    if (key3 == '') {
+                        returnData.push((arrayIn[key2] * math).toFixed(2));
+                    } else {
+                        returnData.push((arrayIn[key2][key3] * math).toFixed(2));
+                    }
+                }
+            }
+        }
+        return returnData.reverse();
+    }
+
+    $(function() {
+
+        var stage = "mega";
+        var limited = <?=$history_limit?>;
+        var limit = 0;
+
+        var megachart_exc =false;
+        var zetachart_exc =false;
+        var zetapluschart_exc =false;
+        var superchart_exc =false;
+        var mychart_exc = false;
+
+        nav_active(stage);
+
+        $(".nav").on('click', function(){
+            var id = $(this).data("id");
+            nav_active(id);
+            limit = <?=$chart_express_cnt?>;
+        });
+
+        $(".more_btn").on("click",function(){
+            var id = $(this).parent().parent().data("id");
+            limit += 10;
+
+            load_data(id,limit);
+        });
+
+        function nav_active(id) {
+            stage = id;
+
+            var navtarget = ".nav."+stage;
+            var contarget = "#container_"+stage;
+
+            $(".nav_con").removeClass("active");
+            $(contarget).addClass("active");
+
+            $(".nav").removeClass("active");
+            $(navtarget).addClass("active");
+
+            load_data(stage,limited);
+            
+        }
+        
+        function load_data(stage,limit){
+            var contarget = "#container_"+stage;
+            var data_target = $(contarget + " .box-body")
+
+            $.ajax({
+                type: "POST",
+                url: "./util/mining_data.php",
+                cache: false,
+                async: false,
+                dataType: "json",
+                data: {
+                category : stage,
+                limited : limit
+                },
+                success: function(res) {
+                    if (res.code == "0000") {
+                        html = '';
+                        for (var i = 0; i < res.data.length; i++) {
+                            html += "<ul>";
+                            html += "<li class='date'>" + res.data[i]['day'] + "</li>";
+                            if(stage == 'super'){
+                                html += "<li class='from_id'><i class='ri-user-line'></i>" + res.data[i]['from_id'] + "</li>";    
+                            }
+                            html += "<li class='mining'>" + coin_val(res.data[i]['mining']) +" "+res.data[i]['currency'] + "</li>";
+                            html += "<li class='rec_adm'>" + res.data[i]['rec_adm'] + "</li>";
+                            html += "</ul>";
+                        }
+                        $(data_target).append(html);
+                    }
+                }
+            });
+            
+            if(stage =='mega'){
+                if(!megachart_exc){
+                    chart_mega_spark1.render();
+                    megachart_exc = true;
+                    megachart.render();
+                }
+            }else if(stage == 'zeta'){
+                if(!zetachart_exc){
+                    chart_zeta_spark1.render();
+                    zetachart_exc = true;
+                    zetachart.render();
+                }
+            }else if(stage == 'zetaplus'){
+                if(!zetapluschart_exc){
+                    chart_zetaplus_spark1.render();
+                    zetapluschart_exc = true;
+                    zetapluschart.render();
+                }
+            }else if(stage == 'super'){
+                if(!superchart_exc){
+                    chart_super_spark1.render();
+                    superchart_exc = true;
+                    superchart.render();
+                }
+            }else if(stage == 'my'){
+                if(!mychart_exc){
+                    chart_my_spark1.render();
+                    mychart_exc = true;
+                }
+            }
+            
+        }
+
+        $(".details").on('click', function() {
+
+        });
+
+        function once(fn, context) { 
+            var result;
+        
+            return function() { 
+                if(fn) {
+                    result = fn.apply(context || this, arguments);
+                    fn = null;
+                }
+        
+                return result;
+            };
+        }
+    });
+</script>
+
+<script src="<?= G5_THEME_URL ?>/assets/chart_scripts.js"></script>
+
+
+<? include_once(G5_THEME_PATH . '/_include/tail.php'); ?>
