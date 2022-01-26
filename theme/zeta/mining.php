@@ -24,6 +24,7 @@
    
     $max_mining_total = $mining_total;
 
+    
     /* 리스트 기본값*/
     $mining_history_limit1 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining)";
     $mining_history_limit2 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining) GROUP BY DAY";
@@ -218,7 +219,7 @@
                         <ul class="row">
                             <li class="col-3 hist_date"><?=$row['day']?></li>
                             <li class="col-5 hist_td"><?=category_badge($row['allowance_name'])?>
-                            <? if($row['allowance_name'] == 'super_mining'){ echo "<a href='/page.php?id=mining_detail&day={$row['day']}' class='btn more_record' style='margin:0' data-day='".$row['day']."'><i class='ri-menu-add-line'></i></a>";}?>
+                            <? if($row['allowance_name'] == 'super_mining'){ echo "<a href='/dialog.php?id=mining_detail&day={$row['day']}' class='btn more_record' style='margin:0' data-day='".$row['day']."'><i class='ri-menu-add-line'></i></a>";}?>
                             </li>
                             <li class="col-4 hist_value"><?=shift_coin($row['mining'])?> <?=strtoupper($row['currency'])?></li>
                             <li class="col-12 hist_rec">
