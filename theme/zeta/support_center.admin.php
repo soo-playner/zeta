@@ -217,7 +217,7 @@ if(!$is_admin){
 					</div>
 					<div class="custom-file">
 						<input type="file" class="custom-file-input messageFile" name="bf_file[]" accept=".jpg, .png, .pdf" >
-						<label class="custom-file-label" for="customFile">Choose file ( 5MB limit, .jpg, .png, .pdf )</label>
+						<label style="font-size: 12px;" class="custom-file-label" for="customFile">Choose file ( 5MB limit, .jpg, .png, .pdf )</label>
 					</div>
 				</div>
 			</div>

@@ -110,7 +110,7 @@ $title = 'News';
 						<div class="date"><?echo date("d-m-Y", strtotime($row['wr_last']))?></div>
 					</li>
 					<li class="mid_wrap col-sm-8 col-8"><?echo $row['wr_subject']?></li>
-					<li class="right_wrap col-sm-1 col-1">
+					<li class="right_wrap col-sm-1 col-1" style="padding-left: 0px;">
 						<i class="ri-arrow-right-s-line"></i>
 					</li>
 				</ul>
