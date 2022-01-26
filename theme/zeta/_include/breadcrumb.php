@@ -123,7 +123,7 @@ $title = 'Dashboard';
 					<span class="title" data-i18n='dashboard.공지사항' >Notification</span>
 					
 					<i class="ri-close-circle-line close_news" style="font-size: 30px;float: right;cursor: pointer;"></i>
-					<button class=" f_right btn line_btn close_today" >
+					<button class="f_right btn line_btn close_today" >
 						<span data-i18n="dashboard.오늘하루 열지않기"> Close for 24hrs</span>
 					</button>
 					<!-- <img class="close_news f_right small" src="<?=G5_THEME_URL?>/_images/close_round.gif" alt="공지사항 닫기"> -->
@@ -284,39 +284,7 @@ $title = 'Dashboard';
 
 </section>
 <!-- <script src="<?=G5_THEME_URL?>/_common/js/timer.js"></script> -->
-<script>
-	
-	$(function(){
 
-		// 공지사항 - 하단공지로 사용안함
-		var notice_open = getCookie('notice');
-
-		if(notice_open == '1'){
-			$('.dash_news').css("display","none");
-		}else{
-			$('.dash_news').css("display","block");
-		}
-
-		
-		$('.close_news').click(function(){
-			$('.dash_news').css("display","none");
-			$('.notice_open').css("display","block");
-		});
-
-		$('.close_today').click(function(){
-			setCookie('notice', '1', 1);
-			$('.dash_news').css("display","none");
-			$('.notice_open').css("display","block");
-		});
-
-
-		$('.notice_open').click(function(){
-			$('.dash_news').css("display","block");
-			$(this).css("display","none");
-		});
-
-	});
-</script>
 
 <!-- 펼쳐보기 -->
 <script>
@@ -353,5 +321,33 @@ $title = 'Dashboard';
 			$('.updown').attr('src',img_src_down);
 			$('.fold_img_wrap img').css('vertical-align','sub');
 		});
+
+		// 공지사항 - 하단공지로 사용안함
+		var notice_open = getCookie('notice');
+
+		if(notice_open == '1'){
+			$('.dash_news').css("display","none");
+		}else{
+			$('.dash_news').css("display","block");
+		}
+
+		
+		$('.close_news').click(function(){
+			$('.dash_news').css("display","none");
+			$('.notice_open').css("display","block");
+		});
+
+		$('.close_today').click(function(){
+			setCookie('notice', '1', 1);
+			$('.dash_news').css("display","none");
+			$('.notice_open').css("display","block");
+		});
+
+
+		$('.notice_open').click(function(){
+			$('.dash_news').css("display","block");
+			$(this).css("display","none");
+		});
 	});
 </script>
+

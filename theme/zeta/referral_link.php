@@ -41,7 +41,7 @@ curl_close($ch);
 				<p class="title"><?=$member['mb_id']?></p>
 				<div class="google-auth-top-qr" id="qrcode"></div>
 				<p id="short_URL" class="url"><a href="<?=$short_URL_p?>"><?=$short_URL?></a></p>
-				<input type="button" class="btn wd"  onclick="copyToClipboard(short_URL);" value="Copy link" data-i18n='[value]referral.링크 복사' >
+				<input type="button" class="btn wd"  onclick="copyToClipboard(short_URL);" value="Copy link" data-i18n='[value]referral.링크 복사' style="background: #f5f5f5;" >
 			</div>
 		</section>
 	</div>

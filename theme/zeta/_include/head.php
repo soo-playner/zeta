@@ -76,6 +76,7 @@ if(!isset($g5['title'])){
 	<?
 	include_once(G5_THEME_PATH.'/modal.html');
 	include_once(G5_THEME_PATH.'/_include/popup.php');
+	include_once(G5_THEME_PATH.'/_include/common_js.php');
 	?>
 
 

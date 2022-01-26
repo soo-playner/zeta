@@ -211,7 +211,7 @@ $result_withdraw = sql_query($sql);
 
         </div>
         <div class='col-12'>
-          <button class="btn wd line_btn " id="accountCopy" onclick="copyURL('#bank_account')">
+          <button class="btn wd line_btn " style="background: #f5f5f5;" id="accountCopy" onclick="copyURL('#bank_account')">
             <span data-i18n="deposit.계좌복사"> Copy Address </span>
           </button>
         </div>
