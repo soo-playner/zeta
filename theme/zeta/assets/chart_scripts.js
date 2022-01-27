@@ -994,7 +994,7 @@ var my_spark1 = {
     title: {
       text: Price(super_hash_data[super_hash_data.length -1]),
       offsetX: 0,
-      offsetY: 20,
+      offsetY: 0,
       style: {
         fontSize: '24px',
         cssClass: 'apexcharts-yaxis-title'
@@ -1003,7 +1003,7 @@ var my_spark1 = {
     subtitle: {
       text: 'My Mining Bonus',
       offsetX: 0,
-      offsetY: 50,
+      offsetY: 30,
       style: {
         fontSize: '14px',
         cssClass: 'apexcharts-yaxis-title'

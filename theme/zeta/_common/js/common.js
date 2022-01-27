@@ -166,9 +166,9 @@ let maskingFunc = {
 		
 		strLength = originStr.length;
 		if(strLength < 3){ 
-			maskingStr = originStr.replace(/(?<=.{1})./gi, "*");
+			maskingStr = originStr.replace(/(?=.{1})./gi, "*");
 		}else { 
-			maskingStr = originStr.replace(/(?<=.{2})./gi, "*");
+			maskingStr = originStr.replace(/(?=.{2})./gi, "*");
 		} 
 	return maskingStr;
 	} 

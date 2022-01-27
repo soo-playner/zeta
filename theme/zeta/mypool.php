@@ -94,6 +94,9 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
     .box-body .from_id{font-size:14px;color:#333;padding:0 5px;font-weight:600;background:#dddeeb;display:inline-block;font-family: Montserrat, Arial, sans-serif;border-right:2px solid #222}
     
     .sparkline{width:100%;}
+    .comp{font-size:16px;color:#666;padding:0 5px;}
+    .comp.plus{color:red}
+    .comp.minus{color:blue}
 
 </style>
 <main>
@@ -407,11 +410,11 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                         <div class="col-12">
                             <div class="box  white" >
                                 <h3>보너스 달성률</h3>
-                                    <?if($member['super_mining'] >= 100){?>
-                                        <h2>" <span class='font_red'><?=remain_hash($member['super_mining'],1,false)?>%</span> 초과달성 "</h2>
-                                    <?}else{?>
-                                        <h3>" <?= (100 - remain_hash($member['super_mining'],1,false))?> % 미달 "</h3>
-                                    <?}?>
+                                <?if(remain_hash($member['super_mining'],1,false) >= 100){?>
+                                    <h2>" <span class='font_red'><?=remain_hash($member['super_mining'],1,false)?>%</span> 초과달성 "</h2>
+                                <?}else{?>
+                                    <h3>" <?= (100 - remain_hash($member['super_mining'],1,false))?> % 미달 "</h3>
+                                <?}?>
                             </div>
                         </div>
 
@@ -479,96 +482,6 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
             </div>
         </div>
 
-<!-- 
-        <div class='r_card_wrap content-box round mt30' id="zetaminings">
-            <p class='title'> 제타마이닝 </p>
-
-            <div style='max-width:400px;width:100%;text-align:center;margin:0 auto;'>
-                <div id="zetachart"></div>
-            </div>
-
-            <div class="box-header">
-                <div class="row sparkboxes">
-                    <div class="col-6">
-                        <div class="box" >
-                            <h3><?= $member['mb_rate'] ?></h3>
-                            <h6>후원 L 라인 </h6>
-                        </div>
-                    </div>
-
-                    <div class="col-6">
-                        <div class="box" >
-                            <h3><?= $member['mb_rate'] ?></h3>
-                            <h6>후원 R 라인 </h6>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-        </div>
-
-        <div class='r_card_wrap content-box round mt30' id="zetaplusminings">
-            <p class='title'> 제타플러스 </p>
-            <div style='max-width:400px;width:100%;text-align:center;margin:0 auto;'>
-                <div id="radialBarBottom"></div>
-            </div>
-        </div>
-
-        <div class='r_card_wrap content-box round mt30' id="superminings">
-            <p class='title'> 슈퍼마이닝 </p>
-            <div style='max-width:400px;width:100%;text-align:center;margin:0 auto;'>
-                <div id="superchart"></div>
-            </div>
-        </div> -->
-
-
-
-        <!-- <div class="col-sm-12 col-12 content-box mining_detail round mt20" id="<?= $cate ?>">
-            <div class="box-header row">
-                <?
-
-                ?>
-                <div class='col-12 text-left'>
-                    <span><?= $sub_result['day'] ?></span>
-                    <span class='m_hist_exp'> [<?= strtoupper($sub_result['allowance_name']) ?> BONUS ]</span>
-                </div>
-            </div>
-            <div class='row'>
-                <div class='col-12 text-right hist_value'>
-                    <span><?= shift_auto($sub_result['total_mining'], 'eth') ?> <?= $minings[0] ?></span>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-12 col-12 content-box mining_history round  mb20">
-            <div class="box-header">
-                <h4><i class="ri-calendar-event-line"></i> <?= $mining_day ?></h4>
-            </div>
-
-            <div class="box-body">
-                    <?
-                    $detail_sql = "SELECT * FROM soodang_mining WHERE day = '{$mining_day}' AND mb_id = '{$member['mb_id']}' and allowance_name='{$category}' ";
-                    $detail_result = sql_query($detail_sql);
-                    while ($rows = sql_fetch_array($detail_result)) {
-                        $detail = explode('|', $rows['rec']);
-                    ?>
-                <div class="block row">
-                    <div class='col-7 text-left' style='padding-right:0;'>
-                        <span class='m_hist_exp'>
-                            <?= $detail[0] ?><br>
-                            <?= $detail[1] ?>
-                        </span>
-                    </div>
-                    <div class='col-5 text-right '>
-                        <span> <i class="ri-add-line"></i></span>
-                        <span class='hist_value2'><?= shift_auto($rows['mining'], 'eth') ?> <?= $minings[0] ?></span>
-                    </div>
-                </div>
-                <? } ?>
-            </div>
-
-        </div> -->
 </main>
 
 
@@ -621,6 +534,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
 
         var stage = "mega";
         var limited = <?=$history_limit?>;
+        var start = 0;
         var limit = 0;
 
         var megachart_exc =false;
@@ -634,14 +548,20 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
         $(".nav").on('click', function(){
             var id = $(this).data("id");
             nav_active(id);
+            start = 0;
             limit = <?=$chart_express_cnt?>;
         });
 
         $(".more_btn").on("click",function(){
             var id = $(this).parent().parent().data("id");
             limit += 10;
-
-            load_data(id,limit);
+            if(start == 0){
+                start = 5;
+            }else if(start >= 5){
+                start += 10;
+            }
+            console.log(`start: ${start}\nend: ${limit}`);
+            load_data(id,start,limit);
         });
 
         function nav_active(id) {
@@ -656,11 +576,30 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
             $(".nav").removeClass("active");
             $(navtarget).addClass("active");
 
-            load_data(stage,limited);
+            load_data(stage,start,limited);
             
         }
+
+        function Comparison(A,B){
+            var value = Number(A - B).toFixed(8);
+            var result ='';
+
+
+            if(value > 0){
+                result =  "<span class='comp plus'><i class='ri-arrow-up-s-fill'></i></span>";
+
+            }else if(value < 0){
+                
+                result = "<span class='comp minus'><i class='ri-arrow-down-s-fill'></i></span>";
+
+            }else{
+                result = "<span class='comp'><i class='ri-subtract-line'></i></span>";
+            }
+
+            return result;
+        }
         
-        function load_data(stage,limit){
+        function load_data(stage,start,limit){
             var contarget = "#container_"+stage;
             var data_target = $(contarget + " .box-body")
 
@@ -672,18 +611,26 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                 dataType: "json",
                 data: {
                 category : stage,
+                start : start,
                 limited : limit
                 },
                 success: function(res) {
                     if (res.code == "0000") {
                         html = '';
-                        for (var i = 0; i < res.data.length; i++) {
+                        var cnt = res.data.length;
+                        for (var i = 0; i < cnt; i++) {
                             html += "<ul>";
                             html += "<li class='date'>" + res.data[i]['day'] + "</li>";
                             if(stage == 'super'){
                                 html += "<li class='from_id'><i class='ri-user-line'></i>" + res.data[i]['from_id'] + "</li>";    
                             }
-                            html += "<li class='mining'>" + coin_val(res.data[i]['mining']) +" "+res.data[i]['currency'] + "</li>";
+
+                            html += "<li class='mining'>" + coin_val(res.data[i]['mining']) +" "+res.data[i]['currency'];
+                            
+                            if(stage != 'super'){
+                                html += Comparison(res.data[i]['mining'],res.data[i]['prev']);
+                            }
+                            html += "</li>";
                             html += "<li class='rec_adm'>" + res.data[i]['rec_adm'] + "</li>";
                             html += "</ul>";
                         }
