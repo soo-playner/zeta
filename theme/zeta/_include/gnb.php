@@ -85,7 +85,7 @@ $(document).ready(function(){
 			<li class="bonus_history_icon"><a href="/page.php?id=bonus_history"><span data-i18n="">보너스내역</span></a></li>
 			<?
 				if($member['center_use'] == 1){?>
-				<li class="center_page"><a href="/page.php?id=center_page"><i class="ri-team-line" style='font-size:26px;color:#435388'></i><span style='margin-left:22px;'>센터회원관리</span></a></li>
+				<li class="center_page"><a href="/page.php?id=center_page"><i class="ri-team-line" style='font-size:26px;color:#435388;vertical-align:bottom;'></i><span>센터회원관리</span></a></li>
 				<?}
 			?>
 			<li class="recommend_icon"><a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a></li>
