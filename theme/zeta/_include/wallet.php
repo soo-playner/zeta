@@ -34,7 +34,7 @@ $total_fund = $total_bonus;
 $total_withraw = $total_bonus - $total_shift_amt ;
 
 // 구매가능잔고 :: 입금액 - 구매금액 = 남은금액
-$available_fund = $total_deposit ;
+$available_fund = $total_deposit+$member['mb_shift_amt'];
 
 // 마이닝합계
 $mining_acc = $member['mb_mining_1'];
