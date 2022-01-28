@@ -556,7 +556,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: '목표해쉬: 300%',
+      text: '목표해시: 300%',
       style: {
         fontSize: '13px',
         color: '#999'
@@ -575,7 +575,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해쉬'],
+      categories: ['보너스 해시'],
     },
     yaxis: {
       max: 100
@@ -681,7 +681,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: '목표해쉬: 300%',
+      text: '목표해시: 300%',
       style: {
         fontSize: '13px',
         color: '#999'
@@ -700,7 +700,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해쉬'],
+      categories: ['보너스 해시'],
     },
     yaxis: {
       max: 100
@@ -807,7 +807,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: '목표해쉬: 300%',
+      text: '목표해시: 300%',
       style: {
         fontSize: '13px',
         color: '#999'
@@ -826,7 +826,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해쉬'],
+      categories: ['보너스 해시'],
     },
     yaxis: {
       max: 100
@@ -938,7 +938,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: '목표해쉬: 100%',
+      text: '목표해시: 100%',
       style: {
         fontSize: '13px',
         color: '#999'
@@ -957,7 +957,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해쉬'],
+      categories: ['보너스 해시'],
     },
     yaxis: {
       max: 100

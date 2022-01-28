@@ -212,11 +212,11 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <ul>
                                     <li class='col-4'>
                                         <h3><?=round_number($member['recom_mining'])?></h3>
-                                        <h6>메가풀 해쉬 </h6>
+                                        <h6>메가풀 해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=round_number($member['mb_rate']*300)?></h3>
-                                        <h6>목표해쉬 </h6>
+                                        <h6>목표해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=$recom_cnt?></h3>    
@@ -269,11 +269,11 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <ul>
                                     <li class='col-4'>
                                         <h3><?=round_number($member['brecom_mining'])?></h3>
-                                        <h6>제타풀 해쉬 </h6>
+                                        <h6>제타풀 해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=round_number($member['mb_rate']*300)?></h3>
-                                        <h6>목표해쉬 </h6>
+                                        <h6>목표해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=$brecom_cnt?></h3>    
@@ -293,7 +293,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <h3 class='mt10'><?=round_number($brecom_L['sales'])?></h3>
                                 <h6>매출</h6>
                                 <h3 class='mt10'><?=round_number($brecom_L['hash'])?></h3>
-                                <h6>해쉬 </h6>
+                                <h6>해시 </h6>
                             </div>
                         </div>
 
@@ -303,7 +303,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <h3 class='mt10'><?=round_number($brecom_R['sales'])?></h3>
                                 <h6>매출</h6>
                                 <h3 class='mt10'><?=round_number($brecom_R['hash'])?></h3>
-                                <h6>해쉬 </h6>
+                                <h6>해시 </h6>
                             </div>
                         </div>
                     </div>
@@ -331,11 +331,11 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <ul>
                                     <li class='col-4'>
                                         <h3><?=round_number($member['brecom2_mining'])?></h3>
-                                        <h6>제타+ 해쉬 </h6>
+                                        <h6>제타+ 해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=round_number($member['mb_rate']*300)?></h3>
-                                        <h6>목표해쉬 </h6>
+                                        <h6>목표해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=$brecom2_cnt?></h3>    
@@ -355,7 +355,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <h3 class='mt10'><?=round_number($brecom2_L['sales'])?></h3>
                                 <h6>매출</h6>
                                 <h3 class='mt10'><?=round_number($brecom2_L['hash'])?></h3>
-                                <h6>해쉬 </h6>
+                                <h6>해시 </h6>
                             </div>
                         </div>
 
@@ -365,7 +365,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <h3 class='mt10'><?=round_number($brecom2_R['sales'])?></h3>
                                 <h6>매출</h6>
                                 <h3 class='mt10'><?=round_number($brecom2_R['hash'])?></h3>
-                                <h6>해쉬 </h6>
+                                <h6>해시 </h6>
                             </div>
                         </div>
                     </div>
@@ -389,11 +389,11 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <ul>
                                     <li class='col-4'>
                                         <h3><?=round_number($member['super_mining'])?></h3>
-                                        <h6>슈퍼 해쉬 </h6>
+                                        <h6>슈퍼 해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=round_number($member['mb_rate']*100)?></h3>
-                                        <h6>목표해쉬 </h6>
+                                        <h6>목표해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=$super_info['cnt']?></h3>    
@@ -438,11 +438,11 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <!-- <ul>
                                     <li class='col-4'>
                                         <h3><?=round_number($member['my_mining'])?></h3>
-                                        <h6>슈퍼 해쉬 </h6>
+                                        <h6>슈퍼 해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=round_number($member['mb_rate']*100)?></h3>
-                                        <h6>목표해쉬 </h6>
+                                        <h6>목표해시 </h6>
                                     </li>
                                     <li  class='col-4'>
                                         <h3><?=$super_info['cnt']?></h3>    
@@ -460,7 +460,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <h3 class='mt10'><?=round_number($brecom2_L['sales'])?></h3>
                                 <h6>매출</h6>
                                 <h3 class='mt10'><?=round_number($brecom2_L['hash'])?></h3>
-                                <h6>해쉬 </h6>
+                                <h6>해시 </h6>
                             </div>
                         </div>
 
@@ -470,7 +470,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <h3 class='mt10'><?=round_number($brecom2_R['sales'])?></h3>
                                 <h6>매출</h6>
                                 <h3 class='mt10'><?=round_number($brecom2_R['hash'])?></h3>
-                                <h6>해쉬 </h6>
+                                <h6>해시 </h6>
                             </div>
                         </div> -->
                     </div>

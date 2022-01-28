@@ -29,7 +29,7 @@ if($member){
     <span class="header">회원</span>
     <span class="layer">대수</span>
     <span class='price'>매출금액</span>
-    <span class='rate'>보유해쉬</span>
+    <span class='rate'>보유해시</span>
 </li>
 </div>
 

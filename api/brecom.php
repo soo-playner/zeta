@@ -51,7 +51,7 @@ $html = "
     <span class='header'>회원</span>
     <span class='layer'>대수</span>
     <span class='price'>매출금액</span>
-    <span class='rate'>보유해쉬</span>
+    <span class='rate'>보유해시</span>
 </li>
 ";
 
@@ -79,7 +79,7 @@ function  excute($mb,$category){
             
             echo "<div class='box'>";
             echo "총매출 : <span class='f_blue'>". Number_format($brecom_info_lr_sales);
-            echo "</span>        |       <span class='f_red'>총해쉬 : ". Number_format($brecom_info_lr_hash);
+            echo "</span>        |       <span class='f_red'>총해시 : ". Number_format($brecom_info_lr_hash);
             echo "</span></div>";
 
             echo "<div class='dual left'><h3>L : </h3>";
