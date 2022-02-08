@@ -25,6 +25,15 @@ if($_GET['sst'] == "mb_bonus_total"){
 	$sub_sql = " , ((recom_mining + brecom_mining + brecom2_mining + super_mining)) as mb_bonus_total";
 }
 
+if($_GET['sst'] == "mb_bonus_total_rate"){
+	$sub_sql = " , ((recom_mining + brecom_mining + brecom2_mining + super_mining)/mb_rate) as mb_bonus_total_rate";
+}
+
+if($_GET['sst'] == "mining"){
+	$sub_sql = " , (mb_mining_1) as mining";
+}
+
+
 
 
 $sql_common = " {$sub_sql} from {$g5['member_table']} ";
@@ -131,12 +140,12 @@ function mining_bonus_rate($mb_id,$mb_rate){
 	$bonus_total_sql = "SELECT SUM(recom_mining + brecom_mining + brecom2_mining + super_mining) as total FROM g5_member WHERE mb_id = '{$mb_id}' ";
 	$bonus_total = sql_fetch($bonus_total_sql)['total'];
 
-	/* if($mb_rate > 0){
-		return Number_format($bonus_total / $mb_rate);
+	if($mb_rate > 0){
+		$bonus_rate_per =  Number_format($bonus_total / $mb_rate);
 	}else{
-		return 0;
-	} */
-	return $bonus_total;
+		$bonus_rate_per =  0;
+	}
+	return array($bonus_total,$bonus_rate_per);
 }
 
 function active_check($val, $target){
@@ -411,8 +420,9 @@ while($l_row = sql_fetch_array($get_lc)){
 		<th scope="col" id="mb_list_auth2" class="bonus_bb bonus_benefit"  rowspan="2"><?php echo subject_sort_link('mb_balance') ?> 수당합계</th>
 		<th scope="col" id="mb_list_auth2" class="bonus_aa"  rowspan="2"><?php echo subject_sort_link('mb_save_point') ?> 누적매출(PV)</th>
 		<th scope="col" id="mb_list_auth2" class=""  rowspan="2"><?php echo subject_sort_link('mb_rate') ?>마이닝 (MH/s)</th>
-		<th scope="col" id="mb_list_auth2" class="bonus_bb green"  rowspan="2">마이닝보유(<?=$minings[0]?>)</th>
-		<th scope="col" id="mb_list_auth2" class="bonus_aa" style='background:white !important'  rowspan="2"><?php echo subject_sort_link('mb_bonus_total') ?>마이닝총보너스(mh/s)</th>
+		<th scope="col" id="mb_list_auth2" class="bonus_bb green font_white"  rowspan="2"> <?php echo subject_sort_link('mining') ?> <span style='color:white'>마이닝보유(<?=$minings[0]?>)</span></th>
+		<th scope="col" id="mb_list_auth2" class="bonus_aa" style='background:white !important'  rowspan="2"><?php echo subject_sort_link('mb_bonus_total') ?>마이닝<br>총보너스 (mh/s)</th>
+		<th scope="col" id="mb_list_auth2" class="bonus_aa" style='background:white !important'  rowspan="2"><?php echo subject_sort_link('mb_bonus_total_rate') ?>마이닝<br>보너스율 (%)</th>
 		<th scope="col" rowspan="2" id="" class="item_title" style='min-width:50px;'>상위보유패키지</th>
 		<th scope="col" id="mb_list_authcheck" style='width:70px;' rowspan="2">상태/<?php echo subject_sort_link('mb_level', '', 'desc') ?>회원레벨</a></th>
 		<th scope="col" id="mb_list_member"><?php echo subject_sort_link('mb_today_login', '', 'desc') ?>최종접속</a></th>
@@ -520,6 +530,8 @@ while($l_row = sql_fetch_array($get_lc)){
 				$mb_certify_val = 'admin';
 				break;
 		}
+
+		list($total_mining,$total_mining_rate) = mining_bonus_rate($row['mb_id'],$row['mb_rate'])
 	?>
 
 
@@ -592,7 +604,8 @@ while($l_row = sql_fetch_array($get_lc)){
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_save_point']) ?></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_rate']) ?></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=shift_auto_zero($row[$mining_target],'eth')?> </td>
-		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=mining_bonus_rate($row['mb_id'],$row['mb_rate'])?></td>
+		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=$total_mining?></td>
+		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=$total_mining_rate?> %</td>
 		<td headers="mb_list_auth" class="text-center" style='width:40px;' rowspan="2"><span class='badge t_white color<?=$row['rank']?>' ><?if($row['rank']){echo 'P'.$row['rank'];}?></span></td>
 		
 		<!-- <?php /*$pack_array = package_have_return($row['mb_id']);*/ ?>
