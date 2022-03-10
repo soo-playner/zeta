@@ -27,9 +27,10 @@ $account_name = trim($_POST['account_name']);
 // $debug = 1;
 
 if($debug){
-	$mb_id = 'admin';
+	$mb_id = 'arcthan';
 	$func = 'withdraw';
-	$amt = 133333;
+	$amt = 100000;
+	$select_coin = '원';
 	$bank_name = '농협';
 	$account_name = '로그컴퍼니';
 	$bank_account = '123-456789-012';
@@ -44,15 +45,14 @@ $max_limit = $withdrwal_setting['amt_maximum'];
 $day_limit = $withdrwal_setting['day_limit'];
 
 // 출금가능금액 검증
-$withdrwal_total = floor($total_withraw/(1 + $fee*0.01));
+$withdrwal_total = floor($total_withraw);
 
 if($max_limit != 0 && ($total_withraw * $max_limit*0.01) < $withdrwal_total){
   $withdrwal_total = $total_withraw * ($max_limit*0.01);
 }
 
-
 $fee_calc = floor($amt*($fee*0.01)); // 수수료
-$in_amt = $amt + $fee_calc; // 실제출금 차감포인트
+$in_amt = $amt - $fee_calc; // 실제출금 차감포인트
 	
 
 //출금기록 확인
@@ -87,7 +87,7 @@ $fund_check_sql = "SELECT sum(mb_balance) as total from g5_member WHERE mb_id = 
 $fund_check_val = sql_fetch($fund_check_sql)['total'];
 
 
-if($fund_check_val < $amt + $fee_calc){
+if($fund_check_val < $amt){
 	echo (json_encode(array("result" => "Failed", "code" => "0002","sql"=>"Not sufficient account balance")));
 	return false;
 }
@@ -132,15 +132,15 @@ mb_id ='{$mb_id}'
 , bank_account = '{$bank_account}'
 , account_name = '{$account_name}'
 , account = '{$fund_check_val}'
-, amt ={$amt}
+, amt ={$in_amt}
 , fee = $fee_calc
 , fee_rate = {$fee}
-, amt_total = {$in_amt}
+, amt_total = {$amt}
 , coin = '{$select_coin}'
 , status = '0'
 , create_dt = '".$now_datetime."'
 , cost = '1'
-, out_amt = '{$amt}'
+, out_amt = '{$in_amt}'
 , od_type = '출금요청' ";
 
 
@@ -158,8 +158,8 @@ if($rst){
 	bank_name = '{$bank_name}'
 	, bank_account = '{$bank_account}'
 	, account_name = '{$account_name}'
-	, mb_deposit_calc = mb_deposit_calc - {$in_amt}
-	, mb_shift_amt = mb_shift_amt + {$in_amt}
+	, mb_deposit_calc = mb_deposit_calc - {$amt}
+	, mb_shift_amt = mb_shift_amt + {$amt}
 	where mb_id = '{$mb_id}' ";
 }
  

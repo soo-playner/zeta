@@ -29,7 +29,8 @@ $withdrwal_day_limit = $withdrwal_setting['day_limit'];
 
 
   // 수수료제외 실제 출금가능금액
-  $withdrwal_total = floor($total_withraw / (1 + $withdrwal_fee * 0.01));
+  $withdrwal_total = floor($total_withraw);
+
   if ($withdrwal_max_limit != 0 && ($total_withraw * $withdrwal_max_limit * 0.01) < $withdrwal_total) {
     $withdrwal_total = $total_withraw * ($withdrwal_max_limit * 0.01);
   }
@@ -322,11 +323,10 @@ $result_withdraw = sql_query($sql);
 
         <input type="text" id="sendValue" class="send_coin b_ghostwhite " placeholder="Enter Withdraw quantity" data-i18n='[placeholder]withdraw.출금 금액을 입력해주세요' inputmode="numeric">
         <label class='currency-right'><?= ASSETS_CURENCY ?></label>
-        <? if ($fee != 0) { ?>
-          <div class='fee'>
-            <span>출금 총액(+fee): </span><span id='fee_val'></span>
+        
+          <div class='fee' style='color:black;padding-right:3px;letter-spacing:-0.5px'>
+            <span>실 출금 금액(수수료 제외) : </span><span id='fee_val' style='color:red;margin-right:10px;font-size:14px;font-weight:bold'></span>
           </div>
-        <? } ?>
       </div>
 
       <div class="b_line5"></div>
@@ -454,7 +454,7 @@ $result_withdraw = sql_query($sql);
     // 출금금액 변경 
     function input_change() {
       var inputValue = $('#sendValue').val().replace(/,/g, '');
-      var fee_calc = Number(inputValue * out_fee) + Number(inputValue);
+      var fee_calc = Number(inputValue) - Number(inputValue * out_fee);
       result = parseFloat(fee_calc.toFixed());
       var fee_result = result.toLocaleString('ko-KR');
 
