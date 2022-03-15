@@ -254,14 +254,15 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 			<th style="width:7%;">출금요청액</th>
 			<th style="width:10%;">출금계산액(수수료)</th>
 
-			<th style="width:8%;">출금액 <span style='color:red'>(<?=WITHDRAW_CURENCY?>)</span></th>
+			<th style="width:7%;">출금액 <span style='color:red'>(<?=WITHDRAW_CURENCY?>)</span></th>
 			<th style="width:6%;">출금시세</th>
 			
 			<!-- <th style="width:5%;">적용코인시세</th> -->
 			
-			<th style="width:8%;">요청일시</th>
-			<th style="width:8%;">승인여부</th>
-			<th style="width:8%;">상태변경일</th>
+			<th style="width:6%;">요청일시</th>
+			<th style="width:6%;">승인여부</th>
+			<th style="width:6%;">상태변경일</th>
+			<th style="width:10%;">관리자메모</th>
 		</thead>
 
         <tbody>
@@ -340,6 +341,9 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 				<?if($row['update_dt'] != '0000-00-00 00:00:00'){
 					echo timeshift($row['update_dt']);
 				}else{echo '-';}?></td>
+				<td>
+					<textArea id='' class='admin_memo' name='memo' data-uid="<?=$row['uid']?>" data-category='bonus' ><?=$row['memo']?></textArea>
+				</td>
 			</tr>
 		<?}?>
 		</tbody>
@@ -373,6 +377,34 @@ if ($pagelist) {
 
 <script>
 $(function() {
+	$('.admin_memo').on('change',function(){
+
+		$contents = $(this).val();
+
+		$.ajax({
+			url: './adm.withdrawal.api.php',
+			type: 'POST',
+			cache: false,
+			async: false,
+			data: {
+				"contents": $contents,
+				"uid": $(this).data('uid'),
+				"category" : $(this).data('category')
+			},
+			dataType: 'json',
+			success: function(result) {
+				if (result.result == "success") {
+					
+				}else {
+					alert("정상처리되지 않았습니다.");
+				}
+			},
+			error: function(e) {
+				alert("정상처리되지 않았습니다.");
+			}
+		});
+	});
+
 	$('.copybutton').on('click',function(){
 		//commonModal("Address copy",'Your Wallet address is copied!',100);
 

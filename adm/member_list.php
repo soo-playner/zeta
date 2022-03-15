@@ -167,17 +167,28 @@ function out_check($val){
 }
 
 // 통계수치
-$stats_sql = "SELECT COUNT(*) as cnt, SUM(mb_deposit_point) AS deposit, SUM(mb_balance) AS balance, SUM(mb_save_point) AS pv, SUM(mb_mining_1) AS mining {$sql_common} {$sql_search}";
+$stats_sql = "SELECT COUNT(*) as cnt, 
+SUM(mb_deposit_point) AS deposit, 
+SUM(mb_balance) AS balance,
+SUM(mb_save_point) AS pv, 
+SUM(mb_mining_1) AS mining, 
+SUM(mb_deposit_point + mb_deposit_calc + mb_balance ) AS able_with, 
+SUM(mb_mining_1 - mb_mining_1_amt) AS able_mining   
+{$sql_common} {$sql_search}";
 $stats_result = sql_fetch($stats_sql);
 ?>
 
 <style>
 .local_ov strong{color:red; font-weight:600;}
-.local_ov .tit{color:black; font-weight:600;}
+.local_ov{color:#777; font-weight:500;line-height:20px;}
 .local_ov a{margin-left:20px;}
+.local_ov span{margin-left:10px;padding-right:5px;}
+.local_ov .bonus{margin-top:5px; border-left:3px solid green; background:white;display:inline-block;padding:3px 5px;border-radius: 5px;color:black;box-shadow: 0 1px 2px rgba(0,0,0,0.5);}
+.local_ov .bonus.mining{border-left:3px solid purple;margin-left:10px;}
 select#sfl{padding:9px 10px;}
 #stx{padding:5px;}
 .local_sch .btn_submit{width:80px;height:33px;}
+.f_blue{color:blue !important;font-weight:600}
 </style>
 
 <div class="local_ov01 local_ov">
@@ -185,10 +196,14 @@ select#sfl{padding:9px 10px;}
 	총회원수 <strong><?php echo number_format($total_count) ?></strong>명|
 	<?
 		if($member['mb_id'] == 'admin'){
-			echo "<span style='padding-left:10px;'>회원 총 입금 합계 <strong>".Number_format($stats_result['deposit'])."</strong></span> | ";
-			echo "<span style='padding-left:10px;'>회원 총 매출(pv) 합계 <strong>".Number_format($stats_result['pv'])."</strong></span> | ";
-			echo "<span style='padding-left:10px;'>회원 총 수당 합계 <strong>".Number_format($stats_result['balance'])."</strong></span> | ";
-			echo "<span style='padding-left:10px;'>회원 총 마이닝 보유 합계 <strong>".Number_format($stats_result['mining'],8)." ETH </strong></span> | ";
+			echo "<span >총 입금 합계 <strong>".Number_format($stats_result['deposit'])."</strong></span> | ";
+			echo "<span>총 매출(pv) 합계 <strong>".Number_format($stats_result['pv'])."</strong></span><br> ";
+			
+			echo "<div class='bonus'>보너스<span> 보유량 : <strong>".Number_format($stats_result['balance'])."</strong></span> | ";
+			echo "<span>출금 가능 : <span class='f_blue'>".Number_format($stats_result['able_with'])." 원  </span></span></div>  ";
+
+			echo "<div class='bonus mining'>마이닝<span>보유량 : <strong>".Number_format($stats_result['mining'],8)." ETH </strong></span> | ";
+			echo "<span>출금 가능 : <span class='f_blue'>".Number_format($stats_result['able_mining'],8)." ETH </span></span></div> ";
 		}
 	?>
 	
