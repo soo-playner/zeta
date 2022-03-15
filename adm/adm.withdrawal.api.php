@@ -5,7 +5,7 @@
     $uid = $_POST['uid'];
     $contents = $_POST['contents'];
 
-    if($uid && $category && strlen($contents)>0){
+    if($uid && $category){
         
         if($category == 'bonus'){
             $target = 'wallet_withdrawal_request';
