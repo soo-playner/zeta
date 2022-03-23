@@ -21,7 +21,7 @@ if(G5_COMMUNITY_USE === false) {
 <hr>
 
 <!-- 하단 시작 { -->
-<div id="ft">
+<!-- <div id="ft">
 
     <?php /*echo popular('theme/basic');*/ // 인기검색어, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정  ?>
     <?php /*echo visit('theme/basic');*/ // 접속자집계, 테마의 스킨을 사용하려면 스킨을 theme/basic 과 같이 지정 ?>
@@ -38,7 +38,7 @@ if(G5_COMMUNITY_USE === false) {
             <a href="#hd" id="ft_totop">상단으로</a>
         </div>
     </div>
-</div>
+</div> -->
 
 <?php
 if(G5_DEVICE_BUTTON_DISPLAY && !G5_IS_MOBILE) { ?>

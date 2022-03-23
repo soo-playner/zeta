@@ -34,7 +34,7 @@ $query_string = $qstr ? '?'.$qstr : '';
 
 <div class="sch_last" style="margin-left:20px">
     <strong>멤버아이디</strong>
-    <input type="text" name="fr_id" value="<?php echo $fr_id ?>" id="fr_id" class="frm_input" size="15" style="width:120px" maxlength="10">
+    <input type="text" name="fr_id" value="<?php echo $fr_id ?>" id="fr_id" class="frm_input" style="width:140px" maxlength="30">
     <label for="fr_id" class="sound_only">회원아이디</label>
 </div>
 
