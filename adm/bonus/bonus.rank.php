@@ -525,20 +525,25 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                         $brecom2_info_lr_sales = $brecom2_info_l_sales + $brecom2_info_r_sales;
                         $brecom2_cnt = $cnt2_l + $cnt2_r;
 
+                        $mining_total_sql = "SELECT format(SUM(mining),8) as mining from soodang_mining WHERE mb_id = '{$mb_id}' AND day = '{$bonus_day}' ";
+                        $mining_total = sql_fetch($mining_total_sql)['mining'];
+
                         if($debug){
-                        echo "<code>";
-                        // print_R($mem_result_l);
-                        echo "<br>////////// 후원 10대<br>";
-                        echo "SALES L:".$brecom_info_l_sales;
-                        echo "<br>";
-                        echo "hash L:".$brecom_info_l_hash;
-                        echo "<br><br>";
-                        // print_R($mem_result_r);
-                        echo "<br>";
-                        echo "SALES R:".$brecom_info_r_sales;
-                        echo "<br>";
-                        echo "hash R:".$brecom_info_r_hash;
-                        echo "</code>"; 
+                            echo "<code>";
+                            // print_R($mem_result_l);
+                            echo "<br>////////// 후원 10대<br>";
+                            echo "SALES L:".$brecom_info_l_sales;
+                            echo "<br>";
+                            echo "hash L:".$brecom_info_l_hash;
+                            echo "<br>";
+                            // print_R($mem_result_r);
+                            echo "<br>";
+                            echo "SALES R:".$brecom_info_r_sales;
+                            echo "<br>";
+                            echo "hash R:".$brecom_info_r_hash;
+                            echo "<br>";
+                            echo "mining_total : ".$mining_total;
+                            echo "</code>"; 
                         }
                         
                         if($recom_info_sales > 0){
@@ -592,7 +597,8 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                                 'zeta', {$row['brecom_mining']},
                                 'zetaplus', {$row['brecom2_mining']},
                                 'super', {$row['super_mining']},
-                                'all', {$all_hash}
+                                'all', {$all_hash},
+                                'mining_total' , {$mining_total}
                             ))";
 
                             if($debug){
