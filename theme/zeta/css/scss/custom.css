@@ -5,6 +5,7 @@
 }
 
 .b_main {
+  background: -webkit-gradient(linear, left bottom, left top, from(#6214ab), to(#8734d4)) !important;
   background: linear-gradient(0deg, #6214ab, #8734d4) !important;
   color: #fff !important;
 }
@@ -14,11 +15,13 @@
 }
 
 .b_sub {
+  background: -webkit-gradient(linear, left bottom, left top, from(#1e5ab9), to(#3b86ff)) !important;
   background: linear-gradient(0deg, #1e5ab9, #3b86ff) !important;
   color: #fff !important;
 }
 
 .b_third {
+  background: -webkit-gradient(linear, left bottom, left top, from(#1a1a1a), to(#343434)) !important;
   background: linear-gradient(0deg, #1a1a1a, #343434) !important;
   color: #fff !important;
 }
@@ -29,13 +32,17 @@
 
 a.btn_secondary, .btn_secondary {
   color: black;
+  background: -webkit-gradient(linear, right top, left top, from(rgba(255, 255, 255, 0.6)), to(white));
   background: linear-gradient(to left, rgba(255, 255, 255, 0.6), white);
   border: 2px solid rgba(255, 255, 255, 0.85);
   border-radius: 8px;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
 }
+
 a.btn_secondary:hover, .btn_secondary:hover {
   color: black;
+  background: -webkit-gradient(linear, right top, left top, from(#fff), to(#fff));
   background: linear-gradient(to left, #fff, #fff);
   border: 2px solid white;
 }
@@ -44,21 +51,28 @@ a.btn_primary, .btn_primary, .btn.btn_primary {
   border: none;
   color: white;
   border-radius: 8px;
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  background: -webkit-gradient(linear, left top, right top, from(#37d2fd), to(#c73bda));
   background: linear-gradient(90deg, #37d2fd, #c73bda);
+  -webkit-transition: all 1s;
   transition: all 1s;
 }
+
 a.btn_primary:hover, .btn_primary:hover, .btn.btn_primary:hover {
   color: white;
+  background: -webkit-gradient(linear, left top, right top, from(#37d2fd), to(#37d2fd));
   background: linear-gradient(90deg, #37d2fd, #37d2fd);
 }
 
 a.btn_cancle, .btn_cancle {
-  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
   color: black;
   border-radius: 8px;
   background: #ccc;
 }
+
 a.btn_cancle:hover, .btn_cancle:hover {
   color: #8734d4;
   background: white;
@@ -80,13 +94,16 @@ a.btn_cancle:hover, .btn_cancle:hover {
 .history_latest {
   line-height: 24px;
 }
+
 .history_latest .card_title {
   margin-bottom: 15px;
 }
+
 .history_latest .category {
   padding: 0 10px;
   font-size: 12px;
 }
+
 .history_latest .price {
   color: #3b86ff;
   font-size: 13px;
@@ -97,12 +114,15 @@ a.btn_cancle:hover, .btn_cancle:hover {
   line-height: 24px;
   font-size: 12px;
 }
+
 .regist_latest span {
   vertical-align: middle;
 }
+
 .regist_latest .card_title {
   margin-bottom: 15px;
 }
+
 .regist_latest .id {
   font-size: 14px;
   display: inline-block;
@@ -110,6 +130,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   font-weight: 600;
   margin: 0 10px;
 }
+
 .regist_latest .badge {
   font-weight: 500;
 }
@@ -188,6 +209,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   border-radius: 15px;
   margin: 0;
 }
+
 .adm_btn i {
   font-size: 16px;
   margin-right: 3px;
@@ -201,26 +223,47 @@ a.btn_cancle:hover, .btn_cancle:hover {
   text-align: center;
   display: block;
   border-radius: 50%;
-  _box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
 }
+
 .user_icon i {
   font-weight: 300;
 }
+
 .user_icon.lv0 {
   color: white;
 }
+
 .user_icon.lv1 {
   background: #2b3a6d;
   color: white;
 }
+
 .user_icon.lv2 {
-  background: #2b3a6d;
+  background: #61b5ff;
+  color: #1a4158;
+}
+
+.user_icon.lv3 {
+  background: red;
+  color: white;
+}
+
+.user_icon.lv4 {
+  background: green;
+  color: white;
+}
+
+.user_icon.lv5 {
+  background: black;
   color: gold;
 }
-.user_icon.lv3 {
-  background: #2b3a6d;
-  color: #40d0fb;
+
+.user_icon.lv9 {
+  background: black;
+  color: white;
 }
+
 .user_icon.lv10 {
-  color: black;
+  background: black;
+  color: white;
 }

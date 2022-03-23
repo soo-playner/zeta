@@ -111,69 +111,67 @@ function coin_prices($income,$category = 'cost'){
 }
 
 //회원 레벨 
-$member_level_array = array('일반회원','정회원','센터회원','인정회원','정회원','','','','','관리자','슈퍼관리자');
+$member_level_array = array('일반회원','정회원','센터','인정회원','정회원','','','','','관리자','슈퍼관리자');
 
 
-/* 회원분류(등급 - level)*/
-// $user_icon  = "<img src='".G5_THEME_URL."/img/user.png' alt='user'>";
 $user_icon ="<span class='user_icon lv0'><i class='ri-vip-crown-line'></i></span>";
 
 // 기본 회원가입시 0 LEVEL
-if($member['mb_level'] == 1){
-	// $user_icon  = "<img src='".G5_THEME_URL."/img/user_general.png' alt='user'>";
-	$user_icon ="<span class='user_icon lv1'><i class='ri-vip-crown-line'></i></span>";
+$user_level = $member_level_array[$member['mb_level']];
+
+if ($member['mb_level'] == 1) {
+	$user_icon = "<span class='user_icon lv1'><i class='ri-vip-crown-line'></i></span>";
+} else if ($member['mb_level'] == 2) {
+	$user_icon = "<span class='user_icon lv2'><i class='ri-team-fill'></i></span>";
+} else if ($member['mb_level'] == 3) {
+	$user_icon = "<span class='user_icon lv3'><i class='ri-community-line'></i></span>";
+} else if ($member['mb_level'] == 4) {
+	$user_icon = "<span class='user_icon lv4'><i class='ri-building-2-line'></i></span>";
+} else if ($member['mb_level'] == 5) {
+	$user_icon = "<span class='user_icon lv5'><i class='ri-government-line'></i></span>";
+}else if($member['mb_level'] >8){
 	$user_level = $member_level_array[$member['mb_level']];
-
-}else if($member['mb_level'] == 2 && $member['center_use'] != ''){
-	$user_level = $member_level_array[$member['mb_level']];
-	$user_icon ="<span class='user_icon lv2'><i class='ri-vip-crown-line'></i></span>";
-
-}else if($member['mb_level'] > 9){
-	$user_level = $member_level_array[9];
-	// $user_icon  = "<img src='".G5_THEME_URL."/img/user_admin.png' alt='user'>";
-	$user_icon ="<span class='user_icon lv10'><i class='ri-vip-crown-line'></i></span>";
-
+	$user_icon = "<span class='user_icon lv9'><i class='ri-user-settings-line'></i></span>";
 }else{
-	$user_level = $member_level_array[$member['mb_level']];
-	
+	$user_icon = "<span class='user_icon lv0'><i class='ri-vip-crown-line'></i></span>";
 }
 
 
-function user_icon($id,$func){
-	global $g5,$member_level_array;
+function user_icon($id, $func)
+{
+	global $g5, $member_level_array;
 
 	$mb_sql = "SELECT * from g5_member WHERE mb_id = '{$id}' ";
 	$result = sql_fetch($mb_sql);
 	$mb_level = $result['mb_level'];
-	// $user_icon  = "<img src='".G5_THEME_URL."/img/user.png' alt='user'>";
-	$user_icon ="<span class='user_icon lv0'><i class='ri-vip-crown-line'></i></span>";
+	$user_icon = "<span class='user_icon lv0'><i class='ri-vip-crown-line'></i></span>";
 	$user_level = $member_level_array[$mb_level];
 
-	if($mb_level > 0){
-		// $user_icon  = "<img src='".G5_THEME_URL."/img/user_general.png' alt='user'>";
-		$user_icon ="<span class='user_icon lv1'><i class='ri-vip-crown-line'></i></span>";
+	if ($mb_level > 0) {
+		$user_icon = "<span class='user_icon lv1' title='".$member_level_array[1]."'><i class='ri-vip-crown-line'></i></span>";
 	}
-	if($mb_level == 2){
-		// $user_icon  = "<img src='".G5_THEME_URL."/img/user_2.png' alt='user'>";
-		$user_icon ="<span class='user_icon lv2'><i class='ri-vip-crown-line'></i></span>";
+	if ($mb_level == 2) {
+		$user_icon = "<span class='user_icon lv2' title='".$member_level_array[2]."'><i class='ri-team-fill'></i></span>";
 	}
-	if($mb_level == 3){
-		// $user_icon  = "<img src='".G5_THEME_URL."/img/user_3.png' alt='user'>";
-		// $user_icon  = "<img src='".G5_THEME_URL."/img/user_general.png' alt='user'>";
-		$user_icon ="<span class='user_icon lv3'><i class='ri-vip-crown-line'></i></span>";
+	if ($mb_level == 3) {
+		$user_icon = "<span class='user_icon lv3' title='".$member_level_array[3]."'><i class='ri-community-line'></i></span>";
 	}
-	if($mb_level > 9){
-		// $user_icon  = "<img src='".G5_THEME_URL."/img/user_admin.png' alt='user'>";
-		$user_icon ="<span class='user_icon lv10'><i class='ri-vip-crown-line'></i></span>";
+	if ($mb_level == 4) {
+		$user_icon = "<span class='user_icon lv4' title='".$member_level_array[4]."'><i class='ri-building-2-line'></i></span>";
+	}
+	if ($mb_level == 5) {
+		$user_icon = "<span class='user_icon lv5' title='".$member_level_array[5]."'><i class='ri-government-line'></i></span>";
+	}
+	if ($mb_level > 8) {
+		$user_icon = "<span class='user_icon lv9' title='".$member_level_array[9]."'><i class='ri-user-settings-line'></i></span>";
 	}
 
 
-	if($func == 'icon'){
+	if ($func == 'icon') {
 		return $user_icon;
-	}else{
+	} else {
 		return $user_level;
 	}
-	
 }
 
 /* 회원직급(grade)*/
@@ -193,6 +191,17 @@ function get_name($id){
 	$result = sql_fetch($mb_sql);
 
 	if($result && $result['mb_nick'] != ''){return $result['mb_nick'];}else{return ' - ';}
+}
+
+// 이름 + 닉네임
+function express_nick_name($mb_id){
+	$mb = sql_fetch("SELECT mb_nick,mb_name FROM g5_member WHERE mb_id = '{$mb_id}' ");
+	
+	if($mb) {
+		return $mb['mb_name']."[".$mb['mb_nick']."]";
+	}else{
+		return '';
+	}
 }
 
 
