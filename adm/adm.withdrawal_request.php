@@ -356,12 +356,11 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 			<tfoot>
 				<td>합계:</td>
 				<td><?= $total_count ?></td>
-				<td colspan=2></td>
-				<td colspan=1><?= shift_doller($total_amt) ?></td>
-				<td><?= shift_doller($total_fee) ?></td>
-				<td colspan=1></td>
-				<td colspan=1><?= shift_auto($total_out) ?></td>
 				<td colspan=4></td>
+				<td colspan=1><?= shift_auto($total_amt) ?></td>
+				<td><?= shift_auto($total_fee) ?></td>
+				<td colspan=1><?= shift_auto($total_out) ?></td>
+				<td colspan=5></td>
 			</tfoot>
 		</table>
 	</div>

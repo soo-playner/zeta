@@ -55,7 +55,7 @@ echo "<br><br>"; */
 
 
 
-$rows = 10;
+$rows = 20;
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
@@ -246,13 +246,13 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 			<!-- <th style="width:3%;">선택</th> -->
 			<th style="width:4%;"><a href="?ord=<?php echo $ord_rev; ?>&ord_word=uid">No <?php echo $ord_arrow[$ord_key]; ?></a></th>
 			<th style="width:5%;">아이디 </th>
-			<!-- <th style="width:5%;">하부추천인</th> -->
+			<th style="width:5%;">이름</th>
 			<th style="width:auto">출금정보</th>
 
-			<th style="width:8%;">출금신청단위</th>
+			<th style="width:5%;">출금신청단위</th>
 			<th style="width:5%;">출금전잔고</th>
 			<th style="width:7%;">출금요청액</th>
-			<th style="width:10%;">출금계산액(수수료)</th>
+			<th style="width:8%;">출금계산액(수수료)</th>
 
 			<th style="width:7%;">출금액 <span style='color:red'>(<?=WITHDRAW_CURENCY?>)</span></th>
 			<th style="width:6%;">출금시세</th>
@@ -261,7 +261,7 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 			
 			<th style="width:6%;">요청일시</th>
 			<th style="width:6%;">승인여부</th>
-			<th style="width:6%;">상태변경일</th>
+			<th style="width:5%;">상태변경일</th>
 			<th style="width:10%;">관리자메모</th>
 		</thead>
 
@@ -285,7 +285,7 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 				<td><?=$row['uid']?></td>
 				<td><a href='/adm/member_form.php?w=u&mb_id=<?=$row['mb_id']?>'><?=$row['mb_id']?></a></td>
 				<input type="hidden" value="<?=$row['mb_id']?>" name="mb_id[]">
-				<!-- <td><?=$mb['mb_child']?></td> -->
+				<td><?=$mb['mb_name']?></td>
 				
 				<td>
 				<?php if($row['addr'] == ''){?>
@@ -351,12 +351,11 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 		<tfoot>
 			<td>합계:</td>
 			<td><?=$total_count?></td>
-			<td colspan=2></td>
+			<td colspan=4></td>
 			<td colspan=1><?=shift_auto($total_amt,'eth')?></td>
 			<td><?=shift_auto($total_fee,'eth')?></td>
-			<td colspan=1></td>
 			<td colspan=1><?=shift_auto($total_out,'eth')?></td>
-			<td colspan=4></td>
+			<td colspan=5></td>
 		</tfoot>
     </table>
 </div>
