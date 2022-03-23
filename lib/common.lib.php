@@ -762,7 +762,7 @@ function get_member($mb_id, $fields='*')
 // 제목별로 컬럼 정렬하는 QUERY STRING
 function subject_sort_link($col, $query_string='', $flag='asc')
 {
-	global $sst, $sod, $sfl, $stx, $page;
+	global $sst, $sod, $sfl, $stx, $page, $view;
 
 	$q1 = "sst=$col";
 	if ($flag == 'asc')
@@ -795,11 +795,26 @@ function subject_sort_link($col, $query_string='', $flag='asc')
 	$arr_query[] = 'sfl='.$sfl;
 	$arr_query[] = 'stx='.$stx;
 	$arr_query[] = 'page='.$page;
+	$arr_query[] = 'view='.$view;
 	$qstr = implode("&amp;", $arr_query);
 
 	return "<a href=\"{$_SERVER['SCRIPT_NAME']}?{$qstr}\">";
 }
 
+function get_db_create_replace($sql_str){
+
+    if( in_array(strtolower(G5_DB_ENGINE), array('innodb', 'myisam')) ){
+        $sql_str = preg_replace('/ENGINE=MyISAM/', 'ENGINE='.G5_DB_ENGINE, $sql_str);
+    } else {
+        $sql_str = preg_replace('/ENGINE=MyISAM/', '', $sql_str);
+    }
+
+    if( G5_DB_CHARSET !== 'utf8' ){
+        $sql_str = preg_replace('/CHARSET=utf8/', 'CHARACTER SET '.get_db_charset(G5_DB_CHARSET), $sql_str);
+    }
+
+    return $sql_str;
+}
 
 // 관리자 정보를 얻음
 function get_admin($admin='super', $fields='*')
