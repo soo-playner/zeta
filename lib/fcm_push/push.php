@@ -1,5 +1,5 @@
 <?php
-function setPushData($title, $words, $fcmToken,$image = null)
+function setPushData2($title, $words, $fcmToken,$image = null)
 { // push에 담을 데이터
     global $config;
     
@@ -23,21 +23,64 @@ function setPushData($title, $words, $fcmToken,$image = null)
     $apns = array();
     $apns['payload']['aps']['mutable-content'] = 1;
     $apns['fcm_options']['image'] = $image; */
-    $tokens[0] = $fcmToken;
+    $tokens = $fcmToken;
+    
 
     // 전송을 진행합니다
     $fields = array("registration_ids" => $tokens, "notification" => $notification);
     $headers = array("Authorization:key=" . $apiKey, "Content-Type: application/json");
-
+    
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST,"POST"); 
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-
-    curl_exec($ch);
+    
+    
+    $response = curl_exec($ch); 
+    //Close request 
+    if ($response === FALSE) { die('FCM Send Error: ' . curl_error($ch)); } 
     curl_close($ch);
+}
+
+function setPushData($title, $words, $fcmToken,$image = null){
+    global $config;
+    
+    $url = "https://fcm.googleapis.com/fcm/send";
+    $token = $fcmToken;
+    $serverKey = $config['cf_fcm_api_key'];
+
+    $title = $title; // push 일림창의 제목
+    $message = $words; // push 알림창의 제목 밑 메시지
+    
+    $notification = array();
+    $notification['title'] = $title;
+    $notification['body'] = $message;
+    $notification['image'] = $image;
+
+    // $notification = array('title' =>$title , 'text' => $body, 'sound' => 'default', 'badge' => '1'); 
+    $arrayToSend = array('to' => $token, 'notification' => $notification,'priority'=>'high'); 
+    $json = json_encode($arrayToSend); 
+    
+    $headers = array(); 
+    $headers[] = 'Content-Type: application/json'; 
+    $headers[] = 'Authorization: key='. $serverKey; 
+
+    $ch = curl_init(); 
+    curl_setopt($ch, CURLOPT_URL, $url); 
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST,"POST"); 
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $json); 
+    curl_setopt($ch, CURLOPT_HTTPHEADER,$headers); 
+
+    //Send the request 
+    $response = curl_exec($ch); 
+
+    //Close request 
+    if ($response === FALSE) { die('FCM Send Error: ' . curl_error($ch)); } 
+    curl_close($ch);
+
 }

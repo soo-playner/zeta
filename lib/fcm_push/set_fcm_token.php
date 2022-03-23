@@ -8,8 +8,7 @@ echo "<script>javascript:App.setFcmToken('{$userId}','{$userPwd}');</script>";
 ?>
 
 
-<!-- 회원가입 또는 대쉬보드에 추가 
-<?php if(strpos($_SERVER['HTTP_USER_AGENT'],'webview//1.0') == true){ ?>;
+<!-- 회원가입 또는 대쉬보드에 추가--> 
+<?php if(strpos($_SERVER['HTTP_USER_AGENT'],'webview//1.0') == true){ ?>
 	<script>App.setFcmToken('<?=$member['mb_id']?>');</script> 
 <?php } ?> 
--->
