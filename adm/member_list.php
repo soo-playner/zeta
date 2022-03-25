@@ -360,13 +360,22 @@ select#sfl{padding:9px 10px;}
 
 
 <!--member_list_excel.php로 넘길 회원엑셀다운로드 데이터-->
-<form name="myForm" action="../excel/member_list_excel.php" method="post">
+<!-- <form name="myForm" action="../excel/member_list_excel.php" method="post">
 <input type="hidden" name="sql_common" value="<?php echo $sql_common ?>" />
 <input type="hidden" name="sql_search" value="<?php echo $sql_search ?>" />
 <input type="hidden" name="sql_order" value="<?php echo $sql_order ?>" />
 <input type="hidden" name="from_record" value="<?php echo $from_record ?>" />
 <input type="hidden" name="rows" value="<?php echo $rows ?>" />
-</form>
+</form> -->
+
+
+<!-- "excel download" -->
+
+<script src="/excel/tabletoexcel/xlsx.core.min.js"></script>
+<script src="/excel/tabletoexcel/FileSaver.min.js"></script>
+<script src="/excel/tabletoexcel/tableexport.js"></script>
+
+
 
 
 <?php if ($is_admin == 'super') { ?>
@@ -376,7 +385,7 @@ select#sfl{padding:9px 10px;}
 	<a href="./member_table_depth.php" id="member_depth">회원추천관계갱신</a>
 	<!-- <a href="./member_table_sponsor.php" style='background:antiquewhite'>추천상위스폰서갱신</a> -->
 	<a href="./member_form.php" id="member_add">회원직접추가</a>
-	<a href="../excel/excel_with_eth.php">회원엑셀다운로드</a> 
+	<a id="btnExport">회원엑셀다운로드</a> 
 	<!-- <a href="#" onclick="javascript:document.myForm.submit();">회원엑셀다운로드</a>
 	<a href="../excel/all_member_list_excel.php">전체회원엑셀다운로드</a>  -->
 </div>
@@ -395,11 +404,11 @@ while($l_row = sql_fetch_array($get_lc)){
 }?>
 </div>
 
-<div class="local_desc01 local_desc">
+<!-- <div class="local_desc01 local_desc">
     <p>
-		<!-- - 인정회원의 정회원 전환은 인정회원 아래의 정회원으로 변경 사용 (표시는 같음). -->
+		- 인정회원의 정회원 전환은 인정회원 아래의 정회원으로 변경 사용 (표시는 같음).
 	</p>
-</div>
+</div> -->
 
 <form name="fmemberlist" id="fmemberlist" action="./member_list_update.php" onsubmit="return fmemberlist_submit(this);" method="post">
 <input type="hidden" name="sst" value="<?php echo $sst ?>">
@@ -409,8 +418,8 @@ while($l_row = sql_fetch_array($get_lc)){
 <input type="hidden" name="page" value="<?php echo $page ?>">
 <input type="hidden" name="token" value="">
 
-<div class="tbl_head02 tbl_wrap" style="clear:both">
-	<table>
+<div class="tbl_head02 tbl_wrap"  style="clear:both">
+	<table id='table'>
 	<caption><?php echo $g5['title']; ?> 목록</caption>
 	
 	<thead>
@@ -742,6 +751,12 @@ $('#excel_btn').on("click", function () {
 	window.open("/excel/metal.php?s_date="+s_date+"&e_date="+e_date+"&idx_num="+idx_num+"&idx=<?=$idx?>");
 });
 
+$(document).ready(function(){
+	$("#btnExport").on('click',function(){
+		$("#table").tableExport({type:'excel'});
+	})
+
+});
 
 </script>
 
