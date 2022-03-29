@@ -172,31 +172,6 @@ $(function(){
 
 </script>
 
-<!-- 
-<form name="fsearch" id="fsearch" class="local_sch01 local_sch" action="./withdrawal_batch.php" method="GET">
-
-	아이디검색 
-	<input type="text" name="id" placeholder="id" class="frm_input" value="<?=$_GET['id']?>" />
-
-	| 상태값 검색 : 
-	<select name="status" id="status" style="width:100px;">
-		<option value="">전체</option>
-		<option <?=$_GET['status'] == '0' ? 'selected':'';?> value="0">요청</option>
-		<option <?=$_GET['status'] == '1'? 'selected':'';?> value="1">승인</option>
-		<option <?=$_GET['status'] == '2'? 'selected':'';?> value="2">대기</option>
-		<option <?=$_GET['status'] == '3'? 'selected':'';?> value="3">불가</option>
-		<option <?=$_GET['status'] == '4'? 'selected':'';?> value="4">취소</option>
-	</select>
-	
-	| 요청일시 :
-	<input type="text" name="create_dt_fr" id="create_dt_fr" placeholder="요청일시" class="frm_input" value="<?=$_GET['create_dt_fr']?>" />
-	<input type="text" name="create_dt_to" id="create_dt_to" placeholder="요청일시" class="frm_input" value="<?=$_GET['create_dt_to']?>" />
-
-	| 승인일시 :
-	<input type="text" name="update_dt" id="update_dt" placeholder="승인일시" class="frm_input" value="<?=$_GET['update_dt']?>" />
-	<input type="submit" class="btn_submit" value="검색" style="width:100px;"/>
-</form>
-<br><br> -->
 <input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_mining_withdrawal' value="엑셀 다운로드" />
 
 <div class="local_ov01 local_ov" style="line-height:18px;">
@@ -207,7 +182,7 @@ $(function(){
 		$stats_result = sql_query($stats_sql);
 
 		while($stats = sql_fetch_array($stats_result)){
-			echo "<a href='./adm.withdrawal_request.php?".$qstr."&status=".$stats['status']."'><span class='tit'>";
+			echo "<a href='./adm.withdrawal_request_mining.php?".$qstr."&status=".$stats['status']."'><span class='tit'>";
 			echo return_status_tx($stats['status']);
 			echo "</span> : ".$stats['cnt'];
 			echo "건 = <strong>".shift_auto($stats['hap'],$minings[0]).' '.$minings[0]."</strong></a>";
