@@ -546,7 +546,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                             echo "</code>"; 
                         }
                         
-                        if($recom_info_sales > 0){
+                        
                             /* echo "<code>";
                             echo "<br>해쉬 : ".$row['mb_rate'];
                             echo "<br>메가풀 : ".$row['recom_mining'];
@@ -607,7 +607,7 @@ echo "<div class='btn' onclick='bonus_url();'>돌아가기</div>";
                                 sql_query( $recom_info_data );
                             }
                             
-                        }
+                        
                         
                         /* if($recom_week_sales){
                             $sum_sale = array_sum($recom_week_sales);
