@@ -55,7 +55,7 @@ echo "<br><br>"; */
 
 
 
-$rows = 20;
+$rows = 100;
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
@@ -90,6 +90,10 @@ function return_status_tx($val){
 </style>
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link href="<?=G5_ADMIN_URL?>/css/scss/adm.withdrawal_request.css" rel="stylesheet">
+
+<script src="../excel/tabletoexcel/xlsx.core.min.js"></script>
+<script src="../excel/tabletoexcel/FileSaver.min.js"></script>
+<script src="../excel/tabletoexcel/tableExport.js"></script>
 
 <script>
 	$(function(){
@@ -193,7 +197,8 @@ $(function(){
 	<input type="submit" class="btn_submit" value="검색" style="width:100px;"/>
 </form>
 <br><br> -->
- <input type="button" class="btn_submit excel" value="엑셀 다운로드" onclick="window.location.href='../excel/withdrawal_request_excel_down.php?excel_sql=<?=urlencode($excel_query)?>'" />	  
+<input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_mining_withdrawal' value="엑셀 다운로드" />
+
 <div class="local_ov01 local_ov" style="line-height:18px;">
 	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=shift_auto($total_out,$minings[0])?> <?=strtoupper($minings[0])?> </strong></a> 
 	<?
@@ -241,7 +246,7 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 <form name="site" method="post" action="" enctype="multipart/form-data" style="margin:0px;" id="form">
 <div class="adminWrp">
 	<!--<button type="button" class="total_right btn_submit btn2" style="padding:5px 15px; margin-left:20px; " onclick="location.href='./delete_db_sol.php?id=with'">초기화</button>-->
-	<table cellspacing="0" cellpadding="0" border="0" class="regTb">
+	<table cellspacing="0" cellpadding="0" border="0" class="regTb" id='table'>
 		<thead>
 			<!-- <th style="width:3%;">선택</th> -->
 			<th style="width:4%;"><a href="?ord=<?php echo $ord_rev; ?>&ord_word=uid">No <?php echo $ord_arrow[$ord_key]; ?></a></th>

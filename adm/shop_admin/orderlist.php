@@ -156,6 +156,9 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
     .cancle_log_btn{border-radius: 0;}
 </style>
 <link rel="stylesheet" href="/adm/css/scss/admin_custom.css">
+<script src="../../excel/tabletoexcel/xlsx.core.min.js"></script>
+<script src="../../excel/tabletoexcel/FileSaver.min.js"></script>
+<script src="../../excel/tabletoexcel/tableExport.js"></script>
 
 <form name="frmorderlist" class="local_sch01 local_sch">
 <input type="hidden" name="doc" value="<?php echo $doc; ?>">
@@ -185,6 +188,7 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
 <!-- 구매상품 : 
 <input type="text" name="od_name" value="<?php echo $od_name; ?>" id="od_name" class="required frm_input"> -->
 <input type="submit" value="검색" class="btn_submit">
+
 
 </form>
 
@@ -270,6 +274,7 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
     <button type="button" onclick="javascript:set_date('지난달');">지난달</button>
     <button type="button" onclick="javascript:set_date('전체');">전체</button>
     <input type="submit" value="검색" class="btn_submit" style='width:100px;'> | 
+    <input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_order_list' value="엑셀 다운로드" />
     <button type='button' class="btn cancle_log_btn" style='margin-left:10px'>취소 내역보기</button>
 </div>
 
@@ -294,7 +299,7 @@ if(!sql_query(" select mb_id from {$g5['g5_shop_order_delete_table']} limit 1 ",
 <input type="hidden" name="search_od_status" value="<?php echo $od_status; ?>">
 
 <div class="tbl_head02 tbl_wrap">
-    <table id="sodr_list">
+    <table id="table">
     <caption>주문 내역 목록</caption>
     <thead>
     <tr>

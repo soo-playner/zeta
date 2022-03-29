@@ -371,9 +371,9 @@ select#sfl{padding:9px 10px;}
 
 <!-- "excel download" -->
 
-<script src="/excel/tabletoexcel/xlsx.core.min.js"></script>
-<script src="/excel/tabletoexcel/FileSaver.min.js"></script>
-<script src="/excel/tabletoexcel/tableexport.js"></script>
+<script src="../excel/tabletoexcel/xlsx.core.min.js"></script>
+<script src="../excel/tabletoexcel/FileSaver.min.js"></script>
+<script src="../excel/tabletoexcel/tableExport.js"></script>
 
 
 
@@ -385,9 +385,7 @@ select#sfl{padding:9px 10px;}
 	<a href="./member_table_depth.php" id="member_depth">회원추천관계갱신</a>
 	<!-- <a href="./member_table_sponsor.php" style='background:antiquewhite'>추천상위스폰서갱신</a> -->
 	<a href="./member_form.php" id="member_add">회원직접추가</a>
-	<a id="btnExport">회원엑셀다운로드</a> 
-	<!-- <a href="#" onclick="javascript:document.myForm.submit();">회원엑셀다운로드</a>
-	<a href="../excel/all_member_list_excel.php">전체회원엑셀다운로드</a>  -->
+	<a id="btnExport" data-name='zeta_member_info' class="excel" style="padding:10px 10px;">엑셀 다운로드</a> 
 </div>
 <?php } ?>
 
@@ -434,7 +432,7 @@ while($l_row = sql_fetch_array($get_lc)){
 		<!--<th scope="col" rowspan="2"  id="mb_list_cert"><?php echo subject_sort_link('mb_certify', '', 'desc') ?>메일인증확인</a></th>-->
 
 		<th scope="col" rowspan="2" id="mb_list_mobile" class="center">추천인</th>
-		<th scope="col" rowspan="2" id="mb_list_mobile" class="center">후원인</th>
+		<!-- <th scope="col" rowspan="2" id="mb_list_mobile" class="center">후원인</th> -->
 		<!-- <th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">메일주소</th> -->
 		<th scope="col" id="mb_list_auth"  class="bonus_eth" rowspan="2"><?php echo subject_sort_link('total_fund') ?>현재잔고<br></a></th>
 		<th scope="col" id="mb_list_auth2" class="bonus_calc"  rowspan="2"><?php echo subject_sort_link('deposit_point') ?>총입금액 <br></th>
@@ -576,7 +574,7 @@ while($l_row = sql_fetch_array($get_lc)){
 		<td  rowspan="2" class="td_name sv_use" style="center"><span class='name'><?php echo get_text($row['mb_name']); ?></span></td>
 		<!-- <td rowspan="2" class="center"><?php echo $sponsor ?></td> -->
 		<td rowspan="2" class="td_name"><?php echo $row['mb_recommend'] ?></td>
-		<td rowspan="2" class="td_name"><?php echo $row['mb_brecommend'] ?></td>
+		<!-- <td rowspan="2" class="td_name"><?php echo $row['mb_brecommend'] ?></td> -->
 		<!--
 			<td headers="mb_list_name" class="td_mbname"><?php echo get_text($row['mb_name']); ?></td>
 			<td headers="mb_list_name" class="td_mbname"><?php echo get_text($row['first_name']); ?></td>-->
@@ -627,7 +625,7 @@ while($l_row = sql_fetch_array($get_lc)){
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><strong><?= Number_format($total_bonus) ?> </strong></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_save_point']) ?></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_rate']) ?></td>
-		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=shift_auto_zero($row[$mining_target],'eth')?> </td>
+		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=shift_auto_zero(($row['mb_mining_1']-$row['mb_mining_1_amt']),'eth')?> </td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=$total_mining?></td>
 		<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?=$total_mining_rate?> %</td>
 		<td headers="mb_list_auth" class="text-center" style='width:40px;' rowspan="2"><span class='badge t_white color<?=$row['rank']?>' ><?if($row['rank']){echo 'P'.$row['rank'];}?></span></td>
@@ -751,12 +749,7 @@ $('#excel_btn').on("click", function () {
 	window.open("/excel/metal.php?s_date="+s_date+"&e_date="+e_date+"&idx_num="+idx_num+"&idx=<?=$idx?>");
 });
 
-$(document).ready(function(){
-	$("#btnExport").on('click',function(){
-		$("#table").tableExport({type:'excel'});
-	})
 
-});
 
 </script>
 

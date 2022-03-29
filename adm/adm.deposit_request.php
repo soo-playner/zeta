@@ -62,7 +62,7 @@ $rows = sql_fetch($sql);
 $total_count = $rows['cnt'];
 $total_hap = $rows['hap'];
 
-$rows = 30;
+$rows = 100;
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
@@ -85,7 +85,14 @@ $result = sql_query($sql);
     select{padding:5px;min-width:80px;width:80%;}
     table tr td{text-align:center}
     .row_dup td{background:rgba(253,240,220,0.8)}
-    .btn_submit.excel{background:green}
+    .btn_submit.excel {
+    background: green;
+    position: absolute;
+    top: 4.4em;
+    left: 98em;
+    height: 24px;
+    font-size: 0.95em;
+}
 
     
 	.local_ov strong{color:red; font-weight:600;}
@@ -99,7 +106,9 @@ $result = sql_query($sql);
     .time{font-size:11px;letter-spacing: -0.5px;}
 
 </style>
-
+<script src="../excel/tabletoexcel/xlsx.core.min.js"></script>
+<script src="../excel/tabletoexcel/FileSaver.min.js"></script>
+<script src="../excel/tabletoexcel/tableExport.js"></script>
 
 <script>
 	$(function(){
@@ -224,7 +233,7 @@ $result = sql_query($sql);
 		$("#create_dt_fr,#create_dt_to, #update_dt").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+0d" });
     });
 </script>
-
+<input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_deposit' value="엑셀 다운로드" />
 
 
 
@@ -255,7 +264,7 @@ $result = sql_query($sql);
 </div>
 
 <div class="tbl_head01 tbl_wrap">
-    <table class='regTb'>
+    <table class='regTb' id='table'>
     <caption><?php echo $g5['title']; ?> 목록</caption>
     <thead>
     <tr>

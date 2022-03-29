@@ -137,6 +137,9 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
 
 <link href="<?=G5_ADMIN_URL?>/css/scss/bonus/bonus_list.css" rel="stylesheet">
+<script src="../../excel/tabletoexcel/xlsx.core.min.js"></script>
+<script src="../../excel/tabletoexcel/FileSaver.min.js"></script>
+<script src="../../excel/tabletoexcel/tableExport.js"></script>
 
 <div class="local_desc01 local_desc">
     <p>
@@ -232,7 +235,7 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<?=$html?>
 		
 			<input type="submit" class="btn_submit search" value="검색"/>
-			<input type="button" class="btn_submit excel" value="엑셀" onclick="document.location.href='/excel/benefit_list_excel_down.php?excel_sql=<?echo $excel_sql ?>&start_dt=<?=$_GET['start_dt']?>&end_dt=<?=$_GET['end_dt']?>'" />	
+			<input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_bonus_list' value="엑셀 다운로드" />
 		
 	</div>
 </form>
@@ -250,7 +253,7 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
     전체 <?php echo number_format($total_count) ?> 건 
 </div>
 <div class="tbl_head01 tbl_wrap">
-    <table>
+    <table id='table'>
     <caption><?php echo $g5['title']; ?> 목록</caption>
     <thead>
     <tr>

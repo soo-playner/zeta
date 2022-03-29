@@ -94,20 +94,21 @@ $sql_common = " from {$g5['bonus']} where (1) ";
 $sql_order='order by day desc';
 
 $mining_sql = "from soodang_mining where (1)";
-$sql = "select count(no) as cnt {$mining_sql} {$sql_common} {$sql_search}{$sql_order}";
+$sql = "select count(no) as cnt {$mining_sql} {$sql_search}{$sql_order} ";
 
 
 $row = sql_fetch($sql);
+
 $total_count = $row['cnt'];
 
 $colspan = 7;
-$rows = 50;
+$rows = 100;
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
 
 $mining_sql = "from soodang_mining where (1)";
-$sql = "SELECT mb_id,allowance_name,day,mining AS benefit,currency,rec,rec_adm,datetime {$mining_sql} {$sql_search} {$sql_order} ";
+$sql = "SELECT mb_id,allowance_name,day,mining AS benefit,currency,rec,rec_adm,datetime {$mining_sql} {$sql_search} {$sql_order} limit {$from_record}, {$rows} ";
 
 
 $excel_sql = urlencode($sql);
@@ -151,6 +152,11 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
 <link href="<?=G5_ADMIN_URL?>/css/scss/bonus/bonus_mining.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+
+<script src="../../excel/tabletoexcel/xlsx.core.min.js"></script>
+<script src="../../excel/tabletoexcel/FileSaver.min.js"></script>
+<script src="../../excel/tabletoexcel/tableExport.js"></script>
+
 <div class="local_ov01 local_ov white" style="border-bottom:1px dashed black;">
 
 	<li class="right-border outbox{">
@@ -221,7 +227,7 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			<?=$html?>
 		
 			<input type="submit" class="btn_submit search" value="검색"/>
-			<input type="button" class="btn_submit excel" value="엑셀" onclick="document.location.href='/excel/benefit_list_excel_down.php?excel_sql=<?echo $excel_sql ?>&start_dt=<?=$_GET['start_dt']?>&end_dt=<?=$_GET['end_dt']?>'" />	
+			<input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_mining_list' value="엑셀 다운로드" />
 		
 	</div>
 </form>
@@ -239,7 +245,7 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
     전체 <?php echo number_format($total_count) ?> 건 
 </div>
 <div class="tbl_head01 tbl_wrap">
-    <table>
+    <table id='table'>
     <caption><?php echo $g5['title']; ?> 목록</caption>
     <thead>
     <tr>
@@ -297,7 +303,11 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 
 
 
-<?php echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, "{$_SERVER['PHP_SELF']}?$qstr&amp;page="); ?>
+<?php 
+
+echo get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, "{$_SERVER['PHP_SELF']}?$qstr&amp;page="); 
+?>
+
 
 
 
@@ -444,137 +454,6 @@ function bonus_dumy(){
 	}
 
 }
-
-
-
-/* 하단 스크립트 사용안함 */
-
-	// function go_calc(n)
-	// {
-	// 	if(document.getElementById("pv").checked==true){
-
-	// 		str=str+'&price=pv';
-				
-	// 	}else if(document.getElementById("bv").checked==true){
-	// 		str=str+'&price=bv';
-	// 	}else{
-	// 		str=str+'&price=receipt';
-	// 	}
-
-	// 	var day_point = document.getElementById("to_date").value;
-
-	// 	str=str+'&to_date='+document.getElementById("to_date").value;
-	// 	str=str+'&fr_date='+document.getElementById("to_date").value;
-
-		
-		
-	// 	switch(n){
-	// 		case 0: 
-	// 			location.href='bonus.daily.pay.php?'+str;         //일일보너스
-	// 			break;
-	// 		case 1: 
-	// 			location.href='bonus.benefit.immediate.php?'+str;// 추천보너스
-	// 			break;
-	// 		case 2: 
-	// 			location.href='bonus.member.level.php?'+str;// 멤버승급
-	// 			break;
-
-	// 		case 3: 
-	// 			location.href='bonus.qpack.php?'+str;// Q팩
-	// 			break;
-	// 		case 4:
-	// 			location.href='bonus.bpack.php?'+str;// B팩
-	// 			break;
-	// 		case 5: 
-	// 			location.href='bonus.upstair.php?'+str;         //임시 해당일 업스테어
-	// 			break;
-	// 		case 6: 
-	// 			location.href='bonus.all.php?'+str;         //전체보너스지급
-	// 			break;
-	// 		case 7: 
-	// 			location.href='bonus.auto.php?'+str;         //전체보너스지급
-	// 			break;
-	// 		case 8: 
-	// 			location.href='bonus.Bpack_auto.php?'+str;         //B팩
-	// 			break;
-	// 		case 9: 
-	// 			location.href='bonus.avatar_exc.php?'+str;         //아바타
-	// 			break;
-	// 	}
-		
-	// }
-
-
-	// function view_calc(n)
-	// {
-	// 	var day = document.getElementById("to_date").value;
-
-	// 	switch(n){
-	// 		case 0:
-	// 			       //일배당
-	// 			break;
-	// 		case 1:
-	// 			file_src = g5_url+"/log/roledown/roledown_"+day+".html"; //롤다운
-
-	// 			if(UrlExists(file_src)){
-	// 				window.open(file_src); 
-	// 			}else{
-	// 				alert('해당내역이 없습니다.');
-	// 			}
-	// 			break;
-	// 		case 2:
-	// 			file_src = g5_url+"/log/binary/binary_"+day+".html"; //바이너리
-
-	// 			if(UrlExists(file_src)){
-	// 				window.open(file_src); 
-	// 			}else{
-	// 				alert('해당내역이 없습니다.');
-	// 			}
-	// 			break;
-				
-	// 		case 3:
-				
-	// 			break;
-	// 		case 4:
-	// 			file_src = g5_url+"/log/team/team_"+day+".html"; //롤다운
-
-	// 			if(UrlExists(file_src)){
-	// 				window.open(file_src); 
-	// 			}else{
-	// 				alert('해당내역이 없습니다.');
-	// 			}
-	// 			break;
-	// 		case 5:
-	// 			file_src0 = g5_url+"/log/recom/binary_recom_"+day+"_0.html"; //바이너리 매칭
-	// 			file_src1 = g5_url+"/log/recom/binary_recom_"+day+"_1.html"; //바이너리 매칭		
-				
-	// 			console.log(file_src0);
-
-	// 			if(UrlExists(file_src0)){
-	// 				window.open(file_src0); 
-	// 			}else{
-	// 				if(UrlExists(file_src1)){
-	// 					window.open(file_src1); 
-	// 				}else{
-	// 					alert('해당내역이 없습니다.');
-	// 				}
-	// 			}
-	// 			break;
-
-	// 		case 6:
-	// 			file_src2 = g5_url+"/log/recom/binary_recom_"+day+"_2.html"; //바이너리 매칭
-
-	// 			console.log(file_src2);
-
-	// 			if(UrlExists(file_src2)){
-	// 				window.open(file_src2); 
-	// 			}else{
-	// 				alert('해당내역이 없습니다.');
-	// 			}
-	// 			break;
-	// 	}
-
-// }
 </script>
 
 <?php
