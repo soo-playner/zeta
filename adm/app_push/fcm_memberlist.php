@@ -149,7 +149,7 @@ function out_check($val)
 function app_install($val)
 {
 	if (strlen($val) > 0) {
-		$result = "<span class='f_green'><img class='store_icon' src='../img/pngwing.com.png'></span>";
+		$result = "<span class='f_green'><img class='store_icon' src='../img/pngwing.com.png' title='Android'></span>";
 	} else {
 
 		$result = "";
@@ -162,11 +162,11 @@ function diffvalue($val1, $val2, $diffval)
 	if ($val1 > 0 && $val2 > 0) {
 
 		if ($diffval > 0) {
-			$result = "<p class='yesterday'>(<span class='comp plus'><i class='ri-arrow-up-s-fill'></i></span>" . $diffval . ")</p>";
+			$result = "<p class='yesterday'>(<span class='comp plus'><i class='ri-arrow-up-s-fill'></i></span>" . shift_auto($diffval,'eth') . ")</p>";
 		} else if ($diffval == 0) {
 			$result = "<p class='yesterday'>(<span class='comp'><i class='ri-subtract-line'></i></span>)</p>";
 		} else {
-			$result = "<p class='yesterday'>(<span class='comp minus'><i class='ri-arrow-down-s-fill'></i></span>" . $diffval . ")</p>";
+			$result = "<p class='yesterday'>(<span class='comp minus'><i class='ri-arrow-down-s-fill'></i></span>" . shift_auto($diffval,'eth') . ")</p>";
 		}
 	} else {
 		$result = '';
@@ -187,6 +187,9 @@ $stats_result = sql_fetch($stats_sql); */
 ?>
 
 <style>
+	.send_person{
+		
+	}
 	.total {
 		background: #555 !important;
 		color: white !important;
@@ -470,7 +473,9 @@ $stats_result = sql_fetch($stats_sql); */
 	} else {
 		echo '발송가능회원 : ';
 	} ?> <strong><?= number_format($total_count) ?></strong> 명 |
-	현재 푸쉬MSG만 발송가능합니다.
+	현재 안드로이드 APP PUSH 만 발송가능합니다.
+	<br>
+	- 보낼사용자 선택 => 선택대상회원발송 => 메세지선택 => 발송
 	<?
 	/* if($member['mb_id'] == 'admin'){
 			echo "<div class='bonus'>보너스<span> 보유량 : <strong>".Number_format($stats_result['balance'])."</strong></span> | ";
@@ -511,7 +516,7 @@ $stats_result = sql_fetch($stats_sql); */
 <div class="btn_add01 ">
 	<div class="btn_left">
 		<? if ($viewmode == 'all') { ?>
-			<a href="./fcm_memberlist.php">MSG 발송 가능 회원만 보기</a>
+			<a href="./fcm_memberlist.php">메세지 발송 가능 회원만 보기</a>
 		<? } else { ?>
 			<a href="./fcm_memberlist.php?view=all">전체 회원보기</a>
 		<? } ?>
@@ -519,7 +524,7 @@ $stats_result = sql_fetch($stats_sql); */
 
 	<div class="btn_right">
 		<a class='' id='target_send'>선택 대상 회원 발송</a>
-		<a href="./member_table_fixtest.php">전회원 발송</a>
+		<!-- <a href="./">전회원 발송</a> -->
 	</div>
 </div>
 
@@ -587,7 +592,6 @@ $stats_result = sql_fetch($stats_sql); */
 			<tbody>
 				<?php
 				for ($i = 0; $row = sql_fetch_array($result); $i++) {
-					$s_mod = '<a href="./member_form.php?' . $qstr . '&amp;w=u&amp;mb_id=' . $row['mb_id'] . '">푸쉬/문자 발송</a>';
 
 					$info_sql  = "SELECT hash_info,json_extract(hash_info, '$.all') AS now_all,
 		LAG(json_extract(hash_info, '$.all'),-1) OVER (ORDER BY DATE DESC) AS prev_all,
@@ -659,7 +663,9 @@ $stats_result = sql_fetch($stats_sql); */
 																																			} ?></span></td> -->
 
 						<td headers="mb_list_lastcall" rowspan="2" class="td_app  center"><?= app_install($row['fcm_token']) ?></td>
-						<td headers="mb_list_mng" rowspan="2" class="td_mngsmall" style="width:100px;"><?= $s_mod ?> <?= $s_grp ?></br> <?= $s_mod_binary ?></td>
+						<td headers="mb_list_mng" rowspan="2" class="td_mngsmall" style="width:100px;">
+							<a class='btn send_person' >푸쉬/문자 발송</a>
+						</td>
 
 					</tr>
 					<tr class="<?= $bg; ?>">
@@ -757,6 +763,10 @@ $stats_result = sql_fetch($stats_sql); */
 
 		search_contents(this);
 
+	});
+
+	$('.send_person').on('click',function(){
+		
 	});
 
 	function search_contents($val) {

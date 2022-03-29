@@ -65,14 +65,15 @@ for ($i=0; $i<$count; $i++)
     $fcm_token = sql_fetch("SELECT fcm_token FROM g5_member WHERE fcm_token !='' AND mb_id  = '{$mb_id}' ")['fcm_token'];
     
     if($contents_code == 1){
-        $code_val1 = $mb_rate[$k];
+        $code_val1 = $mining_total[$k];
         $fcm_title = replace_code($msg_title,$code_val1,1,$mb_id);
 
         $code_val2[2] = $all_hash[$k];
         $code_val2[3] = $all_diff[$k];
-        $code_val2[4] = $mining_total[$k];
+        $code_val2[4] = $mb_rate[$k];
 
         $fcm_contents = replace_code($msg_contents,$code_val2,2,$mb_id);
+
     }else{
         $fcm_title = replace_code($msg_title,$code_val1,1,$mb_id);
         $fcm_contents = replace_code($msg_contents,$code_val2,2,$mb_id);
@@ -94,19 +95,19 @@ for ($i=0; $i<$count; $i++)
         $fcm_token
     );
 
-    if($send_result){
-        $send_log = "INSERT INTO push_send_log (mb_id,title,contents,datetime,fcm_token) VALUES 
-        ('{$mb_id}','{$fcm_title}','{$fcm_contents}','{$now_date_time}','{$fcm_token}')";
-        $send_result = sql_query($send_log);
-    }else{
-        alert('API 전송오류',0);
-    }
+    
+    $send_log = "INSERT INTO msg_send_log (mb_id,title,contents,datetime,fcm_token) VALUES 
+    ('{$mb_id}','{$fcm_title}','{$fcm_contents}','{$now_date_time}','{$fcm_token}')";
 
-    if($send_result){
-        alert('메세지가 전송 되었습니다.',0);
-        goto_url("./fcm_memberlist.php");
+    $log_result = sql_query($send_log);
+    
+}
 
-    }
+
+if($log_result){
+    ob_clean();
+    alert('메세지가 전송 되었습니다.',0);
+    goto_url("./fcm_memberlist.php");
 }
 
 ?>

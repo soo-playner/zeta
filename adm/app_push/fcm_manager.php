@@ -3,9 +3,10 @@ $sub_menu = '100630';
 
 include_once('./_common.php');
 include_once(G5_LIB_PATH.'/fcm_push/push.php');
+
 // setPushData("푸시연동테스트5", "푸시연동테스트6", 'evJZexK4xMo:APA91bErxxD6ksMw-7Q7825-pmonZ0WYN1zHZKwv_Qc1yBC1FrT_QKoCinBQnB4shsJsK3R7tTxIJOhC-pd6c3auoqt27ZoBjgWrYp_nH68BwDT0hd2u3XMUJxvcRU6BqGocR2WlbklZ','https://origin.dfineglobal.com/img/marker.png');
 
-$g5['title'] = "푸시(FCM) 알람 설정";
+$g5['title'] = "푸시(FCM) 연동 ";
 
 include_once(G5_ADMIN_PATH.'/admin.head.php');
 
@@ -50,9 +51,9 @@ if(!$has_fcm_token){
 			</tbody>
 		</table>
 
-		<div class="subrow">
-			<a href="https://blocksdk.com/" target="_blank"><u class="sdklink">https://firebase.google.com/</u> API 토큰 값을 받으세요!</a>
-		</div>
+		<!-- <div class="subrow">
+			<a href="https://firebase.google.com/" target="_blank"><u class="sdklink">https://firebase.google.com/</u> API 토큰 값을 받으세요!</a>
+		</div> -->
 	</div>
 </div>
 <!-- 여기 아래부터 모든 HTML 요소 구성 끝 -->
