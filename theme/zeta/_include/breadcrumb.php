@@ -112,6 +112,8 @@ $title = 'Dashboard';
 	.remain_mining{line-height:14px;color:#999;font-size:12px;display:block;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;margin-bottom:-5px;}
 	.remain_mining i{padding-right:5px;font-size:16px;font-weight:500}
 	.remain_mining .red{color:red;}
+
+	.extra{background:#FECE00; border-radius:3px;color:black;text-align:center;margin-top:10px;font-size:12px;font-weight:600;cursor: pointer;}
 </style>
 
 <section class='breadcrumb'>
@@ -152,7 +154,7 @@ $title = 'Dashboard';
 
 					<?if($notice_result_num > 0){ ?>
 						<button class="btn text-white b_darkblue_round notice_open f_right" >
-						<i class="ri-alarm-warning-line"></i>
+						<i class="ri-broadcast-line"></i>
 						</button>
 					<?}?>
 				</div>
@@ -194,6 +196,11 @@ $title = 'Dashboard';
 							<dd class="value"><?=percent_value($member['recom_mining'])?>  <?=remain_hash($member['recom_mining'],3)?></dd>
 						</li>
 					</ul>
+					<?if(($member['super_mining']/$member['mb_rate']) > 100){?>
+					<ul class='extra'>
+						받지 못한 보너스가 있어요. <i class="ri-zoom-in-line"></i> CLICK
+					</ul>
+					<?}?>
 					<ul class="row">
 						<li class="col-4">
 							<dt class="title">제타풀 보너스 해시</dt>
@@ -208,6 +215,7 @@ $title = 'Dashboard';
 							<dd class="value"><?=percent_value($member['super_mining'])?> <?=remain_hash($member['super_mining'],1)?></dd>
 						</li>
 					</ul>
+					
 
 					<ul class="row">
 					<li class="col-4">
@@ -348,6 +356,10 @@ $title = 'Dashboard';
 			$('.dash_news').css("display","block");
 			$(this).css("display","none");
 		});
+
+		$(".extra").on('click',function(){
+			location.href= g5_url + '/page.php?id=mypool&stage=super#minings'
+		})
 	});
 </script>
 

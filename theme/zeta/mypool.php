@@ -7,6 +7,13 @@ login_check($member['mb_id']);
 $title = 'My Pool';
 $chart_express_cnt = 5;
 
+if($_GET['stage']){
+    $stage = $_GET['stage'];
+}else{
+    $stage = 'mega';
+}
+
+
 if(!isset($history_limit)){$history_limit = $chart_express_cnt;}
 
 $chart_data = [];
@@ -97,6 +104,8 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
     .comp{font-size:16px;color:#666;padding:0 5px;}
     .comp.plus{color:red}
     .comp.minus{color:blue}
+
+    .point{font-size:17px;font-weight:700;font-family: Montserrat, Arial, sans-serif;margin:0 5px;padding:0 5px;background:#FECE00;display:inline-block}
 
 </style>
 <main>
@@ -412,6 +421,8 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <h3>보너스 달성률</h3>
                                 <?if(remain_hash($member['super_mining'],1,false) >= 100){?>
                                     <h2>" <span class='font_red'><?=remain_hash($member['super_mining'],1,false)?>%</span> 초과달성 "</h2>
+                                    <br>
+                                    <h5> 보유해시량을 늘리면 <span class="point"> <?=Number_format((($member['super_mining']-($member['mb_rate']*100))*$day_mint_value ),8)?> ETH </span> 만큼 마이닝 보너스를 더 받을수 있어요</h5>
                                 <?}else{?>
                                     <h3>" <?= (100 - remain_hash($member['super_mining'],1,false))?> % 미달 "</h3>
                                 <?}?>
@@ -532,7 +543,8 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
 
     $(function() {
 
-        var stage = "mega";
+        var stage = '<?=$stage?>';
+        
         var limited = <?=$history_limit?>;
         var start = 0;
         var limit = 0;

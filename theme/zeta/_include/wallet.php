@@ -48,6 +48,10 @@ $pre_setting = sql_fetch($bonus_sql);
 $limited = $pre_setting['limited'];
 $limited_per = ($limited/100)/100;
 
+$day_mint_sql = "SELECT rate from  {$g5['bonus_config']} WHERE code = 'mining' ";
+$day_mint_value = sql_fetch($day_mint_sql)['rate'];
+
+
 // 현재 통화(달러) 시세
 $usd_price = coin_price('usd')*1000;
 $fil_price = coin_prices('fil');

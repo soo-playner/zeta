@@ -167,7 +167,7 @@ function  excute(){
 
         if($benefit > 0 && $benefit_limit > 0){
             $rec=' Bonus By '.$mb_origin.' hash | '.$super_rate.' MH :: '.shift_auto($benefit_limit,COIN_NUMBER_POINT).' '.$minings[0];
-            $rec_adm =  $super_rate.' * '.$mining_rate.' * '.$bonus_rates.' = '.shift_auto($benefit_limit,COIN_NUMBER_POINT);
+            $rec_adm =  $super_rate.' * '.$mining_rate.' * '.$bonus_rates.' = '.shift_auto($benefit_limit,COIN_NUMBER_POINT)."(".$benefit.")";
 
             $record_result = mining_record($mb_id, $code, $benefit_limit,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day,$super_rate);
 
