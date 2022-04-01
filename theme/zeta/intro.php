@@ -7,7 +7,7 @@ body{overflow-y: hidden;}
 	width:100%;
 	display:block;
 	height:100vh;
-	background:#000 url('<?=G5_THEME_URL?>/img/launcher.png') no-repeat center;
+	background:#000 url('<?=G5_THEME_URL?>/img/launcher.png?at=123456') no-repeat center;
 	background-size:cover;
 }
 
@@ -34,8 +34,8 @@ body{overflow-y: hidden;}
   height: 2px;
 }
 
-.btn.btn_primary{background:linear-gradient(90deg,#fd3737,#34090f)}
-.btn.btn_primary:hover{background:linear-gradient(90deg,#fd3737,#fd3737)}
+.btn.btn_primary{background:linear-gradient(90deg,#ff818f,#ffbfcc)}
+.btn.btn_primary:hover{background:linear-gradient(90deg,#ff818f,#ff818f)}
 
 .animate-bottom {
   position: relative;
