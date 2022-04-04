@@ -559,20 +559,32 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
 
         $(".nav").on('click', function(){
             var id = $(this).data("id");
-            nav_active(id);
+            
             start = 0;
             limit = <?=$chart_express_cnt?>;
+            
+            var contarget = "#container_"+stage;
+            var data_target = $(contarget + " .box-body")
+            $(data_target).empty();
+
+            if(id != stage){
+                nav_active(id);
+            }
+            
+            
         });
 
         $(".more_btn").on("click",function(){
             var id = $(this).parent().parent().data("id");
-            limit += 10;
+            limit = 10;
+
             if(start == 0){
                 start = 5;
             }else if(start >= 5){
                 start += 10;
             }
-            console.log(`start: ${start}\nend: ${limit}`);
+            
+            console.log(`more :: start: ${start}\nend: ${limit}`);
             load_data(id,start,limit);
         });
 
@@ -588,6 +600,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
             $(".nav").removeClass("active");
             $(navtarget).addClass("active");
 
+            console.log(`start: ${start}\nend: ${limit}`);
             load_data(stage,start,limited);
             
         }
@@ -613,7 +626,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
         
         function load_data(stage,start,limit){
             var contarget = "#container_"+stage;
-            var data_target = $(contarget + " .box-body")
+            var data_target = $(contarget + " .box-body");
 
             $.ajax({
                 type: "POST",
