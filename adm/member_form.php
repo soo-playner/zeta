@@ -406,7 +406,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<th scope="row">보유 잔고</th>
 		
 		<td colspan="1">
-			<strong><?=Number_format($mb['mb_deposit_point']+$mb['mb_deposit_calc'])?></strong> 원 &nbsp&nbsp (총 입금액 : <?=Number_format($mb['mb_deposit_point'])?>)
+			<strong><?=Number_format($mb['mb_deposit_point']+$mb['mb_deposit_calc'] + $mb['mb_balance'])?></strong> 원 &nbsp&nbsp (총 입금액 : <?=Number_format($mb['mb_deposit_point'])?>)
 		</td>
 		<th>수동입금 </th>
 		<!-- <td>
