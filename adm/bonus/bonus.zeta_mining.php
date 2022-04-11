@@ -267,14 +267,14 @@ function  excute(){
         }
 
 
-        if($benefit > 0 && $benefit_limit > 0){
+        if($benefit > 0 ){
             $rec=$code.' Bonus By '.$matching_lvl.' | '.$mining_matching_hash.' MH :: '.shift_auto($benefit_limit,COIN_NUMBER_POINT).' '.$minings[0];
             $rec_adm =  $mining_matching_hash.' * '.$mining_rate.' * '.$bonus_rates.' = '.shift_auto($benefit_limit,COIN_NUMBER_POINT);
 
             $record_result = mining_record($mb_id, $code, $benefit_limit,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day,$mining_matching_hash);
 
             
-            if($record_result){
+            if($record_result ){
                 $balance_up = "update g5_member set {$mining_target} = {$mining_target} + {$benefit_limit}, brecom_mining = {$mining_matching_hash}  where mb_id = '{$mb_id}' ";
 
                 // 디버그 로그

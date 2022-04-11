@@ -189,7 +189,7 @@ function  excute(){
         }
 
 
-        if($benefit > 0 && $benefit_limit > 0){
+        if($benefit > 0 ){
             $rec=$code.' Bonus By '.$matching_lvl.' step | '.$mining_matching_hash.' MH :: '.shift_auto($benefit_limit,COIN_NUMBER_POINT).' '.$minings[0];
             $rec_adm =  $mining_matching_hash.' * '.$mining_rate.' * '.$bonus_rates.' = '.shift_auto($benefit_limit,COIN_NUMBER_POINT);
 
