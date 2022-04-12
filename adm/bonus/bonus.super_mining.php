@@ -139,9 +139,12 @@ function  excute(){
 
         list($mb_balance,$balance_limit,$benefit_limit) = mining_limit_check($mb_id,$benefit,$bonus_limit,$code);
 
+        $benefit_limit_point = shift_auto($benefit_limit,COIN_NUMBER_POINT);
+        $benefit_point = shift_auto($benefit,COIN_NUMBER_POINT);
+
         echo "<code>";
         echo "현재수당 : ".shift_auto($mb_balance,COIN_NUMBER_POINT)."  | 수당한계 :". shift_auto($balance_limit,COIN_NUMBER_POINT).' | ';
-        echo "발생할수당: ".shift_auto($benefit,COIN_NUMBER_POINT)." | 지급할수당 :".shift_auto($benefit_limit,COIN_NUMBER_POINT);
+        echo "발생할수당: ".$benefit_point." | 지급할수당 :".$benefit_limit_point;
         echo "</code><br>";
 
         
@@ -151,25 +154,30 @@ function  excute(){
                 
         if($benefit > $benefit_limit && $balance_limit != 0 ){
             $rec_adm .= "<span class=red> |  Bonus overflow :: ".shift_auto($benefit_limit - $benefit)."</span>";
-            echo "<span class=blue> ▶▶ 수당 지급 : ".shift_auto($benefit,COIN_NUMBER_POINT)."</span>";
-            echo "<span class=red> ▶▶▶ 수당 초과 (한계까지만 지급) : ".shift_auto($benefit_limit,COIN_NUMBER_POINT)." </span><br>";
+            echo "<span class=blue> ▶▶ 수당 지급 : ".$benefit_point."</span>";
+            echo "<span class=red> ▶▶▶ 수당 초과 (한계까지만 지급) : ".$benefit_limit_point." </span><br>";
         }else if($benefit != 0 && $balance_limit == 0 && $benefit_limit == 0){
 
             $rec_adm .= "<span class=red> | Sales zero :: ".shift_auto(($benefit_limit - $benefit),COIN_NUMBER_POINT)."</span>";
             echo "<span class=blue> ▶▶ 수당 지급 : ".shift_auto($benefit)."</span>";
-            echo "<span class=red> ▶▶▶ 수당 초과 (기준매출없음) : ".shift_auto($benefit_limit,COIN_NUMBER_POINT)." </span><br>";
+            echo "<span class=red> ▶▶▶ 수당 초과 : ".$benefit_limit_point." </span><br>";
         }else if($benefit == 0){
             echo "<span class=blue> ▶▶ 수당 미발생 </span>";
         }else{
-            echo "<span class=blue> ▶▶ 수당 지급 : ".shift_auto($benefit,COIN_NUMBER_POINT)."</span><br>";
+            echo "<span class=blue> ▶▶ 수당 지급 : ".$benefit_point."</span><br>";
         }
 
 
         if($benefit > 0 ){
-            $rec=' Bonus By '.$mb_origin.' hash | '.$super_rate.' MH :: '.shift_auto($benefit_limit,COIN_NUMBER_POINT).' '.$minings[0];
-            $rec_adm =  $super_rate.' * '.$mining_rate.' * '.$bonus_rates.' = '.shift_auto($benefit_limit,COIN_NUMBER_POINT)."(".$benefit.")";
+            $rec=' Bonus By '.$mb_origin.' hash | '.$super_rate.' MH :: '.$benefit_limit_point.' '.$minings[0];
 
-            $record_result = mining_record($mb_id, $code, $benefit_limit,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day,$super_rate);
+            if($benefit_limit < $benefit){
+                $rec_adm =  $super_rate.' * '.$mining_rate.' * '.$bonus_rates.' = '.$benefit_limit_point." (".$benefit_point.")";
+            }else{
+                $rec_adm =  $super_rate.' * '.$mining_rate.' * '.$bonus_rates.' = '.$benefit_limit_point;
+            }
+
+            $record_result = mining_record($mb_id, $code, $benefit_limit_point,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day,$super_rate,$benefit_point);
 
             
             if($record_result ){

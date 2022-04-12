@@ -312,7 +312,7 @@ $mining_table = sql_query("CREATE table if not exists `soodang_mining`(
 
 
 // 마이닝
-function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$rec_adm,$bonus_day,$hash = 0){
+function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$rec_adm,$bonus_day,$hash = 0,$overcharge = 0){
     global $g5,$debug,$now_datetime;
 
     $soodang_sql = " insert `soodang_mining` set day='".$bonus_day."'";
@@ -325,6 +325,10 @@ function mining_record($mb_id, $code, $bonus_val,$bonus_rate,$currency, $rec,$re
     $soodang_sql .= " ,rec_adm		= '{$rec_adm}' ";
     $soodang_sql .= " ,datetime		= '{$now_datetime}' ";
     $soodang_sql .= " ,hash		= {$hash} ";
+    
+    if($bonus_val < $overcharge){
+        $soodang_sql .= " ,overcharge		= {$overcharge} ";
+    }
     
     
     if($debug){

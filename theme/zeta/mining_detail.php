@@ -29,7 +29,11 @@ header h5{line-height: 28px;}
 </style> -->
 
 <link href="<?=G5_THEME_URL?>/css/scss/page/mining.css" rel="stylesheet">
-
+<style>
+    .overcharge{color:red; font-size:12px;}
+    .origin_total{color:red;font-size:16px;font-weight:500}
+    .over_desc{color:red;font-size:14px;font-weight:500}
+</style>
 
 <main>
     <div class='container'>
@@ -37,7 +41,7 @@ header h5{line-height: 28px;}
         <div class="col-sm-12 col-12 content-box mining_detail round mt20" id="<?= $cate ?>">
             <div class="box-header row">
                 <?
-                    $sub_sql = "SELECT *,SUM(mining) as total_mining FROM soodang_mining WHERE day = '{$mining_day}' AND mb_id = '{$member['mb_id']}' and allowance_name='{$category}' GROUP BY day";
+                    $sub_sql = "SELECT *,SUM(mining) as total_mining, SUM(CASE WHEN overcharge = 0 THEN mining ELSE overcharge END) AS origin_total FROM soodang_mining WHERE day = '{$mining_day}' AND mb_id = '{$member['mb_id']}' and allowance_name='{$category}' GROUP BY day";
                     $sub_result = sql_fetch($sub_sql);
                 ?>
                 <div class='col-12 text-left'>
@@ -48,6 +52,9 @@ header h5{line-height: 28px;}
             <div class='row'>
                 <div class='col-12 text-right hist_value'>
                     <span><?=shift_auto($sub_result['total_mining'],'eth') ?> <?=$minings[0]?></span>
+                    <?if($sub_result['total_mining'] < $sub_result['origin_total']){?>
+                        <br><span class='over_desc'>초과로 받지못한 보너스 : </span> <span class='origin_total'><?=($sub_result['origin_total'] - $sub_result['total_mining'])?> <?=$minings[0]?></span>
+                    <?}?>
                 </div>
             </div>
         </div>
@@ -69,11 +76,15 @@ header h5{line-height: 28px;}
                         <span class='m_hist_exp'>
                             <?= $detail[0] ?><br>
                             <?= $detail[1] ?>
+                            
                         </span>
                     </div>
                     <div class='col-5 text-right '>
                         <span> <i class="ri-add-line"></i></span>
                         <span class='hist_value2'><?=shift_auto($rows['mining'],'eth') ?> <?=$minings[0]?></span>
+                        <?if($rows['overcharge'] != 0){?>
+                            <br><span class='overcharge'><?=$rows['overcharge']?> <?=$minings[0]?></span>
+                        <?}?>
                     </div>
                 </div>
                 <?}?>

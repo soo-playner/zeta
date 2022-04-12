@@ -49,7 +49,7 @@ if ($_GET['amt_limit'] == 'all') {
 $mining_history_sql = "SELECT *
     FROM soodang_mining
     WHERE mb_id = '{$member['mb_id']}' AND allowance_name != 'super_mining' {$mining_history_limit1} UNION
-    SELECT NO, DAY,allowance_name,mb_id, SUM(mining) AS mining,currency,rate,rec,rec_adm, DATETIME,HASH
+    SELECT NO, DAY,allowance_name,mb_id, SUM(mining) AS mining,currency,rate,rec,rec_adm, DATETIME,HASH,overcharge
     FROM soodang_mining
     WHERE mb_id = '{$member['mb_id']}' AND allowance_name = 'super_mining'  {$mining_history_limit2} 
     ";
