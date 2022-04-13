@@ -460,12 +460,12 @@ $stats_result = sql_fetch($stats_sql);
 	.td_grade{
 		width:30px;min-width:30px;
 	}
-	/* .td_id{color:black;font-size:14px;padding-left:8px;font-weight:800;font-family:Montserrat, Arial, sans-serif} */
+	.td_id{color:black;font-size:14px;padding-left:8px;font-weight:700;font-family:Montserrat, Arial, sans-serif}
 </style>
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/scss/custom.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap" rel="stylesheet">
 <style>
-.td_id{color:black;font-size:14px;padding-left:8px;font-weight:700;font-family:Montserrat, Arial, sans-serif}
+
 </style>
 
 <div class="local_ov01 local_ov">
@@ -654,9 +654,9 @@ while ($l_row = sql_fetch_array($get_lc)) {
 					<th scope="col" id="mb_list_auth2" class="bonus_usdt" style='color:white !important' rowspan="2"><?php echo subject_sort_link('mb_shift_amt') ?>출금총액<br>(+수수료)<br></th>
 					<!-- <th scope="col" id="mb_list_auth2" class="bonus_bb bonus_calc"  rowspan="2"><?php echo subject_sort_link('deposit_calc') ?>USE <br>출금 및 구매사용</th> -->
 					<th scope="col" id="mb_list_auth2" class="bonus_bb bonus_benefit" rowspan="2"><?php echo subject_sort_link('mb_balance') ?> 수당합계</th>
-					<th scope="col" id="mb_list_auth2" class="bonus_aa" rowspan="2"><?php echo subject_sort_link('mb_save_point') ?> 누적매출(PV)</th>
-					<th scope="col" id="mb_list_auth2" class="" rowspan="2"><?php echo subject_sort_link('mb_rate') ?>마이닝 (MH/s)</th>
-					<th scope="col" id="mb_list_auth2" class="bonus_bb green font_white" rowspan="2"> <?php echo subject_sort_link('mining') ?> <span style='color:white'>마이닝보유(<?= $minings[0] ?>)</span></th>
+					<th scope="col" id="mb_list_auth2" class="bonus_aa" rowspan="2"><?php echo subject_sort_link('mb_save_point') ?> 누적매출<br>(PV)</th>
+					<th scope="col" id="mb_list_auth2" class="" rowspan="2"><?php echo subject_sort_link('mb_rate') ?>마이닝<br>(MH/s)</th>
+					<th scope="col" id="mb_list_auth2" class="bonus_bb green font_white" rowspan="2"> <?php echo subject_sort_link('mining') ?> <span style='color:white'>마이닝보유<br>(<?= $minings[0] ?>)</span></th>
 					<th scope="col" id="mb_list_auth2" class="bonus_aa" style='background:white !important' rowspan="2"><?php echo subject_sort_link('mb_bonus_total') ?>마이닝<br>총보너스 (mh/s)</th>
 					<th scope="col" id="mb_list_auth2" class="bonus_aa" style='background:white !important' rowspan="2"><?php echo subject_sort_link('mb_bonus_total_rate') ?>마이닝<br>보너스율 (%)</th>
 					<th scope="col" rowspan="2" id="" class="item_title" style='min-width:50px;'>상위보유패키지</th>
@@ -772,7 +772,7 @@ while ($l_row = sql_fetch_array($get_lc)) {
 							<?php echo get_member_level_select("mb_level[$i]", 0, $member['mb_level'], $row['mb_level']) ?>
 						</td>
 
-						<td headers="mb_list_id" rowspan="2" class="td_name td_id" style="min-width:110px">
+						<td headers="mb_list_id" rowspan="2" class="td_name td_id" style="width:auto">
 							<?php echo $mb_id ?>
 						</td>
 						<td rowspan="2" class="td_name name" style='width:70px;'><?php echo get_text($row['mb_name']); ?></td>
@@ -785,9 +785,9 @@ while ($l_row = sql_fetch_array($get_lc)) {
 						<td headers="mb_list_auth" class="td_mbstat" style='color:red' rowspan="2"><?= Number_format($row['mb_shift_amt']) ?></td>
 						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($total_bonus) ?></td>
 						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_save_point']) ?></td>
-						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_rate']) ?></td>
-						<td headers="mb_list_auth" class="td_mbstat strong" rowspan="2"><?= shift_auto_zero(($row['mb_mining_1'] - $row['mb_mining_1_amt']), 'eth') ?> </td>
-						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= $total_mining ?></td>
+						<td headers="mb_list_auth" class="td_mbstat" rowspan="2" style="min-width:50px;width:50px;"><?= Number_format($row['mb_rate']) ?></td>
+						<td headers="mb_list_auth" class="td_mbstat strong" rowspan="2" style="min-width:70px;"><?= shift_auto_zero(($row['mb_mining_1'] - $row['mb_mining_1_amt']), 'eth') ?> </td>
+						<td headers="mb_list_auth" class="td_mbstat" rowspan="2" ><?= $total_mining ?></td>
 						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= $total_mining_rate ?> %</td>
 						<td headers="mb_list_auth" class="text-center" style='width:40px;' rowspan="2"><span class='badge t_white color<?= $row['rank'] ?>'>
 						<? if ($row['rank']) {echo 'P' . $row['rank'];} ?></span></td>
