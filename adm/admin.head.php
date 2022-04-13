@@ -88,10 +88,15 @@ function imageview(id, w, h)
 @media screen and (max-width:480px) {
 #framer {position:absolute;left:0;margin-left:0;top:10%;margin-top:0;width:100%;height:80%;}
 }
+
+.adm_logo{display:inline-block;width:100px;left:180px !important;top:20px !important;}
 </style>
 
 	<iframe name='framer' id="framer" frameborder="0"></iframe> 
 </div><!-- // framewrp -->
+
+<link href="/adm/css/scss/admin_custom.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 <script>
 $(function(){
 	$('span[id^="ajax_"]').click(function () {
@@ -122,9 +127,6 @@ $(function(){
 ?>
 <div id="to_content"><a href="#container">본문 바로가기</a></div>
 
-<style>
-    .adm_logo{display:inline-block;width:100px;left:180px !important;top:20px !important;}
-</style>
 
 <header id="hd">
     <div id="hd_wrap">
