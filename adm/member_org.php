@@ -452,6 +452,15 @@ if (!$to_date) $to_date = Date("Y-m-d", time());
 	.color9 {background: #6214ab !important;}
 	.color10 {background: #6214ab !important;}
 
+	.grade_0{background:#ddd !important;}
+.grade_1{background:gold !important;}
+.grade_2{background:green !important;}
+.grade_3{background:red !important;}
+.grade_4{background:orangered !important;}
+.grade_5{background:blue !important;}
+.grade_6{background:black !important;}
+.grade_9{background:black !important;}
+
 	#div_right table { border:0px }
 	.btn_menu {padding:5px;border:1px solid #ced9de;background:rgb(246,249,250);cursor:pointer}
 	.pool_img{display:none;}
