@@ -13,7 +13,7 @@ $menu['menu200'] = array (
 }else{
 $menu['menu200'] = array (
     array('200000', '회원관리', G5_ADMIN_URL.'/member_list.php', 'member'),
-    array('200100', '회원관리', G5_ADMIN_URL.'/member_list.php', 'mb_list')
+    array('200100', '회원관리', G5_ADMIN_URL.'/member_list.php', 'mb_list'),
 );
 }
 ?>
