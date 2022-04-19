@@ -8,13 +8,11 @@ auth_check($auth[$sub_menu], 'r');
 
 $get_shop_item = get_shop_item();
 
-
 if($_GET['mode'] == 'del'){
 	$sql_target = 'g5_member_del';
 	$mode = 'del';
 }else{
 	$sql_target = 'g5_member';
-
 }
 
 $sub_sql = "";
@@ -145,8 +143,10 @@ $blockRec = sql_fetch("select count(mb_block) as cnt from {$sql_target} where mb
 function mining_bonus_rate($mb_id, $mb_rate)
 {
 	// $member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining']
+	global $sql_target;
 
 	$bonus_total_sql = "SELECT SUM(recom_mining + brecom_mining + brecom2_mining + super_mining) as total FROM {$sql_target} WHERE mb_id = '{$mb_id}' ";
+	
 	$bonus_total = sql_fetch($bonus_total_sql)['total'];
 
 	if ($mb_rate > 0) {
@@ -525,7 +525,7 @@ $stats_result = sql_fetch($stats_sql);
 
 
 <div style="padding:8px 20px 10px;font-size:15px;margin-bottom:10px;float:left">
-	<link rel="stylesheet" href="./css/scss/admin_custom.css">
+	<link rel="stylesheet" href="./css/scss/admin_custom.css?ver=220419">
 
 	<form name="search_bar" id="search_bar" action="./member_list.php" method="get">
 		<input type='hidden' name='nation' id='nation' value='' />
