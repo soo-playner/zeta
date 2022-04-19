@@ -27,12 +27,12 @@
 					<input type="password" name="mb_password" id="u_pw" style="line-height:22px;" placeholder="password" onkeyup="press(this.form)"/>
 				</div>
 
-				<!--
-				<div>
-					<input type="checkbox" name="auto_login" id="login_auto_login" checked >
-					<label for="login_auto_login" class="">자동로그인</label>
+				
+				<div style='text-align:left'>
+					<input type="checkbox" name="auto_login"  style="width:auto" id="login_auto_login" checked >
+					<label for="login_auto_login" class="" style="display:inline-block">자동로그인</label>
 				</div>
-				-->
+				
 
 				<div class="login_btn_bottom">
 					<button type="button" class="btn btn_wd btn_primary" onclick="flogin_submit();" ><span>LOG IN</span></button>
