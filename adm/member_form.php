@@ -165,7 +165,7 @@ include_once('./admin.head.php');
 // add_javascript('js 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 ?>
-<!-- <script src="https://kit.fontawesome.com/21599d63fd.js" crossorigin="anonymous"></script> -->
+
 <link rel="stylesheet" href="./css/scss/admin_custom.css">
 <script src="<?=G5_THEME_URL?>/_common/js/common.js" crossorigin="anonymous"></script>
 
@@ -238,8 +238,12 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 	#mb_nick_regist{display:none;}
 	#mb_nick_regist.active{display:inline;}
+
+	.td_id{color:black;font-size:20px;font-weight:700;font-family:Montserrat, Arial, sans-serif}
 </style>
 
+<link rel="stylesheet" href="<?=G5_THEME_URL?>/css/scss/custom.css">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap" rel="stylesheet">
 <form name="fmember" id="fmember" action="./member_form_update.php" onsubmit="return fmember_submit(this);" method="post" enctype="multipart/form-data">
 <input type="hidden" name="w" value="<?php echo $w ?>">
 <input type="hidden" name="sfl" value="<?php echo $sfl ?>">
@@ -252,7 +256,8 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 <div class="local_desc01 local_desc">
     <p>
-		- 센터지정시 체크시 센터명 등록 : 회원레벨 자동변경 (체크해제시 회원레벨은 수동)
+		- 센터지정시 체크시 센터명 등록 : 회원레벨 자동변경 (체크해제시 회원레벨은 수동)<br>
+		- 별도관리지정은 <strong>마이닝,보너스 출금요청이 불가</strong>하며 아이디가 <strong>구분표시(아이디 붉은색 처리)</strong> 처리되며 회원차단은 로그인불가 처리됩니다. (각 해제시 입력된 날짜제거후 저장)
 	</p>
 </div>
 
@@ -270,14 +275,14 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 	<tr>
 		<th scope="row"><label for="mb_id">아이디<?php echo $sound_only ?></label></th>
-		<td>
+		<td >
 			<? if ($w == "u") { ?>
-			<input type="hidden" name="mb_id" id="mb_id" value="<?=$mb['mb_id']?>" />
-			<?=$mb['mb_id']?>
+			<input type="hidden" name="mb_id" id="mb_id"  value="<?=$mb['mb_id']?>" />
+			<span class='td_id <?if($mb['mb_leave_date'] != ''){echo 'red';}?>'><?=$mb['mb_id']?></span>
 
 			<? } else { ?>
 			<input type="text" name="mb_id" value="<?php echo $mb['mb_id'] ?>" id="mb_id" <?php echo $required_mb_id ?> class="frm_input <?php echo $required_mb_id_class ?>" size="15" minlength="3" maxlength="20">
-			<?php if ($w=='u'){ ?><a href="./boardgroupmember_form.php?mb_id=<?php echo $mb['mb_id'] ?>">접근가능그룹보기</a><?php } ?>
+				<?php if ($w=='u'){ ?><a href="./boardgroupmember_form.php?mb_id=<?php echo $mb['mb_id'] ?>">접근가능그룹보기</a><?php } ?>
 			<? } ?>
 
 		</td>
@@ -364,7 +369,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 			<input type="checkbox" style='width:24px;height:24px' name="center_use" id="center_use" value=" <?=$mb['center_use']?> " class="frm_input" <? if($mb['center_use'] == '1') {echo "checked";}?> />
 			<?if($mb['center_use']>0){ $center_regist_class = 'active';}else{$center_regist = '';}?>
 			
-			<div id='mb_nick_regist'>
+			<div id='mb_nick_regist' class='<?=$center_regist_class?>'>
 			| 센터명 : 
 			<input type="text" name="mb_nick" id="mb_nick_field" value="<?=$mb['mb_nick']?>" class="frm_input" />
 			</div>
@@ -769,6 +774,15 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 				<input type="radio" name="mb_block" value="0" id="mb_block_no" <?php echo $mb_block_no; ?> >아니오
 			</label>
 	</tr>
+
+<!-- 	<tr>
+		<th scope="row">회원구분표시</th>
+		<td><input type="checkbox" style='width:24px;height:24px' name="center_use" id="center_use" value=" <?=$mb['center_use']?> " class="frm_input" <? if($mb['center_use'] == '1') {echo "checked";}?> /></td>
+		<th scope="row">회원출금차단</th>
+		<td></td>
+	</tr> -->
+	
+
 	<?php if ($config['cf_use_email_certify']) { ?>
 	<tr>
 		<th scope="row">인증일시</th>
@@ -788,17 +802,17 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 
 	<tr>
-		<th scope="row"><label for="mb_leave_date">탈퇴일자</label></th>
+		<th scope="row"><label for="mb_leave_date">회원별도구분</label></th>
 		<td>
 			<input type="text" name="mb_leave_date" value="<?php echo $mb['mb_leave_date'] ?>" id="mb_leave_date" class="frm_input" maxlength="8">
-			<input type="checkbox" value="<?php echo date("Ymd"); ?>" id="mb_leave_date_set_today" onclick="if (this.form.mb_leave_date.value==this.form.mb_leave_date.defaultValue) {
+			<input type="checkbox" value="<?php echo date("Ymd"); ?>" id="mb_leave_date_set_today" style="width:24px;height:24px" onclick="if (this.form.mb_leave_date.value==this.form.mb_leave_date.defaultValue) {
 this.form.mb_leave_date.value=this.value; } else { this.form.mb_leave_date.value=this.form.mb_leave_date.defaultValue; }">
-			<label for="mb_leave_date_set_today">탈퇴일을 오늘로 지정</label>
+			<label for="mb_leave_date_set_today">별도관리 지정</label>
 		</td>
 		<th scope="row">접근차단일자</th>
 		<td>
 			<input type="text" name="mb_intercept_date" value="<?php echo $mb['mb_intercept_date'] ?>" id="mb_intercept_date" class="frm_input" maxlength="8">
-			<input type="checkbox" value="<?php echo date("Ymd"); ?>" id="mb_intercept_date_set_today" onclick="if
+			<input type="checkbox" value="<?php echo date("Ymd"); ?>" id="mb_intercept_date_set_today" style="width:24px;height:24px" onclick="if
 (this.form.mb_intercept_date.value==this.form.mb_intercept_date.defaultValue) { this.form.mb_intercept_date.value=this.value; } else {
 this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
 			<label for="mb_intercept_date_set_today">접근차단일을 오늘로 지정</label>

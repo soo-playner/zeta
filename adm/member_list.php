@@ -8,6 +8,15 @@ auth_check($auth[$sub_menu], 'r');
 
 $get_shop_item = get_shop_item();
 
+
+if($_GET['mode'] == 'del'){
+	$sql_target = 'g5_member_del';
+	$mode = 'del';
+}else{
+	$sql_target = 'g5_member';
+
+}
+
 $sub_sql = "";
 if ($_GET['sst'] == "eth") {
 	$sub_sql = " , (mb_eth_point+mb_eth_calc) as eth";
@@ -36,7 +45,7 @@ if ($_GET['sst'] == "mining") {
 
 
 
-$sql_common = " {$sub_sql} from {$g5['member_table']} ";
+$sql_common = " {$sub_sql} from {$sql_target} ";
 
 $sql_search = " where (1) ";
 if ($stx) {
@@ -118,19 +127,18 @@ include_once('./admin.head.php');
 $sql = " select * {$sql_common} {$sql_search} {$sql_order} limit {$from_record}, {$rows} ";
 
 $result = sql_query($sql);
-
 $colspan = 17;
 
 
 /* 레벨 */
-$grade = "SELECT grade, count( grade ) as cnt FROM g5_member GROUP BY grade order by grade";
+$grade = "SELECT grade, count( grade ) as cnt FROM {$sql_target} GROUP BY grade order by grade";
 $get_lc = sql_query($grade);
 
 /* 국가 */
-$nation_sql = "SELECT nation_number, count( nation_number ) as cnt FROM g5_member GROUP BY nation_number";
+$nation_sql = "SELECT nation_number, count( nation_number ) as cnt FROM {$sql_target} GROUP BY nation_number";
 $nation_row = sql_query($nation_sql);
 
-$blockRec = sql_fetch("select count(mb_block) as cnt from g5_member where mb_block = 1");
+$blockRec = sql_fetch("select count(mb_block) as cnt from {$sql_target} where mb_block = 1");
 
 
 
@@ -138,7 +146,7 @@ function mining_bonus_rate($mb_id, $mb_rate)
 {
 	// $member['recom_mining'] + $member['brecom_mining'] + $member['brecom2_mining'] + $member['super_mining']
 
-	$bonus_total_sql = "SELECT SUM(recom_mining + brecom_mining + brecom2_mining + super_mining) as total FROM g5_member WHERE mb_id = '{$mb_id}' ";
+	$bonus_total_sql = "SELECT SUM(recom_mining + brecom_mining + brecom2_mining + super_mining) as total FROM {$sql_target} WHERE mb_id = '{$mb_id}' ";
 	$bonus_total = sql_fetch($bonus_total_sql)['total'];
 
 	if ($mb_rate > 0) {
@@ -460,7 +468,7 @@ $stats_result = sql_fetch($stats_sql);
 	.td_grade{
 		width:30px;min-width:30px;
 	}
-	.td_id{color:black;font-size:14px;padding-left:8px;font-weight:700;font-family:Montserrat, Arial, sans-serif}
+	
 </style>
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/scss/custom.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap" rel="stylesheet">
@@ -523,7 +531,6 @@ $stats_result = sql_fetch($stats_sql);
 		<input type='hidden' name='nation' id='nation' value='' />
 		<input type='hidden' name='level' id='level' value='' />
 		<input type='hidden' name='grade' id='grade' value='' />
-
 		<!-- <div class="area nation">
 		<?
 		while ($row = sql_fetch_array($nation_row)) {
@@ -570,16 +577,6 @@ $stats_result = sql_fetch($stats_sql);
 </div>
 
 
-<!--member_list_excel.php로 넘길 회원엑셀다운로드 데이터-->
-<!-- <form name="myForm" action="../excel/member_list_excel.php" method="post">
-<input type="hidden" name="sql_common" value="<?php echo $sql_common ?>" />
-<input type="hidden" name="sql_search" value="<?php echo $sql_search ?>" />
-<input type="hidden" name="sql_order" value="<?php echo $sql_order ?>" />
-<input type="hidden" name="from_record" value="<?php echo $from_record ?>" />
-<input type="hidden" name="rows" value="<?php echo $rows ?>" />
-</form> -->
-
-
 <!-- "excel download" -->
 
 <script src="../excel/tabletoexcel/xlsx.core.min.js"></script>
@@ -595,7 +592,7 @@ $stats_result = sql_fetch($stats_sql);
 		
 		<a href="./member_table_depth.php" id="member_depth">회원추천/직추천갱신</a>
 		<a href="./member_table_fixtest.php">추천관계검사</a>
-		<!-- <a href="./member_table_sponsor.php" style='background:antiquewhite'>추천상위스폰서갱신</a> -->
+		<a href="./member_list.php?mode=del" >삭제/탈퇴 회원보기</a>
 		<a href="./member_form.php" id="member_add">회원직접추가</a>
 		<a id="btnExport" data-name='zeta_member_info' class="excel" style="padding:10px 10px;">엑셀 다운로드</a>
 	</div>
@@ -643,7 +640,7 @@ while ($l_row = sql_fetch_array($get_lc)) {
 					<th scope="col" rowspan="2" id="mb_list_id" class="td_name center"><?php echo subject_sort_link('mb_id') ?>아이디</a></th>
 					<th scope="col" rowspan="2" id="mb_list_id" class="td_name center"><?php echo subject_sort_link('mb_name') ?>이름</a></th>
 					<!--<th scope="col" rowspan="2"  id="mb_list_cert"><?php echo subject_sort_link('mb_certify', '', 'desc') ?>메일인증확인</a></th>-->
-
+					<?if($mode=='del'){?><th scope="col" rowspan="2" id="mb_list_member" class="td_leave_date"><?php echo subject_sort_link('mb_name') ?>탈퇴일</a></th><?}?>
 					<th scope="col" rowspan="2" id="mb_list_mobile" class="center">추천인</th>
 					<th scope="col" rowspan="2" id="mb_list_mobile" class="center"><?php echo subject_sort_link('mb_habu_sum') ?>직추천</th>
 					<!-- <th scope="col" rowspan="2" id="mb_list_mobile" class="center">후원인</th> -->
@@ -767,15 +764,16 @@ while ($l_row = sql_fetch_array($get_lc)) {
 							<div class='badge over'><?= $row['grade'] ?></div>
 						</td>
 
-						<td headers="mb_list_member" class="td_mbgrade" rowspan="2">
+						<td headers="mb_list_member" class="td_mbgrade" rowspan="2" style="width:110px;max-width:110px;">
 							<span class='icon'><?=user_icon($row['mb_id'],'icon')?></span>
 							<?php echo get_member_level_select("mb_level[$i]", 0, $member['mb_level'], $row['mb_level']) ?>
 						</td>
 
-						<td headers="mb_list_id" rowspan="2" class="td_name td_id" style="width:auto">
+						<td headers="mb_list_id" rowspan="2" class="td_name td_id <?if($row['mb_leave_date'] != ''){echo 'red';}?>" style="min-width:120px; width:auto">
 							<?php echo $mb_id ?>
 						</td>
 						<td rowspan="2" class="td_name name" style='width:70px;'><?php echo get_text($row['mb_name']); ?></td>
+						<?if($mode=='del'){?><th scope="col" rowspan="2" class="td_mbstat" style='letter-spacing:0;'><?=$row['mb_leave_date']?></th><?}?>
 						<td rowspan="2" class="td_name name" style='width:70px;'><?php echo $row['mb_recommend'] ?></td>
 						<td rowspan="2" class="td_name td_index <? if($row['mb_habu_sum']>=2){echo 'strong';}?>"><?=$row['mb_habu_sum'] ?></td>
 
