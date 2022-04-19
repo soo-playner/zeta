@@ -51,6 +51,16 @@ function percent_value($value){
 	return $return;
 }
 
+function percent_value_number($val,$rate){
+	
+	if($val > 0 && $rate > 0){
+		$percent_value = Number_format($val/$rate);
+	}else{
+		$percent_value = 0;
+	}
+	return $percent_value;
+}
+
 function side_exp($val){
 	return "<span class='sideexp'>".$val."</span>";
 }
@@ -80,6 +90,7 @@ function remain_hash($val,$rate,$exp = true){
 
 	return $remain;
 }
+
 
 
 $title = 'Dashboard';
@@ -196,7 +207,7 @@ $title = 'Dashboard';
 							<dd class="value"><?=percent_value($member['recom_mining'])?>  <?=remain_hash($member['recom_mining'],3)?></dd>
 						</li>
 					</ul>
-					<?if(($member['super_mining']/$member['mb_rate']) > 100){?>
+					<?if(percent_value_number($member['super_mining'],$member['mb_rate']) > 100){?>
 					<ul class='extra'>
 						받지 못한 보너스가 있어요. <i class="ri-zoom-in-line"></i> CLICK
 					</ul>
