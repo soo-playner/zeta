@@ -2941,6 +2941,19 @@ function member_delete($mb_id)
 	global $config;
 	global $g5;
 
+	
+	$move_sql = "INSERT INTO g5_member_del (select * from {$g5['member_table']} where mb_id= '".$mb_id."')";
+	// $mb = sql_fetch($sql);
+	sql_query($move_sql);
+
+	// 삭제일 기록
+	$del_date_update = "UPDATE g5_member_del set mb_leave_date = '".date('Ymd', G5_SERVER_TIME)."' ";
+	sql_query($del_date_update);
+
+	$del_sql = "DELETE FROM g5_member WHERE mb_id = '{$mb_id}'  ";
+	sql_query($del_sql);
+	
+	/* 
 	$sql = " select mb_name, mb_nick, mb_ip, mb_recommend, mb_memo, mb_level from {$g5['member_table']} where mb_id= '".$mb_id."' ";
 	$mb = sql_fetch($sql);
 	
@@ -2983,7 +2996,7 @@ function member_delete($mb_id)
 	sql_query(" update {$g5['board_table']} set bo_admin = '' where bo_admin = '$mb_id' ");
 
 	// 아이콘 삭제
-	@unlink(G5_DATA_PATH.'/member/'.substr($mb_id,0,2).'/'.$mb_id.'.gif');
+	@unlink(G5_DATA_PATH.'/member/'.substr($mb_id,0,2).'/'.$mb_id.'.gif'); */
 }
 
 // 이메일 주소 추출

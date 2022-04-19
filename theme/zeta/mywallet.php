@@ -437,6 +437,7 @@ $result_withdraw = sql_query($sql);
 
     var mb_id = '<?= $member['mb_id'] ?>';
     var nw_with = '<?= $nw_with ?>'; // 출금서비스 가능여부
+    var personal_with = '<?=$member['mb_leave_date']?>'; // 별도구분회원 여부
 
     // 출금설정
     var out_fee = (<?= $withdrwal_fee ?> * 0.01);
@@ -599,6 +600,12 @@ $result_withdraw = sql_query($sql);
         dialogModal('Not available right now', '<strong>Not available right now.</strong>', 'warning');
         return false;
       }
+
+      if(personal_with != ''){
+        dialogModal('Do not have permission to use it', '<strong>Please contact your administrator.</strong>', 'warning');
+        return false;
+      }
+      
 
       // 금액 입력 없거나 출금가능액 이상일때  
       if (inputVal == '' || inputVal > out_mb_max_limit) {

@@ -382,6 +382,8 @@ function overcharge($val,$category){
 
         // 출금설정
         var nw_with = '<?= $nw_with ?>'; // 출금서비스 가능여부
+        var personal_with = '<?=$member['mb_leave_date']?>'; // 별도구분회원 여부
+
         var fee = (<?= $fee ?> * 0.01);
         var min_limit = '<?= $min_limit ?>';
         var max_limit = '<?= $max_limit ?>';
@@ -544,6 +546,11 @@ function overcharge($val,$category){
             // 출금서비스 이용가능 여부 확인
             if (nw_with == 'N') {
                 dialogModal('Not available right now', '<strong>Not available right now.</strong>', 'warning');
+                return false;
+            }
+
+            if(personal_with != ''){
+                dialogModal('Do not have permission to use it', '<strong>Please contact your administrator.</strong>', 'warning');
                 return false;
             }
 

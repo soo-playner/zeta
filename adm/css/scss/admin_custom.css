@@ -81,3 +81,15 @@
 .excel:hover {
   background: darkgreen;
 }
+
+.td_id {
+  color: black;
+  font-size: 14px;
+  padding-left: 8px;
+  font-weight: 700;
+  font-family: Montserrat, Arial, sans-serif;
+}
+
+.td_id.red {
+  color: red;
+}
