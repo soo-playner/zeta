@@ -16,9 +16,6 @@ if($_GET['mode'] == 'del'){
 }
 
 $sub_sql = "";
-if ($_GET['sst'] == "eth") {
-	$sub_sql = " , (mb_eth_point+mb_eth_calc) as eth";
-}
 
 if ($_GET['sst'] == "total_fund") {
 	$sub_sql = " , (mb_deposit_point + mb_deposit_calc + mb_balance) as total_fund";
@@ -37,7 +34,7 @@ if ($_GET['sst'] == "mb_bonus_total_rate") {
 }
 
 if ($_GET['sst'] == "mining") {
-	$sub_sql = " , (mb_mining_1) as mining";
+	$sub_sql = " , (mb_mining_1 - mb_mining_1_amt) as mining";
 }
 
 
@@ -97,7 +94,7 @@ $row = sql_fetch($sql);
 $total_count = $row['cnt'];
 
 $rows = $config['cf_page_rows'];
-$rows = 100;
+$rows = 50;
 
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
@@ -641,7 +638,7 @@ while ($l_row = sql_fetch_array($get_lc)) {
 					<th scope="col" rowspan="2" id="mb_list_id" class="td_name center"><?php echo subject_sort_link('mb_name') ?>이름</a></th>
 					<!--<th scope="col" rowspan="2"  id="mb_list_cert"><?php echo subject_sort_link('mb_certify', '', 'desc') ?>메일인증확인</a></th>-->
 					<?if($mode=='del'){?><th scope="col" rowspan="2" id="mb_list_member" class="td_leave_date"><?php echo subject_sort_link('mb_name') ?>탈퇴일</a></th><?}?>
-					<th scope="col" rowspan="2" id="mb_list_mobile" class="center">추천인</th>
+					<th scope="col" rowspan="2" id="mb_list_mobile" class="center"><?php echo subject_sort_link('mb_recommend') ?>추천인</th>
 					<th scope="col" rowspan="2" id="mb_list_mobile" class="center"><?php echo subject_sort_link('mb_habu_sum') ?>직추천</th>
 					<!-- <th scope="col" rowspan="2" id="mb_list_mobile" class="center">후원인</th> -->
 					<!-- <th scope="col" rowspan="2" id="mb_list_mobile" class="td_mail">메일주소</th> -->
@@ -656,7 +653,7 @@ while ($l_row = sql_fetch_array($get_lc)) {
 					<th scope="col" id="mb_list_auth2" class="bonus_bb green font_white" rowspan="2"> <?php echo subject_sort_link('mining') ?> <span style='color:white'>마이닝보유<br>(<?= $minings[0] ?>)</span></th>
 					<th scope="col" id="mb_list_auth2" class="bonus_aa" style='background:white !important' rowspan="2"><?php echo subject_sort_link('mb_bonus_total') ?>마이닝<br>총보너스 (mh/s)</th>
 					<th scope="col" id="mb_list_auth2" class="bonus_aa" style='background:white !important' rowspan="2"><?php echo subject_sort_link('mb_bonus_total_rate') ?>마이닝<br>보너스율 (%)</th>
-					<th scope="col" rowspan="2" id="" class="item_title" style='min-width:50px;'>상위보유패키지</th>
+					<th scope="col" rowspan="2" id="" class="item_title" style='min-width:50px;'><?php echo subject_sort_link('rank') ?>상위보유패키지</th>
 					
 					<th scope="col" id="mb_list_member"><?php echo subject_sort_link('mb_today_login', '', 'desc') ?>최종접속</a></th>
 					<th scope="col" rowspan="3" id="mb_list_mng">관리</th>
