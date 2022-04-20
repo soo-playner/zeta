@@ -11,7 +11,14 @@ $result = sql_query($sql);
             <p class='cabinet_inner'>
                 <span class='con_title'><?=$row['title']?></span>
                 <span class='con_contents'><?=$row['contents']?></span>
-                <span class='con_img'><?=$row['img']?></span>
+                <?if($row['images'] != ''){
+                    $img_src = G5_URL.$row['images'];
+                    ?>
+                    <span class='con_images' style='display:block;margin:10px;'>
+                        <img src="<?=$img_src?>" style='max-width:100%;max-height:200px;'>
+                    </span>
+                <?}?>
+                
             </p>
 		</div>
 	<?}?>
@@ -23,5 +30,6 @@ $result = sql_query($sql);
             <span class='guide'>
                 {mb_id} <code>: 회원명</code>
             </span>
+            
         </p>
     </div>

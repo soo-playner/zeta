@@ -25,9 +25,11 @@ $get_contents = sql_fetch($contents_sql);
 if($contents_code == 99){
     $msg_title = $_POST['contents_title'];
     $msg_contents =  $_POST['contents_content'];
+    $msg_img = G5_URL.$_POST['images'];
 }else{
     $msg_title = $get_contents['title'];
     $msg_contents = $get_contents['contents'];
+    $msg_img = G5_URL.$get_contents['images'];
 }
 
 
@@ -78,6 +80,8 @@ for ($i=0; $i<$count; $i++)
         $fcm_title = replace_code($msg_title,$code_val1,1,$mb_id);
         $fcm_contents = replace_code($msg_contents,$code_val2,2,$mb_id);
     }
+
+    $msg_img = $msg_img;
     
 
     /* echo $chk_id[$k];
@@ -89,11 +93,7 @@ for ($i=0; $i<$count; $i++)
     print_R($fcm_token); */
 
 
-    $send_result = setPushData(
-        $fcm_title,
-        $fcm_contents,
-        $fcm_token
-    );
+    $send_result = setPushData($fcm_title,$fcm_contents,$fcm_token,$msg_img);
 
     
     $send_log = "INSERT INTO msg_send_log (mb_id,title,contents,datetime,fcm_token) VALUES 

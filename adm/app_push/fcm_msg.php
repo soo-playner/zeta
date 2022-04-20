@@ -69,7 +69,7 @@ $list = sql_query("SELECT * from app_msg");
     <td style="text-align:center"><input class='frm_input' name="name[]"  value="<?=$row['name']?>"></input></td>
     <td style="text-align:center;width:250px;"><input class='frm_input' name="title[]"  value="<?=$row['title']?>"></input></td>
     <td style="text-align:center"><textarea class='frm_input content' name="contents[]" ><?=$row['contents']?></textarea></td>
-    <td style="text-align:center"><input class='frm_input' name="image[]"  value="<?=$row['image']?>"></input></td>
+    <td style="text-align:center"><input class='frm_input' name="image[]"  value="<?=$row['images']?>"></input></td>
     <td style="text-align:center"><input type='checkbox' class='checkbox' name='used[]' <?php echo $row['used'] > 0 ?'checked':''; ?>></td>
     </tr>
     <?}?>

@@ -472,7 +472,7 @@ $stats_result = sql_fetch($stats_sql); */
 		echo '전체회원 : ';
 	} else {
 		echo '발송가능회원 : ';
-	} ?> <strong><?= number_format($total_count) ?></strong> 명 |
+	} ?> <strong><?= number_format($total_count)?></strong> 명 |
 	현재 안드로이드 APP PUSH 만 발송가능합니다.
 	<br>
 	- 보낼사용자 선택 => 선택대상회원발송 => 메세지선택 => 발송
@@ -545,6 +545,7 @@ $stats_result = sql_fetch($stats_sql); */
 	<input type="hidden" name="contents_code" id='contents_code' value="">
 	<input type="hidden" name="contents_title" id='contents_title' value="">
 	<input type="hidden" name="contents_content" id='contents_content' value="">
+	<input type="hidden" name="contents_images" id='contents_images' value="">
 
 	<div class="tbl_head02 tbl_wrap" style="clear:both">
 		<table>
@@ -804,10 +805,12 @@ $stats_result = sql_fetch($stats_sql); */
 				$('.send_btn').on('click',function(){
 					if(id_num == 99){
 						$("#contents_title").val($("#con_title").val());
-						$("#contents_content").val($("#con_contents").val())
+						$("#contents_content").val($("#con_contents").val());
+						$("#contents_images").val($("#con_images").val());
 					}else{
 						$("#contents_title").val('');
 						$("#contents_content").val('');
+						$("#contents_images").val('');
 					}
 
 					$("#fcm_msg").submit();
