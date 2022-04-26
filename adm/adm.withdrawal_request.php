@@ -99,6 +99,9 @@ function return_status_tx($val)
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link href="<?= G5_ADMIN_URL ?>/css/scss/adm.withdrawal_request.css" rel="stylesheet">
 
+<style>
+	
+</style>
 
 <script src="../excel/tabletoexcel/xlsx.core.min.js"></script>
 <script src="../excel/tabletoexcel/FileSaver.min.js"></script>
@@ -254,8 +257,8 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 			<thead>
 				<!-- <th style="width:3%;">선택</th> -->
 				<th style="width:4%;"><a href="?ord=<?php echo $ord_rev; ?>&ord_word=uid">No <?php echo $ord_arrow[$ord_key]; ?></a></th>
-				<th style="width:5%;">아이디 </th>
-				<th style="width:5%;">이름</th>
+				<th style="width:8%;">아이디 </th>
+				<th style="width:4%;">이름</th>
 				<th style="width:auto">출금정보</th>
 
 				<th style="width:4%;">출금단위</th>
@@ -264,13 +267,13 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 				<th style="width:7%;">출금계산액(수수료)</th>
 
 				<th style="width:7%;">출금액 <span style='color:red'>(<?= WITHDRAW_CURENCY ?>)</span></th>
-				<th style="width:4%;">출금시세</th>
+				<th style="width:3%;">출금시세</th>
 
 				<!-- <th style="width:5%;">적용코인시세</th> -->
 
-				<th style="width:6%;">요청일시</th>
-				<th style="width:7%;">승인여부</th>
-				<th style="width:6%;">상태변경일</th>
+				<th style="width:5%;">요청일시</th>
+				<th style="width:6%;">승인여부</th>
+				<th style="width:5%;">상태변경일</th>
 				<th style="width:10%;">관리자메모</th>
 			</thead>
 
@@ -291,9 +294,9 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 
 						<!-- <td ><input type="checkbox" name="paid_BTC[]" value="<?= $row['uid'] ?>" class="pay_check">  </td> -->
 						<td><?= $row['uid'] ?></td>
-						<td><a href='/adm/member_form.php?w=u&mb_id=<?= $row['mb_id'] ?>'><?= $row['mb_id'] ?></a></td>
+						<td class='td_id'><a href='/adm/member_form.php?w=u&mb_id=<?= $row['mb_id'] ?>'><?= $row['mb_id'] ?></a></td>
 						<input type="hidden" value="<?= $row['mb_id'] ?>" name="mb_id[]">
-						<td><?= $mb['mb_name'] ?></td>
+						<td style='color:#777'><?= $mb['mb_name'] ?></td>
 
 						<td style="text-align:left;padding-left:7px;">
 							<?php if ($row['addr'] == '') { ?>
@@ -394,7 +397,7 @@ if ($pagelist) {
 			$contents = $(this).val();
 			
 			$.ajax({
-				url: './adm.withdrawal.api.php',
+				url: './adm.memo.api.php',
 				type: 'POST',
 				cache: false,
 				async: false,

@@ -112,6 +112,34 @@ $result = sql_query($sql);
 
 <script>
 	$(function(){
+        $('.admin_memo').on('change',function(){
+
+        $contents = $(this).val();
+
+        $.ajax({
+            url: './adm.memo.api.php',
+            type: 'POST',
+            cache: false,
+            async: false,
+            data: {
+                "contents": $contents,
+                "uid": $(this).data('uid'),
+                "category" : $(this).data('category')
+            },
+            dataType: 'json',
+            success: function(result) {
+                if (result.result == "success") {
+                    
+                }else {
+                    alert("정상처리되지 않았습니다.");
+                }
+            },
+            error: function(e) {
+                alert("정상처리되지 않았습니다.");
+            }
+        });
+        });
+
         // 바이너리 추가
         $('.add_binary').on('click',function(){
             var mb_id = $(this).data('id');
@@ -271,16 +299,17 @@ $result = sql_query($sql);
         <th scope="col" width='5%'>no</th>
         <th scope="col" width='8%'>아이디</th>
         <th scope="col" width='8%'>추천인</th>
-        <th scope="col" width='8%'>센터</th>
-        <th scope="col" width='8%'>입금자명</th>
+        <th scope="col" width='5%'>센터</th>
+        <th scope="col" width='5%'>입금자명</th>
         <th scope="col" width='10%'>입금요청금액</th>
         <th scope="col" width='12%'>입금처리금액</th>
         <th scope="col" width='4%'>입금종류</th>
-        <th scope="col" width='8%'>승인여부</th>
-        <th scope="col" width='12%'>요청시간</th>
-        <th scope="col" width='12%'>상태변경일</th>
-        <th scope="col" width='16%'>추가항목</th>
+        <th scope="col" width='10%'>승인여부</th>
+        <th scope="col" width='8%'>요청시간</th>
+        <th scope="col" width='8%'>상태변경일</th>
+        <th scope="col" width='6%'>조직도등록</th>
         <!-- <th scope="col" width='10%'>추가항목2</th> -->
+        <th scope="col" style="width:14%;">관리자메모</th>
     </tr>
     </thead>
     <tbody>
@@ -303,10 +332,10 @@ $result = sql_query($sql);
    
     <tr class=" <?=$row_dup?>">
         <td ><?php echo $row['uid'] ?></td>
-        <td style='color:#333;font-weight:600'><a href='/adm/member_form.php?sst=&sod=&sfl=&stx=&page=&w=u&mb_id=<?=$row['mb_id']?>' target='_blank'><?=$row['mb_id'] ?></a></td>
+        <td class='td_id'><a href='/adm/member_form.php?sst=&sod=&sfl=&stx=&page=&w=u&mb_id=<?=$row['mb_id']?>' target='_blank'><?=$row['mb_id'] ?></a></td>
         <td style='color:#666'><?=$member_result['mb_recommend']?></td>
         <td style='color:#666'><?=$member_result['mb_center']?></td>
-        <td ><?=$row['txhash']?></td>
+        <td style='color:#666'><?=$row['txhash']?></td>
         <td><?=Number_format($row['in_amt'],ASSETS_NUMBER_POINT)?></td>
         <td><input type='text' class='reg_text input_amt_val' style='font-weight:600;color:blue;text-align:right' value='<?=Number_format($row['in_amt'],ASSETS_NUMBER_POINT)?>' inputmode="numeric"></td>
         <td class='coin'><?=strtoupper($row['coin']);?></td>
@@ -333,9 +362,13 @@ $result = sql_query($sql);
             <?}?>
         </td>
         <!-- <td>
-            <?if($member_binary || $member_binary2){?>
-                <input type="button" class="inline_btn add_binary btn3" value='후원레그삭제' data-id='<?=$row['mb_id']?>' data-func='3'></input>
-            <?}?></td> -->
+        <?if($member_binary || $member_binary2){?>
+            <input type="button" class="inline_btn add_binary btn3" value='후원레그삭제' data-id='<?=$row['mb_id']?>' data-func='3'></input>
+        <?}?></td> -->
+
+        <td>
+            <textArea id='' class='admin_memo' name='memo' data-uid="<?=$row['uid']?>" data-category='deposit' ><?=$row['memo']?></textArea>
+        </td>
     </tr>
 
     <?php

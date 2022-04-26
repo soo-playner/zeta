@@ -11,6 +11,8 @@
             $target = 'wallet_withdrawal_request';
         }else if ($category == 'mining'){
             $target = 'wallet_withdrawal_request';
+        }else if ($category == 'deposit'){
+            $target = 'wallet_deposit_request';
         }
 
         $update_item = "UPDATE {$target} set memo = '{$contents}' WHERE uid = {$uid} ";

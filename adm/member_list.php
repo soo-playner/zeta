@@ -468,7 +468,6 @@ $stats_result = sql_fetch($stats_sql);
 	
 </style>
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/scss/custom.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap" rel="stylesheet">
 <style>
 
 </style>

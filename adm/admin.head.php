@@ -95,8 +95,10 @@ function imageview(id, w, h)
 	<iframe name='framer' id="framer" frameborder="0"></iframe> 
 </div><!-- // framewrp -->
 
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap" rel="stylesheet">
 <link href="/adm/css/scss/admin_custom.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+
 <script>
 $(function(){
 	$('span[id^="ajax_"]').click(function () {

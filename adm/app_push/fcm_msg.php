@@ -25,7 +25,6 @@ $list = sql_query("SELECT * from app_msg");
 
 <link rel="stylesheet" href="<?= G5_THEME_URL ?>/css/scss/custom.css">
 <link rel="stylesheet" href="../css/scss/admin_custom.css">
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <div class="local_ov01 local_ov">
     <?php echo $listall ?>
