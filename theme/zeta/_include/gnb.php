@@ -72,38 +72,110 @@ $(document).ready(function(){
 		</div>
 		<div class="b_line3"></div>
 		<ul class="left_gnb">
-			<!-- <li class="dashboard_icon"><a href="/"><span data-i18n="">대쉬보드</span></a></li> -->
-
-			<li class="profile_icon"><a href="/page.php?id=profile"><span data-i18n="">개인정보&보안설정</span></a></li>
+			<!-- <li class="dashboard_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/"><span data-i18n="">대쉬보드</span></a>
+				</div>
+			</li> -->
+			<li class="profile_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=profile"><span data-i18n="">개인정보&보안설정</span></a>
+				</div>
+			</li>
 			<?if($nw['nw_with'] == 'Y'){?>
-			<li class="mywallet_icon"><a href="/page.php?id=mywallet"><span data-i18n="">입출금</span></a></li> <?}?>
-			<li class="mining_icon"><a href="/page.php?id=mining"><span data-i18n="">마이닝</span></a></li>
-			<li class="recommend_icon"><a href="/page.php?id=mypool"><span data-i18n="">마이풀</span></a></li>
+			<li class="mywallet_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=mywallet"><span data-i18n="">입출금</span></a>
+				</div>
+			</li> 
+			<?}?>
+			<li class="mining_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=mining"><span data-i18n="">마이닝</span></a>
+				</div>
+			</li>
+			<li class="mypool_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=mypool"><span data-i18n="">마이풀</span></a>
+				</div>
+			</li>
 			<?if($nw['nw_purchase'] == 'Y'){?>
-			<li class="upstairs_icon"><a href="/page.php?id=upstairs"><span data-i18n="">패키지구매</span></a></li> <?}?>
-
-			<li class="bonus_history_icon"><a href="/page.php?id=bonus_history"><span data-i18n="">보너스내역</span></a></li>
-			<?
-				if($member['center_use'] == 1){?>
-				<li class="center_page"><a href="/page.php?id=center_page"><i class="ri-team-line" style='font-size:26px;color:#435388;vertical-align:bottom;'></i><span style="margin-left:22px">센터회원관리</span></a></li>
-				<?}
-			?>
-			<li class="recommend_icon"><a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a></li>
-			<!-- <li class="support_icon"><a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a></li>
-			<li class="support_icon"><a href="/page.php?id=binary2"><span data-i18n="">후원조직도2</span></a></li> -->
-
-			<li class="notice_icon"><a href="/page.php?id=news"><span data-i18n="">공지사항</span></a></li>
-			<li class="question_icon"><a href="/page.php?id=support_center"><span data-i18n="">1:1문의사항</span></a></li>
-			<li class="reffer_icon"><a href="/page.php?id=referral_link"><span data-i18n="">추천인링크</span></a></li>
+			<li class="upstairs_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=upstairs"><span data-i18n="">패키지구매</span></a>
+				</div>
+			</li> 
+			<?}?>
+			<li class="bonus_history_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=bonus_history"><span data-i18n="">보너스내역</span></a>
+				</div>
+			</li>
+			<?if($member['center_use'] == 1){?>
+			<li class="center_page_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=center_page"><span data-i18n="">센터회원관리</span></a>
+				</div>
+			</li>
+			<?}?>
+			<li class="recommend_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a>
+				</div>
+			</li>
+			<li class="support_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a>
+				</div>
+			</li>
+			<li class="support_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=binary2"><span data-i18n="">후원조직도2</span></a>
+				</div>
+			</li>
+			<li class="notice_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=news"><span data-i18n="">공지사항</span></a>
+				</div>
+			</li>
+			<li class="question_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=support_center"><span data-i18n="">1:1문의사항</span></a>
+				</div>
+			</li>
+			<li class="reffer_icon">
+				<div class="gnb_img_wrap"></div>
+				<div class="gnb_title_Wrap">
+					<a href="/page.php?id=referral_link"><span data-i18n="">추천인링크</span></a>
+				</div>
+			</li>
 			<!-- <li class="shopping_mall_icon"><a href="javascript:move_to_shop();"><span data-i18n="">쇼핑몰</span></a></li> -->
 			<!-- <div class="b_line3"></div> -->
-			
-			<div class='gnb_bottom text-center hidden'><i class="ri-arrow-down-s-line" style='font-size:20px;vertical-align:top'></i></div>
-
+			<div class='gnb_bottom text-center'><i class="ri-arrow-down-s-line" style='font-size:20px;vertical-align:top'></i></div>
 			<ul class="logout_wrap row">
-				<li class="foot_btn logout_icon"><a href="javascript:void(0);" class="logout_pop_open"><span data-i18n="">로그아웃</span></a></li>
+				<li class="foot_btn logout_icon">
+					<div class="gnb_img_wrap"></div>
+					<div class="gnb_title_Wrap">
+						<a href="javascript:void(0);" class="logout_pop_open"><span data-i18n="">로그아웃</span></a>
+					</div>
+				</li>
 				<li class="h_line"></li>
-				<li class="foot_btn terms_icon"><a href="/page.php?id=member_term"><span data-i18n="">회원약관</span></a></li>
+				<li class="foot_btn terms_icon">
+					<a href="/page.php?id=member_term"><span data-i18n="">회원약관</span></a>
+				</li>
 			</ul>
 			<div class='gnb-footer'>
 				<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
@@ -117,6 +189,10 @@ $(document).ready(function(){
 			<a href="/"><img src= "<?=G5_THEME_URL?>/img/title.png" alt="logo"></a>
 			<?if($member['mb_level'] >= 9){?><button type="button" class='btn adm_btn' onclick="location.href= '<?=G5_ADMIN_URL?>'" ><i class="ri-user-settings-line"></i>Admin</button><?}?>
 		</h3>
+		<!-- <select name="" id="mode_select" >
+			<option value="white">화이트</option>
+			<option value="dark">다크</option>
+		</select> -->
 	</div>
 
 	

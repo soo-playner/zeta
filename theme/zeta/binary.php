@@ -217,9 +217,9 @@ if($mem_self <= 0){
 	<link rel="stylesheet" href="<?=G5_THEME_URL?>/_common/css/level_structure.css">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	
-		<main>
+		<main class="binary_wrap">
 			<div class="container nomargin nopadding">
-				<section class="binary_wrap">
+				<section>
 				
 					<div class="btn_input_wrap binary_search">
 						<div class="bin_top">회원 검색</div>

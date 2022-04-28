@@ -19,13 +19,18 @@
 					<input type="hidden" id="url" name="url" value="<?=$url?>">
 				<div>
 					<label for="u_name"><span data-i18n="login.유저네임">Userid</span></label>
-					<input type="text" name="mb_id" id=" u_name" placeholder="ID"/>
+					<input type="text" name="mb_id" id=" u_name" placeholder="ID" />
 
 				</div>
 				<div>
 					<label for="u_pw"><span data-i18n="login.비밀번호">Password</span></label>
 					<input type="password" name="mb_password" id="u_pw" style="line-height:22px;" placeholder="password" onkeyup="press(this.form)"/>
 				</div>
+				<style>
+					input:active {
+						/* background: yellow; */
+					}
+				</style>
 
 				
 				<div style='text-align:left'>

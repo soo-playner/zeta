@@ -10,7 +10,6 @@ include_once(G5_THEME_PATH.'/_include/gnb.php');
 if($nw['nw_enroll'] == 'Y'){
 }else{
 	alert("현재 서비스를 이용할수없습니다.");
-	break;
 }
 
 $service_term = get_write("g5_write_agreement", 1);
@@ -817,20 +816,20 @@ if ($_GET['recom_referral']){
 
 	
 	function collapse(id) {
-			if ($(id + "_term").css("display") == "none") {
-				$(id + "_term").css("display", "block");
-				$(id + "_term").animate({
-					height: "150px"
-				}, 100, function() {
-					$(id + ' .svg-inline--fa').css('transform', "rotate(180deg)");
-				});
-			} else {
-				$(id + "_term").animate({
-					height: "0px"
-				}, 100, function() {
-					$(id + "_term").css("display", "none");
-					$(id + ' .svg-inline--fa').css('transform', "rotate(360deg)");
-				});
-			}
+		if ($(id + "_term").css("display") == "none") {
+			$(id + "_term").css("display", "block");
+			$(id + "_term").animate({
+				height: "150px"
+			}, 100, function() {
+				$(id + ' .svg-inline--fa').css('transform', "rotate(180deg)");
+			});
+		} else {
+			$(id + "_term").animate({
+				height: "0px"
+			}, 100, function() {
+				$(id + "_term").css("display", "none");
+				$(id + ' .svg-inline--fa').css('transform', "rotate(360deg)");
+			});
 		}
+	}
 </script>

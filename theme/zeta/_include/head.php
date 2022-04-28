@@ -68,15 +68,14 @@ if(!isset($g5['title'])){
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.js" type="text/javascript"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.9.0/i18next.min.js" type="text/javascript"></script>
-
-
-
-
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<?
 	include_once(G5_THEME_PATH.'/modal.html');
 	include_once(G5_THEME_PATH.'/_include/popup.php');
 	// include_once(G5_THEME_PATH.'/_include/common_js.php');
+
+	$thisTheme = 'white';
 	?>
 
 
@@ -91,12 +90,25 @@ if(!isset($g5['title'])){
 	var g5_sca       = "<?php echo isset($sca)?$sca:''; ?>";
 	var g5_editor    = "<?php echo ($config['cf_editor'] && $board['bo_use_dhtml_editor'])?$config['cf_editor']:''; ?>";
 	var g5_cookie_domain = "<?php echo G5_COOKIE_DOMAIN ?>";
+
+	var g5_theme_url = "<?php echo G5_THEME_URL ?>";
+	var thisTheme = "<?php echo $thisTheme; ?>";
 	<?php if(defined('G5_IS_ADMIN')) { ?>
 	var g5_admin_url = "<?php echo G5_ADMIN_URL; ?>";
+	
 	<?php } ?>
+
+	
 	</script>
 
+	<script>
+		// 테마변경 초기화
+		$(function() {
+			mode_init();
+		});
+	</script>
 </head>
+
 <body>
 
 <?

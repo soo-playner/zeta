@@ -140,11 +140,10 @@ header .left_gnbWrap .left_gnb {
 	height: calc(100% - 200px);
 }
 header .left_gnbWrap .left_gnb > li {
-	width: 96%;
 	background-repeat: no-repeat;
 	background-size: 28px;
 	background-position: 18px 10px;
-	margin-left: 5px;
+	padding-left: 20px;
 }
 header .left_gnbWrap .left_gnb .b_line3 {
 	margin-top: 130px;
@@ -187,10 +186,8 @@ header .left_gnbWrap .left_gnb li a:hover {
 }
 header .left_gnbWrap .left_gnb li a span {
 	text-transform: uppercase;
-	margin-left: 48px;
 }
 header .left_gnbWrap .left_gnb .logout_wrap a span {
-	margin-left: 33px;
 }
 header .left_gnbWrap .left_gnb .logout_wrap li:nth-child(3) a span {
 	margin-left: 20px;
@@ -227,7 +224,8 @@ header .left_gnbWrap .left_gnb .logout_wrap .foot_btn {
 	background-position: 30px 15px;
 }
 header .left_gnbWrap .left_gnb .logout_wrap .h_line {
-	margin: 13px 10px;
+	margin: 13px 0px;
+	background: #ccc;
 }
 .gnb-footer {
 	position: absolute;
@@ -238,7 +236,7 @@ header .left_gnbWrap .left_gnb .logout_wrap .h_line {
 	box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
-.dashboard_icon {
+/* .dashboard_icon {
 	background: url("../../img/gnb/dashboard.png");
 }
 .dashboard_icon:hover {
@@ -315,7 +313,88 @@ header .left_gnbWrap .left_gnb .logout_wrap .h_line {
 }
 .logout_icon:hover {
 	background: #eff3f9 url("../../img/gnb/logout_blue.png");
+} */
+
+
+
+/* .dashboard_icon {
+	background: url("../../img/gnb/menu_set.png");
 }
+.dashboard_icon:hover {
+	background: #eff3f9 url("../../img/gnb/dashboard_blue.png");
+}
+.profile_icon {
+	background: url("../../img/gnb/menu_set.png");
+}
+.profile_icon:hover {
+	background: #eff3f9 url("../../img/gnb/profile_blue.png");
+}
+.mywallet_icon {
+	background: url("../../img/gnb/mywallet.png");
+}
+.mywallet_icon:hover {
+	background: #eff3f9 url("../../img/gnb/mywallet_blue.png");
+}
+.mining_icon {
+	background: url("../../img/gnb/mining.png");
+}
+.mining_icon:hover {
+	background: #eff3f9 url("../../img/gnb/mining_blue.png");
+}
+.upstairs_icon {
+	background: url("../../img/gnb/upstairs.png");
+}
+.upstairs_icon:hover {
+	background: #eff3f9 url("../../img/gnb/upstairs_blue.png");
+}
+.bonus_history_icon {
+	background: url("../../img/gnb/bonus_history.png");
+}
+.bonus_history_icon:hover {
+	background: #eff3f9 url("../../img/gnb/bonus_history_blue.png");
+}
+.recommend_icon {
+	background: url("../../img/gnb/recommend.png");
+}
+.recommend_icon:hover {
+	background: #eff3f9 url("../../img/gnb/recommend_blue.png");
+}
+.support_icon {
+	background: url("../../img/gnb/support.png");
+}
+.support_icon:hover {
+	background: #eff3f9 url("../../img/gnb/support_blue.png");
+}
+.notice_icon {
+	background: url("../../img/gnb/notice.png");
+}
+.notice_icon:hover {
+	background: #eff3f9 url("../../img/gnb/notice_blue.png");
+}
+.question_icon {
+	background: url("../../img/gnb/question.png");
+}
+.question_icon:hover {
+	background: #eff3f9 url("../../img/gnb/question_blue.png");
+}
+.reffer_icon {
+	background: url("../../img/gnb/reffer.png");
+}
+.reffer_icon:hover {
+	background: #eff3f9 url("../../img/gnb/reffer_blue.png");
+}
+.shopping_mall_icon {
+	background: url("../../img/gnb/shopping_mall.png");
+}
+.shopping_mall_icon:hover {
+	background: #eff3f9 url("../../img/gnb/shopping_mall_blue.png");
+}
+.logout_icon {
+	background: url("../../img/gnb/logout.png");
+}
+.logout_icon:hover {
+	background: #eff3f9 url("../../img/gnb/logout_blue.png");
+} */
 .terms_icon:hover {
 	background: #eff3f9;
 }

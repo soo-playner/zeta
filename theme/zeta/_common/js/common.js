@@ -334,10 +334,275 @@ function dialogModal(title, htmlBody, category,dim = true){
 		$('#dialogModal .modal-footer').html("<button type='button' class='btn btn-secondary cancle' data-dismiss='modal' onclick='"+dimhide+"'>Cancle</button> <button type='button' class='btn btn-primary confirm' id='modal_confirm' data-dismiss='modal' >OK</button>");
 	}
 	else if(category == 'failed'){
-		$('#dialogModal .modal-body').html("<div class=chkimg><img src='"+g5_url+"/img/notice_pop.gif'></div>" + htmlBody);
+		$('#dialogModal .modal-body').html("<div class=chkimg><img src='"+g5_url+"/img/notice.png'></div>" + htmlBody);
 		$('#dialogModal .modal-footer').html("<button type='button' class='btn wd btn_defualt closed' data-dismiss='modal' id='modal_return_back' onclick='"+dimhide+"'>Close</button>");
 	}
 
 	$('#dialogModal').focus();
 	
+}
+
+// 테마 변경 함수
+function mode_init() {
+	var url = location.href;
+	if(getCookie('mode')){
+		var Theme = getCookie('mode'); 
+	}else{
+		var Theme = thisTheme;
+	}
+
+	if($('.top_title').children().length == 1) {
+		$.removeCookie('mode', { path: '/' });
+	} 
+
+	if(Theme == 'dark') {
+		$('body').addClass('dark');
+		$('.left_gnbWrap .close img').attr('src',g5_theme_url+'/img/gnb/close_dark.png');
+		
+		if(url.indexOf('profile') != -1 || url.indexOf('news') != -1 || url.indexOf('referral_link') != -1) {
+			$('header .top_title').css('background','#17191d')
+		}
+	} else if(Theme == 'white') {
+		$('body').removeClass('dark');
+		$('.left_gnbWrap .close img').attr('src',g5_theme_url+'/img/gnb/close.png');
+
+		if(url.indexOf('profile') != -1 || url.indexOf('news') != -1 || url.indexOf('referral_link') != -1) {
+			$('header .top_title').css('background','#fff')
+		}
+	}
+
+	$('#mode_select').on('change',function() {
+		mode_change(this.value);
+	})
+
+	$('#mode_select').val(Theme).change();
+}
+
+
+// 테마 모드 변경 셀렉
+function mode_change(mode) {
+	var profile_icon1 = '';
+	var profile_icon2 = '';
+	var profile_icon3 = '';
+	var url = location.href;
+
+	setCookie('mode',mode,1,'/');
+
+	profile_icon1 = "<img src='"+g5_theme_url+"/img/person_information_"+mode+".png'/>";
+	profile_icon2 = "<img src='"+g5_theme_url+"/img/security_setting_"+mode+".png'/>";
+	profile_icon3 = "<img src='"+g5_theme_url+"/img/recommendation_information_"+mode+".png'/>";
+
+	$('body').attr('class',mode);
+	$('.profile-box .title .p1').html(profile_icon1);
+	$('.profile-box .title .p2').html(profile_icon2);
+	$('.profile-box .title .p3').html(profile_icon3);
+
+	var img_src_down = g5_theme_url + "/img/arrow_down_" + mode + ".png";
+	$('.updown').attr('src',img_src_down);
+
+	$('.left_gnbWrap .close img').attr('src', g5_theme_url+'/img/gnb/close_'+mode+'.png');
+
+	if(url.indexOf('profile') != -1 || url.indexOf('news') != -1 || url.indexOf('referral_link') != -1) {
+		if(mode == 'white') {
+			$('header .top_title').css('background','#fff');
+			$('#wrapper').css('background','#fff')
+		} else if(mode == 'dark') {
+			$('header .top_title').css('background','#17191d')	
+			$('#wrapper').css('background','#17191d')
+		}
+	} 
+}
+
+function mode_colorset(mode) {
+	var title_color = '';
+	megachart.render();
+	zetachart.render();
+	zetapluschart.render();
+	superchart.render();
+	container_circle.render();
+	chart.render();
+	
+	if(mode == 'white') {
+		title_color = '#333';
+		
+		megachart.updateOptions({
+			title: {
+				style: {
+					color: title_color
+				}
+			},
+			colors: ['#FD6585'],
+			fill: {
+				type: 'gradient',
+				gradient: {
+				gradientToColors: ['#f8b874']
+				}
+			}
+		});
+		
+		zetachart.updateOptions({
+			title: {
+				style: {
+					color: title_color
+				}
+			},
+			colors: ['#EE9AE5'],
+			fill: {
+			  type: 'gradient',
+			  gradient: {
+				gradientToColors: ['#8959f9']
+			  }
+			}
+		});
+		zetapluschart.updateOptions({
+			title: {
+				style: {
+					color: title_color
+				}
+			},
+			colors: ['#8959f9'],
+			fill: {
+			  type: 'gradient',
+			  gradient: {
+				gradientToColors: ['#4C83FF']
+			  }
+			}
+		});
+		superchart.updateOptions({
+			title: {
+				style: {
+					color: title_color
+				}
+			},
+			colors: ['#2ad0fa'],
+			fill: {
+			  type: 'gradient',
+			  gradient: {
+				gradientToColors: ['#0c51cf']
+			  }
+			}
+		});
+		container_circle.updateOptions({
+			colors: ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000']
+		});
+		chart.updateOptions({
+			colors: ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000']
+		});
+		
+	} else if(mode == 'dark') {
+		title_color = '#fff';
+		megachart.updateOptions({
+		  title: {
+			style: {
+			  color: title_color
+			}
+		  },
+		  colors: ['#2d7dcb'],
+		  fill: {
+			type: 'gradient',
+			gradient: {
+			  gradientToColors: ['#004e99']
+			}
+		  }
+		});
+		zetachart.updateOptions({
+			title: {
+				style: {
+					color: title_color
+				}
+			},
+			colors: ['#5677ca'],
+			fill: {
+			  type: 'gradient',
+			  gradient: {
+				gradientToColors: ['#274090']
+			  }
+			}
+		});
+		zetapluschart.updateOptions({
+			title: {
+				style: {
+					color: title_color
+				}
+			},
+			colors: ['#6b56db'],
+			fill: {
+			  type: 'gradient',
+			  gradient: {
+				gradientToColors: ['#473890']
+			  }
+			}
+		});
+		superchart.updateOptions({
+			title: {
+				style: {
+					color: title_color
+				}
+			},
+			colors: ['#414d5a'],
+			fill: {
+			  type: 'gradient',
+			  gradient: {
+				gradientToColors: ['#252e38']
+			  }
+			}
+		});
+		container_circle.updateOptions({
+			colors: ['#2d7dcb', '#287d9b', '#5b6066', '#db2eb3','#266099']
+		});
+		chart.updateOptions({
+			colors: ['#2d7dcb', '#287d9b', '#5b6066', '#db2eb3','#266099']
+		});
+	}
+}
+
+function mode_colorset2(mode) {
+	var title_color = '';
+	var chart = new ApexCharts(document.querySelector("#myChart2"), options);
+	chart.render();
+
+	if(mode == 'white') {
+		chart.updateOptions({
+			colors: ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'],
+			title: {
+				style: {
+					color: '#333'
+				}
+			},
+			plotOptions: {
+				pie: {
+					donut: {
+						labels: {
+							value: {
+								color: '#333'
+							}
+						}
+					}
+				}
+				
+			}
+		})
+	} else if(mode == 'dark') {
+		title_color = '#fff';
+		chart.updateOptions({
+			colors: ['#2d7dcb', '#287d9b', '#5b6066', '#db2eb3','#266099'],
+			title: {
+				style: {
+					color: '#fff'
+				}
+			},
+			plotOptions: {
+				pie: {
+					donut: {
+						labels: {
+							value: {
+								color: '#ffd965'
+							}
+						}
+					}
+				}
+				
+			}
+		})
+	}
 }

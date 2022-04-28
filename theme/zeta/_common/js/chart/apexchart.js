@@ -1,14 +1,35 @@
+var title_color = '';
+var circle_color = [];
+var pie_value_color = '';
+
+if(getCookie('mode')){
+  var Theme = getCookie('mode'); 
+}else{
+  var Theme = thisTheme;
+}
+
+if(Theme == 'white') {
+    circle_color = ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'];
+    title_color = '#333';
+    pie_value_color = '#333';
+} else if(Theme == 'dark') {
+    circle_color = ['#2d7dcb', '#508a9f', '#5b6066', '#db2eb3','#266099'];
+    title_color = '#fff'
+    pie_value_color = '#fff';
+}
+
 function fix_value (val){
     var point = val/100;
     return Number(point.toFixed(2));
 }
+
 var options = {
 series: [fix_value(chart_data.mega), fix_value(chart_data.zeta), fix_value(chart_data.zetaplus), fix_value(chart_data.super), chart_data.hash],
 chart: {
     height: '400px',
     type: 'donut',
 },
-colors: ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'],
+colors: circle_color,
 labels: ['Mega', 'Zeta', 'ZetaPlus', 'Super','My'],
 
 plotOptions: {
@@ -45,7 +66,7 @@ plotOptions: {
             fontSize: '16px',
             fontFamily: 'Helvetica, Arial, sans-serif',
             fontWeight: 400,
-            color: '#000',
+            color: pie_value_color,
             offsetY: 16,
                 formatter: function (val) {
                     return val;
@@ -81,7 +102,7 @@ title: {
     fontSize:  '14px',
     fontWeight:  'bold',
     fontFamily:  undefined,
-    color:  '#263238'
+    color:  title_color
     },
 },
 fill: {
