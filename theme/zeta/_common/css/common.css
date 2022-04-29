@@ -1360,6 +1360,8 @@ a.more i {
 .user-content {
 	text-align: left;
 	background: aliceblue;
+	height: 70px;
+	padding: 10px;
 }
 .user-content .userid + h4 {
 	display: inline-block;
@@ -2604,7 +2606,6 @@ input.input_price {
 	color: #3b86ff;
 	background: #f2f6fd;
 	border-radius: 15px;
-	vertical-align: bottom;
 }
 
 .select_box .trade_money {

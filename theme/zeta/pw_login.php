@@ -35,7 +35,7 @@
 				
 				<div style='text-align:left'>
 					<input type="checkbox" name="auto_login"  style="width:auto" id="login_auto_login" checked >
-					<label for="login_auto_login" class="" style="display:inline-block">자동로그인</label>
+					<label for="login_auto_login" class="auto_login" style="display:inline-block">자동로그인</label>
 				</div>
 				
 

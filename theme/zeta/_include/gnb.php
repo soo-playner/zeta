@@ -132,7 +132,7 @@ $(document).ready(function(){
 					<a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a>
 				</div>
 			</li>
-			<li class="support_icon">
+			<!-- <li class="support_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
 					<a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a>
@@ -143,7 +143,7 @@ $(document).ready(function(){
 				<div class="gnb_title_Wrap">
 					<a href="/page.php?id=binary2"><span data-i18n="">후원조직도2</span></a>
 				</div>
-			</li>
+			</li> -->
 			<li class="notice_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
@@ -189,10 +189,10 @@ $(document).ready(function(){
 			<a href="/"><img src= "<?=G5_THEME_URL?>/img/title.png" alt="logo"></a>
 			<?if($member['mb_level'] >= 9){?><button type="button" class='btn adm_btn' onclick="location.href= '<?=G5_ADMIN_URL?>'" ><i class="ri-user-settings-line"></i>Admin</button><?}?>
 		</h3>
-		<!-- <select name="" id="mode_select" >
+		<select name="" id="mode_select" >
 			<option value="white">화이트</option>
 			<option value="dark">다크</option>
-		</select> -->
+		</select>
 	</div>
 
 	

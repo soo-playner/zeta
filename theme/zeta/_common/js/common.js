@@ -596,7 +596,7 @@ function mode_colorset2(mode) {
 					donut: {
 						labels: {
 							value: {
-								color: '#ffd965'
+								color: '#fff'
 							}
 						}
 					}

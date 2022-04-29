@@ -8,6 +8,13 @@
   color: #000;
 }
 
+header .left_gnbWrap .user_wrap {
+  height: inherit;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
 header .left_gnb li {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -268,7 +275,7 @@ header .top_title {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 55px;
+  height: 60px;
 }
 
 header .top_title h3 {
@@ -285,7 +292,7 @@ header .top_title #mode_select {
      -moz-appearance: none;
           appearance: none;
   border-radius: 25px;
-  text-align: center;
+  text-align: -webkit-center;
   padding: 0;
   width: 100px;
   height: 40px;
@@ -517,6 +524,10 @@ a.btn_cancle:hover, .btn_cancle:hover {
 .adm_btn i {
   font-size: 16px;
   margin-right: 3px;
+}
+
+.adm_btn:hover {
+  background: #d9b000;
 }
 
 /* 유저 아이콘*/
@@ -1201,6 +1212,10 @@ a.btn_cancle:hover, .btn_cancle:hover {
   color: #000;
 }
 
+.dark .login_wrap .auto_login {
+  color: #fff;
+}
+
 .dark #hp_form input, .dark #timer_auth input, .dark #pw_form input {
   background: #212429;
   color: #fff;
@@ -1575,7 +1590,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
      -moz-appearance: none;
           appearance: none;
   border-radius: 25px;
-  text-align: center;
+  text-align: -webkit-center;
   padding: 0;
   width: 100px;
   height: 40px;
@@ -1687,7 +1702,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
 }
 
 .dark .profile .profile-box ul li.user_box {
-  background: #212429 !important;
+  background: #17191d !important;
 }
 
 .dark .profile .profile-box ul li label {
@@ -1777,6 +1792,10 @@ a.btn_cancle:hover, .btn_cancle:hover {
 .dark .mywallet #withdraw #max_value {
   background: none;
   border: 1px solid #ced4da;
+}
+
+.dark .mywallet #withdraw #max_value:hover {
+  background: #2c2f34;
 }
 
 .dark .mywallet #withdraw .fee span:first-child {
@@ -2108,7 +2127,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
 }
 
 .dark #mining #mining_withdraw {
-  background: #cfa831;
+  background: #3d4247;
 }
 
 .dark #mining #mining_withdraw .polding_btn {

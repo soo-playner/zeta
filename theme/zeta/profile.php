@@ -79,7 +79,7 @@
 					</h3>
 
 					<ul class='row person_info'>
-						<li class='col-12 inline user_box' style='background:ghostwhite;padding:10px;text-align:center'>
+						<li class='col-12 inline user_box' style='background:ghostwhite;padding:10px;'>
 							<span class='userid user_level inline' ><?=$user_icon?></span>
 							<h4 class='myid bold inline'>
 								<span style='font-size:18px;'><?=$member['mb_name']?>님</span>

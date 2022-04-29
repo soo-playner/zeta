@@ -9,6 +9,13 @@
 // header 
 
 header {
+    .left_gnbWrap {
+        .user_wrap {
+            height: inherit;
+            align-items: center;
+        }
+    }
+
     .left_gnb {
         li {
             display: flex;
@@ -281,7 +288,7 @@ header {
         display: flex;
         flex-grow: 1;
         align-items: center;
-        height: 55px;
+        height: 60px;
 
         h3 {
             flex-grow: 1;
@@ -293,7 +300,7 @@ header {
             background-size: 10%;
             appearance: none;
             border-radius: 25px;
-            text-align: center;
+            text-align: -webkit-center;
             padding: 0;
             width: 100px;
             height: 40px;
@@ -438,8 +445,10 @@ a.btn_cancle, .btn_cancle{
     border-radius: 15px;margin:0;
 
     i{font-size:16px;margin-right:3px;}
+    &:hover {
+        background: #d9b000;
+    }
 }
-
 
 /* 유저 아이콘*/
 .user_icon {
@@ -1000,6 +1009,10 @@ a.btn_cancle, .btn_cancle{
                 color: #000;
             }
         }
+
+        .auto_login {
+            color: #fff;
+        }
     }
 
     // find_pw
@@ -1418,7 +1431,7 @@ a.btn_cancle, .btn_cancle{
                 background-size: 10%;
                 appearance: none;
                 border-radius: 25px;
-                text-align: center;
+                text-align: -webkit-center;
                 padding: 0;
                 width: 100px;
                 height: 40px;
@@ -1555,7 +1568,7 @@ a.btn_cancle, .btn_cancle{
                     color: #b4b4b4;
 
                     &.user_box {
-                        background: $main-background !important;
+                        background: $main-background2 !important;
                     }
 
                     label {
@@ -1661,6 +1674,9 @@ a.btn_cancle, .btn_cancle{
             #max_value {
                 background: none;
                 border: 1px solid #ced4da;
+                &:hover {
+                    background: $main-background3;
+                }
             }
 
             .fee {
