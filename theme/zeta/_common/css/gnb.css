@@ -137,7 +137,7 @@ header .left_gnbWrap .left_gnb {
 	display: flex;
 	flex-flow: column;
 	justify-content: space-between;
-	height: calc(100% - 200px);
+	height: calc(100% - 220px);
 }
 header .left_gnbWrap .left_gnb > li {
 	background-repeat: no-repeat;
