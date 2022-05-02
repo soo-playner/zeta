@@ -72,12 +72,12 @@ $(document).ready(function(){
 		</div>
 		<div class="b_line3"></div>
 		<ul class="left_gnb">
-			<!-- <li class="dashboard_icon">
+			<li class="dashboard_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
 					<a href="/"><span data-i18n="">대쉬보드</span></a>
 				</div>
-			</li> -->
+			</li>
 			<li class="profile_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
@@ -132,7 +132,7 @@ $(document).ready(function(){
 					<a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a>
 				</div>
 			</li>
-			<!-- <li class="support_icon">
+			<li class="support_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
 					<a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a>
@@ -143,7 +143,7 @@ $(document).ready(function(){
 				<div class="gnb_title_Wrap">
 					<a href="/page.php?id=binary2"><span data-i18n="">후원조직도2</span></a>
 				</div>
-			</li> -->
+			</li>
 			<li class="notice_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
