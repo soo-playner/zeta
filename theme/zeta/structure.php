@@ -209,7 +209,7 @@ var gradeMap = {
 
 	// 검색하는 부분
 	function getMember(){
-		// console.log('get_member');
+		
 		var findemb_id = $("#now_id").val();
 
 		getList( findemb_id, 'name' );
@@ -222,10 +222,9 @@ var gradeMap = {
 
 
 	function member_search(){
-		// console.log('member_search');
+		
 			if($("#now_id").val() == ""){
-				//alert("Please enter a keyword.");
-				commonModal('Notice','Please enter a keyword.',80);
+				commonModal('회원 찾기','검색어를 입력해주세요.',80);
 				$("#now_id").focus();
 				return;
 			}
@@ -519,21 +518,21 @@ var gradeMap = {
 		
 		<div class="container nopadding nomargin">
 			<section class="structure_wrap">
-				<!--<p data-i18n='structure.데이터 크기로 인해 한번에 5대씩 화면에 나타납니다'>Due to the amount of data, only 5 steps are shown</p>-->
+				<!--<p>데이터 크기로 인해 한번에 5대씩 화면에 나타납니다</p>-->
 				<div class="btn_input_wrap" style='background:white'>
 				<div class="bin_top">회원 검색</div>
 					<ul class="row">
 						<li class="col-9 user_search_wrap">
-							<input type="text" id="now_id" class="" style='background:#eff3f9;color:black;border:1px solid #d9dfe8' placeholder="Member Search" data-i18n='[placeholder]structure.회원찾기'/>
+							<input type="text" id="now_id" class="" style='background:#eff3f9;color:black;border:1px solid #d9dfe8' placeholder="회원찾기"/>
 						</li>
 						<li class="col-3 search_btn_wrap">
-							<button type="button" class="btn wd b_skyblue b_radius" id="binary_search" data-i18n='' onclick="member_search();"><i class="ri-search-line"></i></button>
+							<button type="button" class="btn wd b_skyblue b_radius" id="binary_search"  onclick="member_search();"><i class="ri-search-line"></i></button>
 						</li>
 					</ul>
 				</div>
 
 				<div class="btn_input_wrap">
-				<div class="bin_top" data-i18n="structure.추천 계보">Member Stack</div>
+				<div class="bin_top">추천 계보</div>
 					<div class='legbox'>
 						<div class="leg-view-container">
 							<div class="gray"></div>
@@ -581,7 +580,7 @@ var gradeMap = {
 
 	<script>
 		$(function(){
-			$(".top_title h3").html("<span data-i18n=''>추천조직도</span>")
+			$(".top_title h3").html("<span >추천조직도</span>")
 		});
 	</script>
 <? include_once(G5_THEME_PATH.'/_include/tail.php'); ?>

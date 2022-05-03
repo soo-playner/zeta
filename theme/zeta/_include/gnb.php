@@ -81,91 +81,91 @@ $(document).ready(function(){
 			<!-- <li class="dashboard_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/"><span data-i18n="">대쉬보드</span></a>
+					<a href="/"><span >대쉬보드</span></a>
 				</div>
 			</li> -->
 			<li class="profile_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=profile"><span data-i18n="">개인정보&보안설정</span></a>
+					<a href="/page.php?id=profile"><span >개인정보&보안설정</span></a>
 				</div>
 			</li>
 			<?if($nw['nw_with'] == 'Y'){?>
 			<li class="mywallet_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=mywallet"><span data-i18n="">입출금</span></a>
+					<a href="/page.php?id=mywallet"><span >입출금</span></a>
 				</div>
 			</li> 
 			<?}?>
 			<li class="mining_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=mining"><span data-i18n="">마이닝</span></a>
+					<a href="/page.php?id=mining"><span >마이닝</span></a>
 				</div>
 			</li>
 			<li class="mypool_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=mypool"><span data-i18n="">마이풀</span></a>
+					<a href="/page.php?id=mypool"><span >마이풀</span></a>
 				</div>
 			</li>
 			<?if($nw['nw_purchase'] == 'Y'){?>
 			<li class="upstairs_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=upstairs"><span data-i18n="">패키지구매</span></a>
+					<a href="/page.php?id=upstairs"><span >패키지구매</span></a>
 				</div>
 			</li> 
 			<?}?>
 			<li class="bonus_history_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=bonus_history"><span data-i18n="">보너스내역</span></a>
+					<a href="/page.php?id=bonus_history"><span >보너스내역</span></a>
 				</div>
 			</li>
 			<?if($member['center_use'] == 1){?>
 			<li class="center_page_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=center_page"><span data-i18n="">센터회원관리</span></a>
+					<a href="/page.php?id=center_page"><span >센터회원관리</span></a>
 				</div>
 			</li>
 			<?}?>
 			<li class="recommend_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a>
+					<a href="/page.php?id=structure"><span >추천조직도</span></a>
 				</div>
 			</li>
 			<!-- <li class="support_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a>
+					<a href="/page.php?id=binary"><span >후원조직도</span></a>
 				</div>
 			</li>
 			<li class="support_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=binary2"><span data-i18n="">후원조직도2</span></a>
+					<a href="/page.php?id=binary2"><span >후원조직도2</span></a>
 				</div>
 			</li> -->
 			<li class="notice_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=news"><span data-i18n="">공지사항</span></a>
+					<a href="/page.php?id=news"><span >공지사항</span></a>
 				</div>
 			</li>
 			<li class="question_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=support_center"><span data-i18n="">1:1문의사항</span></a>
+					<a href="/page.php?id=support_center"><span >1:1문의사항</span></a>
 				</div>
 			</li>
 			<li class="reffer_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
-					<a href="/page.php?id=referral_link"><span data-i18n="">추천인링크</span></a>
+					<a href="/page.php?id=referral_link"><span >추천인링크</span></a>
 				</div>
 			</li>
 			<div class='gnb_bottom text-center hidden'><i class="ri-arrow-down-s-line" style='font-size:20px;vertical-align:top'></i></div>
@@ -182,12 +182,12 @@ $(document).ready(function(){
 				<li class="foot_btn logout_icon">
 					<div class="gnb_img_wrap"></div>
 					<div class="gnb_title_Wrap">
-						<a href="javascript:void(0);" class="logout_pop_open"><span data-i18n="">로그아웃</span></a>
+						<a href="javascript:void(0);" class="logout_pop_open"><span >로그아웃</span></a>
 					</div>
 				</li>
 				<li class="h_line"></li>
 				<li class="foot_btn terms_icon">
-					<a href="/page.php?id=member_term"><span data-i18n="">회원약관</span></a>
+					<a href="/page.php?id=member_term"><span >회원약관</span></a>
 				</li>
 			</ul> -->
 

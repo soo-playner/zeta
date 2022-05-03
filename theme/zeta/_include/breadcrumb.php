@@ -102,11 +102,11 @@ $title = 'Dashboard';
 			
 			<div class="col-sm-12 col-12 content-box round dash_news" style='margin-bottom:-10px;'>
 				<h5>
-					<span class="title" data-i18n='dashboard.공지사항' >Notification</span>
+					<span class="title">공지사항</span>
 					
 					<i class="ri-close-circle-line close_news" style="font-size: 30px;float: right;cursor: pointer;"></i>
 					<button class="f_right btn line_btn close_today" >
-						<span data-i18n="dashboard.오늘하루 열지않기"> Close for 24hrs</span>
+						<span > 오늘하루 열지않기</span>
 					</button>
 					<!-- <img class="close_news f_right small" src="<?=G5_THEME_URL?>/_images/close_round.gif" alt="공지사항 닫기"> -->
 				<!-- 				

@@ -29,12 +29,10 @@
         <div class="my_btn_wrap">
             <div class='row'>
                 <div class='col-lg-6 col-12'>
-                    <button type='button' class='btn wd main_btn b_sub' onclick="go_to_url('mywallet');"
-                        data-i18n="dashboard.내 지갑"> MY WALLET</button>
+                    <button type='button' class='btn wd main_btn b_sub' onclick="go_to_url('mywallet');"> 내 지갑</button>
                 </div>
                 <div class='col-lg-6 col-12'>
-                    <button type='button' class='btn wd main_btn b_main' onclick="go_to_url('upstairs');"
-                        data-i18n="dashboard.패키지구매">패키지구매</button>
+                    <button type='button' class='btn wd main_btn b_main' onclick="go_to_url('upstairs');">패키지구매</button>
                 </div>
                 <!-- <div class='col-lg-12 col-12'>
 							<button type='button' class='btn wd main_btn b_third' onclick="move_to_shop()" >쇼핑몰바로가기</button>

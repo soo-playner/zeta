@@ -140,7 +140,7 @@ $(function($){
 
 <script>
 	$(function(){
-		$(".top_title h3").html("<span data-i18n=''>센터회원관리</span>")
+		$(".top_title h3").html("<span >센터회원관리</span>")
 	});
 
     window.onload = function(){

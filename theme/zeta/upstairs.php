@@ -72,7 +72,7 @@ $result = sql_query($sql);
 			<div class="package_wrap mt20">
 				<div class="box-header">
 					<div class="col-9">
-						<h3 class="title upper" data-i18n="">패키지 상품</h3>
+						<h3 class="title upper" >패키지 상품</h3>
 					</div>
 				</div>
 				<div class="box-body round">
@@ -149,7 +149,7 @@ $result = sql_query($sql);
 			<div class="pakage_sale content-box round mt20" id="pakage_sale">
 				<ul class="row">
 					<li class="col-12">
-						<h3 class="tit upper" data-i18n="">Package 상품구매</h3>
+						<h3 class="tit upper" >Package 상품구매</h3>
 					</li>
 					<!-- <li class="col-4">
 						<select class="form-control" name="" id="coin_select">
@@ -190,8 +190,8 @@ $result = sql_query($sql);
 				</div>
 
 				<div class="submit mt20">
-					<button id="purchase" class="btn wd main_btn b_blue b_darkblue round" data-i18n="upstair.구매"> Purchase</button>
-					<button id="go_wallet_btn" class="btn wd main_btn b_green b_skyblue round" data-i18n="upstair.입금"> DEPOSIT</button>
+					<button id="purchase" class="btn wd main_btn b_blue b_darkblue round" >구매</button>
+					<button id="go_wallet_btn" class="btn wd main_btn b_green b_skyblue round" >입금</button>
 				</div>
 				
 			</div>
@@ -276,7 +276,7 @@ $result = sql_query($sql);
 		<!-- <div class="col-sm-12 col-12 content-box round secondary mt20" > -->
 
 		<div class="history_box content-box mt40">
-			<h3 class="hist_tit" data-i18n="">Package 구매 내역</h3>
+			<h3 class="hist_tit" >Package 구매 내역</h3>
 
 			<?if(sql_num_rows($result) == 0) {?>	
 				<div class="no_data"> Package 구매 내역이 존재하지 않습니다</div>
@@ -324,7 +324,7 @@ $result = sql_query($sql);
 <script>
 
 $(function(){
-	$(".top_title h3").html("<span data-i18n=''>패키지구매</span>")
+	$(".top_title h3").html("<span >패키지구매</span>")
 });
 
 $(function(){
@@ -407,21 +407,21 @@ $(function(){
 		
 		// 부분시스템 점검
 		if(nw_purchase == 'N'){
-			dialogModal('System error','<strong>Not available right now.</strong>','warning');
+			dialogModal('구매 처리 실패','<strong>현재 이용 가능 시간이 아닙니다.</strong>','warning');
 			if(debug) console.log('error : 1');
 			return false;
 		}
 
 		// 금액이 0 일때
 		if( it_price == undefined || it_price == 0){
-			dialogModal('Check input amount','<strong>Please choose a goods for buying.</strong>','warning');
+			dialogModal('구매 상품 확인','<strong>구매 상품을 선택해주세요.</strong>','warning');
 			if(debug) console.log('error : 2' );
 			return false;
 		}
 
 		// 잔고 확인 
 		if(price_calc < 0){
-			dialogModal('check your balance','<strong> Not enough balance.</strong>','warning');
+			dialogModal('구매 가능 잔고 확인','<strong>구매 가능 잔고가 부족합니다.</strong>','warning');
 			if(debug) console.log('error : 4' );
 			return false;
 		}
@@ -460,18 +460,18 @@ $(function(){
 					processing = false;
 					$('#purchase').attr("disabled", true);
 
-					dialogModal('Purchase','<strong>Congratulation! Complete Purchase </strong>','success');
+					dialogModal('패키지 구매 처리','<strong>패키지 상품 구매처리가 정상 처리되었습니다.</strong>','success');
 
 					$('.closed').on('click', function(){
 						location.href="<?=G5_URL?>/page.php?id=upstairs";
 					});
 				},
 				error:function(e){
-					commonModal('Error!','<strong> Please check retry.</strong>',100);
+					commonModal('패키지 구매 처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>',100);
 				}
 			});
 		}else{
-			commonModal('Processing','<strong> Processing is in progress.</strong>',80);
+			commonModal('패키지 구매','<strong> 구매 처리 진행중입니다. 잠시 기다려주세요.</strong>',80);
 		}
 		
 		});

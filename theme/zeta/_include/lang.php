@@ -76,7 +76,9 @@ style="background-position:-200px -405px;"><img src="//gtranslate.net/flags/blan
             pageLanguage: 'ko',
             autoDisplay: false
         }, 'google_translate_element2');
+        
     }
+    
 </script>
 
 <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>

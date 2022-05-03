@@ -73,7 +73,7 @@ if($mb_benefit_total != 0 ){ // 그래프 퍼센트
 									</div>
 
 									<div class="coin_list">
-										<p class="eos_up_name" data-i18n="">UPSTAIRS</p>
+										<p class="eos_up_name" >UPSTAIRS</p>
 										<div class="eos_up_balance">
 											<p> <strong><?=$mb_upstair;?></strong> USDT</p>
 										</div>
@@ -555,7 +555,7 @@ $(function () {
 
 				},
 				error:function(e){
-					commonModal('Error!','<strong> Please check retry.</strong>',80);
+					commonModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>',80);
 				}
 			});
 		}

@@ -75,7 +75,7 @@
 				<div class="col-sm-12 col-12 profile-box">
 					<h3 class='title b_line'>
 						<i class='p1'><img src="<?=G5_THEME_URL?>/img/personl_information.png" alt=""></i>
-						<span data-i18n="profile.개인정보">Profile</span>
+						<span >개인정보</span>
 					</h3>
 
 					<ul class='row person_info'>
@@ -103,7 +103,7 @@
 					
 
 						<li class='col-12 mt20'>
-							<label data-i18n="profile.이메일">Email</label>  
+							<label>이메일</label>  
 							<p><?=$member['mb_email']?></p>
 							<!-- <?if($member['mb_email_certify'] != ''){?>
 								<img src="<?=G5_THEME_URL?>/_images/okay_icon.gif" alt="인증됨" style="width:15px;">
@@ -113,7 +113,7 @@
 						</li>
 						<!-- 
 							<li class='col-sm-3 col-4 text-right grid'>
-								<input type="button" value="Change" class="btn inline white email_pop_open pop_open" data-i18n="[value]profile.변경">
+								<input type="button" value="Change" class="btn inline white email_pop_open pop_open" value="변경">
 							</li>
 						 -->
 
@@ -131,17 +131,17 @@
 				<div class='col-sm-12 col-12 profile-box'>
 					<h3 class='title b_line'>
 						<i class="p2"><img src="<?=G5_THEME_URL?>/img/security_setting.png" alt=""></i>
-						<span data-i18n="profile.보안설정">Setting</span>
+						<span >보안설정</span>
 					</h3>
 					<ul class='row'>
-						<li class='col-sm-9 col-8'><span data-i18n="profile.로그인 비밀번호 변경">Change login password</span></li>
+						<li class='col-sm-9 col-8'><span >로그인 비밀번호 변경</span></li>
 						<li class='col-sm-3 col-4 text-right grid'>
 							<i class="ri-arrow-drop-right-line ch_pw_open pop_open"></i>
 						</li>
 					</ul>
 
 					<ul class='row'>
-						<li class='col-sm-9 col-8'><span data-i18n="profile.출금 비밀번호 변경">Change Pin-Code</span></li>
+						<li class='col-sm-9 col-8'><span >출금 비밀번호 변경</span></li>
 						<li class='col-sm-3 col-4 text-right grid'>
 							<i class="ri-arrow-drop-right-line ch_tpw_open pop_open"></i>
 						</li>
@@ -150,18 +150,18 @@
 				<div class='col-sm-12 col-12 profile-box'>
 					<h3 class='title b_line'>
 						<i class="p3"><img src="<?=G5_THEME_URL?>/img/recommendation_information.png" alt=""></i>
-						<span data-i18n="profile.추천인 정보">Referral</span>
+						<span >추천인 정보</span>
 					</h3>
 					<ul class='row'>
 						<li class='col-sm-12 col-12'>
-							<label data-i18n="profile.나의 추천">My Referral</label>
+							<label >나의 추천</label>
 							<p ><?=$member['mb_recommend']?></p>
 						</li>
 					</ul>
 
 					<ul class='row'>
 						<li class='col-sm-12 col-12'>
-							<label data-i18n="profile.나의 센터">My Center</label>
+							<label >나의 센터</label>
 							<p ><?=get_name($member['mb_center'])?></p>
 						</li>
 					</ul>
@@ -171,11 +171,11 @@
 				<!-- <div class='col-sm-12 col-12 profile-box'>
 					<h3 class='title b_line'>
 						<i><img src="<?=G5_THEME_URL?>/img/alert_setting.png" alt=""></i>
-						<span data-i18n="profile.알림설정">알림설정</<i>
+						<span >알림설정">알림설정</<i>
 					</h3>
 					<ul class='row'>
 						<li class='col-sm-9 col-8'>
-							<p data-i18n="profile.알림">알림</p>
+							<p >알림">알림</p>
 						</li>
 						<li class='col-sm-3 col-4 text-right grid'>
 							<div class='switch_box'>
@@ -183,7 +183,7 @@
 									<input type="checkbox" <?if($member['mb_sms']>0) echo 'checked';?> class='noti_check'>
 									<span class="slider round"></span>
 								</label>
-								<p data-i18n="profile.끄기">OFF</p><p style="display:none;" data-i18n="profile.켜기">ON</p>
+								<p>끄기</p><p style="display:none;" >켜기</p>
 							</div>
 						</li>
 					</ul>
@@ -197,7 +197,7 @@
 
 <script>
 	$(function(){
-		$(".top_title h3").html("<span data-i18n=''>개인정보&보안설정</span>")
+		$(".top_title h3").html("<span>개인정보&보안설정</span>")
 	});
 </script>
 
@@ -214,20 +214,20 @@
 
 		<div class="pop_wrap chage_tpw_pop1 input_pop_css">
 			<form action="">
-				<label for="" data-i18n='popup.사용중인 거래 비밀번호'>Current Pin-Code</label>
+				<label for="" >사용중인 거래 비밀번호</label>
 				<input type="password" id="current_tpw" maxlength="6">
 				<hr class="hr_dash">
 
-				<label for="" data-i18n='popup.새로운 거래 비밀번호'>New Pin-Code</label>
+				<label for="" >새로운 거래 비밀번호</label>
 				<input type="password" id="new_tpw" maxlength="6">
-				<label for="" data-i18n='popup.새로운 거래 비밀번호 확인'>Confirm new Pin-Code</label>
+				<label for="" >새로운 거래 비밀번호 확인</label>
 				<input type="password" id="new_tpw_re" maxlength="6">
-				<label for="" data-i18n='popup.로그인 비밀번호'>Login password for change</label>
+				<label for="" >로그인 비밀번호</label>
 				<input type="password" id="auth_pwd" minlength='4' maxlength="20">
 				<!--
 				<div>
-					<label for="" data-i18n='popup.보안코드 입력'>Enter the security code</label>
-					<p class="code_btn code_btn_tpw"><img src="<?=G5_THEME_URL?>/_images/email_send_icon.gif" alt="이미지" data-i18n='popup.코드요청'>Request code</p>
+					<label for="" >보안코드 입력</label>
+					<p class="code_btn code_btn_tpw"><img src="<?=G5_THEME_URL?>/_images/email_send_icon.gif" alt="이미지">코드요청</p>
 				</div>
 				<input type="text" style="margin-bottom:25px;">
 				-->
@@ -240,20 +240,20 @@
 		</div>
 
 		<div class="pop_wrap chage_tpw_pop2 notice_img_pop">
-			<p class="pop_title" data-i18n='popup.인증번호 전송'>Email verification</p>
+			<p class="pop_title" >인증번호 전송</p>
 			<img src="<?=G5_THEME_URL?>/_images/comform_chk.gif" alt="체크">
-			<div data-i18n='popup.인증번호가 이메일로 전송되었습니다'>Security code sent to your email.</div>
-			<a href="javascript:void(0);" class="back_tpw1 gray_close f_right" data-i18n='popup.창닫기'>Close</a>
+			<div >인증번호가 이메일로 전송되었습니다</div>
+			<a href="javascript:void(0);" class="back_tpw1 gray_close f_right" >창닫기</a>
 		</div>
 
 		<div class="pop_wrap chage_tpw_pop3 notice_img_pop">
-			<p class="pop_title" data-i18n='popup.거래 비밀번호 변경'>Change Pin-Code</p>
+			<p class="pop_title" >거래 비밀번호 변경</p>
 			<div>
 				<img src="<?=G5_THEME_URL?>/_images/comform_chk.gif" alt="이미지">
-				<p data-i18n='popup.변경이 성공적으로 완료되었습니다'>Change successfully completed.
+				<p >변경이 성공적으로 완료되었습니다</p>
 			</div>
 			<div class="pop_close_wrap">
-				<a href="javascript:void(0);" id="pin_close" data-i18n='popup.창닫기'>Close</a>
+				<a href="javascript:void(0);" id="pin_close" >창닫기</a>
 			</div>
 		</div>
 <script>
@@ -278,12 +278,12 @@ $(function() {
 
 
 		if(new_tpw.length < 6){
-			dialogModal('Please check','<strong> New Pin-Code must contain 6 digits.</strong>','failed');
+			dialogModal('입력확인','<strong> 출금비밀번호(핀코드)는 6자리 숫자입니다..</strong>','failed');
 			return false;
 		}
 
 		if(new_tpw != new_tpw_re){
-			dialogModal('Please check','<strong> New Pin-Code does not matched.</strong>','failed');
+			dialogModal('입력확인','<strong> 입력한 출금비밀번호(핀코드)가 일치하지 않습니다.</strong>','failed');
 			return false;
 		}
 
@@ -308,11 +308,11 @@ $(function() {
 							window.location.reload();
 						})
 					}else{
-						dialogModal('Error!','<strong> '+ data.sql+'</strong>','failed');
+						dialogModal('처리에러!','<strong> '+ data.sql+'</strong>','failed');
 					}
 				},
 				error:function(e){
-					dialogModal('Error!','<strong> Please check retry.</strong>','failed');
+					dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 				}
 			});
 
@@ -338,19 +338,19 @@ $(function() {
 
 	<div class="pop_wrap chage_pw_pop1 input_pop_css">
 		<form action="">
-			<label for="" data-i18n='popup.사용중인 비밀번호'>Current login password</label>
+			<label for="" >사용중인 비밀번호</label>
 			<input type="password" id="current_pw" minlength='4' maxlength="20">
 
 			<hr class="hr_dash">
 
-			<label for="" data-i18n='popup.새로운 비밀번호'>New login password</label>
+			<label for="" >새로운 비밀번호</label>
 			<input type="password" id="new_pw" minlength='4' maxlength="20">
-			<label for="" data-i18n='popup.새로운 비밀번호 확인'>Confirm new login password</label>
+			<label for="" >새로운 비밀번호 확인</label>
 			<input type="password" id="new_pw_re" minlength='4' maxlength="20">
 			<!--
 			<div>
-				<label for="" data-i18n='popup.보안코드 입력'>Enter the security code</label>
-				<p class="code_btn code_btn_pw"><img src="<?=G5_THEME_URL?>/_images/email_send_icon.gif" alt="이미지" data-i18n='popup.코드요청'>Request code</p>
+				<label for="" >보안코드 입력</label>
+				<p class="code_btn code_btn_pw"><img src="<?=G5_THEME_URL?>/_images/email_send_icon.gif" alt="이미지" >코드요청</p>
 			</div>
 
 			<input type="text" style="margin-bottom:25px;">
@@ -363,10 +363,10 @@ $(function() {
 	</div>
 
 	<div class="pop_wrap chage_pw_pop3 notice_img_pop">
-		<p class="pop_title" data-i18n="비밀번호 변경">Change Password</p>
+		<p class="pop_title" >비밀번호 변경</p>
 		<div>
 			<img src="<?=G5_THEME_URL?>/_images/comform_chk.gif" alt="이미지">
-			<span data-i18n="비밀번호가 성공적으로 변경되었습니다">Password successfully changed
+			<span >비밀번호가 성공적으로 변경되었습니다
 		</div>
 		<div class="pop_close_wrap">
 			<a href="javascript:void(0);" id="pass_close" class="pop_close">Close</a>
@@ -394,12 +394,12 @@ $(function() {
 		var new_pw_re = $('.chage_pw_pop1 #new_pw_re').val();
 
 		if(check_new_pw == false){
-			dialogModal('Please check','<strong> New password required <br />1. Must be 4 to 12 digits<br />2. English and numbers must be written together</strong>','failed',false);
+			dialogModal('입력확인','<strong> New password required <br />1. Must be 4 to 12 digits<br />2. English and numbers must be written together</strong>','failed',false);
 			return false;
 		}
 
 		if(new_pw != new_pw_re){
-			dialogModal('Please check','<strong> New login password does not matched.</strong>','failed',false);
+			dialogModal('입력확인','<strong> New login password does not matched.</strong>','failed',false);
 			return false;
 		}
 
@@ -423,11 +423,11 @@ $(function() {
 						window.location.reload();
 					})
 				}else{
-					dialogModal('Error!','<strong> '+ data.sql+'</strong>','failed');
+					dialogModal('처리 실패!','<strong> '+ data.sql+'</strong>','failed');
 				}
 			},
 			error:function(e){
-				dialogModal('Error!','<strong> Please check retry.</strong>','failed');
+				dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 			}
 		});
 
@@ -441,16 +441,16 @@ $(function() {
 <!-- 이메일 주소 변경 -->
 	<div class="pop_wrap chage_email_pop input_pop_css">
 		<form>
-			<label for="" data-i18n='popup.사용중인 이메일 주소'>Current email</label>
+			<label for="" >사용중인 이메일 주소</label>
 			<div class='current'><?=$member['mb_email']?></div>
 
-			<label for="" data-i18n='popup.새로운 이메일 주소'>New email</label>
+			<label for="" >새로운 이메일 주소</label>
 			<input type="text"  name="email_new" id="email_new" value="" onchange="validateEmail(this.value);">
 
-			<label for="" data-i18n='popup.새로운 이메일 주소 확인'>Confirm new email</label>
+			<label for="" >새로운 이메일 주소 확인</label>
 			<input type="text"  name="email_new_re" id="email_new_re" value="">
 
-			<label for="" data-i18n='popup.로그인 비밀번호'>Login password for change</label>
+			<label for="" >로그인 비밀번호</label>
 			<input type="password" id="auth_pwd" minlength='4' maxlength="20">
 
 			<div class="btn2_btm_wrap">
@@ -462,13 +462,13 @@ $(function() {
 
 
 	<div class="pop_wrap chage_email_pop1 notice_img_pop">
-		<p class="pop_title" data-i18n='popup.이메일 변경'>Change Email address</p>
+		<p class="pop_title" >이메일 변경</p>
 		<div>
 			<img src="<?=G5_THEME_URL?>/_images/comform_chk.gif" alt="이미지">
-		<p data-i18n='popup.변경이 성공적으로 완료되었습니다'>	Change successfully saved</p>
+		<p> 변경이 성공적으로 완료되었습니다</p>
 		</div>
 		<div class="pop_close_wrap">
-			<a href="javascript:parent.location.reload();" class="btn inline wd pop_close" data-i18n='popup.창닫기'>Close</a>
+			<a href="javascript:parent.location.reload();" class="btn inline wd pop_close" >창닫기</a>
 		</div>
 	</div>
 
@@ -504,7 +504,7 @@ $(function() {
 			var email3 = $('.chage_email_pop #email_new_re').val();
 
 			if( email2 != email3){
-				dialogModal('Please check','<strong> New email does not matched confirm new mail.</strong>','failed');
+				dialogModal('입력확인','<strong> 입력한 메일주소가 일치하지 않습니다.</strong>','failed');
 				return false;
 			}
 
@@ -525,11 +525,11 @@ $(function() {
 							$('.chage_email_pop2').css("display","none");
 							$('.chage_email_pop1').css("display","block");
 						}else{
-							dialogModal('Error!','<strong> '+ data.sql+'</strong>','failed');
+							dialogModal('처리 실패!','<strong> '+ data.sql+'</strong>','failed');
 						}
 					},
 					error:function(e){
-						dialogModal('Error!','<strong> Please check retry.</strong>','failed');
+						dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 					}
 				});
 
@@ -552,7 +552,7 @@ $(function() {
 <!-- 전화번호 변경 -->
 	<div class="pop_wrap num_pop_wrap input_pop_css">
 		<form action="">
-			<label for="" data-i18n="popup.사용중인 전화번호">Current phone number</label>
+			<label for="" >사용중인 전화번호</label>
 			<div class="num_pop_div clear_fix" >
 				<!-- <input type="input" id="nation_num" value='' placeholder="Country" maxlength="3" readonly>
 				<input type="input" id="hp_num" value='<?=substr(str_replace('-','',$member['mb_hp']), 1);?>' placeholder="Phone Number(Number only)" readonly>
@@ -564,12 +564,12 @@ $(function() {
 
 			<label for="" >새로운 전화번호 (ex: 01011112222)</label>
 			<div class="num_pop_div clear_fix">
-				<!-- <input type="text" id="new_nation_num" value="<?=$member['nation_number']?>" placeholder="Country" maxlength="3" data-i18n='[placeholder]popup.국가번호' readonly> -->
+				<!-- <input type="text" id="new_nation_num" value="<?=$member['nation_number']?>"  maxlength="3" placeholder="국가번호" readonly> -->
 				<input type="text" id="new_hp_num" value="" style="width:100%;margin-left:0;" placeholder="전화번호(숫자만)" >
 			</div>
 
 
-			<label for="" data-i18n='popup.로그인 비밀번호'>Login password for change</label>
+			<label for="" >로그인 비밀번호</label>
 			<input type="password" id="auth_pwd" minlength='4' maxlength="20">
 
 
@@ -583,13 +583,13 @@ $(function() {
 
 	<!-- 변경완료 -->
 	<div class="pop_wrap num2_pop_wrap notice_img_pop">
-		<p class="pop_title" data-i18n="popup.전화번호 변경">Change Phone Number</p>
+		<p class="pop_title" >전화번호 변경</p>
 		<div>
 			<img src="<?=G5_THEME_URL?>/_images/comform_chk.gif" alt="이미지">
-		<p data-i18n="popup.변경이 성공적으로 완료되었습니다">Change successfully completed</p>
+		<p >변경이 성공적으로 완료되었습니다</p>
 		</div>
 		<div class="pop_close_wrap">
-			<a href="javascript:void(0);" class="btn inline wd pop_close" data-i18n="popup.창닫기">Close</a>
+			<a href="javascript:void(0);" class="btn inline wd pop_close" >창닫기</a>
 		</div>
 	</div>
 
@@ -629,11 +629,11 @@ $(function() {
 								parent.location.reload();
 							});
 						}else{
-							dialogModal('Please check','<strong>'+data.sql+'</strong>','failed');
+							dialogModal('입력확인','<strong>'+data.sql+'</strong>','failed');
 						}
 					},
 					error:function(e){
-						dialogModal('Error!','<strong> Please check retry.</strong>','failed');
+						dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 					}
 				});
 			});
@@ -649,17 +649,17 @@ $(function() {
 	<div class="pop_wrap chage_name_pop1 input_pop_css">
 	<form action="">
 
-		<label for="" data-i18n='popup.현재 성함'>Current name</label>
+		<label for="" >현재 성함</label>
 			<!-- <input type="text" id="current_name" value='<?=$member['first_name']." ".$member['last_name']?>' readonly> -->
 			<div class='current'><?=$member['first_name']." ".$member['last_name']?></div>
 
-		<label for="" data-i18n='popup.변경하실 성'>New last name</label>
+		<label for="" >변경하실 성</label>
 			<input type="text" id="new_last_name">
 
-		<label for="" data-i18n='popup.변경하실 이름'>New first name</label>
+		<label for="" >변경하실 이름</label>
 			<input type="text" id="new_first_name">
 
-		<label for="" data-i18n='popup.로그인 비밀번호'>Login password for change</label>
+		<label for="" >로그인 비밀번호</label>
 			<input type="password" id="auth_pwd" minlength='4' maxlength="20">
 
 
@@ -672,10 +672,10 @@ $(function() {
 
 
 	<div class="pop_wrap chage_name_pop3 notice_img_pop">
-		<p class="pop_title" data-i18n="성함 변경">Change name</p>
+		<p class="pop_title" >이름 변경</p>
 		<div>
 			<img src="<?=G5_THEME_URL?>/_images/comform_chk.gif" alt="이미지">
-			<span data-i18n="사용자님 성함이 성공적으로 변경되었습니다">Name successfully changed
+			<span>변경 처리되었습니다</span>
 		</div>
 		<div class="pop_close_wrap">
 			<a href="javascript:void(0);" class="btn inline wd pop_close">Close</a>
@@ -709,11 +709,11 @@ $(function() {
 					if(data.result =='success'){
 						
 					}else{
-						dialogModal('Error!','<strong> '+ data.sql+'</strong>','failed');
+						dialogModal('처리 실패!','<strong> '+ data.sql+'</strong>','failed');
 					}
 				},
 				error:function(e){
-					dialogModal('Error!','<strong> Please check retry.</strong>','failed');
+					dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 				}
 			});
 		});
@@ -743,11 +743,11 @@ $(function() {
 							$('.chage_name_pop1').css("display","none");
 							$('.chage_name_pop3').css("display","block");
 						}else{
-							dialogModal('Error!','<strong> '+ data.sql+'</strong>','failed');
+							dialogModal('처리 실패!','<strong> '+ data.sql+'</strong>','failed');
 						}
 					},
 					error:function(e){
-						dialogModal('Error!','<strong> Please check retry.</strong>','failed');
+						dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 					}
 				});
 		});

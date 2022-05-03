@@ -616,6 +616,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   background: whitesmoke;
   -webkit-box-shadow: 0 5px 5px 2px #ccc;
           box-shadow: 0 5px 5px 2px #ccc;
+  display: none;
 }
 
 .breadcrumb .dash_news h5 {

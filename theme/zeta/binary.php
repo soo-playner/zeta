@@ -579,7 +579,7 @@ if($mem_self <= 0){
 
 	<script>
 		$(function(){
-			$(".top_title h3").html("<span data-i18n=''>후원도보기</span>")
+			$(".top_title h3").html("<span >후원도보기</span>")
 			$('#wrapper').css("background", "#fff");
 		});
 	</script>
