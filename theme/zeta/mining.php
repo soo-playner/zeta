@@ -97,7 +97,7 @@ function overcharge($val,$category){
 ?>
 
 <? include_once(G5_THEME_PATH . '/_include/breadcrumb.php'); ?>
-<link href="<?= G5_THEME_URL ?>/css/scss/page/mining.css" rel="stylesheet">
+<!-- <link href="<?= G5_THEME_URL ?>/css/scss/page/mining.css" rel="stylesheet"> -->
 <style>
     input[type='text'].modal_input {
         background: #ededed;
@@ -186,7 +186,7 @@ function overcharge($val,$category){
 
         <div class="b_line5 mt10"></div>
 
-        <section id='withdraw' class='col-12 content-box round mt40'>
+        <section id='mining_withdraw' class='col-12 content-box round mt40'>
 
             <div class="polding_btn">
                 <div class="btn_title"><span class="wallet_title">마이닝 출금</span></div>
@@ -288,13 +288,11 @@ function overcharge($val,$category){
                 <? } ?>
             </div>
 
-            <? if ($mining_amt_cnt > 0) { ?>
                 <div class="b_line6"></div>
                 <div id='mining_amt_log' class='mt20'>
 
                     <h3 class="hist_tit">마이닝 출금 내역 <span class='mymining_total'> <?= shift_coin($mining_amt) ?> <?= strtoupper($minings[0]) ?></span></h3>
 
-                    <? while ($row = sql_fetch_array($mining_amt_log)) { ?>
                         <ul class='row'>
                             <li class="col-12">
                                 <span class="col-8 nopadding"><i class="ri-calendar-check-fill"></i><?= $row['create_dt'] ?></span>
@@ -314,11 +312,9 @@ function overcharge($val,$category){
                                 <span class="col-6 nopadding text-right result"><? string_shift_code($row['status']) ?></span>
                             </li>
                         </ul>
-                    <? } ?>
 
                     <div><button type='button' id="mining_amt_more" class="btn wd"><?= $mining_amt_limit_text ?></button></div>
                 </div>
-            <? } ?>
 
 
         </div>

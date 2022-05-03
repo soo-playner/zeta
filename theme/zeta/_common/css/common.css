@@ -293,7 +293,7 @@ a.btn {
 }
 .btn.wd {
 	width: 100%;
-	padding: 10px 15px;
+	padding: 13px 15px;
 }
 
 .btn.main_btn {
@@ -301,8 +301,7 @@ a.btn {
 	background: transparent;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 	font-size: 15px !important;
-	font-weight: 500;
-	transition: all 1s;
+	font-weight: bold;
 }
 .btn.main_btn:hover {
 }
@@ -818,7 +817,7 @@ input.p15 {
 	overflow-x: hidden;
 }
 #wrapper {
-	background: #eff3f9 !important;
+	background: #eff3f9;
 	color: #333;
 }
 #wrapper.dark {
@@ -862,8 +861,6 @@ input.p15 {
 }
 
 .content-box {
-	-webkit-box-shadow: 0 2px 3px 0 #ccc;
-	box-shadow: 0 2px 3px 0 #ccc;
 	border-radius: 8px;
 	background: #ffffff;
 	color: #000000;
@@ -898,7 +895,7 @@ input.p15 {
 	list-style: none;
 }
 .content-box + .content-box {
-	margin-top: 30px;
+	margin-top: 10px;
 }
 .content-box.primary {
 	background: #113a56;
@@ -1363,6 +1360,8 @@ a.more i {
 .user-content {
 	text-align: left;
 	background: aliceblue;
+	height: 70px;
+	padding: 10px;
 }
 .user-content .userid + h4 {
 	display: inline-block;
@@ -1478,7 +1477,9 @@ a.more i {
 	width: 14px;
 	height: 14px;
 	cursor: pointer;
-	vertical-align: sub;
+	vertical-align:middle;
+	-webkit-baseline-middle: middle;
+	margin-top:-5px
 }
 
 .r_pakage_wrap {
@@ -1569,23 +1570,29 @@ a.more i {
 .pack_f_0 {
 	color: #b55dccd9;
 }
+
 .pack_f_1 {
+	color: #b55dccd9;
+}
+
+.pack_f_2 {
 	color: #516feb;
 }
-.pack_f_2 {
+
+.pack_f_3 {
 	color: #09c3fd;
 }
-.pack_f_3 {
+
+.pack_f_4 {
 	color: #5ed2dc;
 }
-.pack_f_4 {
+
+.pack_f_5 {
 	color: #373cbc;
 }
-.pack_f_5 {
-	color: #2b3a6d;
-}
+
 .pack_f_6 {
-	color: #6214ab;
+	color: #2b3a6d;
 }
 
 .r_card .title {
@@ -2600,8 +2607,7 @@ input.input_price {
 	font-size: 24px;
 	color: #3b86ff;
 	background: #f2f6fd;
-	border-radius: 10px;
-	vertical-align: bottom;
+	border-radius: 15px;
 }
 
 .select_box .trade_money {
@@ -3081,6 +3087,10 @@ input.input_price {
 }
 .legbox .mbId {
 	font-size: 15px;
+	padding: 5px 15px;
+}
+.legbox .mbId:hover {
+	border-radius: 20px;
 }
 .search_btn_wrap {
 	padding-left: 0px;
@@ -3767,9 +3777,10 @@ input.input_price {
 	transition: all 0.3s ease;
 	text-align: left;
 	height: 0;
+	background-color: aliceblue;
 }
 .answer p {
-	margin: 15px 0;
+	margin: 15px 5px;
 }
 
 .qa-container {

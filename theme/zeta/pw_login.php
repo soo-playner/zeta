@@ -2,7 +2,7 @@
 <style>
 #wrapper{background:#f5f5f5 ;}
 @media screen and (min-width:768px) {
-	body{background:#fff;}
+	body{background:#393244;}
 	#wrapper{max-width:767px;margin:0 auto;}
 }
 </style>
@@ -19,18 +19,23 @@
 					<input type="hidden" id="url" name="url" value="<?=$url?>">
 				<div>
 					<label for="u_name"><span data-i18n="login.유저네임">Userid</span></label>
-					<input type="text" name="mb_id" id=" u_name" placeholder="ID"/>
+					<input type="text" name="mb_id" id=" u_name" placeholder="ID" />
 
 				</div>
 				<div>
 					<label for="u_pw"><span data-i18n="login.비밀번호">Password</span></label>
 					<input type="password" name="mb_password" id="u_pw" style="line-height:22px;" placeholder="password" onkeyup="press(this.form)"/>
 				</div>
+				<style>
+					input:active {
+						/* background: yellow; */
+					}
+				</style>
 
 				
 				<div style='text-align:left'>
 					<input type="checkbox" name="auto_login"  style="width:auto" id="login_auto_login" checked >
-					<label for="login_auto_login" class="" style="display:inline-block">자동로그인</label>
+					<label for="login_auto_login" class="auto_login" style="display:inline-block">자동로그인</label>
 				</div>
 				
 

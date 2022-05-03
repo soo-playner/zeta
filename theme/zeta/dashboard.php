@@ -74,6 +74,10 @@
                     var chart = new ApexCharts(document.querySelector("#myChart2"), options);
                         chart.render();
                 }
+
+                $('#mode_select').on('change',function(e) {
+                    mode_colorset2(this.value);
+                });
             });
         </script>
         <script src="<?=G5_THEME_URL?>/_common/js/chart/apexchart.js"></script>
@@ -153,7 +157,7 @@
             <div class="line row">
                 <div class='col-8'>
                     <span class='badge'><?=$member_level_array[$row['mb_level']]?> </span>
-                    <span class='badge b_skyblue'><?=$row['grade'].' star'?> </span>
+                    <span class='badge color<?=user_grade($member['mb_id'])?>'><?=$row['grade'].' star'?> </span>
                     <span class='id'><?=$row['mb_id']?> </span>
 
                 </div>
@@ -167,22 +171,7 @@
 						echo "<div class='no_data'>추천 등록 회원이 존재하지 않습니다</div>";
 					}?>
         </div>
-
-
-
     </div>
 </main>
-<script>
-$(function() {
-    // $(".top_title h3").html("<span data-i18n=''>대시보드</span>");
-
-    var img_src_up = "<?php echo G5_THEME_URL?>/img/arrow_up.png";
-    $('.collap p ').css('display', 'none');
-    $('.updown').attr('src', img_src_up);
-    $('.fold_img_wrap img').css('vertical-align', 'baseline');
-
-    $('.total_view_top').addClass('show');
-});
-</script>
 
 <? include_once(G5_THEME_PATH.'/_include/tail.php'); ?>

@@ -1,3 +1,31 @@
+var title_color = '';
+var bar_color = [];
+var circle_color = [];
+var colors = [];
+
+if(getCookie('mode')){
+  var Theme = getCookie('mode'); 
+}else{
+  var Theme = thisTheme;
+}
+
+if(Theme == 'white') {
+  title_color = '#333';
+  bar_color = ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'];
+  circle_color = ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'];
+  colors = ['#f8b874','#FD6585','#EE9AE5','#8959f9','#8959f9','#4C83FF','#2ad0fa','#0c51cf','#1fcf77','#26d4bd'];
+} else if(Theme == 'dark') {
+  title_color = '#fff';
+  bar_color = ['#2d7dcb', '#508a9f', '#5b6066', '#db2eb3','#266099'];
+  circle_color = ['#2d7dcb', '#508a9f', '#5b6066', '#db2eb3','#266099'];
+  colors = ['#2d7dcb','#004e99','#287d9b','#034d64','#414d5a','#252e38','#733f88','#2f568f'];
+} 
+
+$('#mode_select').on('change',function(e) {
+  mode_colorset(this.value);
+});
+
+
 window.Apex = {
     chart: {
       foreColor: '#ccc',
@@ -320,7 +348,7 @@ window.Apex = {
 
   var chart_circle = {
     series: bonusData,
-    colors: ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'],
+    colors: circle_color,
     labels: ['Mega', 'Zeta', 'ZetaPlus', 'Super','My Mining'],
     chart: {
     height: 390,
@@ -411,7 +439,7 @@ window.Apex = {
     type: 'bar',
     height: 400
   },
-  colors: ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'],
+  colors: bar_color,
   plotOptions: {
     bar: {
       horizontal: true,
@@ -505,7 +533,7 @@ window.Apex = {
       }
   }
   var chart_mega_spark1 = new ApexCharts(document.querySelector("#megaspark1"), mega_spark1)
-
+  
   var mega_chart = {
     chart: {
       id : megachart,
@@ -526,7 +554,7 @@ window.Apex = {
         borderRadius: 4,
       },
     },
-    colors: ['#FD6585'],
+    colors: colors[0],
     stroke: {
       width: 0,
       lineCap: 'round'
@@ -538,7 +566,7 @@ window.Apex = {
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#f8b874']
+        gradientToColors: [colors[1]]
       }
     },
     title: {
@@ -548,7 +576,7 @@ window.Apex = {
       text: '메가풀 보너스',
       style: {
         fontSize: '16px',
-        color: '#333'
+        color: title_color
       }
     },
     subtitle: {
@@ -651,7 +679,7 @@ window.Apex = {
         borderRadius: 4,
       },
     },
-    colors: ['#8959f9'],
+    colors: colors[2],
     stroke: {
       width: 0,
       lineCap: 'round'
@@ -663,7 +691,7 @@ window.Apex = {
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#EE9AE5']
+        gradientToColors: [colors[3]]
       }
     },
     title: {
@@ -673,7 +701,7 @@ window.Apex = {
       text: '제타풀 보너스',
       style: {
         fontSize: '16px',
-        color: '#333'
+        color: title_color
       }
     },
     subtitle: {
@@ -777,7 +805,7 @@ window.Apex = {
         borderRadius: 4,
       },
     },
-    colors: ['#4C83FF'],
+    colors: colors[4],
     stroke: {
       width: 0,
       lineCap: 'round'
@@ -789,7 +817,7 @@ window.Apex = {
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#8959f9']
+        gradientToColors: [colors[5]]
       }
     },
     title: {
@@ -799,7 +827,7 @@ window.Apex = {
       text: '제타+풀 보너스',
       style: {
         fontSize: '16px',
-        color: '#333'
+        color: title_color
       }
     },
     subtitle: {
@@ -908,7 +936,7 @@ window.Apex = {
         borderRadius: 4,
       },
     },
-    colors: ['#0c51cf'],
+    colors: colors[6],
     stroke: {
       width: 0,
       lineCap: 'round'
@@ -920,7 +948,7 @@ window.Apex = {
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#2ad0fa']
+        gradientToColors: [colors[7]]
       }
     },
     title: {
@@ -930,7 +958,7 @@ window.Apex = {
       text: '슈퍼 보너스',
       style: {
         fontSize: '16px',
-        color: '#333'
+        color: title_color
       }
     },
     subtitle: {

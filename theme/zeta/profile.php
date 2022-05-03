@@ -74,12 +74,12 @@
 			<section class="profile_wrap content-box6">
 				<div class="col-sm-12 col-12 profile-box">
 					<h3 class='title b_line'>
-						<i><img src="<?=G5_THEME_URL?>/img/personl_information.png" alt=""></i>
+						<i class='p1'><img src="<?=G5_THEME_URL?>/img/personl_information.png" alt=""></i>
 						<span data-i18n="profile.개인정보">Profile</span>
 					</h3>
 
 					<ul class='row person_info'>
-						<li class='col-12 inline' style='background:ghostwhite;padding:10px;text-align:center'>
+						<li class='col-12 inline user_box' style='background:ghostwhite;padding:10px;'>
 							<span class='userid user_level inline' ><?=$user_icon?></span>
 							<h4 class='myid bold inline'>
 								<span style='font-size:18px;'><?=$member['mb_name']?>님</span>
@@ -130,7 +130,7 @@
 				</div>
 				<div class='col-sm-12 col-12 profile-box'>
 					<h3 class='title b_line'>
-						<i><img src="<?=G5_THEME_URL?>/img/security_setting.png" alt=""></i>
+						<i class="p2"><img src="<?=G5_THEME_URL?>/img/security_setting.png" alt=""></i>
 						<span data-i18n="profile.보안설정">Setting</span>
 					</h3>
 					<ul class='row'>
@@ -149,8 +149,8 @@
 				</div>
 				<div class='col-sm-12 col-12 profile-box'>
 					<h3 class='title b_line'>
-						<i><img src="<?=G5_THEME_URL?>/img/recommendation_information.png" alt=""></i>
-						<span data-i18n="profile.추천인 정보">Referral</<i>
+						<i class="p3"><img src="<?=G5_THEME_URL?>/img/recommendation_information.png" alt=""></i>
+						<span data-i18n="profile.추천인 정보">Referral</span>
 					</h3>
 					<ul class='row'>
 						<li class='col-sm-12 col-12'>

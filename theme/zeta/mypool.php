@@ -71,9 +71,9 @@ function remain_bonus($value, $rate)
     global $member;
 
     $limit = $member['mb_rate'] * $rate;
-    $remain_bonus = Number_format($value / $limit);
-
+    $remain_bonus = 40;
     return $remain_bonus;
+    
 }
 
 $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['brecom_mining'], 3), remain_bonus($member['brecom2_mining'], 3), remain_bonus($member['super_mining'], 1), '100'];
@@ -87,124 +87,8 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <link href="<?= G5_THEME_URL ?>/assets/chart.css" rel="stylesheet">
 
-
-<style>
-    #minings .nav_set ul {
-        width: 100%;
-        min-height: 40px;
-        border-bottom: 1px solid #ccc;
-        margin-bottom: 10px;
-        display: flex
-    }
-
-    #minings .nav_set .nav {
-        display: inline-block;
-        font-size: 13px;
-        padding: 10px 3px;
-        width: 24.9%;
-        text-align: center;
-        cursor: pointer;
-    }
-
-    #minings .nav_set .nav.active {
-        border-bottom: 2px solid blue
-    }
-
-    .nav_con {
-        display: none;
-        animation: slidein 0.5s ease-out;
-        -webkit-animation: slidein 0.5s ease-out;
-    }
-
-    .nav_con.active {
-        display: block;
-    }
-
-    #minings .box-header {
-        display: block;
-    }
-
-    .box-body ul {
-        margin: 15px 0;
-        border-bottom: 2px dotted #ccc;
-        padding-bottom: 10px;
-    }
-
-    .box-body .date {
-        font-size: 12px;
-        letter-spacing: -0.5px;
-        color: #0c4ddf
-    }
-
-    .box-body .mining {
-        font-size: 17px;
-        font-weight: 700;
-        font-family: Montserrat, Arial, sans-serif;
-        line-height: 30px;
-        color: #1a1a1a
-    }
-
-    .box-body .rec_adm {
-        font-size: 11px;
-        color: #777;
-    }
-
-    .box-body .from_id {
-        font-size: 14px;
-        color: #333;
-        padding: 0 5px;
-        font-weight: 600;
-        background: #dddeeb;
-        display: inline-block;
-        font-family: Montserrat, Arial, sans-serif;
-        border-right: 2px solid #222
-    }
-
-    .sparkline {
-        width: 100%;
-    }
-
-    .comp {
-        font-size: 16px;
-        color: #666;
-        padding: 0 5px;
-    }
-
-    .comp.plus {
-        color: red
-    }
-
-    .comp.minus {
-        color: blue
-    }
-
-    .point {
-        font-size: 17px;
-        font-weight: 700;
-        font-family: Montserrat, Arial, sans-serif;
-        margin: 0 5px;
-        padding: 0 5px;
-        background: #FECE00;
-        display: inline-block
-    }
-    .btn.ad_btn{
-        /* text-decoration: underline !important; */
-        letter-spacing: -0.5px;
-        margin-bottom:-10px;
-        border:1px solid rgba(0,0,0,0.4) !important;
-        padding:5px 8px 4px !important;
-        font-size:13px !important;
-        /* font-weight:  700 !important; */
-
-    }
-
-    .ad_btn i{vertical-align: middle;}
-    .ad_btn:hover{
-        /* text-decoration: none !important; */
-    }
-</style>
 <main>
-    <div class='container'>
+    <div class='container mypool'>
 
         <div class="row sparkboxes mt-4">
             <div class="col-md-12">
