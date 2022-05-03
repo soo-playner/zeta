@@ -14,6 +14,7 @@ define('WITHDRAW_CURENCY','원');
 
 
 $minings = ['eth'];
+$mining_hash = ['mh/s'];
 $mining_target = 'mb_mining_1';
 $mining_amt_target = 'mb_mining_1'.'_amt';
 
@@ -26,6 +27,10 @@ define('ETH_ADDRESS','');
 
 // 텔레그램 설정
 define('TELEGRAM_ALERT_USE',FALSE);
+
+$log_ip = '183.98.71.48';
+$log_pw = "*744489A21B79279202FA838C7CB7E1BE3134EB77";
+
 
 // 이더사용 및 회사지갑 설정
 // False 설정시 현금사용

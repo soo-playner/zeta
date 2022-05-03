@@ -98,7 +98,7 @@ $title = 'Dashboard';
 
 
 <style>
-	.dash_news{position:absolute;z-index:1000;border-top:1px solid #f0f0f0;border-radius:0;padding:10px 20px 20px;background:whitesmoke;box-shadow:0 5px 5px 2px #ccc}
+	.dash_news{position:absolute;z-index:1000;border-top:1px solid #f0f0f0;border-radius:0;padding:10px 20px 20px;background:whitesmoke;box-shadow:0 5px 5px 2px #ccc;display:none;}
 	.dash_news h5 {font-size:16px;font-weight:800;line-height:40px;margin-bottom: 10px;
     border-bottom: 2px solid white;
     padding-bottom: 5px;}
@@ -148,7 +148,6 @@ $title = 'Dashboard';
 				<div>
 					<span><?=$row['wr_content']?></span>
 				</div>
-
 				<?}?>
 			</div>
 		<?}?>
