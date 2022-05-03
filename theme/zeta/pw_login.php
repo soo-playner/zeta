@@ -2,7 +2,7 @@
 <style>
 #wrapper{background:#f5f5f5 ;}
 @media screen and (min-width:768px) {
-	body{background:#fff;}
+	body{background:#393244;}
 	#wrapper{max-width:767px;margin:0 auto;}
 }
 </style>

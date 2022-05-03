@@ -186,10 +186,10 @@ $result_withdraw = sql_query($sql);
     <div class="my_btn_wrap">
       <div class="row mywallet_btn">
         <div class='col-lg-6 col-12'>
-          <button type='button' class='btn wd main_btn b_darkblue round' onclick="switch_func('deposit')" data-i18n="deposit.대문자 입금"> DEPOSIT</button>
+          <button type='button' class='btn wd main_btn b_darkblue round' onclick="switch_func('deposit')" > 입금</button>
         </div>
         <div class='col-lg-6 col-12'>
-          <button type='button' class='btn wd main_btn b_skyblue round' onclick="switch_func('withdraw')" data-i18n="withdraw.대문자 출금">WITHDRAW</button>
+          <button type='button' class='btn wd main_btn b_skyblue round' onclick="switch_func('withdraw')" >출금</button>
         </div>
       </div>
     </div>
@@ -201,7 +201,7 @@ $result_withdraw = sql_query($sql);
 
       <div class="content-box round">
 
-        <h3 class="wallet_title" data-i18n="deposit.입금계좌">Deposit Account</h3>
+        <h3 class="wallet_title" >입금계좌</h3>
         <div class="row ">
           <div class='col-12 text-center bank_info'>
             <?= $bank_name ?> : <input type="text" id="bank_account" class="bank_account" value="<?= $bank_account ?>" title='bank_account' disabled />(<?= $account_name ?>)
@@ -213,7 +213,7 @@ $result_withdraw = sql_query($sql);
         </div>
         <div class='col-12'>
           <button class="btn wd line_btn " style="background: #f5f5f5;" id="accountCopy" onclick="copyURL('#bank_account')">
-            <span data-i18n="deposit.계좌복사"> Copy Address </span>
+            <span > 계좌복사 </span>
           </button>
         </div>
 
@@ -238,9 +238,9 @@ $result_withdraw = sql_query($sql);
     <div class="row">
       <div class="btn_ly qrBox_right "></div>
       <div class="col-sm-12 col-12 withdraw mt20">
-        <input type="text" id="deposit_name" class='b_ghostwhite p15' placeholder="" data-i18n='[placeholder]deposit.입금자명을 입력해주세요'>
+        <input type="text" id="deposit_name" class='b_ghostwhite p15' placeholder="입금자명을 입력해주세요">
 
-        <input type="text" id="deposit_value" class='b_ghostwhite p15' placeholder="" data-i18n='[placeholder]deposit.입금액을 입력해주세요' inputmode="numeric">
+        <input type="text" id="deposit_value" class='b_ghostwhite p15' placeholder="입금액을 입력해주세요" inputmode="numeric">
         <label class='currency-right'><?= ASSETS_CURENCY ?></label>
       </div>
 
@@ -809,7 +809,7 @@ $result_withdraw = sql_query($sql);
         },
         success: function(result) {
           if (result.response == "OK") {
-            dialogModal('Deposit Request', 'Deposit Request success', 'success');
+            dialogModal('입금 요청', '입금요청이 정상처리되었습니다.', 'success');
             $('.closed').click(function() {
               location.reload();
             });

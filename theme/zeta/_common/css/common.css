@@ -1477,7 +1477,9 @@ a.more i {
 	width: 14px;
 	height: 14px;
 	cursor: pointer;
-	vertical-align: sub;
+	vertical-align:middle;
+	-webkit-baseline-middle: middle;
+	margin-top:-5px
 }
 
 .r_pakage_wrap {

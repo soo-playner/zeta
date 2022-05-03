@@ -399,7 +399,7 @@ function mode_change(mode) {
 	$('.profile-box .title .p2').html(profile_icon2);
 	$('.profile-box .title .p3').html(profile_icon3);
 
-	var img_src_down = g5_theme_url + "/img/arrow_down_" + mode + ".png";
+	var img_src_down = g5_theme_url + "/img/arrow_up_" + mode + ".png";
 	$('.updown').attr('src',img_src_down);
 
 	$('.left_gnbWrap .close img').attr('src', g5_theme_url+'/img/gnb/close_'+mode+'.png');

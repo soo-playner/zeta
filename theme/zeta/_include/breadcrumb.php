@@ -259,7 +259,7 @@ $title = 'Dashboard';
 					<a href="javascript:collapse('#collapseExample','<?=$thisTheme?>');">
 						<div class="collap"><p class='txt'>접기</p></div>
 							<div class="fold_img_wrap">
-								<img class="updown" src="<?=G5_THEME_URL?>/img/arrow_down.png">
+								<img class="updown" src="<?=G5_THEME_URL?>/img/arrow_up.png">
 							</div>
 						</div>
 					</a>
@@ -267,7 +267,6 @@ $title = 'Dashboard';
 		</div>
 
 </section>
-<!-- <script src="<?=G5_THEME_URL?>/_common/js/timer.js"></script> -->
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/egjs-jquery-transform/2.0.0/transform.min.js" integrity="sha512-vOc3jz0QulHRiyMXfp676lHxeSuzUhfuw//VUX12odAmlUbnKiXH4GQxBRqwKhF3Mkswqr5ILY9MtEM4ZwcS2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- 펼쳐보기 -->
@@ -279,8 +278,8 @@ $title = 'Dashboard';
 				var Theme = '<?=$thisTheme?>'; 
 			}
 
-			$('.fold_img_wrap img').attr('src','<?php echo G5_THEME_URL?>/img/arrow_down_'+Theme+'.png');
-
+			$('.fold_img_wrap img').attr('src','<?=G5_THEME_URL?>/img/arrow_up_'+Theme+'.png');
+			
 			if ($(id).css("display") == "none") {
 				$(id).css("display", "block");
 				$(id).animate({
