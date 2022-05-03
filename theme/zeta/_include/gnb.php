@@ -62,7 +62,7 @@ $(document).ready(function(){
 	<nav class="left_gnbWrap">
 		
 		<div class="gnb_logo_top">
-			<a href="/" style='margin-left:12px;'><img src="<?=G5_THEME_URL?>/img/title.png" alt=""></a>
+			<a href="/" style='margin-left:12px;'><img src="<?=G5_THEME_URL?>/img/title.svg" alt=""></a>
 		</div>
 
 		<a href="#" class="close"><img src="<?=G5_THEME_URL?>/img/gnb/close.png" alt="close"></a>
@@ -200,7 +200,7 @@ $(document).ready(function(){
 
 	<div class="top_title">
 		<h3>
-			<a href="/"><img src= "<?=G5_THEME_URL?>/img/title.png" alt="logo"></a>
+			<a href="/"><img src= "<?=G5_THEME_URL?>/img/title.svg" alt="logo"></a>
 			<?if($member['mb_level'] >= 9){?><button type="button" class='btn adm_btn' onclick="location.href= '<?=G5_ADMIN_URL?>'" ><i class="ri-user-settings-line"></i>Admin</button><?}?>
 		</h3>
 		<select name="" id="mode_select" >

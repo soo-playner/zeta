@@ -22,9 +22,8 @@ header .top_title h3 {
 	font-size: 1rem !important;
 }
 header .top_title h3 img {
-	height: 35px;
+	height: 30px;
 	vertical-align: middle;
-	margin-top: -5px;
 }
 
 /* 모바일 메뉴 버튼 */
@@ -115,6 +114,9 @@ header .left_gnbWrap .gnb_logo_top {
 	padding: 10px;
 }
 header .left_gnbWrap .gnb_logo_top img {
+	width: 180px;
+	margin: 5px 0;
+	
 }
 header .left_gnbWrap .user-content {
 	margin-bottom: 0px;
