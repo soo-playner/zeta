@@ -1346,7 +1346,7 @@ a.more i {
 	font-size: 18px;
 	font-weight: 500;
 	color: #555;
-	vertical-align: text-bottom;
+	/* vertical-align: text-bottom; */
 }
 
 .card_title {
@@ -2555,11 +2555,13 @@ input:checked + .slider:before {
 
 #total_coin_val {
 	padding-right: 25px;
+	text-align: left;
 }
 #shift_dollor {
 	font-size: 16px;
 	font-weight: 600;
 	padding-right: 25px;
+	text-align: left;
 }
 #shift_won {
 	margin-top: -10px;
@@ -2585,11 +2587,10 @@ input.input_price {
 .current_currency {
 	font-size: 20px;
 	letter-spacing: -0.5px;
-	line-height: 50px;
 	color: #3b86ff;
 	padding-right: 0;
 	font-weight: bold;
-	text-indent: 10px;
+	padding-left: 15px;
 }
 .shift_usd {
 	margin: 0;
@@ -2598,8 +2599,6 @@ input.input_price {
 }
 .exchange {
 	font-size: 28px;
-	float: right;
-	position: absolute;
 	z-index: 100;
 	color: #3b86ff;
 }

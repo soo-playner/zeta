@@ -18,9 +18,8 @@ header {
 
     .left_gnb {
         li {
-            display: flex;
-            flex-flow: row;
-    
+            display: block;
+
             &:hover {
                 background: aliceblue;
             }
@@ -38,6 +37,13 @@ header {
                 transition: all .5s;
                 transform: rotateX(360deg)
             }
+
+            a {
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                width: 71%;
+            }
         }
     
         .gnb_img_wrap {
@@ -46,6 +52,7 @@ header {
             background-size: 227px;
             width: 38px;
             height: 38px;
+            float: left;
         }
         
         .gnb_title_Wrap {
@@ -401,6 +408,10 @@ a.btn_cancle, .btn_cancle{
 .day{color:#565656}
 .history_latest{
     line-height:24px;
+    .card_title_wrap {
+        display: flex;
+        justify-content: space-between;
+    }
     .card_title{
         margin-bottom:15px;
     }
@@ -409,12 +420,18 @@ a.btn_cancle, .btn_cancle{
 }
 
 .regist_latest{
+    display: grid;
     line-height:24px;
     font-size:12px;
 
     span{vertical-align: middle;}
+    .card_title_wrap {
+        display: flex;
+        justify-content: space-between;
+    }
     .card_title{
         margin-bottom:15px;
+        width: 250px;
     }
     .id{font-size:14px;display:inline-block;min-width:80px;font-weight:600;margin:0 10px;}
     .badge{font-weight: 500;}
@@ -1181,10 +1198,13 @@ a.btn_cancle, .btn_cancle{
                     background-size: 227px;
                     width: 38px;
                     height: 38px;
+                    float: left;
                 }
                 
                 .gnb_title_Wrap {
                     flex-grow: 2;
+
+                    
                 }
         
                 .dashboard_icon {
@@ -1807,7 +1827,6 @@ a.btn_cancle, .btn_cancle{
 
             .current_currency {
                 color: $main-colors;
-                padding-left: 5px;
             }
 
             .exchange {

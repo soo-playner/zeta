@@ -117,8 +117,11 @@
 
 
         <div class='r_card_wrap content-box round history_latest'>
-            <div class="card_title">최근 발생 보너스 <a href='<?=G5_URL?>/page.php?id=bonus_history'
-                    class='f_right inline more'><span>더보기<i class="ri-add-circle-fill"></i></span></a></div>
+            <div class="card_title_wrap">
+                <div class="card_title">최근 발생 보너스 </div>
+                <a href='<?=G5_URL?>/page.php?id=bonus_history'
+                    class='inline more'><span>더보기<i class="ri-add-circle-fill"></i></span></a>
+            </div>
             <?
 					$bonus_history_sql	 = "SELECT * from `{$g5['bonus']}` WHERE mb_id = '{$member['mb_id']}' order by day desc limit 0,5";
 					$bonus_history_result = sql_query($bonus_history_sql);
@@ -144,8 +147,13 @@
         </div>
 
         <div class='r_card_wrap content-box round regist_latest'>
-            <div class="card_title">최근 추천 등록 회원 <a href='<?=G5_URL?>/page.php?id=structure'
-                    class='f_right inline more'><span>더보기<i class="ri-add-circle-fill"></i></span></a></div>
+            <div class="card_title_wrap">
+                <div class="card_title">최근 추천 등록 회원 </div>
+                <a href='<?=G5_URL?>/page.php?id=structure'
+                    class='inline more'><span>더보기<i class="ri-add-circle-fill"></i></span>
+                </a>
+            </div>
+            
             <?
 					$bonus_history_sql	 = "SELECT * from `{$g5['member_table']}` WHERE mb_recommend = '{$member['mb_id']}' order by mb_open_date desc limit 0,3";
 					$bonus_history_result = sql_query($bonus_history_sql);

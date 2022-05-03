@@ -234,7 +234,7 @@ $result_withdraw = sql_query($sql);
 
   <div class="col-sm-12 col-12 content-box round mt20" id="eth">
     <h3 class="wallet_title" data-i18n="deposit.입금확인요청">입금확인요청 </h3> <span class='desc'> - 계좌입금후 1회만 요청해주세요</span>
-
+    <div style="clear:both"></div>
     <div class="row">
       <div class="btn_ly qrBox_right "></div>
       <div class="col-sm-12 col-12 withdraw mt20">

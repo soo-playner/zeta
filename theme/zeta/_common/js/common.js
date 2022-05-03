@@ -380,7 +380,6 @@ function mode_init() {
 	$('#mode_select').val(Theme).change();
 }
 
-
 // 테마 모드 변경 셀렉
 function mode_change(mode) {
 	var profile_icon1 = '';
@@ -608,3 +607,4 @@ function mode_colorset2(mode) {
 		})
 	}
 }
+

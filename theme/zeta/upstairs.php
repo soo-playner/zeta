@@ -158,7 +158,7 @@ $result = sql_query($sql);
 						</select>
 					</li> -->
 				</ul>
-				<div class='row '>
+				<div class='row' style="align-items: center;">
 					<div class='col-5 current_currency coin'>선택 상품 금액 </div>
 					
 					<div class='col-1 shift_usd'><i class="ri-exchange-fill exchange"></i></div>

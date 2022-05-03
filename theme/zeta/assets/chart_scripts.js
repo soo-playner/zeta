@@ -2,6 +2,7 @@ var title_color = '';
 var bar_color = [];
 var circle_color = [];
 var colors = [];
+var bar_title = '';
 
 if(getCookie('mode')){
   var Theme = getCookie('mode'); 
@@ -25,6 +26,87 @@ $('#mode_select').on('change',function(e) {
   mode_colorset(this.value);
 });
 
+$('#gnb_language a').on('click',function() {
+  lang_change($(this).attr('data-num'));
+})
+
+if(getCookie('googtrans') == '/ko/en') {
+  mega_title = 'MEGAPOOL BONUS';
+  zeta_title = 'ZETAPOOL BONUS';
+  zetaplus_title = 'Zeta + Full Bonus';
+  super_title = 'SUPER BONUS';
+  bonus_title = 'BONUS HASH';
+} else if(getCookie('googtrans') == '/ko/zh-CN') {
+  mega_title = '超级矿池奖金';
+  zeta_title = 'Zetapool奖金';
+  zetaplus_title = 'Zeta + 全额奖金';
+  super_title = '超级奖金';
+  bonus_title = '奖金哈希';
+} else if(getCookie('googtrans') == '/ko/vi') {
+  mega_title = 'Tiền thưởng Megapool';
+  zeta_title = 'Tiền thưởng Zetapool';
+  zetaplus_title = 'Zeta + Tiền thưởng đầy đủ';
+  super_title = 'siêu tiền thưởng';
+  bonus_title = 'băm thưởng';
+} else if(getCookie('googtrans') == '/ko/ja') {
+  mega_title = 'メガフルボーナス';
+  zeta_title = 'ゼタフルボーナス';
+  zetaplus_title = 'ゼータ+フルボーナス';
+  super_title = 'スーパーボーナス';
+  bonus_title = 'ボーナスハッシュ';
+} else {
+  mega_title = '메가풀 보너스';
+  zeta_title = '제타풀 보너스';
+  zetaplus_title = '제타+풀 보너스';
+  super_title = '슈퍼 보너스';
+  bonus_title = '보너스 해시';
+}
+
+function lang_change(num) {
+  var mega_title = ['메가풀 보너스','MEGAPOOL BONUS','超级矿池奖金','Tiền thưởng Megapool','メガフルボーナス'];
+  var zeta_title = ['제타풀 보너스','ZETAPOOL BONUS','Zetapool奖金','Tiền thưởng Zetapool','ゼタフルボーナス'];
+  var zetaplus_title = ['제타+풀 보너스','Zeta + Full Bonus','Zeta + 全额奖金','Zeta + Tiền thưởng đầy đủ','ゼータ+フルボーナス'];
+  var super_title = ['슈퍼 보너스','SUPER BONUS','超级奖金','siêu tiền thưởng','スーパーボーナス'];
+  var bonus_title = ['보너스 해시','BONUS HASH','奖金哈希','băm thưởng','ボーナスハッシュ'];
+
+  megachart.updateOptions({
+    title: {
+      text: mega_title[num]
+    },
+    xaxis: {
+      categories: [bonus_title[num]],
+    }
+  });
+
+  zetachart.updateOptions({
+    title: {
+      text: zeta_title[num]
+    },
+    xaxis: {
+      categories: [bonus_title[num]],
+    }
+  });
+
+  zetapluschart.updateOptions({
+    title: {
+      text: zetaplus_title[num]
+    },
+    xaxis: {
+      categories: [bonus_title[num]],
+    },
+  });
+
+  superchart.updateOptions({
+    title: {
+      text: super_title[num]
+    },
+    xaxis: {
+      categories: [bonus_title[num]],
+    }
+  });
+  
+  
+}
 
 window.Apex = {
     chart: {
@@ -573,7 +655,7 @@ window.Apex = {
       floating: true,
       offsetX: 0,
       offsetY: 0,
-      text: '메가풀 보너스',
+      text: mega_title,
       style: {
         fontSize: '16px',
         color: title_color
@@ -603,7 +685,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해시'],
+      categories: [bonus_title],
     },
     yaxis: {
       max: 100
@@ -698,7 +780,7 @@ window.Apex = {
       floating: true,
       offsetX: 0,
       offsetY: 0,
-      text: '제타풀 보너스',
+      text: zeta_title,
       style: {
         fontSize: '16px',
         color: title_color
@@ -728,7 +810,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해시'],
+      categories: [[bonus_title]],
     },
     yaxis: {
       max: 100
@@ -824,7 +906,7 @@ window.Apex = {
       floating: true,
       offsetX: 0,
       offsetY: 0,
-      text: '제타+풀 보너스',
+      text: zetaplus_title,
       style: {
         fontSize: '16px',
         color: title_color
@@ -854,7 +936,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해시'],
+      categories: [[bonus_title]],
     },
     yaxis: {
       max: 100
@@ -955,7 +1037,7 @@ window.Apex = {
       floating: true,
       offsetX: 0,
       offsetY: 0,
-      text: '슈퍼 보너스',
+      text: super_title,
       style: {
         fontSize: '16px',
         color: title_color
@@ -985,7 +1067,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해시'],
+      categories: [[bonus_title]],
     },
     yaxis: {
       max: 100
