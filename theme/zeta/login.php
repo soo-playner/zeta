@@ -1,5 +1,7 @@
-<? include_once(G5_THEME_PATH.'/_include/head.php'); ?>
-
+<? 
+include_once(G5_THEME_PATH.'/_include/head.php');
+include_once(G5_THEME_PATH.'/_include/lang.php');
+?>
 
 	<section id="wrapper" class="bg_white">
 		<div class="v_center">

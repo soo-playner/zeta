@@ -914,6 +914,8 @@ a.btn_cancle, .btn_cancle{
             border: 1px solid $main-colors;
         }
     }
+    
+    
 
     .user.selected{background:$userSelected_background;}
     .btn-primary{background:$userSelected_background;}
@@ -1106,7 +1108,7 @@ a.btn_cancle, .btn_cancle{
             color: #fff;
 
             #service_checkbox + label, #private_checkbox + label {
-                background-color: transparent
+                // background-color: transparent
             }
         }
 
@@ -1428,6 +1430,9 @@ a.btn_cancle, .btn_cancle{
             .ri-arrow-down-s-line {
                 color: #fff;
             }
+
+            #gnb_language{background:#17191d;color:#f1f1f1;border-top:1px solid #333;}
+            .logout_wrap{color:white;}
         }
 
         .top_title {
@@ -1458,7 +1463,8 @@ a.btn_cancle, .btn_cancle{
 
         .dash_news {
             border-top: none;
-            box-shadow: 0 1px 1px 0px #ccc;
+            box-shadow: inset -1px 1px 2px rgba(255,255,255,0.25), 0 3px 3px rgba(0, 0, 0, 0.5);
+            background: #363c46;
 
             h5 {
                 border-bottom: 0.5px solid #fff;

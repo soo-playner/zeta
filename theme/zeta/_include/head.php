@@ -47,12 +47,12 @@ if(!isset($g5['title'])){
 	
 	<link href="<?=G5_URL?>/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?=G5_THEME_URL?>/_common/css/normalize.css" rel="stylesheet">
-	<link href="<?=G5_THEME_URL?>/_common/css/common.css" rel="stylesheet">
+	<link href="<?=G5_THEME_URL?>/_common/css/common.css?ver=20220502_1" rel="stylesheet">
 	<link href="<?=G5_THEME_URL?>/_common/css/jquery-ui.min.css" rel="stylesheet">
-	<link href="<?=G5_THEME_URL?>/_common/css/gnb.css" rel="stylesheet">
+	<link href="<?=G5_THEME_URL?>/_common/css/gnb.css?ver=20220502" rel="stylesheet">
 	
 	<!-- 커스텀 SCSS 추가 -->
-	<link href="<?=G5_THEME_URL?>/css/scss/custom.css" rel="stylesheet">
+	<link href="<?=G5_THEME_URL?>/css/scss/custom.css?ver=20220502_2" rel="stylesheet">
 
 
 	<!-- JQuery  기본 설정 //-->
@@ -67,7 +67,7 @@ if(!isset($g5['title'])){
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/js-sha256/0.9.0/sha256.js" type="text/javascript"></script>
-  	<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.9.0/i18next.min.js" type="text/javascript"></script>
+  	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.9.0/i18next.min.js" type="text/javascript"></script> -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js" integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<?
@@ -75,7 +75,7 @@ if(!isset($g5['title'])){
 	include_once(G5_THEME_PATH.'/_include/popup.php');
 	// include_once(G5_THEME_PATH.'/_include/common_js.php');
 
-	$thisTheme = 'white';
+	$thisTheme = 'dark';
 	?>
 
 

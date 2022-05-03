@@ -1296,10 +1296,6 @@ a.btn_cancle:hover, .btn_cancle:hover {
   color: #fff;
 }
 
-.dark .enroll_wrap .term_space #service_checkbox + label, .dark .enroll_wrap .term_space #private_checkbox + label {
-  background-color: transparent;
-}
-
 .dark .enroll_wrap .term_textarea {
   background: #212429;
   color: #fff;
@@ -1586,6 +1582,16 @@ a.btn_cancle:hover, .btn_cancle:hover {
   color: #fff;
 }
 
+.dark header .left_gnbWrap #gnb_language {
+  background: #17191d;
+  color: #f1f1f1;
+  border-top: 1px solid #333;
+}
+
+.dark header .left_gnbWrap .logout_wrap {
+  color: white;
+}
+
 .dark header .top_title {
   background: #212429;
 }
@@ -1614,8 +1620,9 @@ a.btn_cancle:hover, .btn_cancle:hover {
 
 .dark .breadcrumb .dash_news {
   border-top: none;
-  -webkit-box-shadow: 0 1px 1px 0px #ccc;
-          box-shadow: 0 1px 1px 0px #ccc;
+  -webkit-box-shadow: inset -1px 1px 2px rgba(255, 255, 255, 0.25), 0 3px 3px rgba(0, 0, 0, 0.5);
+          box-shadow: inset -1px 1px 2px rgba(255, 255, 255, 0.25), 0 3px 3px rgba(0, 0, 0, 0.5);
+  background: #363c46;
 }
 
 .dark .breadcrumb .dash_news h5 {

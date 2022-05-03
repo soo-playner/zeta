@@ -6,6 +6,7 @@ $phone_auth = 0;
 
 include_once(G5_THEME_PATH.'/_include/head.php');
 include_once(G5_THEME_PATH.'/_include/gnb.php');
+include_once(G5_THEME_PATH.'/_include/lang.php');
 
 if($nw['nw_enroll'] == 'Y'){
 }else{
@@ -27,8 +28,7 @@ if ($_GET['recom_referral']){
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
 <style>
-	/* 센터 닉네임 사용 추가 0720  by arcthan */
-	
+	.gflag{display:none !important;}
 </style>
 
 

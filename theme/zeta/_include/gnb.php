@@ -7,6 +7,12 @@ if($_COOKIE['myLang'])
 }
 ?>
 
+<style>
+	#gnb_anguage{padding:10px}
+	.gnb_bottom{background:#f5f5f5}
+	.hidden{display:none;}
+</style>
+
 <script>
 $(document).ready(function(){
 
@@ -17,25 +23,25 @@ $(document).ready(function(){
 	  document.cookie = cookie_name + '=' + cookie_value;
 	}
 
-	$.i18n.init({
+	/* $.i18n.init({
 		resGetPath: '/locales/my/__lng__.json',
 		load: 'unspecific',
 		fallbackLng: false,
 		lng: 'kor'
 	}, function (t){
 		$('body').i18n();
-	});
+	}); */
 
-	$('#lang').on('change', function(e) {
+	/* $('#lang').on('change', function(e) {
 		$.i18n.setLng($(this).val(), function(){
 			$('body').i18n();
 		});
 		console.log($(this).val());
 		setCookie('myLang',$(this).val(),1,'/');
 		//localStorage.setItem('myLang',$(this).val());
-	});
+	}); */
 
-	$('#lang').val("<?=$myLang?>").change();
+	// $('#lang').val("<?=$myLang?>").change();
 });
 </script>
 
@@ -72,12 +78,12 @@ $(document).ready(function(){
 		</div>
 		<div class="b_line3"></div>
 		<ul class="left_gnb">
-			<li class="dashboard_icon">
+			<!-- <li class="dashboard_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
 					<a href="/"><span data-i18n="">대쉬보드</span></a>
 				</div>
-			</li>
+			</li> -->
 			<li class="profile_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
@@ -132,7 +138,7 @@ $(document).ready(function(){
 					<a href="/page.php?id=structure"><span data-i18n="">추천조직도</span></a>
 				</div>
 			</li>
-			<li class="support_icon">
+			<!-- <li class="support_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
 					<a href="/page.php?id=binary"><span data-i18n="">후원조직도</span></a>
@@ -143,7 +149,7 @@ $(document).ready(function(){
 				<div class="gnb_title_Wrap">
 					<a href="/page.php?id=binary2"><span data-i18n="">후원조직도2</span></a>
 				</div>
-			</li>
+			</li> -->
 			<li class="notice_icon">
 				<div class="gnb_img_wrap"></div>
 				<div class="gnb_title_Wrap">
@@ -162,10 +168,17 @@ $(document).ready(function(){
 					<a href="/page.php?id=referral_link"><span data-i18n="">추천인링크</span></a>
 				</div>
 			</li>
-			<!-- <li class="shopping_mall_icon"><a href="javascript:move_to_shop();"><span data-i18n="">쇼핑몰</span></a></li> -->
-			<!-- <div class="b_line3"></div> -->
-			<div class='gnb_bottom text-center'><i class="ri-arrow-down-s-line" style='font-size:20px;vertical-align:top'></i></div>
-			<ul class="logout_wrap row">
+			<div class='gnb_bottom text-center hidden'><i class="ri-arrow-down-s-line" style='font-size:20px;vertical-align:top'></i></div>
+			<div id='gnb_language'>
+				<p class='f_small title'>언어선택</p>
+				<?include_once(G5_THEME_PATH.'/_include/lang.html')?>
+			</div>
+			
+			<div class="logout_wrap">
+				<a href="javascript:void(0);" class="logout_pop_open"><i class="ri-logout-box-r-line"></i><span>로그아웃</span></a>
+				<a href="/page.php?id=member_term"><i class="ri-git-repository-line"></i><span>회원약관</span></a>
+			</div>	
+			<!-- <ul class="logout_wrap row">
 				<li class="foot_btn logout_icon">
 					<div class="gnb_img_wrap"></div>
 					<div class="gnb_title_Wrap">
@@ -176,7 +189,8 @@ $(document).ready(function(){
 				<li class="foot_btn terms_icon">
 					<a href="/page.php?id=member_term"><span data-i18n="">회원약관</span></a>
 				</li>
-			</ul>
+			</ul> -->
+
 			<div class='gnb-footer'>
 				<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
 			</div>
@@ -213,8 +227,10 @@ $(document).ready(function(){
 	});
 
 	$(function(){
+		
 		var left_gnb = $('.left_gnb');
-		if(left_gnb.height() < 600){
+		console.log(left_gnb.height());
+		if(left_gnb.height() < 433){
 			$(".gnb_bottom").css('display','block');
 
 			$(left_gnb).scroll(function () {
