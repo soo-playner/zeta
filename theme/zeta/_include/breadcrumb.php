@@ -125,21 +125,19 @@ $title = 'Dashboard';
 			<!-- 회원기본정보 -->
 			
 			<div class='user-content' style='border-radius:20px;line-height:40px;'>
-				<div>
-					<span class='userid user_level'><?=$user_icon?></span>
-					<h4 class='bold'><?=$member['mb_id']?>님</h4>
-					<h4 class='mygrade badge color<?=user_grade($member['mb_id'])?>'><?=user_grade($member['mb_id'])?> STAR</h4>
-					<h4 class='mygrade badge' style="margin-left:0;"><?=$user_level?></h4>
+				<span class='userid user_level'><?=$user_icon?></span>
+				<h4 class='bold'><?=$member['mb_id']?>님</h4>
+				<h4 class='mygrade badge color<?=user_grade($member['mb_id'])?>'><?=user_grade($member['mb_id'])?> STAR</h4>
+				<h4 class='mygrade badge' style="margin-left:0;"><?=$user_level?></h4>
 
-					<?if($notice_result_num > 0){ ?>
-						<button class="btn text-white b_darkblue_round notice_open f_right" >
-						<i class="ri-broadcast-line"></i>
-						</button>
-					<?}?>
-				</div>
+				<?if($notice_result_num > 0){ ?>
+					<button class="btn text-white b_darkblue_round notice_open f_right" >
+					<i class="ri-broadcast-line"></i>
+					</button>
+				<?}?>
 			</div>
 			<style>
-				.total_view_wrap .currency{font-size:12px;padding-left:3px;}
+				.total_view_wrap .currency{font-size:12px;padding-left:3px;display:block}
 			</style>
 			<!-- 회원상세정보 -->
 			<div class="total_view_wrap">

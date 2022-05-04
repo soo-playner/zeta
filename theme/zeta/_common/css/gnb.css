@@ -94,7 +94,7 @@ header .left_gnbWrap.on {
 	left: 0;
 	visibility: visible;
 }
-header .left_gnbWrap i {
+header .left_gnbWrap .user_icon i {
 	vertical-align: text-bottom;
 }
 header .left_gnbWrap .b_line3 {
@@ -136,10 +136,10 @@ header .left_gnbWrap .left_gnb {
 	width: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
-	/* display: flex;
+	display: flex;
 	flex-flow: column;
 	justify-content: space-between;
-	height: calc(100% - 220px); */
+	height: calc(100% - 260px);
 }
 header .left_gnbWrap .left_gnb > li {
 	background-repeat: no-repeat;
@@ -157,8 +157,7 @@ header .left_gnbWrap .left_gnb .b_line3 {
 .logout_wrap{position:fixed;bottom:20px;line-height:20px;padding:20px 15px;width:300px;display:flex;}
 .logout_wrap a{display:inline-block;width:50%;text-align: center;font-size:13px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
 .logout_wrap a:first-child{border-right:1px solid #666;}
-.logout_wrap a i{vertical-align: middle;padding-right:5px;font-size:18px;}
-.logout_wrap a i + span {vertical-align: middle;}
+.logout_wrap a i{padding-right:5px;font-size:18px;}
 
 
 header .left_gnbWrap .left_gnb > li:hover {

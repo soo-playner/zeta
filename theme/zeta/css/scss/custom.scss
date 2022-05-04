@@ -424,14 +424,12 @@ a.btn_cancle, .btn_cancle{
     line-height:24px;
     font-size:12px;
 
-    span{vertical-align: middle;}
     .card_title_wrap {
         display: flex;
         justify-content: space-between;
     }
     .card_title{
         margin-bottom:15px;
-        width: 250px;
     }
     .id{font-size:14px;display:inline-block;min-width:80px;font-weight:600;margin:0 10px;}
     .badge{font-weight: 500;}
@@ -553,6 +551,8 @@ a.btn_cancle, .btn_cancle{
     .user-info {
         .user-content {
             position: relative;
+            display: flex;
+            align-items: center;
         }
 
         .notice_open {
@@ -562,7 +562,6 @@ a.btn_cancle, .btn_cancle{
             height: 40px;
             margin-right: 10px;
             margin-top: 5px;
-            position: absolute;
             top: 15%;
             right: 0%;
 
@@ -618,6 +617,7 @@ a.btn_cancle, .btn_cancle{
     background:aliceblue;
     border-radius:10px;
     width: 100%;
+    position: relative;
 }
 .value_no{color:red}
 .total_view_wrap .rank_title{width:100%;padding:3px 10px;margin:10px 20px -10px;background:#f0edff;border-radius: 10px;}
@@ -743,7 +743,7 @@ a.btn_cancle, .btn_cancle{
 #mining_amt_log{
     // border-top:1px double #aaa;
     padding:15px 0;
-
+    display: grid;
     .hist_tit{width:100%; color:#29386b;}
     .mymining_total{color:#29386b;}
     
@@ -3088,6 +3088,18 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
     .upstairs {
         .it_price {
             font-size: 16px;
+        }
+    }
+
+    .history_latest {
+        .card_title {
+            width: 220px;
+        }
+    }
+
+    .regist_latest {
+        .card_title {
+            width: 220px;
         }
     }
 }
