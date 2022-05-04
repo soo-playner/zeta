@@ -277,10 +277,12 @@ $title = 'Dashboard';
 
 			$('.fold_img_wrap img').attr('src','<?=G5_THEME_URL?>/img/arrow_up_'+Theme+'.png');
 			
+			var user_height = $('.user-info').height();
+
 			if ($(id).css("display") == "none") {
 				$(id).css("display", "block");
 				$(id).animate({
-					height: "300px"
+					height: user_height + 100
 				}, 500, function() {
 					$('.fold_wrap p').text('접기');
 				});
