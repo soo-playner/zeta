@@ -129,11 +129,11 @@
 					?>
 
             <div class="line row">
-                <div class='col-8'>
+                <div class='col-7'>
                     <span class='day'><?=timeshift($row['day'])?> </span>
                     <span class='category'><?=strtoupper($row['allowance_name'].' Bonus')?> </span>
                 </div>
-                <div class='col-4 text-right'>
+                <div class='col-5 text-right'>
                     <span class='price'><?=Number_format($row['benefit'])?> <?=BALANCE_CURENCY?> </span>
                 </div>
             </div>
@@ -161,13 +161,13 @@
 					?>
 
             <div class="line row">
-                <div class='col-8'>
+                <div class='col-9'>
                     <span class='badge'><?=$member_level_array[$row['mb_level']]?> </span>
                     <span class='badge color<?=user_grade($member['mb_id'])?>'><?=$row['grade'].' star'?> </span>
                     <span class='id'><?=$row['mb_id']?> </span>
 
                 </div>
-                <div class='col-4 text-right'>
+                <div class='col-3 text-right'>
                     <span class='day'><?=timeshift($row['mb_open_date'])?> </span>
                 </div>
             </div>

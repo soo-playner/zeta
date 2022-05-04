@@ -171,7 +171,7 @@ function dialogModal(title, htmlBody, category, dim = true) {
 	}
 
 	if (category == 'success') {
-		$('#dialogModal .modal-body').html("<div class=chkimg><img src='" + g5_url + "/img/comform_chk.gif'></div>" + htmlBody);
+		$('#dialogModal .modal-body').html("<div class=chkimg><img src='" + g5_url + "/img/check_green.png'></div>" + htmlBody);
 		$('#dialogModal .modal-footer').html("<button type='button' class='btn wd btn_defualt closed' data-dismiss='modal' id='modal_return_url' onclick='" + dimhide + "'>Close</button>");
 	}
 	else if (category == 'confirm') {
@@ -186,7 +186,7 @@ function dialogModal(title, htmlBody, category, dim = true) {
 		$('#dialogModal .modal-footer').html("<button type='button' class='btn btn-secondary cancle' data-dismiss='modal' onclick='" + dimhide + "'>Cancle</button> <button type='button' class='btn btn-primary confirm' id='modal_confirm' data-dismiss='modal' >OK</button>");
 	}
 	else if (category == 'failed') {
-		$('#dialogModal .modal-body').html("<div class=chkimg><img src='" + g5_url + "/img/notice_pop.gif'></div>" + htmlBody);
+		$('#dialogModal .modal-body').html("<div class=chkimg><img src='" + g5_url + "/img/notice.png'></div>" + htmlBody);
 		$('#dialogModal .modal-footer').html("<button type='button' class='btn wd btn_defualt closed' data-dismiss='modal' id='modal_return_back' onclick='" + dimhide + "'>Close</button>");
 	}
 

@@ -377,7 +377,7 @@ a.btn {
 
 /*모달*/
 #purchaseModal .modal-body {
-	_background: url("/img/comform_chk.gif") center center 80% no-repeat;
+	_background: url("/img/check_green.png") center center 80% no-repeat;
 	min-height: 200px;
 	text-align: center;
 }
@@ -880,7 +880,6 @@ input.p15 {
 }
 .content-box .title {
 	margin: 20px 0 10px;
-	vertical-align: middle;
 }
 .content-box .sub_title {
 	font-size: 13px;
@@ -1350,7 +1349,6 @@ a.more i {
 }
 
 .card_title {
-	vertical-align: middle;
 	font-weight: bold;
 	font-size: 16px;
 	color: #29386b;
@@ -1844,7 +1842,6 @@ a.more i {
 .profile .person_info .myid {
 	margin-left: 10px;
 	vertical-align: top;
-	line-height: 40px;
 }
 .profile .person_info .mygrade {
 	vertical-align: top;

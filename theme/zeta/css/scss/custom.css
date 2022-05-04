@@ -457,10 +457,6 @@ a.btn_cancle:hover, .btn_cancle:hover {
   font-size: 12px;
 }
 
-.regist_latest span {
-  vertical-align: middle;
-}
-
 .regist_latest .card_title_wrap {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -472,7 +468,6 @@ a.btn_cancle:hover, .btn_cancle:hover {
 
 .regist_latest .card_title {
   margin-bottom: 15px;
-  width: 250px;
 }
 
 .regist_latest .id {
@@ -649,6 +644,12 @@ a.btn_cancle:hover, .btn_cancle:hover {
 
 .breadcrumb .user-info .user-content {
   position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .breadcrumb .user-info .notice_open {
@@ -658,7 +659,6 @@ a.btn_cancle:hover, .btn_cancle:hover {
   height: 40px;
   margin-right: 10px;
   margin-top: 5px;
-  position: absolute;
   top: 15%;
   right: 0%;
 }
@@ -708,6 +708,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   background: aliceblue;
   border-radius: 10px;
   width: 100%;
+  position: relative;
 }
 
 .value_no {
@@ -897,6 +898,8 @@ a.btn_cancle:hover, .btn_cancle:hover {
 
 #mining_amt_log {
   padding: 15px 0;
+  display: -ms-grid;
+  display: grid;
 }
 
 #mining_amt_log .hist_tit {
@@ -3235,5 +3238,11 @@ input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:foc
 @media (min-width: 335px) and (max-width: 757px) {
   .upstairs .it_price {
     font-size: 16px;
+  }
+  .history_latest .card_title {
+    width: 220px;
+  }
+  .regist_latest .card_title {
+    width: 220px;
   }
 }
