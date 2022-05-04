@@ -47,12 +47,12 @@ if(!isset($g5['title'])){
 	
 	<link href="<?=G5_URL?>/css/bootstrap.min.css" rel="stylesheet">
 	<link href="<?=G5_THEME_URL?>/_common/css/normalize.css" rel="stylesheet">
-	<link href="<?=G5_THEME_URL?>/_common/css/common.css?ver=20220502_1" rel="stylesheet">
+	<link href="<?=G5_THEME_URL?>/_common/css/common.css?ver=20220504_11" rel="stylesheet">
 	<link href="<?=G5_THEME_URL?>/_common/css/jquery-ui.min.css" rel="stylesheet">
-	<link href="<?=G5_THEME_URL?>/_common/css/gnb.css?ver=20220502" rel="stylesheet">
+	<link href="<?=G5_THEME_URL?>/_common/css/gnb.css?ver=20220504_12" rel="stylesheet">
 	
 	<!-- 커스텀 SCSS 추가 -->
-	<link href="<?=G5_THEME_URL?>/css/scss/custom.css?ver=20220502_3" rel="stylesheet">
+	<link href="<?=G5_THEME_URL?>/css/scss/custom.css?ver=20220504_15" rel="stylesheet">
 
 
 	<!-- JQuery  기본 설정 //-->

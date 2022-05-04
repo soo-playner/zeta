@@ -309,7 +309,7 @@ header {
             border-radius: 25px;
             padding: 0;
             width: 100px;
-            height: 40px;
+            height: 32px;
             padding-left: 20px;
         }
     }
@@ -550,8 +550,9 @@ a.btn_cancle, .btn_cancle{
 
     .user-info {
         .user-content {
+            width:100%;
             position: relative;
-            display: flex;
+            display: inline-flex;
             align-items: center;
         }
 
@@ -564,6 +565,7 @@ a.btn_cancle, .btn_cancle{
             margin-top: 5px;
             top: 15%;
             right: 0%;
+            position:absolute;
 
             i {
                 font-size:20px;
@@ -674,12 +676,14 @@ a.btn_cancle, .btn_cancle{
     background:#ec2b38;
 
     .polding_btn{
+        display: flex;
+        align-items: center;
         color:white; 
         div{display:inline-block}
 
         .wallet_title{font-weight:600;font-size:16px;}
         .max_with{margin-left:10px;font-size:11px;}
-        .btn_title{line-height:30px;text-align:center;}
+        .btn_title{}
         .caret_box{
             vertical-align: top;
             float:right;
@@ -1519,6 +1523,9 @@ a.btn_cancle, .btn_cancle{
                     li {
                         .title {
                             color: #b8b8b8;
+                            font{
+                                font {line-height:16px;}
+                            }
                         }
 
                         .value {
@@ -1530,6 +1537,17 @@ a.btn_cancle, .btn_cancle{
                             }
                         }
                     }
+
+                    .remain_mining{
+                        background:rgba(0,0,0,0.5); 
+                        border-radius:8px;
+                        margin:5px 10px 0 ;
+
+                        i{vertical-align: bottom;}
+                        font{vertical-align: bottom;}
+                    }
+
+                    .icon.value_no{font-size:20px;}
 
                     &.collapse {
                         .row {
@@ -2076,11 +2094,11 @@ a.btn_cancle, .btn_cancle{
         
                 .wallet_title{font-weight:600;font-size:16px;color: #fff;}
                 .max_with{margin-left:10px;font-size:11px;color: #fff;}
-                .btn_title{line-height:30px;text-align:center;}
+                .btn_title{}
                 .caret_box{
                     vertical-align: top;
-                    float:right;
-                    
+                    text-align: right;
+                    flex-grow: 3;
                     i{font-size:16px;}
                 }
             }
@@ -2228,12 +2246,12 @@ a.btn_cancle, .btn_cancle{
     .content-box{
         &.mining_detail{
             font-size:13px;
-            border-bottom:4px solid #073a69;
+            border-bottom:none;
         }
     
         &.mining_history{
             font-size:13px;
-            border-left:4px solid #073a69;
+            border-left:none;
         }
         
         .m_hist_exp {font-size:11px;}
@@ -2348,7 +2366,8 @@ a.btn_cancle, .btn_cancle{
                 font-family: Montserrat, Arial, sans-serif;
                 margin: 0 5px;
                 padding: 0 5px;
-                background: #FECE00;
+                color: #FECE00;
+                background:transparent;
                 display: inline-block
             }
     
@@ -2853,7 +2872,7 @@ a.btn_cancle, .btn_cancle{
 
     // tail
     .notice_box {
-        background: $main-background;
+        background: $main-background3;
         ul {
             li {
                 span {
@@ -2887,7 +2906,7 @@ a.btn_cancle, .btn_cancle{
         border-radius: 25px;
         padding: 0;
         width: 100px;
-        height: 40px;
+        height: 32px;
         padding-left: 20px;
     }
     

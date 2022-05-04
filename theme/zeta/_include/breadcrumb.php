@@ -137,7 +137,7 @@ $title = 'Dashboard';
 				<?}?>
 			</div>
 			<style>
-				.total_view_wrap .currency{font-size:12px;padding-left:3px;display:block}
+				.total_view_wrap .currency{font-size:12px;padding-left:3px;}
 			</style>
 			<!-- 회원상세정보 -->
 			<div class="total_view_wrap">
@@ -154,7 +154,7 @@ $title = 'Dashboard';
 						</li>
 						<li class="col-4">
 							<dt class="title">출금 가능 코인</dt>
-							<dd class="value" style='font-size:15px;'><?=shift_auto($mining_total,$minings[0])?><span class='currency'><?=$minings[0]?></span></dd>
+							<dd class="value" style='font-size:14px;'><?=shift_auto($mining_total,$minings[0])?><span class='currency'><?=$minings[0]?></span></dd>
 						</li>
 					</ul> 
 				</div>
@@ -282,7 +282,7 @@ $title = 'Dashboard';
 			if ($(id).css("display") == "none") {
 				$(id).css("display", "block");
 				$(id).animate({
-					height: user_height + 100
+					height: user_height + 150
 				}, 500, function() {
 					$('.fold_wrap p').text('접기');
 				});

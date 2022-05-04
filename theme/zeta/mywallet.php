@@ -257,6 +257,11 @@ $result_withdraw = sql_query($sql);
   <div class="history_box content-box mt40">
     <h3 class="hist_tit" >입금 내역</h3>
     <div class="b_line2"></div>
+    <? if (sql_num_rows($result_deposit) == 0) { ?>
+      <div class="no_data"> 입금내역이 존재하지 않습니다.</div>
+    <? } ?>
+
+    <? while ($row = sql_fetch_array($result_deposit)) { ?>
      <div class='hist_con'>
       <div class="hist_con_row1">
         <div class="row">
@@ -270,6 +275,11 @@ $result_withdraw = sql_query($sql);
         </div>
       </div>
     </div>
+    <? } ?>
+    <?php
+    $pagelist = get_paging($config['cf_write_pages'], $page, $total_page_deposit, "{$_SERVER['SCRIPT_NAME']}?id=mywallet&$qstr&view=deposit");
+    echo $pagelist;
+    ?>
   </div>
   </section>
 

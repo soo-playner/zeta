@@ -296,7 +296,7 @@ header .top_title #mode_select {
   border-radius: 25px;
   padding: 0;
   width: 100px;
-  height: 40px;
+  height: 32px;
   padding-left: 20px;
 }
 
@@ -643,10 +643,11 @@ a.btn_cancle:hover, .btn_cancle:hover {
 }
 
 .breadcrumb .user-info .user-content {
+  width: 100%;
   position: relative;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -661,6 +662,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   margin-top: 5px;
   top: 15%;
   right: 0%;
+  position: absolute;
 }
 
 .breadcrumb .user-info .notice_open i {
@@ -773,6 +775,12 @@ a.btn_cancle:hover, .btn_cancle:hover {
 }
 
 #mining_withdraw .polding_btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   color: white;
 }
 
@@ -788,11 +796,6 @@ a.btn_cancle:hover, .btn_cancle:hover {
 #mining_withdraw .polding_btn .max_with {
   margin-left: 10px;
   font-size: 11px;
-}
-
-#mining_withdraw .polding_btn .btn_title {
-  line-height: 30px;
-  text-align: center;
 }
 
 #mining_withdraw .polding_btn .caret_box {
@@ -1685,6 +1688,10 @@ a.btn_cancle:hover, .btn_cancle:hover {
   color: #b8b8b8;
 }
 
+.dark .breadcrumb .user-info .total_view_wrap .total_view_top li .title font font {
+  line-height: 16px;
+}
+
 .dark .breadcrumb .user-info .total_view_wrap .total_view_top li .value {
   color: #fff;
   font-size: 14px;
@@ -1692,6 +1699,24 @@ a.btn_cancle:hover, .btn_cancle:hover {
 
 .dark .breadcrumb .user-info .total_view_wrap .total_view_top li .value i {
   color: #ffd965;
+}
+
+.dark .breadcrumb .user-info .total_view_wrap .total_view_top .remain_mining {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  margin: 5px 10px 0;
+}
+
+.dark .breadcrumb .user-info .total_view_wrap .total_view_top .remain_mining i {
+  vertical-align: bottom;
+}
+
+.dark .breadcrumb .user-info .total_view_wrap .total_view_top .remain_mining font {
+  vertical-align: bottom;
+}
+
+.dark .breadcrumb .user-info .total_view_wrap .total_view_top .icon.value_no {
+  font-size: 20px;
 }
 
 .dark .breadcrumb .user-info .total_view_wrap .total_view_top.collapse .row {
@@ -2192,14 +2217,12 @@ a.btn_cancle:hover, .btn_cancle:hover {
   color: #fff;
 }
 
-.dark #mining #mining_withdraw .polding_btn .btn_title {
-  line-height: 30px;
-  text-align: center;
-}
-
 .dark #mining #mining_withdraw .polding_btn .caret_box {
   vertical-align: top;
-  float: right;
+  text-align: right;
+  -webkit-box-flex: 3;
+      -ms-flex-positive: 3;
+          flex-grow: 3;
 }
 
 .dark #mining #mining_withdraw .polding_btn .caret_box i {
@@ -2434,12 +2457,12 @@ a.btn_cancle:hover, .btn_cancle:hover {
 
 .dark .content-box.mining_detail {
   font-size: 13px;
-  border-bottom: 4px solid #073a69;
+  border-bottom: none;
 }
 
 .dark .content-box.mining_history {
   font-size: 13px;
-  border-left: 4px solid #073a69;
+  border-left: none;
 }
 
 .dark .content-box .m_hist_exp {
@@ -2555,7 +2578,8 @@ a.btn_cancle:hover, .btn_cancle:hover {
   font-family: Montserrat, Arial, sans-serif;
   margin: 0 5px;
   padding: 0 5px;
-  background: #FECE00;
+  color: #FECE00;
+  background: transparent;
   display: inline-block;
 }
 
@@ -2992,7 +3016,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
 }
 
 .dark .notice_box {
-  background: #212429;
+  background: #2c2f34;
 }
 
 .dark .notice_box ul li span {
@@ -3022,7 +3046,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   border-radius: 25px;
   padding: 0;
   width: 100px;
-  height: 40px;
+  height: 32px;
   padding-left: 20px;
 }
 

@@ -95,7 +95,7 @@ header .left_gnbWrap.on {
 	visibility: visible;
 }
 header .left_gnbWrap .user_icon i {
-	vertical-align: text-bottom;
+	vertical-align: middle;
 }
 header .left_gnbWrap .b_line3 {
 	margin-top: 0px;
