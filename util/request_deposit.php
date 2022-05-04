@@ -41,7 +41,7 @@ if($pre_result['cnt'] < 1){
     echo json_encode(array("response"=>"FAIL", "data"=>"<p>ERROR<br>Please try later</p>"));
   }
 }else{
-  echo json_encode(array("response"=>"FAIL", "data"=>"Request already exists"));
+  echo json_encode(array("response"=>"FAIL", "data"=>"이미 해당 요청이 처리진행중입니다."),JSON_UNESCAPED_UNICODE);
 }
 
 
