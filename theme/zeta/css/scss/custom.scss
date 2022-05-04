@@ -3041,6 +3041,9 @@ a.btn_cancle, .btn_cancle{
         .modal-footer {
             border-top: 2px solid #2c3037;
         }
+        input[type='text'].modal_input {
+            color:black;
+        }
 
         .closed {
             &:hover {

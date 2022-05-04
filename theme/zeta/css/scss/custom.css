@@ -3182,6 +3182,10 @@ a.btn_cancle:hover, .btn_cancle:hover {
   border-top: 2px solid #2c3037;
 }
 
+.dark .modal-content input[type='text'].modal_input {
+  color: black;
+}
+
 .dark .modal-content .closed:hover {
   background: #aeaeae !important;
   -webkit-box-shadow: 0 0 1px 1px #efefef;
