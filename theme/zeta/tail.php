@@ -18,8 +18,6 @@ if(G5_COMMUNITY_USE === false) {
 
 <!-- } 콘텐츠 끝 -->
 
-<hr>
-
 <!-- 하단 시작 { -->
 <!-- <div id="ft">
 

@@ -245,7 +245,7 @@ if(!$is_admin){
 
 	<script>
 		$(function(){
-			$(".top_title h3").html("<span data-i18n=''>1:1문의사항</span>")
+			$(".top_title h3").html("<span >1:1문의사항</span>")
 		});
 	</script>
 

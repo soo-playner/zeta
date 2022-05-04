@@ -174,5 +174,5 @@ if($debug){
 if($rst && $amt_result){
 	echo (json_encode(array("result" => "success", "code" => "1000")));
 }else{
-	echo (json_encode(array("result" => "Failed", "code" => "0001","sql"=>"Please retry again")));
+	echo (json_encode(array("result" => "Failed", "code" => "0001","sql"=>"처리되지 않았습니다. 문제가 지속되면 관리자에게 연락주세요."),JSON_UNESCAPED_UNICODE));
 }

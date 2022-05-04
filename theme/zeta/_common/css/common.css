@@ -293,7 +293,7 @@ a.btn {
 }
 .btn.wd {
 	width: 100%;
-	padding: 10px 15px;
+	padding: 13px 15px;
 }
 
 .btn.main_btn {
@@ -301,8 +301,7 @@ a.btn {
 	background: transparent;
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
 	font-size: 15px !important;
-	font-weight: 500;
-	transition: all 1s;
+	font-weight: bold;
 }
 .btn.main_btn:hover {
 }
@@ -378,7 +377,7 @@ a.btn {
 
 /*모달*/
 #purchaseModal .modal-body {
-	_background: url("/img/comform_chk.gif") center center 80% no-repeat;
+	_background: url("/img/check_green.png") center center 80% no-repeat;
 	min-height: 200px;
 	text-align: center;
 }
@@ -818,7 +817,7 @@ input.p15 {
 	overflow-x: hidden;
 }
 #wrapper {
-	background: #eff3f9 !important;
+	background: #eff3f9;
 	color: #333;
 }
 #wrapper.dark {
@@ -862,8 +861,6 @@ input.p15 {
 }
 
 .content-box {
-	-webkit-box-shadow: 0 2px 3px 0 #ccc;
-	box-shadow: 0 2px 3px 0 #ccc;
 	border-radius: 8px;
 	background: #ffffff;
 	color: #000000;
@@ -883,7 +880,6 @@ input.p15 {
 }
 .content-box .title {
 	margin: 20px 0 10px;
-	vertical-align: middle;
 }
 .content-box .sub_title {
 	font-size: 13px;
@@ -898,7 +894,7 @@ input.p15 {
 	list-style: none;
 }
 .content-box + .content-box {
-	margin-top: 30px;
+	margin-top: 10px;
 }
 .content-box.primary {
 	background: #113a56;
@@ -1349,11 +1345,10 @@ a.more i {
 	font-size: 18px;
 	font-weight: 500;
 	color: #555;
-	vertical-align: text-bottom;
+	/* vertical-align: text-bottom; */
 }
 
 .card_title {
-	vertical-align: middle;
 	font-weight: bold;
 	font-size: 16px;
 	color: #29386b;
@@ -1363,6 +1358,8 @@ a.more i {
 .user-content {
 	text-align: left;
 	background: aliceblue;
+	height: 70px;
+	padding: 10px;
 }
 .user-content .userid + h4 {
 	display: inline-block;
@@ -1478,7 +1475,9 @@ a.more i {
 	width: 14px;
 	height: 14px;
 	cursor: pointer;
-	vertical-align: sub;
+	vertical-align:middle;
+	-webkit-baseline-middle: middle;
+	margin-top:-5px
 }
 
 .r_pakage_wrap {
@@ -1569,23 +1568,29 @@ a.more i {
 .pack_f_0 {
 	color: #b55dccd9;
 }
+
 .pack_f_1 {
+	color: #b55dccd9;
+}
+
+.pack_f_2 {
 	color: #516feb;
 }
-.pack_f_2 {
+
+.pack_f_3 {
 	color: #09c3fd;
 }
-.pack_f_3 {
+
+.pack_f_4 {
 	color: #5ed2dc;
 }
-.pack_f_4 {
+
+.pack_f_5 {
 	color: #373cbc;
 }
-.pack_f_5 {
-	color: #2b3a6d;
-}
+
 .pack_f_6 {
-	color: #6214ab;
+	color: #2b3a6d;
 }
 
 .r_card .title {
@@ -1837,7 +1842,6 @@ a.more i {
 .profile .person_info .myid {
 	margin-left: 10px;
 	vertical-align: top;
-	line-height: 40px;
 }
 .profile .person_info .mygrade {
 	vertical-align: top;
@@ -2548,11 +2552,13 @@ input:checked + .slider:before {
 
 #total_coin_val {
 	padding-right: 25px;
+	text-align: left;
 }
 #shift_dollor {
 	font-size: 16px;
 	font-weight: 600;
 	padding-right: 25px;
+	text-align: left;
 }
 #shift_won {
 	margin-top: -10px;
@@ -2578,11 +2584,10 @@ input.input_price {
 .current_currency {
 	font-size: 20px;
 	letter-spacing: -0.5px;
-	line-height: 50px;
 	color: #3b86ff;
 	padding-right: 0;
 	font-weight: bold;
-	text-indent: 10px;
+	padding-left: 15px;
 }
 .shift_usd {
 	margin: 0;
@@ -2591,8 +2596,6 @@ input.input_price {
 }
 .exchange {
 	font-size: 28px;
-	float: right;
-	position: absolute;
 	z-index: 100;
 	color: #3b86ff;
 }
@@ -2600,8 +2603,7 @@ input.input_price {
 	font-size: 24px;
 	color: #3b86ff;
 	background: #f2f6fd;
-	border-radius: 10px;
-	vertical-align: bottom;
+	border-radius: 15px;
 }
 
 .select_box .trade_money {
@@ -3081,6 +3083,10 @@ input.input_price {
 }
 .legbox .mbId {
 	font-size: 15px;
+	padding: 5px 15px;
+}
+.legbox .mbId:hover {
+	border-radius: 20px;
 }
 .search_btn_wrap {
 	padding-left: 0px;
@@ -3767,9 +3773,10 @@ input.input_price {
 	transition: all 0.3s ease;
 	text-align: left;
 	height: 0;
+	background-color: aliceblue;
 }
 .answer p {
-	margin: 15px 0;
+	margin: 15px 5px;
 }
 
 .qa-container {

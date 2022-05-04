@@ -41,7 +41,7 @@ curl_close($ch);
 				<p class="title"><?=$member['mb_id']?></p>
 				<div class="google-auth-top-qr" id="qrcode"></div>
 				<p id="short_URL" class="url"><a href="<?=$short_URL_p?>"><?=$short_URL?></a></p>
-				<input type="button" class="btn wd"  onclick="copyToClipboard(short_URL);" value="Copy link" data-i18n='[value]referral.링크 복사' style="background: #f5f5f5;" >
+				<input type="button" class="btn wd"  onclick="copyToClipboard(short_URL);" value="링크 복사" style="background: #f5f5f5;" >
 			</div>
 		</section>
 	</div>
@@ -55,7 +55,7 @@ curl_close($ch);
 		$(function() {
 
 			$('#qrcode').empty();
-			$(".top_title h3").html("<span data-i18n=''>내 추천인 링크</span>")
+			$(".top_title h3").html("<span >내 추천인 링크</span>")
 
 			$(".pop_open").click(function(){
 				$(".exc_pop_wrap").css("display","block");
@@ -84,7 +84,7 @@ curl_close($ch);
 
 		function copyToClipboard(element) {
 
-			commonModal("Referral link copied","Your referral link link copied to clipboard",80);
+			dialogModal("링크 주소 복사","링크 주소를 클립보드에 복사했습니다.",'success');
 
 		var $temp = $("<input>");
 			$("body").append($temp);

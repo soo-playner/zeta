@@ -233,9 +233,9 @@ if($is_admin){
 
 				<div class="support-panels">
 					<ul class="support-tabs content-box">
-						<li rel="open-new-ticket" class="active" data-i18n='support.새 티켓 열기'>Open New Ticket</li>
-						<li rel="active-tickets" data-i18n='support.활성화 티켓'>Active Tickets</li>
-						<li rel="closed-tickets" data-i18n='support.비활성화 티켓'>Closed Tickets</li>
+						<li rel="open-new-ticket" class="active" >새 티켓 열기</li>
+						<li rel="active-tickets" >활성화 티켓</li>
+						<li rel="closed-tickets" >비활성화 티켓</li>
 					</ul>
 
 					<div id="open-new-ticket" class="container panel active">
@@ -244,38 +244,38 @@ if($is_admin){
 							<input type="hidden" name="lang" >
 							<div class="input-group mb-3">
 							  <div class="input-group-prepend">
-								<label class="input-group-text" for="topic" data-i18n='support.주제 선택'>Select Topic</label>
+								<label class="input-group-text" for="topic">주제 선택</label>
 							  </div>
 							  <select class="custom-select" name="topic" id="topic">
-								<option value="0" selected data-i18n='support.일반'>General Support</option>
-								<option value="1" data-i18n='support.해킹'>Hacking</option>
-								<option value="2" data-i18n='support.보너스'>Bonus</option>
-								<option value="3" data-i18n='support.지갑'>Wallet</option>
-								<option value="4" data-i18n='support.계좌'>Account</option>
+								<option value="0" selected >일반</option>
+								<option value="1" >해킹</option>
+								<option value="2" >보너스</option>
+								<option value="3" >지갑</option>
+								<option value="4" >계좌</option>
 							  </select>
 							</div>
 							<div class="input-group mb-3">
 							  <div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1" data-i18n='support.제목'>Subject</span>
+								<span class="input-group-text" id="basic-addon1"> 제목</span>
 							  </div>
-							  <input type="text" class="form-control" placeholder="Subject" aria-label="Subject" aria-describedby="basic-addon1" name="subject" id="subject"  data-i18n='[placeholder]support.제목'>
+							  <input type="text" class="form-control" aria-label="Subject" aria-describedby="basic-addon1" name="subject" id="subject" placeholder="문의 제목 입력">
 							</div>
 							<div class="input-group mb-3">
 								<div class="input-group-prepend">
-									<span class="input-group-text" data-i18n='support.무엇을 도와 드릴까요?'>How can we help?</span>
+									<span class="input-group-text" >무엇을 도와 드릴까요</span>
 								</div>
 								<textarea class="form-control" aria-label="With textarea" name="content" id="content" ></textarea>
 							</div>
-							<span style='font-size:12px;'data-i18n="support.5MB 미만 jpg, png, pdf 파일만 첨부 가능합니다">File less than 5MB .jpg, .png, .pdf only</span>
+							<span style='font-size:12px;'>5MB 미만 jpg, png, pdf 파일만 첨부 가능합니다</span>
 							<div class="input-group ">
 								<input type="file" multiple class="form-control-file" onChange="FileSizeChk('addFile');"  id="addFile" name="bf_file[]" accept=".jpg, .png, .pdf" accept="image/*;capture=camera">
 							</div>
 
 							<div class="submit-button">
-								<div class="btn wd blue font_white" id="ticket" data-i18n='support.티켓 제출'>Submit Ticket</div>
+								<div class="btn wd blue font_white" id="ticket"> 티켓 제출</div>
 							</div>
 							<div class="email">
-								<span data-i18n="support.파일 크기 5MB 이상 jpg, png, pdf">File above 5MB .jpg, .png, .pdf</span>
+								<span> 파일 크기 5MB 이상 파일은 아래 이메일로 보내주세요.</span>
 								<br> <a href="mailto:<?=$config['cf_admin_email']?>"><?=$config['cf_admin_email']?></a>
 							</div>
 						</form>
@@ -338,7 +338,7 @@ if($is_admin){
 
 	<script>
 		$(function(){
-			$(".top_title h3").html("<span data-i18n=''>1:1문의사항</span>")
+			$(".top_title h3").html("<span >1:1문의사항</span>")
 		});
 	</script>
 

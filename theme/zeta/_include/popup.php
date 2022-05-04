@@ -144,7 +144,7 @@ $(function() {
 <div class="pop_wrap notice_img_pop enroll_cancel_pop">
 	<p class="pop_title">Member registration failed</p>
 	<div>
-		<img src="<?=G5_THEME_URL?>/_images/notice_pop.gif" alt="이미지">
+		<img src="<?=G5_URL?>/img/notice.png" alt="이미지">
 		<span>Member registration failed</span>
 	</div>
 	<div class="pop_close_wrap">
@@ -240,7 +240,7 @@ $(function() {
 <div class="pop_wrap notice_img_pop logout_pop" style="z-index:9999;">
 	<p class="pop_title"  data-i18n="popup.로그 아웃">Logout</p>
 	<div>
-		<img src="<?=G5_THEME_URL?>/_images/notice_pop.gif" alt="이미지">
+		<img src="<?=G5_URL?>/img/notice.png" alt="이미지">
 		<span  data-i18n="popup.로그아웃 하시겠습니까?">Are you sure to log out?</span>
 	</div>
 	<div class="pop_close_wrap">

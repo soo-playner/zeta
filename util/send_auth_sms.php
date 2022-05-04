@@ -114,7 +114,7 @@ if($debug){
     if($result){
         echo json_encode(array("result" => "success",  "time" => 500));
     } else {
-        echo json_encode(array("result" => "failed","error" => "현재 이용할수 없습니다."),JSON_UNESCAPED_UNICODE);
+        echo json_encode(array("result" => "failed","error" => "현재 서비스를 이용할수 없습니다."),JSON_UNESCAPED_UNICODE);
     }
 
 }

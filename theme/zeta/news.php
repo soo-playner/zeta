@@ -129,7 +129,7 @@ $title = 'News';
 </script>
 <script>
 	$(function(){
-		$(".top_title h3").html("<span data-i18n=''>공지사항</span>")
+		$(".top_title h3").html("<span >공지사항</span>")
 	});
 </script>
 <? include_once(G5_THEME_PATH.'/_include/tail.php'); ?>

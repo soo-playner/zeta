@@ -28,6 +28,6 @@ $result = sql_query($sql);
 		</div>
 	<?
 	}
-	if ($i == 0) echo "<div class='rows'>Not exist matching member.</div>";
+	if ($i == 0) echo "<div class='rows'>해당되는 회원을 찾지못했습니다.</div>";
 	
 ?>

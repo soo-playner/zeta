@@ -97,7 +97,7 @@ function overcharge($val,$category){
 ?>
 
 <? include_once(G5_THEME_PATH . '/_include/breadcrumb.php'); ?>
-<link href="<?= G5_THEME_URL ?>/css/scss/page/mining.css" rel="stylesheet">
+<!-- <link href="<?= G5_THEME_URL ?>/css/scss/page/mining.css" rel="stylesheet"> -->
 <style>
     input[type='text'].modal_input {
         background: #ededed;
@@ -186,7 +186,7 @@ function overcharge($val,$category){
 
         <div class="b_line5 mt10"></div>
 
-        <section id='withdraw' class='col-12 content-box round mt40'>
+        <section id='mining_withdraw' class='col-12 content-box round mt40'>
 
             <div class="polding_btn">
                 <div class="btn_title"><span class="wallet_title">마이닝 출금</span></div>
@@ -198,10 +198,8 @@ function overcharge($val,$category){
 
                 <div class="input_address">
                     <label class="sub_title">- 출금주소</label><span class='comment'></span>
-                    <input type="text" id="withdrawal-address" class="send_coin b_ghostwhite f_small" placeholder="ETH 출금 주소를 입력해주세요" value=<? if ($member['withdraw_wallet'] != '0') {
-                                                                                                                                                echo $member['withdraw_wallet'];
-                                                                                                                                            } else {
-                                                                                                                                            } ?>>
+                    <input type="text" id="withdrawal-address" class="send_coin b_ghostwhite f_small" placeholder="ETH 출금 주소를 입력해주세요" 
+                    value=<? if ($member['withdraw_wallet'] != '0') {echo $member['withdraw_wallet'];}?>>
                 </div>
 
                 <div class="input_shift_value">
@@ -209,7 +207,7 @@ function overcharge($val,$category){
                     <div style='display:inline-block; float:right;'><button type='button' id='max_value' class='btn inline' value=''>max</button></div>
 
                     <div class='mt10'>
-                        <input type="text" id="sendValue" class="send_coin b_ghostwhite" placeholder="Enter Withdraw quantity" data-i18n='[placeholder]withdraw.출금 금액을 입력해주세요'>
+                        <input type="text" id="sendValue" class="send_coin b_ghostwhite" placeholder="출금 금액을 입력해주세요">
                         <label class='currency-right'><?= $minings[0] ?></label>
                     </div>
 
@@ -230,15 +228,15 @@ function overcharge($val,$category){
                 <div class="b_line5"></div>
                 <div class="otp-auth-code-container mt20">
                     <div class="verifyContainerOTP">
-                        <label class="sub_title" data-i18n="">- 출금 비밀번호</label>
-                        <input type="password" id="pin_auth_with" class="b_ghostwhite" name="pin_auth_code" placeholder="Please enter 6-digits pin number" maxlength="6" data-i18n='[placeholder]withdraw.6 자리 핀코드를 입력해주세요'>
+                        <label class="sub_title">- 출금 비밀번호</label>
+                        <input type="password" id="pin_auth_with" class="b_ghostwhite" name="pin_auth_code" maxlength="6" placeholder="6 자리 핀코드를 입력해주세요">
 
                     </div>
                 </div>
 
                 <div class="send-button-container row">
                     <div class="col-5">
-                        <button id="pin_open" class="btn wd yellow form-send-button" data-i18n="withdraw.인증">인증</button>
+                        <button id="pin_open" class="btn wd yellow form-send-button" >인증</button>
                     </div>
                     <div class="col-7">
                         <button type="button" class="btn wd btn_wd form-send-button" id="withdrawal_btn" data-toggle="modal" data-target="" disabled>출금신청</button>
@@ -288,13 +286,11 @@ function overcharge($val,$category){
                 <? } ?>
             </div>
 
-            <? if ($mining_amt_cnt > 0) { ?>
                 <div class="b_line6"></div>
                 <div id='mining_amt_log' class='mt20'>
 
                     <h3 class="hist_tit">마이닝 출금 내역 <span class='mymining_total'> <?= shift_coin($mining_amt) ?> <?= strtoupper($minings[0]) ?></span></h3>
 
-                    <? while ($row = sql_fetch_array($mining_amt_log)) { ?>
                         <ul class='row'>
                             <li class="col-12">
                                 <span class="col-8 nopadding"><i class="ri-calendar-check-fill"></i><?= $row['create_dt'] ?></span>
@@ -314,11 +310,9 @@ function overcharge($val,$category){
                                 <span class="col-6 nopadding text-right result"><? string_shift_code($row['status']) ?></span>
                             </li>
                         </ul>
-                    <? } ?>
 
                     <div><button type='button' id="mining_amt_more" class="btn wd"><?= $mining_amt_limit_text ?></button></div>
                 </div>
-            <? } ?>
 
 
         </div>
@@ -329,7 +323,7 @@ function overcharge($val,$category){
 
 <script>
     $(function() {
-        $(".top_title h3").html("<span data-i18n=''>마이닝</span>")
+        $(".top_title h3").html("<span >마이닝</span>")
     });
 
     $(function() {
@@ -484,7 +478,7 @@ function overcharge($val,$category){
 
             // 회원가입시 핀입력안한경우
             if ("<?= $member['reg_tr_password'] ?>" == "") {
-                dialogModal('Withdraw PIN authentication', '<p>Please register pin number</p>', 'warning');
+                dialogModal('출금 비밀번호(핀코드) 인증', '<p>출금 비밀번호(핀코드) 등록해주세요.</p>', 'warning');
                 $('#modal_return_url').click(function() {
                     location.href = "./page.php?id=profile";
                 })
@@ -492,7 +486,7 @@ function overcharge($val,$category){
             }
 
             if ($('#pin_auth_with').val() == "") {
-                dialogModal('Withdraw PIN authentication', '<p>Please put pin number</p>', 'warning');
+                dialogModal('출금 비밀번호(핀코드) 인증', '<p>출금 비밀번호(핀코드) 입력해주세요.</p>', 'warning');
                 return;
             }
 
@@ -508,12 +502,12 @@ function overcharge($val,$category){
                 dataType: 'json',
                 success: function(result) {
                     if (result.response == "OK") {
-                        dialogModal('Withdraw PIN authentication', '<p>Pin number match</p>', 'success');
+                        dialogModal('출금 비밀번호(핀코드) 인증', '<p>출금 비밀번호가 인증되었습니다.</p>', 'success');
                         $('#withdrawal_btn').attr('disabled', false);
                         $('#pin_open').attr('disabled', true);
                         $("#pin_auth_with").attr("readonly", true);
                     } else {
-                        dialogModal('Withdraw PIN authentication', '<p>Pin number mismatch. retry </p>', 'failed');
+                        dialogModal('출금 비밀번호(핀코드) 인증', '<p>출금 비밀번호가 일치 하지 않습니다.</p>', 'failed');
                     }
                 },
                 error: function(e) {
@@ -539,36 +533,36 @@ function overcharge($val,$category){
 
             // 출금주소 입력확인
             if ($('#withdrawal-address').val() == "") {
-                dialogModal('empty wallet address', '<strong> wallet address to withdraw </strong>', 'warning');
+                dialogModal('출금주소확인', '<strong> 올바른 출금 주소를 입력해주세요.</strong>', 'warning');
                 return false;
             }
 
             // 출금서비스 이용가능 여부 확인
             if (nw_with == 'N') {
-                dialogModal('Not available right now', '<strong>Not available right now.</strong>', 'warning');
+                dialogModal('서비스이용제한', '<strong>현재 출금가능한 시간이 아닙니다.</strong>', 'warning');
                 return false;
             }
 
             if(personal_with != ''){
-                dialogModal('Do not have permission to use it', '<strong>Please contact your administrator.</strong>', 'warning');
+                dialogModal('서비스이용제한', '<strong>관리자에게 연락주세요</strong>', 'warning');
                 return false;
             }
 
             // 금액 입력 없을때 
             if (inputVal == '' || inputVal <= 0) {
-                dialogModal('check field quantity', '<strong>Please check field and retry.</strong>', 'warning');
+                dialogModal('금액 입력 확인', '<strong>출금 금액을 확인해주세요.</strong>', 'warning');
                 return false;
             }
 
             // 최소 금액 확인
             if (min_limit != 0 && inputVal < Number(min_limit)) {
-                dialogModal('check input quantity', '<strong> 최소가능금액은 ' + min_limit + WITHDRAW_CURENCY + ' 입니다.</strong>', 'warning');
+                dialogModal('금액 입력 확인', '<strong> 최소가능금액은 ' + min_limit + WITHDRAW_CURENCY + ' 입니다.</strong>', 'warning');
                 return false;
             }
 
             //최대 금액 확인
             if (max_limit != 0 && inputVal > Number(max_limit)) {
-                dialogModal('check input quantity', '<strong> 최대가능금액은 ' + max_limit + WITHDRAW_CURENCY + ' 입니다.</strong>', 'warning');
+                dialogModal('금액 입력 확인', '<strong> 최대가능금액은 ' + max_limit + WITHDRAW_CURENCY + ' 입니다.</strong>', 'warning');
                 return false;
             }
 
@@ -591,13 +585,13 @@ function overcharge($val,$category){
                     },
                     success: function(res) {
                         if (res.result == "success") {
-                            dialogModal('Withdraw has been successfully withdrawn', '<p>Please allow up to 24 hours for the transaction to complete.</p>', 'success');
+                            dialogModal('출금신청이 정상적으로 처리되었습니다.', '<p>실제 출금까지 24시간 이상 소요될수있습니다.</p>', 'success');
 
                             $('.closed').click(function() {
                                 location.reload();
                             });
                         } else {
-                            dialogModal('Withdraw Failed', "<p>" + res.sql + "</p>", 'warning');
+                            dialogModal('출금 신청 실패!', "<p>" + res.sql + "</p>", 'warning');
                         }
                     }
                 });

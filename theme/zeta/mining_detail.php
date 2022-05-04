@@ -51,7 +51,7 @@ header h5{line-height: 28px;}
             </div>
             <div class='row'>
                 <div class='col-12 text-right hist_value'>
-                    <span><?=shift_auto($sub_result['total_mining'],'eth') ?> <?=$minings[0]?></span>
+                    <span style="color: #ffd965;"><?=shift_auto($sub_result['total_mining'],'eth') ?> <?=$minings[0]?></span>
                     <?if($sub_result['total_mining'] < $sub_result['origin_total']){?>
                         <br><span class='over_desc'>초과로 받지못한 보너스 : </span> <span class='origin_total'><?=($sub_result['origin_total'] - $sub_result['total_mining'])?> <?=$minings[0]?></span>
                     <?}?>

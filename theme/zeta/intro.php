@@ -1,4 +1,5 @@
 
+
 <style>
 body{overflow-y: hidden;}
 .container {
@@ -111,9 +112,10 @@ body{overflow-y: hidden;}
 	var myVar;
 	var maintenance = "<?=$maintenance?>";
 
-	function myFunction() {
-	  move()
-	}
+	$(document).ready(function(){
+	  move();
+	});
+	
 
 	function temp_block(){
 		commonModal("Notice",' 방문을 환영합니다.<br />사전 가입이 마감되었습니다.<br />가입하신 회원은 로그인 해주세요.<br /><br />Welcome to One-EtherNet.<br />Pre-subscription is closed.<br />If you are a registered member,<br />please log in.',220);
@@ -127,7 +129,7 @@ body{overflow-y: hidden;}
 	function move() {
 	  var elem = document.getElementById("myBar");
 	  var width = 1;
-	  var id = setInterval(frame, 5);
+	  var id = setInterval(frame, 2);
 	  function frame() {
 		if (width >= 100) {
 		  clearInterval(id);
@@ -192,13 +194,14 @@ body{overflow-y: hidden;}
 <html>
 
 <script src="<?php echo G5_JS_URL ?>/common.js?ver=<?php echo G5_JS_VER; ?>"></script>
-<body onload="myFunction();" style="margin:0;">
+<body style="margin:0;">
 
 <div class="container">
 	<div id="myBar"></div>
 
 	<div id="btnDiv" class="animate-bottom">
 		<div class='btn_ly'>
+			<?include_once(G5_THEME_PATH.'/_include/lang.php')?>
 	  		<a href="/bbs/login_pw.php" class="btn btn_wd btn_secondary login_btn">LOG IN</a>
 				<!-- <a href="javascript:auto_login()" class="btn btn_wd btn_primary login_btn">LOG IN</a> -->
 	  			<a href="/bbs/register_form.php" class="btn btn_wd btn_primary signup_btn">SIGN UP</a>
@@ -211,54 +214,4 @@ body{overflow-y: hidden;}
 		<p class='copyright' style="color:#973d3d">Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
 	</div>
 </div>
-
-
-
-
-<!--
-	<section id="wrapper" class="bg_white">
-		<div class="v_center">
-			<div class="login_wrap">
-				<div class="logo_login_div">
-					<img src="<?=G5_THEME_URL?>/_images/login_logo.png" alt="Haz logo">
-					<?if(strpos($url,'adm')){echo "<br><span class='adm_title'>For Administrator</span>";}?>
-				</div>
-
-
-				<form name="flogin" action="<?php echo $login_action_url ?>" method="post">
-					  <input type="hidden" id="url" name="url" value="<?=$url?>">
-					<div>
-						<label for="u_name"><span data-i18n="login.유저네임">Username</span></label>
-						<input type="text" name="mb_id" id="u_name" />
-					</div>
-					<div>
-						<label for="u_pw"><span data-i18n="login.비밀번호">Password</span></label>
-						<input type="password" name="mb_password" id="u_pw" style="line-height:22px;" />
-					</div>
-
-
-					<div class="find_pw_div">
-						<input type="button" value="Login" class="btn_basic_block" onclick="flogin_submit();" >
-
-						<a href="<?=G5_THEME_URL?>/forgot_password.php">비밀번호 찾기</a>
-					</div>
-
-					<a href="index.php" class="fp_img_a">
-						<img class="fp_img" src="<?=G5_THEME_URL?>/_images/login_fingerprint.png" alt="지문">
-					</a>
-
-					<?if(!strpos($url,'adm')){?>
-					<div class="login_btn_bottom">
-						<a href="/bbs/register_form.php" class="btn_basic_block btn_navy"><span data-i18n="login.신규 회원 등록하기">Create new account</span></a>
-
-						<a href="mailto:cs@v7wallet.com" class="support_a">Contact Support</a>
-					</div>
-					<?}?>
-				</form>
-			</div>
-
-		</div>
-	</section>
--->
-
 </html>

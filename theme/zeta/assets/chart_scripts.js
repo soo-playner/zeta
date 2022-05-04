@@ -1,3 +1,125 @@
+var title_color = '';
+var bar_color = [];
+var circle_color = [];
+var colors = [];
+var bar_title = '';
+
+if(getCookie('mode')){
+  var Theme = getCookie('mode'); 
+}else{
+  var Theme = thisTheme;
+}
+
+if(Theme == 'white') {
+  title_color = '#333';
+  bar_color = ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'];
+  circle_color = ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'];
+  colors = ['#f8b874','#FD6585','#EE9AE5','#8959f9','#8959f9','#4C83FF','#2ad0fa','#0c51cf','#1fcf77','#26d4bd'];
+} else if(Theme == 'dark') {
+  title_color = '#fff';
+  bar_color = ['#2d7dcb', '#508a9f', '#5b6066', '#db2eb3','#266099'];
+  circle_color = ['#2d7dcb', '#508a9f', '#5b6066', '#db2eb3','#266099'];
+  colors = ['#2d7dcb','#004e99','#287d9b','#034d64','#414d5a','#252e38','#733f88','#2f568f'];
+} 
+
+$('#mode_select').on('change',function(e) {
+  mode_colorset(this.value);
+});
+
+$('#gnb_language a').on('click',function() {
+  lang_change($(this).attr('data-num'));
+})
+
+if(getCookie('googtrans') == '/ko/en') {
+  mega_title = 'MEGAPOOL BONUS';
+  zeta_title = 'ZETAPOOL BONUS';
+  zetaplus_title = 'Zeta + Full Bonus';
+  super_title = 'SUPER BONUS';
+  bonus_title = 'BONUS HASH';
+  sub_title = 'Target Hash: 300%';
+} else if(getCookie('googtrans') == '/ko/zh-CN') {
+  mega_title = '超级矿池奖金';
+  zeta_title = 'Zetapool奖金';
+  zetaplus_title = 'Zeta + 全额奖金';
+  super_title = '超级奖金';
+  bonus_title = '奖金哈希';
+  sub_title = '目标哈希：300%';
+} else if(getCookie('googtrans') == '/ko/vi') {
+  mega_title = 'Tiền thưởng Megapool';
+  zeta_title = 'Tiền thưởng Zetapool';
+  zetaplus_title = 'Zeta + Tiền thưởng đầy đủ';
+  super_title = 'siêu tiền thưởng';
+  bonus_title = 'băm thưởng';
+  sub_title = 'Băm mục tiêu: 300%';
+} else if(getCookie('googtrans') == '/ko/ja') {
+  mega_title = 'メガフルボーナス';
+  zeta_title = 'ゼタフルボーナス';
+  zetaplus_title = 'ゼータ+フルボーナス';
+  super_title = 'スーパーボーナス';
+  bonus_title = 'ボーナスハッシュ';
+  sub_title = '目標ハッシュ：300％';
+} else {
+  mega_title = '메가풀 보너스';
+  zeta_title = '제타풀 보너스';
+  zetaplus_title = '제타+풀 보너스';
+  super_title = '슈퍼 보너스';
+  bonus_title = '보너스 해시';
+  sub_title = '목표해시: 300%';
+}
+
+function lang_change(num) {
+  var mega_title = ['메가풀 보너스','MEGAPOOL BONUS','超级矿池奖金','Tiền thưởng Megapool','メガフルボーナス'];
+  var zeta_title = ['제타풀 보너스','ZETAPOOL BONUS','Zetapool奖金','Tiền thưởng Zetapool','ゼタフルボーナス'];
+  var zetaplus_title = ['제타+풀 보너스','Zeta + Full Bonus','Zeta + 全额奖金','Zeta + Tiền thưởng đầy đủ','ゼータ+フルボーナス'];
+  var super_title = ['슈퍼 보너스','SUPER BONUS','超级奖金','siêu tiền thưởng','スーパーボーナス'];
+  var bonus_title = ['보너스 해시','BONUS HASH','奖金哈希','băm thưởng','ボーナスハッシュ'];
+
+  megachart.updateOptions({
+    title: {
+      text: mega_title[num]
+    },
+    subtitle: {
+      text: sub_title,
+    },
+    xaxis: {
+      categories: [bonus_title[num]],
+    }
+  });
+
+  zetachart.updateOptions({
+    title: {
+      text: zeta_title[num]
+    },
+    xaxis: {
+      categories: [bonus_title[num]],
+    }
+  });
+
+  zetapluschart.updateOptions({
+    title: {
+      text: zetaplus_title[num]
+    },
+    subtitle: {
+      text: sub_title,
+    },
+    xaxis: {
+      categories: [bonus_title[num]],
+    },
+  });
+
+  superchart.updateOptions({
+    title: {
+      text: super_title[num]
+    },
+    subtitle: {
+      text: sub_title,
+    },
+    xaxis: {
+      categories: [bonus_title[num]],
+    }
+  });
+}
+
 window.Apex = {
     chart: {
       foreColor: '#ccc',
@@ -320,7 +442,7 @@ window.Apex = {
 
   var chart_circle = {
     series: bonusData,
-    colors: ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'],
+    colors: circle_color,
     labels: ['Mega', 'Zeta', 'ZetaPlus', 'Super','My Mining'],
     chart: {
     height: 390,
@@ -411,7 +533,7 @@ window.Apex = {
     type: 'bar',
     height: 400
   },
-  colors: ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'],
+  colors: bar_color,
   plotOptions: {
     bar: {
       horizontal: true,
@@ -505,7 +627,7 @@ window.Apex = {
       }
   }
   var chart_mega_spark1 = new ApexCharts(document.querySelector("#megaspark1"), mega_spark1)
-
+  
   var mega_chart = {
     chart: {
       id : megachart,
@@ -526,7 +648,7 @@ window.Apex = {
         borderRadius: 4,
       },
     },
-    colors: ['#FD6585'],
+    colors: colors[0],
     stroke: {
       width: 0,
       lineCap: 'round'
@@ -538,17 +660,17 @@ window.Apex = {
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#f8b874']
+        gradientToColors: [colors[1]]
       }
     },
     title: {
       floating: true,
       offsetX: 0,
       offsetY: 0,
-      text: '메가풀 보너스',
+      text: mega_title,
       style: {
         fontSize: '16px',
-        color: '#333'
+        color: title_color
       }
     },
     subtitle: {
@@ -556,7 +678,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: '목표해시: 300%',
+      text: sub_title,
       style: {
         fontSize: '13px',
         color: '#999'
@@ -567,6 +689,7 @@ window.Apex = {
         style: {
             fontSize: '16px'
         },
+        offsetX: 15,
         formatter: function (val, opt) {
             return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%"
         },
@@ -575,7 +698,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해시'],
+      categories: [bonus_title],
     },
     yaxis: {
       max: 100
@@ -651,7 +774,7 @@ window.Apex = {
         borderRadius: 4,
       },
     },
-    colors: ['#8959f9'],
+    colors: colors[2],
     stroke: {
       width: 0,
       lineCap: 'round'
@@ -663,17 +786,17 @@ window.Apex = {
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#EE9AE5']
+        gradientToColors: [colors[3]]
       }
     },
     title: {
       floating: true,
       offsetX: 0,
       offsetY: 0,
-      text: '제타풀 보너스',
+      text: zeta_title,
       style: {
         fontSize: '16px',
-        color: '#333'
+        color: title_color
       }
     },
     subtitle: {
@@ -681,7 +804,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: '목표해시: 300%',
+      text: sub_title,
       style: {
         fontSize: '13px',
         color: '#999'
@@ -689,6 +812,7 @@ window.Apex = {
     },
     dataLabels: {
         enabled: true,
+        offsetX: 15,
         style: {
             fontSize: '16px'
         },
@@ -700,7 +824,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해시'],
+      categories: [[bonus_title]],
     },
     yaxis: {
       max: 100
@@ -777,7 +901,7 @@ window.Apex = {
         borderRadius: 4,
       },
     },
-    colors: ['#4C83FF'],
+    colors: colors[4],
     stroke: {
       width: 0,
       lineCap: 'round'
@@ -789,17 +913,17 @@ window.Apex = {
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#8959f9']
+        gradientToColors: [colors[5]]
       }
     },
     title: {
       floating: true,
       offsetX: 0,
       offsetY: 0,
-      text: '제타+풀 보너스',
+      text: zetaplus_title,
       style: {
         fontSize: '16px',
-        color: '#333'
+        color: title_color
       }
     },
     subtitle: {
@@ -807,7 +931,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: '목표해시: 300%',
+      text: sub_title,
       style: {
         fontSize: '13px',
         color: '#999'
@@ -815,6 +939,7 @@ window.Apex = {
     },
     dataLabels: {
         enabled: true,
+        offsetX: 15,
         style: {
             fontSize: '16px'
         },
@@ -826,7 +951,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해시'],
+      categories: [[bonus_title]],
     },
     yaxis: {
       max: 100
@@ -908,7 +1033,7 @@ window.Apex = {
         borderRadius: 4,
       },
     },
-    colors: ['#0c51cf'],
+    colors: colors[6],
     stroke: {
       width: 0,
       lineCap: 'round'
@@ -920,17 +1045,17 @@ window.Apex = {
     fill: {
       type: 'gradient',
       gradient: {
-        gradientToColors: ['#2ad0fa']
+        gradientToColors: [colors[7]]
       }
     },
     title: {
       floating: true,
       offsetX: 0,
       offsetY: 0,
-      text: '슈퍼 보너스',
+      text: super_title,
       style: {
         fontSize: '16px',
-        color: '#333'
+        color: title_color
       }
     },
     subtitle: {
@@ -938,7 +1063,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: '목표해시: 100%',
+      text: sub_title,
       style: {
         fontSize: '13px',
         color: '#999'
@@ -946,6 +1071,7 @@ window.Apex = {
     },
     dataLabels: {
         enabled: true,
+        offsetX: 15,
         style: {
             fontSize: '16px'
         },
@@ -957,7 +1083,7 @@ window.Apex = {
       enabled: false
     },
     xaxis: {
-      categories: ['보너스 해시'],
+      categories: [[bonus_title]],
     },
     yaxis: {
       max: 100

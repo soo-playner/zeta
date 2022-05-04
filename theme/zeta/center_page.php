@@ -64,25 +64,9 @@ $(function($){
 });
 </script>
 
-<style>
-    .content-box +.content-box{margin-top:10px;}
-    .center_box .box-header{line-height: 30px;}
-    .center_box .box-header span{display: inline-block;}
-    .center_box .lvl-icon{width: 30px;height: 30px;line-height:30px;vertical-align: middle;}
-    .center_box .lvl-icon i{vertical-align: top;}
-    .center_box .user_id{font-size:18px;font-weight:600;line-height:30px;vertical-align: top;}
-    .center_box .mygrade{line-height: 10px;font-size:10px;font-weight: 300;vertical-align:baseline;padding:2px 8px}
-
-    .center_box #detail .sales{color:black;}
-    .center_box #detail dd{margin-right:10px;font-size:12px;color:#333;}
-    .pg_page:hover{background:white;outline:1px solid white}
-    
-</style>
-
-
 <?include_once(G5_THEME_PATH.'/_include/breadcrumb.php');?>
     <main>
-        <div class='container bonus_history'>
+        <div class='container bonus_history center_wrap'>
             <!-- SEARCH -->
             <section class="col-sm-12 col-12 mt30 mb30" id="search-container">
                 <form name="fsearch" id="fsearch" action="/page.php" method="GET">
@@ -135,9 +119,9 @@ $(function($){
                             <dd>가입일 : <?=$row['mb_open_date']?> | 추천인 : <?=$row['mb_recommend']?></dd>
                             
                         </div>
-                        <div class='col-4 text-right nopadding'>
+                        <div class='col-4 text-right'>
                             <!-- <dd>기간 PV : <?=Number_format($total_pv)?> 원</dd> -->
-                            <dd class='d_sum sales'>기간 매출 : <?=Number_format($total_hap)?> 원</dd>
+                            <dd class='sales'>기간 매출 : <?=Number_format($total_hap)?> 원</dd>
                         </div>
                     </div>
 
@@ -156,7 +140,7 @@ $(function($){
 
 <script>
 	$(function(){
-		$(".top_title h3").html("<span data-i18n=''>센터회원관리</span>")
+		$(".top_title h3").html("<span >센터회원관리</span>")
 	});
 
     window.onload = function(){

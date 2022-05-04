@@ -5,6 +5,9 @@ $title = '비밀번호 재설정';
 
 include_once(G5_THEME_PATH . '/_include/head.php');
 include_once(G5_THEME_PATH . '/_include/gnb.php');
+$lang_visible = 1;
+include_once(G5_THEME_PATH.'/_include/lang.php');
+
 
 $rand_num = sprintf("%06d", rand(000000, 999999));
 // echo $rand_num;

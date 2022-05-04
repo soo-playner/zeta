@@ -186,10 +186,10 @@ $result_withdraw = sql_query($sql);
     <div class="my_btn_wrap">
       <div class="row mywallet_btn">
         <div class='col-lg-6 col-12'>
-          <button type='button' class='btn wd main_btn b_darkblue round' onclick="switch_func('deposit')" data-i18n="deposit.대문자 입금"> DEPOSIT</button>
+          <button type='button' class='btn wd main_btn b_darkblue round' onclick="switch_func('deposit')" > 입금</button>
         </div>
         <div class='col-lg-6 col-12'>
-          <button type='button' class='btn wd main_btn b_skyblue round' onclick="switch_func('withdraw')" data-i18n="withdraw.대문자 출금">WITHDRAW</button>
+          <button type='button' class='btn wd main_btn b_skyblue round' onclick="switch_func('withdraw')" >출금</button>
         </div>
       </div>
     </div>
@@ -201,7 +201,7 @@ $result_withdraw = sql_query($sql);
 
       <div class="content-box round">
 
-        <h3 class="wallet_title" data-i18n="deposit.입금계좌">Deposit Account</h3>
+        <h3 class="wallet_title" >입금계좌</h3>
         <div class="row ">
           <div class='col-12 text-center bank_info'>
             <?= $bank_name ?> : <input type="text" id="bank_account" class="bank_account" value="<?= $bank_account ?>" title='bank_account' disabled />(<?= $account_name ?>)
@@ -213,7 +213,7 @@ $result_withdraw = sql_query($sql);
         </div>
         <div class='col-12'>
           <button class="btn wd line_btn " style="background: #f5f5f5;" id="accountCopy" onclick="copyURL('#bank_account')">
-            <span data-i18n="deposit.계좌복사"> Copy Address </span>
+            <span > 계좌복사 </span>
           </button>
         </div>
 
@@ -225,7 +225,7 @@ $result_withdraw = sql_query($sql);
             <div class='qrBox_right col-9'>
                 <input type="text" id="my_eth_wallet" class="wallet_addr" value="" title='my address' disabled/>
                 <button class="btn wd line_btn" id="accountCopy" onclick="copyURL('#my_eth_wallet')">
-                        <span data-i18n="deposit.주소복사"> Copy Address </span>
+                        <span >주소복사</span>
                 </button>
             </div>
           -->
@@ -233,20 +233,20 @@ $result_withdraw = sql_query($sql);
 
 
   <div class="col-sm-12 col-12 content-box round mt20" id="eth">
-    <h3 class="wallet_title" data-i18n="deposit.입금확인요청">입금확인요청 </h3> <span class='desc'> - 계좌입금후 1회만 요청해주세요</span>
-
+    <h3 class="wallet_title" >입금확인요청 </h3> <span class='desc'> - 계좌입금후 1회만 요청해주세요</span>
+    <div style="clear:both"></div>
     <div class="row">
       <div class="btn_ly qrBox_right "></div>
       <div class="col-sm-12 col-12 withdraw mt20">
-        <input type="text" id="deposit_name" class='b_ghostwhite p15' placeholder="" data-i18n='[placeholder]deposit.입금자명을 입력해주세요'>
+        <input type="text" id="deposit_name" class='b_ghostwhite p15' placeholder="입금자명을 입력해주세요">
 
-        <input type="text" id="deposit_value" class='b_ghostwhite p15' placeholder="" data-i18n='[placeholder]deposit.입금액을 입력해주세요' inputmode="numeric">
+        <input type="text" id="deposit_value" class='b_ghostwhite p15' placeholder="입금액을 입력해주세요" inputmode="numeric">
         <label class='currency-right'><?= ASSETS_CURENCY ?></label>
       </div>
 
       <div class='col-sm-12 col-12 '>
         <button class="btn btn_wd font_white deposit_request" data-currency="원">
-          <span data-i18n="deposit.입금확인요청">입금확인요청</span>
+          <span >입금확인요청</span>
         </button>
       </div>
     </div>
@@ -255,7 +255,7 @@ $result_withdraw = sql_query($sql);
 
   <!-- 입금 요청 내역 -->
   <div class="history_box content-box mt40">
-    <h3 class="hist_tit" data-i18n="deposit.입금 내역">입금 내역</h3>
+    <h3 class="hist_tit" >입금 내역</h3>
     <div class="b_line2"></div>
     <? if (sql_num_rows($result_deposit) == 0) { ?>
       <div class="no_data"> 입금내역이 존재하지 않습니다.</div>
@@ -276,7 +276,6 @@ $result_withdraw = sql_query($sql);
       </div>
     </div>
     <? } ?>
-
     <?php
     $pagelist = get_paging($config['cf_write_pages'], $page, $total_page_deposit, "{$_SERVER['SCRIPT_NAME']}?id=mywallet&$qstr&view=deposit");
     echo $pagelist;
@@ -293,7 +292,7 @@ $result_withdraw = sql_query($sql);
 
     </form>
     <div class="col-sm-12 col-12 content-box round mt20">
-      <h3 class="wallet_title" data-i18n="withdraw.출금">출금</h3>
+      <h3 class="wallet_title">출금</h3>
       <span class="desc"> 총 출금 가능액 : <?= number_format($withdrwal_total) ?> <?= ASSETS_CURENCY ?></span>
       <!-- 
       <div class="coin_select_wrap">
@@ -321,7 +320,7 @@ $result_withdraw = sql_query($sql);
         <label class="sub_title">- 출금금액 (수수료:<?= $withdrwal_fee ?>%)</label>
         <span style='display:inline-block;float:right;'><button type='button' id='max_value' class='btn inline' value=''>max</button></span>
 
-        <input type="text" id="sendValue" class="send_coin b_ghostwhite " placeholder="Enter Withdraw quantity" data-i18n='[placeholder]withdraw.출금 금액을 입력해주세요' inputmode="numeric">
+        <input type="text" id="sendValue" class="send_coin b_ghostwhite " placeholder="출금 금액을 입력해주세요" inputmode="numeric">
         <label class='currency-right'><?= ASSETS_CURENCY ?></label>
         
           <div class='fee' style='color:black;padding-right:3px;letter-spacing:-0.5px'>
@@ -332,24 +331,24 @@ $result_withdraw = sql_query($sql);
       <div class="b_line5"></div>
       <div class="otp-auth-code-container mt20">
         <div class="verifyContainerOTP">
-          <label class="sub_title" data-i18n="">- 출금 비밀번호</label>
-          <input type="password" id="pin_auth_with" class="b_ghostwhite" name="pin_auth_code" placeholder="Please enter 6-digits pin number" maxlength="6" data-i18n='[placeholder]withdraw.6 자리 핀코드를 입력해주세요'>
+          <label class="sub_title" >- 출금 비밀번호</label>
+          <input type="password" id="pin_auth_with" class="b_ghostwhite" name="pin_auth_code"  maxlength="6" placeholder="6 자리 핀코드를 입력해주세요">
         </div>
       </div>
 
       <div class="send-button-container row">
         <div class="col-5">
-          <button id="pin_open" class="btn wd yellow form-send-button" data-i18n="withdraw.인증">인증</button>
+          <button id="pin_open" class="btn wd yellow form-send-button" >인증</button>
         </div>
         <div class="col-7">
-          <button type="button" class="btn wd btn_wd form-send-button" id="Withdrawal_btn" data-toggle="modal" data-target="" data-i18n="withdraw.출금 신청" disabled>Withdrawal USDT</button>
+          <button type="button" class="btn wd btn_wd form-send-button" id="Withdrawal_btn" data-toggle="modal" data-target="" disabled>출금 신청</button>
         </div>
       </div>
     </div>
 
     <!-- 출금내역 -->
     <div class="history_box content-box mt40">
-      <h3 class="hist_tit" data-i18n='withdraw.출금 내역'>출금 내역</h3>
+      <h3 class="hist_tit" >출금 내역</h3>
       <div class="b_line2"></div>
 
       <? if (sql_num_rows($result_withdraw) == 0) { ?>
@@ -407,7 +406,7 @@ $result_withdraw = sql_query($sql);
   }
   
   $(function() {
-    $(".top_title h3").html("<span data-i18n=''>입출금</span>");
+    $(".top_title h3").html("<span >입출금</span>");
 
     var debug = "<?= $is_debug ?>";
 
@@ -478,7 +477,7 @@ $result_withdraw = sql_query($sql);
 
       // 회원가입시 핀입력안한경우
       if ("<?= $member['reg_tr_password'] ?>" == "") {
-        dialogModal('Withdraw PIN authentication', '<p>Please register pin number</p>', 'warning');
+        dialogModal('출금 비밀번호(핀코드) 인증', '<p>출금 비밀번호(핀코드) 등록해주세요.</p>', 'warning');
 
         $('#modal_return_url').click(function() {
           location.href = "./page.php?id=profile"
@@ -487,7 +486,7 @@ $result_withdraw = sql_query($sql);
       }
 
       if ($('#pin_auth_with').val() == "") {
-        dialogModal('Withdraw PIN authentication', '<p>Please put pin number</p>', 'warning');
+        dialogModal('출금 비밀번호(핀코드) 인증', '<p>출금 비밀번호(핀코드) 입력해주세요.</p>', 'warning');
         return;
       }
 
@@ -503,13 +502,13 @@ $result_withdraw = sql_query($sql);
         dataType: 'json',
         success: function(result) {
           if (result.response == "OK") {
-            dialogModal('Withdraw PIN authentication', '<p>Pin number match</p>', 'success');
+            dialogModal('출금 비밀번호(핀코드) 인증', '<p>출금 비밀번호가 인증되었습니다.</p>', 'success');
 
             $('#Withdrawal_btn').attr('disabled', false);
             $('#pin_open').attr('disabled', true);
             $("#pin_auth_with").attr("readonly", true);
           } else {
-            dialogModal('Withdraw PIN authentication', '<p>Pin number mismatch. retry </p>', 'failed');
+            dialogModal('출금 비밀번호(핀코드) 인증', '<p>출금 비밀번호가 일치 하지 않습니다.</p>', 'failed');
           }
         },
         error: function(e) {
@@ -591,18 +590,18 @@ $result_withdraw = sql_query($sql);
 
       // 계좌정보 입력 확인
       if (withdrawal_bank_name == '' || withdrawal_bank_account == '' || withdrawal_account_name == '') {
-        dialogModal('Check input field ', '<strong> Please check withdrawal account.</strong>', 'warning');
+        dialogModal('출금계좌확인', '<strong> 출금 계좌정보를 입력해주세요.</strong>', 'warning');
         return false;
       }
 
       // 출금서비스 이용가능 여부 확인
       if (nw_with == 'N') {
-        dialogModal('Not available right now', '<strong>Not available right now.</strong>', 'warning');
+        dialogModal('서비스이용제한', '<strong>현재 출금가능한 시간이 아닙니다.</strong>', 'warning');
         return false;
       }
 
       if(personal_with != ''){
-        dialogModal('Do not have permission to use it', '<strong>Please contact your administrator.</strong>', 'warning');
+        dialogModal('서비스이용제한', '<strong>관리자에게 연락주세요</strong>', 'warning');
         return false;
       }
       
@@ -610,19 +609,19 @@ $result_withdraw = sql_query($sql);
       // 금액 입력 없거나 출금가능액 이상일때  
       if (inputVal == '' || inputVal > out_mb_max_limit) {
         console.log(`input : ${inputVal} \n max : ${out_mb_max_limit}`);
-        dialogModal('check field quantity', '<strong>출금액을 확인해주세요.</strong>', 'warning');
+        dialogModal('금액 입력 확인', '<strong>출금 금액을 확인해주세요.</strong>', 'warning');
         return false;
       }
 
       // 최소 금액 확인
       if (out_min_limit != 0 && inputVal < Number(out_min_limit)) {
-        dialogModal('check input quantity', '<strong> 최소가능금액은 ' + Price(out_min_limit) + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
+        dialogModal('금액 입력 확인', '<strong> 최소가능금액은 ' + Price(out_min_limit) + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
         return false;
       }
 
       //최대 금액 확인
       if (out_max_limit != 0 && inputVal > Number(out_max_limit)) {
-        dialogModal('check input quantity', '<strong> 1회 출금 가능금액은 ' + Price(out_max_limit) + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
+        dialogModal('금액 입력 확인', '<strong> 1회 출금 가능금액은 ' + Price(out_max_limit) + ' ' + ASSETS_CURENCY + '입니다.</strong>', 'warning');
         return false;
       }
       
@@ -645,7 +644,7 @@ $result_withdraw = sql_query($sql);
           },
           success: function(res) {
             if (res.result == "success") {
-              dialogModal('Withdraw has been successfully withdrawn', '<p>Please allow up to 24 hours for the transaction to complete.</p>', 'success');
+              dialogModal('출금신청이 정상적으로 처리되었습니다.', '<p>실제 출금까지 24시간 이상 소요될수있습니다.</p>', 'success');
 
               $('.closed').click(function() {
                 location.href = '/page.php?id=mywallet&view=withdraw';
@@ -820,7 +819,7 @@ $result_withdraw = sql_query($sql);
         },
         success: function(result) {
           if (result.response == "OK") {
-            dialogModal('Deposit Request', 'Deposit Request success', 'success');
+            dialogModal('입금 요청', '입금요청이 정상처리되었습니다.', 'success');
             $('.closed').click(function() {
               location.reload();
             });

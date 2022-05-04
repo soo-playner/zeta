@@ -96,48 +96,17 @@ function remain_hash($val,$rate,$exp = true){
 $title = 'Dashboard';
 ?>
 
-
-<style>
-	.dash_news{position:absolute;z-index:1000;border-top:1px solid #f0f0f0;border-radius:0;padding:10px 20px 20px;background:whitesmoke;box-shadow:0 5px 5px 2px #ccc}
-	.dash_news h5 {font-size:16px;font-weight:800;line-height:40px;margin-bottom: 10px;
-    border-bottom: 2px solid white;
-    padding-bottom: 5px;}
-	.dash_news h5 i{font-weight:300;}
-	.close_today.btn{margin:0;    background: #111;
-    color: white;
-    padding: 0 10px;
-    margin: 5px 10px;
-    font-size: 11px !important;
-    border-radius: 5px;
-    height: 30px;}
-
-	.notice_open{    border-radius: 50%;
-    background: white;
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-    margin-top: 5px;}
-	.notice_open i{font-size:20px;color:red}
-
-	.sideexp{font-size:11px;letter-spacing:-0.5px;}
-	.remain_mining{line-height:14px;color:#999;font-size:12px;display:block;font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;margin-bottom:-5px;}
-	.remain_mining i{padding-right:5px;font-size:16px;font-weight:500}
-	.remain_mining .red{color:red;}
-
-	.extra{background:#FECE00; border-radius:3px;color:black;text-align:center;margin-top:10px;font-size:12px;font-weight:600;cursor: pointer;}
-</style>
-
 <section class='breadcrumb'>
 		<!-- 공지사항 -->
 		<?if($notice_result_num > 0){ ?>
 			
 			<div class="col-sm-12 col-12 content-box round dash_news" style='margin-bottom:-10px;'>
 				<h5>
-					<span class="title" data-i18n='dashboard.공지사항' >Notification</span>
+					<span class="title">공지사항</span>
 					
 					<i class="ri-close-circle-line close_news" style="font-size: 30px;float: right;cursor: pointer;"></i>
 					<button class="f_right btn line_btn close_today" >
-						<span data-i18n="dashboard.오늘하루 열지않기"> Close for 24hrs</span>
+						<span > 오늘하루 열지않기</span>
 					</button>
 					<!-- <img class="close_news f_right small" src="<?=G5_THEME_URL?>/_images/close_round.gif" alt="공지사항 닫기"> -->
 				<!-- 				
@@ -148,7 +117,6 @@ $title = 'Dashboard';
 				<div>
 					<span><?=$row['wr_content']?></span>
 				</div>
-
 				<?}?>
 			</div>
 		<?}?>
@@ -157,18 +125,16 @@ $title = 'Dashboard';
 			<!-- 회원기본정보 -->
 			
 			<div class='user-content' style='border-radius:20px;line-height:40px;'>
-				<div>
-					<span class='userid user_level'><?=$user_icon?></span>
-					<h4 class='bold'><?=$member['mb_id']?>님</h4>
-					<h4 class='mygrade badge color<?=user_grade($member['mb_id'])?>'><?=user_grade($member['mb_id'])?> STAR</h4>
-					<h4 class='mygrade badge' style="margin-left:0;"><?=$user_level?></h4>
+				<span class='userid user_level'><?=$user_icon?></span>
+				<h4 class='bold'><?=$member['mb_id']?>님</h4>
+				<h4 class='mygrade badge color<?=user_grade($member['mb_id'])?>'><?=user_grade($member['mb_id'])?> STAR</h4>
+				<h4 class='mygrade badge' style="margin-left:0;"><?=$user_level?></h4>
 
-					<?if($notice_result_num > 0){ ?>
-						<button class="btn text-white b_darkblue_round notice_open f_right" >
-						<i class="ri-broadcast-line"></i>
-						</button>
-					<?}?>
-				</div>
+				<?if($notice_result_num > 0){ ?>
+					<button class="btn text-white b_darkblue_round notice_open f_right" >
+					<i class="ri-broadcast-line"></i>
+					</button>
+				<?}?>
 			</div>
 			<style>
 				.total_view_wrap .currency{font-size:12px;padding-left:3px;}
@@ -188,11 +154,11 @@ $title = 'Dashboard';
 						</li>
 						<li class="col-4">
 							<dt class="title">출금 가능 코인</dt>
-							<dd class="value" style='font-size:15px;'><?=shift_auto($mining_total,$minings[0])?><span class='currency'><?=$minings[0]?></span></dd>
+							<dd class="value" style='font-size:14px;'><?=shift_auto($mining_total,$minings[0])?><span class='currency'><?=$minings[0]?></span></dd>
 						</li>
 					</ul> 
 				</div>
-				<div class="total_view_top collapse" id="collapseExample">
+				<div class="total_view_top" id="collapseExample">
 					<ul class="row">
 						<li class="col-4">
 							<dt class="title" >마이 해시</dt>
@@ -259,10 +225,7 @@ $title = 'Dashboard';
 								</div>
 							</dd>
 						</li> -->
-
-						
 					</ul>
-
 					<ul class="row">
 						<li class="rank_title">승급조건달성</li>
 
@@ -286,60 +249,77 @@ $title = 'Dashboard';
 								<?=check_value($member['mb_7'])?>
 							</dd>
 						</li>
-						
 					</ul>
 					</div>
 				</div>
-
-				<div class="fold_wrap" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aira-controls="collapseExample">
-					<div class="collap"><p class='txt'>펼쳐보기</p></div>
-					<div class="fold_img_wrap">
-						<img class="updown" src="<?=G5_THEME_URL?>/img/arrow_down.png">
-					</div>
+				<div class="fold_wrap">
+					<a href="javascript:collapse('#collapseExample','<?=$thisTheme?>');">
+						<div class="collap"><p class='txt'>접기</p></div>
+							<div class="fold_img_wrap">
+								<img class="updown" src="<?=G5_THEME_URL?>/img/arrow_up.png">
+							</div>
+						</div>
+					</a>
 				</div>
-
-			</div>
 		</div>
 
 </section>
-<!-- <script src="<?=G5_THEME_URL?>/_common/js/timer.js"></script> -->
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/egjs-jquery-transform/2.0.0/transform.min.js" integrity="sha512-vOc3jz0QulHRiyMXfp676lHxeSuzUhfuw//VUX12odAmlUbnKiXH4GQxBRqwKhF3Mkswqr5ILY9MtEM4ZwcS2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <!-- 펼쳐보기 -->
 <script>
+		function collapse(id, mode) {
+			if(getCookie('mode')){
+				var Theme = getCookie('mode'); 
+			}else{
+				var Theme = '<?=$thisTheme?>'; 
+			}
+
+			$('.fold_img_wrap img').attr('src','<?=G5_THEME_URL?>/img/arrow_up_'+Theme+'.png');
+			
+			var user_height = $('.user-info').height();
+
+			if ($(id).css("display") == "none") {
+				$(id).css("display", "block");
+				$(id).animate({
+					height: user_height + 150
+				}, 500, function() {
+					$('.fold_wrap p').text('접기');
+				});
+				animateRotate2(0)
+			} else {
+				$(id).animate({
+					height: "0px",
+				}, 500, function() {
+					$(id).css("display", "none");
+					$('.fold_wrap p').text('펼쳐보기');
+				});
+				animateRotate(180);
+			}
+		}
+
+		function animateRotate(d) {
+			$('.fold_img_wrap').animate({
+				'-moz-transform':'rotateX('+d+'deg)',
+				'-webkit-transform':'rotateX('+d+'deg)',
+				'-o-transform':'rotateX('+d+'deg)',
+				'-ms-transform':'rotateX('+d+'deg)',
+				'transform':'rotateX('+d+'deg)'
+			});
+		}
+
+		function animateRotate2(d) {
+			$('.fold_img_wrap').animate({
+				'-moz-transform':'rotateX('+d+'deg)',
+				'-webkit-transform':'rotateX('+d+'deg)',
+				'-o-transform':'rotateX('+d+'deg)',
+				'-ms-transform':'rotateX('+d+'deg)',
+				'transform':'rotateX('+d+'deg)'
+			});
+		}
+
 	$(document).ready(function(){
 		// move(<?=bonus_per()?>,1);
-	});
-
-	$(document).ready(function() {
-		
-		$('.collapse').on('show.bs.collapse', function() {
-			var img_src_down = "<?php echo G5_THEME_URL?>/img/arrow_down.png";
-			$('.collap p').css('display','block');
-			$('.updown').attr('src',img_src_down);
-			$('.fold_img_wrap img').css('vertical-align','sub');
-		});
-
-		$('.collapse').on('shown.bs.collapse', function() {
-			var img_src_up = "<?php echo G5_THEME_URL?>/img/arrow_up.png";
-			$('.collap p ').css('display','none');
-			$('.updown').attr('src',img_src_up);
-			$('.fold_img_wrap img').css('vertical-align','baseline');
-		});
-
-		$('.collapse').on('hide.bs.collapse', function() {
-			var img_src_down = "<?php echo G5_THEME_URL?>/img/arrow_down.png";
-			$('.collap p').css('display','block');
-			$('.updown').attr('src',img_src_down);
-			$('.fold_img_wrap img').css('vertical-align','sub');
-		});
-
-		$('.collapse').on('hidden.bs.collapse', function() {
-			var img_src_down = "<?php echo G5_THEME_URL?>/img/arrow_down.png";
-			$('.collap').css('display','block');
-			$('.updown').attr('src',img_src_down);
-			$('.fold_img_wrap img').css('vertical-align','sub');
-		});
 
 		// 공지사항 - 하단공지로 사용안함
 		var notice_open = getCookie('notice');

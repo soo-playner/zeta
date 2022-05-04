@@ -47,8 +47,8 @@ SELECT allowance_name AS cate, DAY, round(SUM(benefit),0) AS c_sum  FROM soodang
                     <input type="hidden" name="id" id="" value="bonus_history">
                     <input type="hidden" name="stx" id="stx" value="">
                     <div class="row">
-                        <li class="col-5"><input type="text" id="fr_date" name="fr_date" class='date_picker' data-i18n="[placeholder]order.fromDate" placeholder="Date range from" value=<?=$fr_date?> /></li>
-                        <li class="col-5"><input type="text" id="to_date" name="to_date" class='date_picker' data-i18n="[placeholder]order.toDate" placeholder="Date range to" value=<?=$to_date?> /></li>
+                        <li class="col-5"><input type="text" id="fr_date" name="fr_date" class='date_picker' placeholder="시작일" value=<?=$fr_date?> /></li>
+                        <li class="col-5"><input type="text" id="to_date" name="to_date" class='date_picker' placeholder="종료일" value=<?=$to_date?> /></li>
                         <li class="col-2"><button type='button' class="btn wd inline blue filter_btn b_skyblue_round" onclick="search_submit();"><i class="ri-search-line"></i></button></li>
                     </div>
                 </form>
@@ -101,7 +101,7 @@ SELECT allowance_name AS cate, DAY, round(SUM(benefit),0) AS c_sum  FROM soodang
 
 <script>
 	$(function(){
-		$(".top_title h3").html("<span data-i18n=''>보너스내역</span>")
+		$(".top_title h3").html("<span >보너스내역</span>")
 	});
 </script>
 

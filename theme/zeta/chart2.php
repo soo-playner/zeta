@@ -587,7 +587,7 @@
 </main>
 <script>
 $(function() {
-    // $(".top_title h3").html("<span data-i18n=''>대시보드</span>");
+    // $(".top_title h3").html("<span >대시보드</span>");
 
     var img_src_up = "<?php echo G5_THEME_URL?>/img/arrow_up.png";
     $('.collap p ').css('display', 'none');

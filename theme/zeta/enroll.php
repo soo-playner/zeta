@@ -6,11 +6,11 @@ $phone_auth = 0;
 
 include_once(G5_THEME_PATH.'/_include/head.php');
 include_once(G5_THEME_PATH.'/_include/gnb.php');
+include_once(G5_THEME_PATH.'/_include/lang.php');
 
 if($nw['nw_enroll'] == 'Y'){
 }else{
 	alert("현재 서비스를 이용할수없습니다.");
-	break;
 }
 
 $service_term = get_write("g5_write_agreement", 1);
@@ -28,8 +28,7 @@ if ($_GET['recom_referral']){
 <script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
 
 <style>
-	/* 센터 닉네임 사용 추가 0720  by arcthan */
-	
+	.gflag{display:none !important;}
 </style>
 
 
@@ -44,7 +43,7 @@ if ($_GET['recom_referral']){
 	if (recommned) {
 		recommend_search = true;
 	}
-	console.log(`센터검색 : ${center_search}`);
+	// console.log(`센터검색 : ${center_search}`);
 
 	$(function() {
 
@@ -75,7 +74,7 @@ if ($_GET['recom_referral']){
 			//SMS발송
 			$('#sendSms').on('click', function(e) {
 				if (!$('#reg_mb_hp').val()) {
-					commonModal('Mobile authentication', '<p>Please enter your Mobile Number</p>', 80);
+					commonModal('모바일 본인 인증', '<p>연락가능한 모바일 번호를 등록해주세요.</p>', 80);
 					return;
 				}
 				var reg_mb_hp = +($('#reg_mb_hp').val().replace(/-/gi, ''));
@@ -112,7 +111,7 @@ if ($_GET['recom_referral']){
 
 
 			if (email == '' || !re.test(email)) {
-				commonModal("check email address", "please put email correctly", 80)
+				commonModal("이메일 인증", "사용가능한 이메일 주소를 입력해주세요.", 80)
 				return false;
 			}
 
@@ -185,7 +184,7 @@ if ($_GET['recom_referral']){
 				$('#reg_mb_email').css('background-color', '#ccc').prop('readonly', true);;
 
 			} else {
-				commonModal('Do not match', '<p>Email verification code is incorrect. Please enter the correct code</p>', 80);
+				commonModal('인증 실패', '<p>이메일로 전송된 인증코드를 다시 확인후 입력해주세요.</p>', 80);
 			}
 		});
 
@@ -230,7 +229,7 @@ if ($_GET['recom_referral']){
 			}
 
 			if (registerId.length < 5) {
-				dialogModal("ID CHECK", "Please put 5 letters or more", "failed");
+				dialogModal("아이디 확인", "아이디는 최소 5글자 이상만 사용 가능합니다.", "failed");
 			} else {
 				$.ajax({
 					type: "POST",
@@ -243,10 +242,10 @@ if ($_GET['recom_referral']){
 					success: function(res) {
 						if (res.code == '000') {
 							check_id = 0;
-							dialogModal("ID CHECK", res.response, 'failed');
+							dialogModal("아이디 확인", res.response, 'failed');
 						} else {
 							check_id = 1;
-							dialogModal("ID CHECK", '해당아이디는 사용가능합니다.', 'success');
+							dialogModal("아이디 확인", '해당아이디는 사용가능합니다.', 'success');
 						}
 					}
 				});
@@ -509,7 +508,7 @@ if ($_GET['recom_referral']){
 
 				} else {
 
-					commonModal('Notice', 'MEMBER NOT FOUND', 80);
+					dialogModal('처리 결과', '해당되는 회원이 없습니다.', 'failed');
 				}
 			}
 		});
@@ -547,28 +546,28 @@ if ($_GET['recom_referral']){
 
 		//추천인 검사
 		if (f.mb_recommend.value == '' || f.mb_recommend.value == 'undefined') {
-			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
+			dialogModal('추천인정보 확인', "<strong>추천인 아이디 검색하여 목록에서 선택해주세요.</strong>", 'warring');
 			return false;
 		}
 		if (!recommend_search) {
-			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
+			dialogModal('추천인정보 확인', "<strong>추천인 아이디 검색하여 목록에서 선택해주세요.</strong>", 'warring');
 			return false;
 		}
 
 
 		//센터멤버 검사
 		if (f.mb_center.value == '' || f.mb_center.value == 'undefined') {
-			commonModal('recommend check', '<strong>please check recommend search Button and choose recommend.</strong>', 80);
+			dialogModal('센터정보 확인', "<strong>센터명 또는 센터 아이디를 검색하여 목록에서 선택해주세요.</strong>", 'warring');
 			return false;
 		}
 		if (!center_search) {
-			commonModal('recommend check', '<strong>센터정보를 검색하여 선택해 주세요.</strong>', 80);
+			commonModal('센터정보 확인', '<strong>센터정보를 검색하여 선택해 주세요.</strong>', 80);
 			return false;
 		}
 		
 		//추천인이 본인인지 확인
 		if (f.mb_id.value == f.mb_recommend.value) {
-			commonModal('recommend check', '<strong> can not recommend self. </strong>', 80);
+			commonModal('조직 관계 입력 확인', '<strong> 자신을 추천인으로 등록할수없습니다. </strong>', 80);
 			f.mb_recommend.focus();
 			return false;
 		}
@@ -595,20 +594,20 @@ if ($_GET['recom_referral']){
 
 		// 패스워드
 		if (!chkPwd_1($('#reg_mb_password').val(), $('#reg_mb_password_re').val())) {
-			commonModal('password rule check', '<strong> login Password does not match password Rule.</strong>', 80);
+			commonModal('비밀번호 규칙 확인', '<strong> 로그인 패스워드가 일치하지 않습니다.</strong>', 80);
 			return false;
 		}
 
 		// 핀코드
 		if (!chkPwd_2($('#reg_tr_password').val(), $('#reg_tr_password_re').val())) {
-			commonModal('Check password Rule', '<strong> Transaction Password does not match password Rule.</strong>', 80);
+			commonModal('출금비밀번호(핀코드) 규칙 확인', '<strong> 출금비밀번호(핀코드)가 일치하지 않습니다.</strong>', 80);
 			return false;
 		}
 
 		/*이용약관 체크*/
 		for (var i = 0; i < $("input[name=term]:checkbox").length; i++) {
 			if ($("input[name=term]:checkbox")[i].checked == false) {
-				commonModal('check the policy agreement', '<strong>이용약관에 동의해주세요.</strong>', 80);
+				commonModal('이용약관 동의', '<strong>이용약관과 개인정보 수집처리방침에 동의해주세요.</strong>', 80);
 				return false;
 			}
 
@@ -665,12 +664,12 @@ if ($_GET['recom_referral']){
 			</div> -->
 
 			<!-- 추천인 정보 -->
-			<p class="check_appear_title mt10"><span data-i18n="signUp.추천인정보">recommend's Information</span></p>
+			<p class="check_appear_title mt10"><span>추천인정보</span></p>
 			<section class='referzone'>
 				<div class="btn_input_wrap">
 					<input type="text" name="mb_recommend" id="reg_mb_recommend" value="<?= $mb_recommend ?>" required placeholder="추천인 아이디" />
 					<div class='in_btn_ly2'>
-						<button type='button' class="btn_round check " onclick="getUser('#reg_mb_recommend',1);" style=""><span data-i18n="signUp.검색">Search</span></button>
+						<button type='button' class="btn_round check " onclick="getUser('#reg_mb_recommend',1);" ><span>검색</span></button>
 					</div>
 					
 				</div>
@@ -678,7 +677,7 @@ if ($_GET['recom_referral']){
 			</section>
 
 			<!-- 센터 정보 -->
-			<p class="check_appear_title mt20"><span data-i18n="signUp.센터정보">Referrer's Information</span></p>
+			<p class="check_appear_title mt20"><span >센터정보</span></p>
 				<section class='referzone'>
 					<div class="btn_input_wrap">
 						<input type="hidden" name="mb_center_nick" id="reg_mb_center_nick" value=""  required  />
@@ -686,25 +685,25 @@ if ($_GET['recom_referral']){
 
 						<div class='in_btn_ly2'>
 							<button type='button' class="btn_round check " onclick="getUser('#reg_mb_center',2);"
-							><span data-i18n="signUp.검색">Search</span></button>
+							><span>검색</span></button>
 						</div>
 					</div>
 				</section>
 
 
 			<!-- <p class="check_appear_title mt40"><span data-i18n='signUp.일반정보'>General Information</span></p> -->
-			<p class="check_appear_title mt40"><span data-i18n='signUp.개인 정보 & 인증'>Personal Information & Authentication </span></p>
+			<p class="check_appear_title mt40"><span>개인 정보 & 인증</span></p>
 			<div>
 				<input type="text" minlength="5" maxlength="20" name="mb_name" style='padding:15px' id="reg_mb_name" required placeholder="이름"  />
-				<!-- <div class='in_btn_ly'><input type="button" id='name_check' class='btn_round check' value="name" data-i18n='[value]signUp.중복확인'></div> -->
+				<!-- <div class='in_btn_ly'><input type="button" id='name_check' class='btn_round check' value="중복확인"></div> -->
 
 				<input type="text" minlength="5" maxlength="20" name="mb_id" class='cabinet' style='padding:15px' id="reg_mb_id" required placeholder="아이디"/>
 				<span class='cabinet_inner' style=''>※영문+숫자조합 6자리 이상 입력해주세요</span>
-				<div class='in_btn_ly'><input type="button" id='id_check' class='btn_round check' value="ID Check" data-i18n='[value]signUp.중복확인'></div>
+				<div class='in_btn_ly'><input type="button" id='id_check' class='btn_round check' value="중복확인"></div>
 
-				<input type="email"  id="reg_mb_email" name="mb_email" class='cabinet' style='padding:15px'placeholder="Email address" required data-i18n='[placeholder]signUp.이메일 주소' />
+				<input type="email"  id="reg_mb_email" name="mb_email" class='cabinet' style='padding:15px' required placeholder="이메일 주소" />
 				<span class='cabinet_inner' style=''>※수신가능한 이메일주소를 직접 입력해주세요</span>
-				<div class='in_btn_ly'><input type="button" id='EmailChcek' class='btn_round check' value="Eamil" data-i18n='[value]signUp.이메일 전송'></div>
+				<div class='in_btn_ly'><input type="button" id='EmailChcek' class='btn_round check' value="이메일 전송"></div>
 				
 				<input type="text" name="mb_hp"  id="reg_mb_hp" class='cabinet'  pattern="[0-9]*" style='padding:15px' required  placeholder="휴대폰번호"/>
 				<span class='cabinet_inner' style=''>※'-'를 제외한 숫자만 입력해주세요</span>
@@ -716,25 +715,25 @@ if ($_GET['recom_referral']){
 
 			<ul class="clear_fix pw_ul mt20">
 				<li>
-					<input type="password" name="mb_password" id="reg_mb_password" minlength="4" placeholder="Login Password" data-i18n='[placeholder]signUp.로그인 비밀번호' />
-					<input type="password" name="mb_password_re" id="reg_mb_password_re" minlength="4" placeholder="Confirm login password" data-i18n='[placeholder]signUp.로그인 비밀번호 확인' />
+					<input type="password" name="mb_password" id="reg_mb_password" minlength="4" placeholder="로그인 비밀번호" />
+					<input type="password" name="mb_password_re" id="reg_mb_password_re" minlength="4" placeholder="로그인 비밀번호 확인" />
 
-					<strong><span class='mb10' style='display:block;font-size:13px;' data-i18n='signUp.강도 높은 비밀번호 설정 조건'>Your password must contain</span></strong>
+					<strong><span class='mb10' style='display:block;font-size:13px;'>강도 높은 비밀번호 설정 조건</span></strong>
 					<ul>
-						<li class="x_li" id="pm_1" data-i18n='signUp.4자 이상 20자 이하'>4 characters or more</li>
-						<li class="x_li" id="pm_3" data-i18n='signUp.숫자+영문'>Digits + Characters</li>
-						<li class="x_li" id="pm_5" data-i18n='signUp.비밀번호 비교'>Compare Password</li>
+						<li class="x_li" id="pm_1" >4자 이상 20자 이하</li>
+						<li class="x_li" id="pm_3" >숫자+영문</li>
+						<li class="x_li" id="pm_5" >비밀번호 비교</li>
 					</ul>
 				</li>
 				<li style='margin-left:5px'>
-					<input type="password" minlength="6" maxlength="6" id="reg_tr_password" name="reg_tr_password" placeholder="Pin-Code" data-i18n='[placeholder]signUp.핀코드' />
-					<input type="password" minlength="6" maxlength="6" id="reg_tr_password_re" name="reg_tr_password_re" placeholder="confirm Pin-Code" data-i18n='[placeholder]signUp.핀코드확인' />
+					<input type="password" minlength="6" maxlength="6" id="reg_tr_password" name="reg_tr_password" placeholder="출금비밀번호(핀코드)" />
+					<input type="password" minlength="6" maxlength="6" id="reg_tr_password_re" name="reg_tr_password_re" placeholder="출금비밀번호(핀코드) 확인" />
 
-					<strong><span class='mb10' style='display:block;font-size:13px;' data-i18n='signUp.강도 높은 핀코드 설정 조건'>Your Pin-code must contain</span></strong>
+					<strong><span class='mb10' style='display:block;font-size:13px;' >강도 높은 핀코드 설정 조건</span></strong>
 					<ul>
-						<li class="x_li" id="pt_1" data-i18n='signUp.6 자리'>6 digits</li>
+						<li class="x_li" id="pt_1" >6 자리</li>
 						<li class="x_li" id="pt_3" >숫자</li>
-						<li class="x_li" id="pt_2" data-i18n='signUp.핀코드 비교'>Compare Pin-code</li>
+						<li class="x_li" id="pt_2" >핀코드 비교</li>
 					</ul>
 				</li>
 			</ul>
@@ -790,8 +789,8 @@ if ($_GET['recom_referral']){
 			
 
 			<div class="btn2_wrap mb40" style='width:100%;height:60px'>
-				<input class="btn btn_double enroll_cancel_pop_open btn_cancle pop_open" type="button" value="Cancel" data-i18n='[value]signUp.취소'>
-				<input class="btn btn_double btn_primary" type="button" onclick="fregisterform_submit();" value="Enroll new member" data-i18n='[value]signUp.신규 회원 등록하기'>
+				<input class="btn btn_double enroll_cancel_pop_open btn_cancle pop_open" type="button" value="취소">
+				<input class="btn btn_double btn_primary" type="button" onclick="fregisterform_submit();" value="신규 회원 등록하기">
 			</div>
 
 
@@ -812,25 +811,25 @@ if ($_GET['recom_referral']){
 
 <script>
 	$(function() {
-		$(".top_title h3").html("<span data-i18n='title.신규 회원등록' style='font-size:16px;margin-left:20px'>Create a new account</span>");
+		$(".top_title h3").html("<span style='font-size:16px;margin-left:20px'>신규 회원등록</span>");
 	});
 
 	
 	function collapse(id) {
-			if ($(id + "_term").css("display") == "none") {
-				$(id + "_term").css("display", "block");
-				$(id + "_term").animate({
-					height: "150px"
-				}, 100, function() {
-					$(id + ' .svg-inline--fa').css('transform', "rotate(180deg)");
-				});
-			} else {
-				$(id + "_term").animate({
-					height: "0px"
-				}, 100, function() {
-					$(id + "_term").css("display", "none");
-					$(id + ' .svg-inline--fa').css('transform', "rotate(360deg)");
-				});
-			}
+		if ($(id + "_term").css("display") == "none") {
+			$(id + "_term").css("display", "block");
+			$(id + "_term").animate({
+				height: "150px"
+			}, 100, function() {
+				$(id + ' .svg-inline--fa').css('transform', "rotate(180deg)");
+			});
+		} else {
+			$(id + "_term").animate({
+				height: "0px"
+			}, 100, function() {
+				$(id + "_term").css("display", "none");
+				$(id + ' .svg-inline--fa').css('transform', "rotate(360deg)");
+			});
 		}
+	}
 </script>
