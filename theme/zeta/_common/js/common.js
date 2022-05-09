@@ -512,29 +512,15 @@ function mode_colorset(mode) {
 					color: title_color
 				}
 			},
-			colors: ['#5677ca'],
+			colors: ['#287d9b'],
 			fill: {
 			  type: 'gradient',
 			  gradient: {
-				gradientToColors: ['#274090']
+				gradientToColors: ['#034d64']
 			  }
 			}
 		});
 		zetapluschart.updateOptions({
-			title: {
-				style: {
-					color: title_color
-				}
-			},
-			colors: ['#6b56db'],
-			fill: {
-			  type: 'gradient',
-			  gradient: {
-				gradientToColors: ['#473890']
-			  }
-			}
-		});
-		superchart.updateOptions({
 			title: {
 				style: {
 					color: title_color
@@ -545,6 +531,20 @@ function mode_colorset(mode) {
 			  type: 'gradient',
 			  gradient: {
 				gradientToColors: ['#252e38']
+			  }
+			}
+		});
+		superchart.updateOptions({
+			title: {
+				style: {
+					color: title_color
+				}
+			},
+			colors: ['#db2eb3'],
+			fill: {
+			  type: 'gradient',
+			  gradient: {
+				gradientToColors: ['#733f88']
 			  }
 			}
 		});
