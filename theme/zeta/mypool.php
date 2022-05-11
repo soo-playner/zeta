@@ -71,7 +71,8 @@ function remain_bonus($value, $rate)
     global $member;
 
     $limit = $member['mb_rate'] * $rate;
-    $remain_bonus = 40;
+    $remain_bonus = Number_format($value / $limit);
+    
     return $remain_bonus;
     
 }
