@@ -812,6 +812,14 @@ if ($_GET['recom_referral']){
 <script>
 	$(function() {
 		$(".top_title h3").html("<span style='font-size:16px;margin-left:20px'>신규 회원등록</span>");
+
+		$("#reg_mb_email").on("click", function() {
+			if(check_id != 1){
+				dialogModal('ID 중복확인', '<strong>아이디 중복확인을 해주세요. </strong>', 'warning');
+				return false;
+			}
+		});
+		
 	});
 
 	
@@ -832,4 +840,6 @@ if ($_GET['recom_referral']){
 			});
 		}
 	}
+
+
 </script>
