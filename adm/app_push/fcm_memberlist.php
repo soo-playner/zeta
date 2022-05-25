@@ -628,7 +628,7 @@ $stats_result = sql_fetch($stats_sql); */
 							<!-- <?= get_member_level_select("mb_level[$i]", 0, $member['mb_level'], $row['mb_level']) ?> -->
 						</td>
 
-						<td rowspan="2" class="td_id"><?= $row['mb_id'] ?></td>
+						<td rowspan="2" class="td_id <?if($row['mb_divide_date'] != ''){echo 'red';}?>"><?= $row['mb_id'] ?></td>
 						<td rowspan="1" class="td_name"><?= get_text($row['mb_name']); ?></td>
 
 						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= Number_format($row['mb_balance']) ?></td>

@@ -278,7 +278,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td >
 			<? if ($w == "u") { ?>
 			<input type="hidden" name="mb_id" id="mb_id"  value="<?=$mb['mb_id']?>" />
-			<span class='td_id <?if($mb['mb_leave_date'] != ''){echo 'red';}?>'><?=$mb['mb_id']?></span>
+			<span class='td_id <?if($mb['mb_divide_date'] != ''){echo 'red';}?>'><?=$mb['mb_id']?></span>
 
 			<? } else { ?>
 			<input type="text" name="mb_id" value="<?php echo $mb['mb_id'] ?>" id="mb_id" <?php echo $required_mb_id ?> class="frm_input <?php echo $required_mb_id_class ?>" size="15" minlength="3" maxlength="20">
@@ -802,13 +802,26 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 
 	<tr>
+		<th scope="row"><label for="mb_divide_date">회원별도구분</label></th>
+		<td>
+			<input type="text" name="mb_divide_date" value="<?php echo $mb['mb_divide_date'] ?>" id="mb_divide_date" class="frm_input" maxlength="8">
+			<input type="checkbox" value="<?php echo date("Ymd"); ?>" id="mb_divide_date_set_today" style="width:24px;height:24px" onclick="if (this.form.mb_divide_date.value==this.form.mb_divide_date.defaultValue) {
+this.form.mb_divide_date.value=this.value; } else { this.form.mb_divide_date.value=this.form.mb_divide_date.defaultValue; }">
+			<label for="mb_divide_date_set_today">별도관리 지정</label>
+		</td>
+		
+		
+		<!--
+		회원탈퇴처리	
 		<th scope="row"><label for="mb_leave_date">회원별도구분</label></th>
 		<td>
 			<input type="text" name="mb_leave_date" value="<?php echo $mb['mb_leave_date'] ?>" id="mb_leave_date" class="frm_input" maxlength="8">
 			<input type="checkbox" value="<?php echo date("Ymd"); ?>" id="mb_leave_date_set_today" style="width:24px;height:24px" onclick="if (this.form.mb_leave_date.value==this.form.mb_leave_date.defaultValue) {
 this.form.mb_leave_date.value=this.value; } else { this.form.mb_leave_date.value=this.form.mb_leave_date.defaultValue; }">
 			<label for="mb_leave_date_set_today">별도관리 지정</label>
-		</td>
+		</td> -->
+
+
 		<th scope="row">접근차단일자</th>
 		<td>
 			<input type="text" name="mb_intercept_date" value="<?php echo $mb['mb_intercept_date'] ?>" id="mb_intercept_date" class="frm_input" maxlength="8">
