@@ -699,7 +699,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
     });
 </script>
 
-<script src="<?= G5_THEME_URL ?>/assets/chart_scripts.js"></script>
+<script src="<?= G5_THEME_URL ?>/assets/chart_scripts.js?ver=20220609_11"></script>
 
 
 <? include_once(G5_THEME_PATH . '/_include/tail.php'); ?>
