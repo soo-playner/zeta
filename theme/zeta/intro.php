@@ -8,7 +8,7 @@ body{overflow-y: hidden;}
 	width:100%;
 	display:block;
 	height:100vh;
-	background:#000 url('<?=G5_THEME_URL?>/img/launcher.gif') no-repeat center;
+	background:#000 url('<?=G5_THEME_URL?>/img/launcher.png') no-repeat center;
 	background-size:cover;
 }
 
@@ -35,8 +35,8 @@ body{overflow-y: hidden;}
   height: 2px;
 }
 
-.btn.btn_primary{background:linear-gradient(90deg,#ff818f,#ffbfcc)}
-.btn.btn_primary:hover{background:linear-gradient(90deg,#ff818f,#ff818f)}
+.btn.btn_primary{background:linear-gradient(90deg,#6accfe,#b9e4fe)}
+.btn.btn_primary:hover{background:linear-gradient(90deg,#6accfe,#6accfe)}
 
 .animate-bottom {
   position: relative;
