@@ -18,9 +18,13 @@ $private_term = get_write("g5_write_agreement", 2);
 
 // 추천인링크 타고 넘어온경우
 if ($_GET['recom_referral']){
-	$recom_sql = "select mb_id from g5_member where mb_no = '{$_GET['recom_referral']}'";
+	$recom_sql = "select mb_id,mb_nick from g5_member where mb_no = '{$_GET['recom_referral']}'";
 	$recom_result = sql_fetch($recom_sql);
 	$mb_recommend = $recom_result['mb_id'];
+
+	if($recom_result['mb_nick'] != ''){
+		$mb_center = $mb_recommend;
+	}
 }
 ?>
 
@@ -38,6 +42,7 @@ if ($_GET['recom_referral']){
 	var verify = false;
 	var recommned = "<?= $mb_recommend ?>";
 	var recommend_search = false;
+	
 	var center_search = false;
 
 	if (recommned) {
@@ -119,7 +124,7 @@ if ($_GET['recom_referral']){
 
 			$.ajax({
 				type: "POST",
-				url: "/mail/send_mail.php",
+				url: "/mail/send_mail_smtp.php",
 				dataType: "json",
 				data: {
 					user_email: email
@@ -501,6 +506,7 @@ if ($_GET['recom_referral']){
 						}else{
 							$(target).val($(target_type + ' .modal-body .user.selected').html());
 							recommend_search = true;
+							$('#reg_mb_center').val($(target_type + ' .modal-body .user.selected').html());
 						}
 						$(target).attr("readonly",true);
 						$(target_type).modal('hide');
@@ -638,7 +644,8 @@ if ($_GET['recom_referral']){
 				console.log(e)
 			}
 		});
-
+		
+		// f.submit();
 
 	}
 </script>
@@ -681,7 +688,7 @@ if ($_GET['recom_referral']){
 				<section class='referzone'>
 					<div class="btn_input_wrap">
 						<input type="hidden" name="mb_center_nick" id="reg_mb_center_nick" value=""  required  />
-						<input type="text" name="mb_center" id="reg_mb_center" value="" placeholder="센터명 또는 센터아이디" required  />
+						<input type="text" name="mb_center" id="reg_mb_center" value="<? if($mb_center){echo $mb_center;}?>" placeholder="센터명 또는 센터아이디" required  />
 
 						<div class='in_btn_ly2'>
 							<button type='button' class="btn_round check " onclick="getUser('#reg_mb_center',2);"
@@ -689,6 +696,7 @@ if ($_GET['recom_referral']){
 						</div>
 					</div>
 				</section>
+				<i style="color:rgba(255,255,255,0.4)">※센터정보 검색후 선택해주세요.</i>
 
 
 			<!-- <p class="check_appear_title mt40"><span data-i18n='signUp.일반정보'>General Information</span></p> -->
