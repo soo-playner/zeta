@@ -526,16 +526,16 @@ function string_shift_code($val){
 			echo "Request Checking ..";
 			break;
 		case "1" :
-			echo "<span class='font_green'>Complete</span>";
+			echo "<p class='font_green'>Complete</p>";
 			break;
 		case "2" :
 			echo "Processing";
 			break;
 		case "3" :
-			echo "<span class='font_red'>Reject</span>";
+			echo "<p class='font_red'>Reject</p>";
 			break;
 		case "4" :
-			echo "<span class='font_red'>Cancle</span>";
+			echo "<p class='font_red'>Cancle</p>";
 			break;
 		default :
 			echo "Request Checking ..";

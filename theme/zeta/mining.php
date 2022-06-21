@@ -122,6 +122,7 @@ function overcharge($val,$category){
     .red{
         color:red;
     }
+    .result span{text-align:right}
 </style>
 <main>
     <div id="mining" class="container mining">
@@ -282,15 +283,16 @@ function overcharge($val,$category){
                     <? } ?>
 
                     <div><button type='button' id="mining_history_more" class="btn wd"><?= $mining_history_limit_text ?></button></div>
-
+  
                 <? } ?>
             </div>
-
+                
+            <? if ($mining_amt_cnt > 0) { ?>
                 <div class="b_line6"></div>
                 <div id='mining_amt_log' class='mt20'>
 
                     <h3 class="hist_tit">마이닝 출금 내역 <span class='mymining_total'> <?= shift_coin($mining_amt) ?> <?= strtoupper($minings[0]) ?></span></h3>
-
+                    <? while ($row = sql_fetch_array($mining_amt_log)) { ?>
                         <ul class='row'>
                             <li class="col-12">
                                 <span class="col-8 nopadding"><i class="ri-calendar-check-fill"></i><?= $row['create_dt'] ?></span>
@@ -298,7 +300,7 @@ function overcharge($val,$category){
                             </li>
 
                             <li class="col-12">
-                                <span class="col-8 nopadding amt"><i class="ri-coins-line"></i>fee / <?= shift_coin($row['fee']) ?>
+                                <span class="col-8 nopadding amt"><i class="ri-coins-line"></i>수수료 : - <?= shift_coin($row['fee'])  ?> <?= $row['coin'] ?>
                                 </span>
                                 <span class="col-4 nopadding text-right amt"><i class="ri-refund-2-line"></i><?= shift_coin($row['out_amt']) ?> <?= $row['coin'] ?></span>
                             </li>
@@ -306,14 +308,14 @@ function overcharge($val,$category){
                             <li class="col-12 "><span class='hist_bank'><i class="ri-wallet-2-fill"></i><?= $row['addr'] ?></span></li>
 
                             <li class="col-12 mt10">
-                                <span class="col-6 nopadding"><i class="ri-survey-line"></i>process result</span>
-                                <span class="col-6 nopadding text-right result"><? string_shift_code($row['status']) ?></span>
+                                <span class="col-6 nopadding amt"><i class="ri-survey-line"></i>처리결과</span>
+                                <span class="col-6 nopadding text-right result "><? string_shift_code($row['status']) ?></span>
                             </li>
                         </ul>
-
+                        <? } ?>
                     <div><button type='button' id="mining_amt_more" class="btn wd"><?= $mining_amt_limit_text ?></button></div>
                 </div>
-
+                <? } ?>
 
         </div>
     </section>
