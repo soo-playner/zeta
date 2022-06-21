@@ -465,6 +465,9 @@ $stats_result = sql_fetch($stats_sql);
 	.td_grade{
 		width:30px;min-width:30px;
 	}
+	.user_icon i{
+		vertical-align:-webkit-baseline-middle !important;
+	}
 	
 </style>
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/scss/custom.css">
@@ -687,6 +690,7 @@ while ($l_row = sql_fetch_array($get_lc)) {
 					// $s_grp = '<a href="./boardgroupmember_form.php?mb_id='.$row['mb_id'].'">그룹</a>';
 
 					$leave_date = $row['mb_leave_date'] ? $row['mb_leave_date'] : date('Ymd', G5_SERVER_TIME);
+					$divide_date = $row['mb_divide_date'] ? $row['mb_divide_date'] : date('Ymd', G5_SERVER_TIME);
 					$intercept_date = $row['mb_intercept_date'] ? $row['mb_intercept_date'] : date('Ymd', G5_SERVER_TIME);
 
 					$mb_nick = get_sideview($row['mb_id'], get_text($row['mb_nick']), $row['mb_email'], $row['mb_homepage']);
@@ -765,7 +769,7 @@ while ($l_row = sql_fetch_array($get_lc)) {
 							<?php echo get_member_level_select("mb_level[$i]", 0, $member['mb_level'], $row['mb_level']) ?>
 						</td>
 
-						<td headers="mb_list_id" rowspan="2" class="td_name td_id <?if($row['mb_leave_date'] != ''){echo 'red';}?>" style="min-width:120px; width:auto">
+						<td headers="mb_list_id" rowspan="2" class="td_name td_id <?if($row['mb_divide_date'] != ''){echo 'red';}?>" style="min-width:120px; width:auto">
 							<?php echo $mb_id ?>
 						</td>
 						<td rowspan="2" class="td_name name" style='width:70px;'><?php echo get_text($row['mb_name']); ?></td>

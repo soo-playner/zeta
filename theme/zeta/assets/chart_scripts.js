@@ -37,6 +37,7 @@ if(getCookie('googtrans') == '/ko/en') {
   super_title = 'SUPER BONUS';
   bonus_title = 'BONUS HASH';
   sub_title = 'Target Hash: 300%';
+  sub_title2 = 'Target Hash: 100%';
 } else if(getCookie('googtrans') == '/ko/zh-CN') {
   mega_title = '超级矿池奖金';
   zeta_title = 'Zetapool奖金';
@@ -44,6 +45,7 @@ if(getCookie('googtrans') == '/ko/en') {
   super_title = '超级奖金';
   bonus_title = '奖金哈希';
   sub_title = '目标哈希：300%';
+  sub_title2 = '目标哈希：100%';
 } else if(getCookie('googtrans') == '/ko/vi') {
   mega_title = 'Tiền thưởng Megapool';
   zeta_title = 'Tiền thưởng Zetapool';
@@ -51,6 +53,7 @@ if(getCookie('googtrans') == '/ko/en') {
   super_title = 'siêu tiền thưởng';
   bonus_title = 'băm thưởng';
   sub_title = 'Băm mục tiêu: 300%';
+  sub_title = 'Băm mục tiêu: 100%';
 } else if(getCookie('googtrans') == '/ko/ja') {
   mega_title = 'メガフルボーナス';
   zeta_title = 'ゼタフルボーナス';
@@ -58,6 +61,7 @@ if(getCookie('googtrans') == '/ko/en') {
   super_title = 'スーパーボーナス';
   bonus_title = 'ボーナスハッシュ';
   sub_title = '目標ハッシュ：300％';
+  sub_title = '目標ハッシュ：100％';
 } else {
   mega_title = '메가풀 보너스';
   zeta_title = '제타풀 보너스';
@@ -65,6 +69,7 @@ if(getCookie('googtrans') == '/ko/en') {
   super_title = '슈퍼 보너스';
   bonus_title = '보너스 해시';
   sub_title = '목표해시: 300%';
+  sub_title2 = '목표해시: 100%';
 }
 
 function lang_change(num) {
@@ -693,6 +698,15 @@ window.Apex = {
         formatter: function (val, opt) {
             return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%"
         },
+        textAnchor: 'start',
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: '#000',
+          opacity: 0.45
+      }
     },
     tooltip: {
       enabled: false
@@ -701,7 +715,7 @@ window.Apex = {
       categories: [bonus_title],
     },
     yaxis: {
-      max: 100
+      max:300
     },
   }
   var megachart = new ApexCharts(document.querySelector("#megachart"), mega_chart);
@@ -812,13 +826,22 @@ window.Apex = {
     },
     dataLabels: {
         enabled: true,
-        offsetX: 15,
+        offsetX: 0,
         style: {
             fontSize: '16px'
         },
         formatter: function (val, opt) {
             return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%"
         },
+        textAnchor: 'start',
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: '#000',
+          opacity: 0.45
+      }
     },
     tooltip: {
       enabled: false
@@ -827,7 +850,7 @@ window.Apex = {
       categories: [[bonus_title]],
     },
     yaxis: {
-      max: 100
+      max:300
     },
   }
   var zetachart = new ApexCharts(document.querySelector("#zetachart"), zeta_chart);
@@ -946,6 +969,15 @@ window.Apex = {
         formatter: function (val, opt) {
             return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val + "%"
         },
+        textAnchor: 'start',
+        dropShadow: {
+          enabled: true,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: '#000',
+          opacity: 0.45
+      }
     },
     tooltip: {
       enabled: false
@@ -954,7 +986,7 @@ window.Apex = {
       categories: [[bonus_title]],
     },
     yaxis: {
-      max: 100
+      max: 300
     },
   }
   var zetapluschart = new ApexCharts(document.querySelector("#zetapluschart"), zetaplus_chart);
@@ -1063,7 +1095,7 @@ window.Apex = {
       align: 'right',
       offsetY: 15,
       offsetx: 10,
-      text: sub_title,
+      text: sub_title2,
       style: {
         fontSize: '13px',
         color: '#999'
@@ -1071,13 +1103,14 @@ window.Apex = {
     },
     dataLabels: {
         enabled: true,
-        offsetX: 15,
+        offsetX: 0,
         style: {
             fontSize: '16px'
         },
         formatter: function (val, opt) {
             return opt.w.globals.labels[0] + ":  " + val + "%"
         },
+        
     },
     tooltip: {
       enabled: false

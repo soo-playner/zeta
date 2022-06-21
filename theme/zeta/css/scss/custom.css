@@ -1087,11 +1087,12 @@ a.btn_cancle:hover, .btn_cancle:hover {
 }
 
 .mypool #minings .point {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   font-family: Montserrat, Arial, sans-serif;
   margin: 0 5px;
   padding: 0 5px;
+  color: black;
   background: #FECE00;
   display: inline-block;
 }
@@ -2573,7 +2574,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
 }
 
 .dark .mypool #minings .point {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   font-family: Montserrat, Arial, sans-serif;
   margin: 0 5px;

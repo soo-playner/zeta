@@ -82,6 +82,19 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
 
 <link rel="stylesheet" href="<?= G5_THEME_URL ?>/css/default.css">
 <script src="<?= G5_URL ?>/js/common.js"></script>
+<style>
+.sparkboxes .box h5{margin:10px 0; font-size:14px;}
+/* 2022-06-09 테마 버튼 추가 */
+.dark .ad_btn{
+    background:rgba(0,0,0,0.3);
+    border:1px solid rgba(0,0,0,0.5);
+}
+.ad_btn{
+    background:rgba(0,0,0,0.3);
+    border:1px solid rgba(0,0,0,0.5);
+}
+
+</style>
 
 <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet" />
 
@@ -401,7 +414,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <h3>보너스 달성률</h3>
                                 <? if (remain_hash($member['super_mining'], 1, false) >= 100) { ?>
                                     <h2>" <span class='font_red'><?= remain_hash($member['super_mining'], 1, false) ?>%</span> 초과달성 "</h2>
-                                    <br>
+                                    
                                     <h5> 보유해시량을 늘리면 일 / <span class="point"> <?= Number_format((($member['super_mining'] - ($member['mb_rate'] * 100)) * $day_mint_value * 0.01), 8) ?> ETH </span> 만큼 마이닝 보너스를 매일매일 더 받을수 있어요</h5>
                                     <a href="<?=G5_URL?>/page.php?id=upstairs" class='btn inline ad_btn'>
                                     <!-- <i class="ri-add-fill" style='font-size:15px;'></i> -->
@@ -699,7 +712,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
     });
 </script>
 
-<script src="<?= G5_THEME_URL ?>/assets/chart_scripts.js"></script>
+<script src="<?= G5_THEME_URL ?>/assets/chart_scripts.js?ver=20220609_11"></script>
 
 
 <? include_once(G5_THEME_PATH . '/_include/tail.php'); ?>
