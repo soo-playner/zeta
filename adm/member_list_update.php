@@ -37,10 +37,7 @@ if ($_POST['act_button'] == "선택수정") {
         //$encoded = $Base32->encode($_POST['mb_id'][$k]);
         $encoded = $Base32->encode(str_pad($_POST['mb_id'][$k], 20 , "!&%")); */
         
-            $sql = " update {$g5['member_table']}
-                        set grade = '{$_POST['grade'][$k]}',
-                            mb_level = '{$_POST['mb_level'][$k]}'
-                        where mb_id = '{$_POST['mb_id'][$k]}' ";
+            $sql = " UPDATE {$g5['member_table']} set grade = '{$_POST['grade'][$k]}', mb_level = '{$_POST['mb_level'][$k]}' where mb_id = '{$_POST['mb_id'][$k]}' ";
                         // print_R($sql);
                         sql_query($sql);
         }
