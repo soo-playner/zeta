@@ -801,6 +801,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
 #mining_withdraw .polding_btn .caret_box {
   vertical-align: top;
   float: right;
+  margin-left:auto;
 }
 
 #mining_withdraw .polding_btn .caret_box i {
@@ -2223,7 +2224,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   text-align: right;
   -webkit-box-flex: 3;
       -ms-flex-positive: 3;
-          flex-grow: 3;
+          
 }
 
 .dark #mining #mining_withdraw .polding_btn .caret_box i {

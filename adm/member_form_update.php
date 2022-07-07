@@ -49,20 +49,20 @@ $mb_zip2 = substr($_POST['mb_zip'], 3);
 
 $_POST['center_use'] != "" ? $center_use = $_POST['center_use'] : $center_use = 0;
 
+
 /*레벨 처리*/
 $mb = get_member($mb_id);
 $mb_level = $mb['mb_level'];
+$temp_mb_level = $_POST['mb_level'];
 
 if($center_use > 0){
 	
 	if($_POST['mb_level'] < 2){
 		$temp_mb_level = 2;
-	}else{
-		$temp_mb_level = $_POST['mb_level'];
 	}
 }
 
-if($mb_level < 10 &&  $temp_mb_level > $mb_level){
+if($mb_level < 10 &&  $temp_mb_level != $mb_level){
 	$mb_level = $temp_mb_level;
 }
 
