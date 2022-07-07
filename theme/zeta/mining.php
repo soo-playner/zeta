@@ -543,7 +543,7 @@ function overcharge($val,$category){
             var out_count = Number("<?=$mining_amt_cnt ?>");
             var kyc_cert = Number("<?=$kyc_cert?>");
             if(out_count < 1 && kyc_cert != 1){
-                dialogModal('KYC 인증', "<strong> 안전한 출금을 위해 최초 1회  KYC 인증을 진행해주세요<br><a href='/page.php?id=profile' class='btn btn-primary'>KYC인증</a></strong>", 'warning');
+                dialogModal('KYC 인증 미등록/미승인 ', "<strong> 안전한 출금을 위해 최초 1회 KYC 인증을 진행해주세요<br><a href='/page.php?id=profile' class='btn btn-primary'>KYC인증</a></strong>", 'warning');
                 return false;
             }
             
