@@ -160,6 +160,9 @@ if ($count_write > 0 || $count_comment > 0)
 @include_once($board_skin_path.'/delete_all.tail.skin.php');
 
 delete_cache_latest($bo_table);
-
-goto_url('./board.php?bo_table='.$bo_table.'&amp;page='.$page.$qstr);
+if($bo_table == 'kyc'){
+    goto_url('/adm/bbs/board.php?bo_table='.$bo_table.'&amp;page='.$page.$qstr);
+}else{
+    goto_url('./board.php?bo_table='.$bo_table.'&amp;page='.$page.$qstr);
+}
 ?>

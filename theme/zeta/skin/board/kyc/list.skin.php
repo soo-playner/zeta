@@ -10,15 +10,21 @@ if ($is_nogood) $colspan++;
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 //add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
+
 ?>
 
-
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/default.css">
 <link rel="stylesheet" href="<?=$board_skin_url?>/style.css">
 
 <style>
+    #wrapper,#container{max-width:1200px !important;padding-left:10px;}
+    .tbl_wrap{padding:0;}
     #bo_sch{margin-top:10px;}
     #bo_sch select{color:black;padding:0;margin:5px;height:28px;font-size:14px;}
+    .btn{padding:10px}
+    .write_btn{margin:10px 0;line-height:54px;}
 </style>
 <!-- 게시판 목록 시작 { -->
 <div id="bo_list" style="width:<?php echo $width; ?>">
@@ -113,9 +119,9 @@ if ($is_nogood) $colspan++;
                  ?>
                 <a href="<?php echo $list[$i]['ca_name_href'] ?>" class="bo_cate_link"><?php echo $list[$i]['ca_name'] ?></a>
                 <?php } ?>
-                <div class="bo_tit">
+                <div class="bo_tit" style='padding-left:10px;'>
                     
-                    <a href="<?php echo $list[$i]['href'] ?>">
+                    <a href="<?=G5_ADMIN_URL?>/bbs/board.php?bo_table=kyc&amp;wr_id=<?=$list[$i]['wr_id'] ?>">
                         <?php echo $list[$i]['icon_reply'] ?>
                         <?php
                             if (isset($list[$i]['icon_secret'])) echo rtrim($list[$i]['icon_secret']);
@@ -135,7 +141,7 @@ if ($is_nogood) $colspan++;
 
             </td>
 
-            <td class="sv_use" style="text-align:center;vertical-align:bottom;padding:0;margin:0">
+            <td class="sv_use" style="text-align:center;padding:0;margin:0">
                 <?if($list[$i]['wr_2'] == '1'){?>
                     <img src="<?=G5_THEME_URL?>/skin/board/kyc/img/check.jpg" style="width:24px"/>
                 <?}else if($list[$i]['wr_2'] == '2'){?>
@@ -250,7 +256,7 @@ function fboardlist_submit(f) {
             return false;
 
         f.removeAttribute("target");
-        f.action = "./board_list_update.php";
+        f.action = "/bbs/board_list_update.php";
     }
 
     return true;

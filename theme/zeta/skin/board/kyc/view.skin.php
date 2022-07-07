@@ -15,9 +15,11 @@ function confirm_check($bool){
 };
 
 ?>
-
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <script src="<?php echo G5_JS_URL; ?>/viewimageresize.js"></script>
 <style>
+        #container{max-width:1200px;}
         #bo_v_con{min-height:100px !important}
         .holder {
             width: 100%;
