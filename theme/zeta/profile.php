@@ -88,7 +88,9 @@
 
 		#ch_tax{}
 		#ch_tax [type="checkbox"]{width:auto;width:20px;height:20px;vertical-align:middle}
-		#ch_tax .person_agree_view{color:rgba(255,255,255,0.3);font-size:11px;border:1px solid rgba(255,255,255,0.3);border-radius:5px;padding:1px 5px 2px;vertical-align:middle;}
+		.person_agree_view{font-size:11px;border:1px solid gray;color:gray;border-radius:5px;padding:1px 5px 2px;vertical-align:middle;}
+		.dark .person_agree_view{color:white;border:1px solid rgba(255,255,255,0.3);}
+
 
 		.b_line{padding-bottom:10px;}
 		.profile-box{margin-bottom:65px;}
@@ -96,14 +98,23 @@
 		.preclose{display:none;}
 		.open{display:block;}
  
-		.filebox{width:100%;padding:15px 15px; border:1px solid rgba(255,255,255,0.6);border-radius:5px;text-align:center;font-size:14px;}
-		.dark .filebox{color:white}
+		.filebox{width:100%;padding:15px 15px; border:1px solid rgba(255,255,255,0.6);border-radius:5px;text-align:center;font-size:14px;background:white}
+		.dark .filebox{color:white;background:transparent}
 		#tax_person_file{font-size:14px;}
+
+		.kyc_label{color:#2b3a6d !important;}
+		.dark .kyc_label{color:#fac707 !important;}
 
 		.status_1{background: url('<?=G5_THEME_URL?>/_images/okay_icon.png') no-repeat center left;background-size: 13px;padding-left:10px;}
 		.status_2{background: url('<?=G5_THEME_URL?>/_images/x_icon.png') no-repeat center left;background-size: 13px;padding-left:10px;}
 
 		.person_info{font-size:11px;font-weight:300}
+
+		.dark .kyc_icon{color:#ffd965;}
+		.kyc_icon{color:#2b3a6d;}
+
+
+		
 
 	</style>
     <main>
@@ -188,7 +199,7 @@
 
 				<div class='col-sm-12 col-12 profile-box certificate'>
 					<h3 class='title b_line'>
-						<i class="ri-account-box-line" style="color:#ffd965;font-weight:300;font-size:26px;vertical-align:bottom"></i>
+						<i class="ri-account-box-line kyc_icon" style="font-weight:300;font-size:26px;vertical-align:bottom"></i>
 						<span >KYC 인증 정보</span>
 					</h3>
 					<ul class='row mt10'>
@@ -865,12 +876,12 @@ $(function() {
 		
 			<input type="file" id="tax_person_file" class='filebox' >
 			<input type="hidden" id="" class="upload-name">
-			<label style="font-size:11px;margin:5px;color:#fac707">신분확인이 가능한 주민등록증, 운전면허증 사진을 첨부해주세요.</label>
+			<label class='kyc_label' style="font-size:11px;margin:5px;">신분확인이 가능한 주민등록증, 운전면허증 사진을 첨부해주세요.</label>
 		<hr class="hr_dash">
 		<div class='mb15'>
 			<input type="checkbox" id="tax_person_number_agree" class="inline" name="tax_person_number_agree" value=""/>
 			<label for="tax_person_number_agree" class="inline">고유식별정보 처리 동의</label>
-			<a href="javascript:void(0);" class="inline_btn person_agree_view" style="color:white">전문보기</a>
+			<a href="javascript:void(0);" class="inline_btn person_agree_view" >전문보기</a>
 			<div class="preclose">
 				<textarea id="tax_person_agree_content" class="textbox">
 
