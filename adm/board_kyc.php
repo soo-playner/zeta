@@ -71,13 +71,13 @@ $colspan = 15;
     | <a href="/adm/board_support.php" class="board_menu">Support center</a>
     | <a href="/adm/board_kyc.php" class="board_menu">KYC 회원인증</a>
 </div>
-<?
-	if($_GET['wr_id']){?>
-		<iframe src="/bbs/board.php?bo_table=kyc&wr_id=<?=$_GET['wr_id']?>" width="100%" height="700px;" scrolling="auto" style="border:0;background:white;"></iframe>
-	<?}else{?>
-		<iframe src="/bbs/board.php?bo_table=kyc" width="100%" height="700px;" scrolling="auto" style="border:0;background:white;"></iframe>
-	<?}?>
-?>
+
+<?if($_GET['wr_id']){?>
+    <iframe src="/bbs/board.php?bo_table=kyc&wr_id=<?=$_GET['wr_id']?>" width="100%" height="700px;" scrolling="auto" style="border:0;background:white;"></iframe>
+<?}else{?>
+    <iframe src="/bbs/board.php?bo_table=kyc" width="100%" height="700px;" scrolling="auto" style="border:0;background:white;"></iframe>
+<?}?>
+
 
 
 <?php

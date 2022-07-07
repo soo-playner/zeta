@@ -1,13 +1,139 @@
 <?php
 if (!defined("_GNUBOARD_")) exit; // 개별 페이지 접근 불가
+include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 include_once(G5_LIB_PATH.'/thumbnail.lib.php');
+
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
+
+function confirm_check($bool){
+    global $write;
+    if($write['wr_2'] == $bool){
+        return 'checked';
+    }
+};
+
 ?>
 
 <script src="<?php echo G5_JS_URL; ?>/viewimageresize.js"></script>
+<style>
+        #bo_v_con{min-height:100px !important}
+        .holder {
+            width: 100%;
+            text-align: center;
+            margin: 0px auto;
+        }
 
+        input[type="checkbox"] {
+            display: none;
+        }
+
+
+        input[id^="checkbox-2-"] + label {
+            text-align:left;
+            background-color: dodgerblue;
+            padding: 18px 20px 18px 23px;
+            box-shadow: inset 0 50px 37px -30px rgba(255, 222, 197, 0.3);
+            border-radius: 1000px;
+            display: inline-block;
+            position: relative;
+            border-top: 1px solid dodgerblue;
+            margin-right: 30px;
+            font-size:14px;
+            font-weight: 500;
+            letter-spacing: 0px;
+            color: #FFF;
+            width: 213px;
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid dodgerblue;
+        }
+
+        [id^="checkbox-2-"] + label:hover  {
+            border-top: 1px solid royalblue;
+            background: royalblue;
+            box-shadow: inset 0 -50px 37px -30px rgba(255, 222, 197, 0.07);
+        }
+
+        [id^="checkbox-2-"] + label:active  {
+            border-top: none;
+            background: royalblue;
+            padding: 19px 20px 18px 23px;
+            box-shadow: inset 0 3px 8px rgba(129, 69, 13, 0.3), inset 0 -50px 37px -30px rgba(255, 222, 197, 0.07)	
+        }
+
+        [id^="checkbox-2-"] + label:after {
+            content: ' ';
+            border-radius: 100px;
+            width: 32px;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            box-shadow: inset 0px 16px 40px rgba(0, 0, 0, 0.4);
+            height: 32px;
+        }
+
+        [id^="checkbox-2-"] + label:before {
+            content: ' ';
+            border-radius: 100px;
+            width: 20px;
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            z-index: 999;
+            box-shadow: inset 0px 16px 40px #FFF;
+            height: 20px;
+            display: none;
+        }
+
+        [id^="checkbox-2-"]:checked + label{
+            border-top: 1px solid #28a745;
+            background: #28a745;
+            box-shadow: inset 0 -50px 37px -30px rgba(255, 222, 197, 0.07);
+            
+        }
+
+        [id^="checkbox-2-"]:checked + label:before {
+            display: block;
+        }
+
+        .kyc_reject_label{background-color:indianred !important;border:1px solid indianred !important;}
+        .regdt{display: block;font-size:11px;margin:10px;}
+
+    </style>
+
+    <SCRIPT>
+        function checkOnlyOne(element) {
+        const checkboxes 
+            = document.getElementsByName("kyc_result");
+        
+        checkboxes.forEach((cb) => {
+            cb.checked = false;
+        })
+        element.checked = true;
+        }
+
+        // 삭제 검사 확인
+        function del(href)
+        {
+            if(confirm("한번 삭제한 자료는 복구할 방법이 없습니다.\n\n정말 삭제하시겠습니까?")) {
+                var iev = -1;
+                if (navigator.appName == 'Microsoft Internet Explorer') {
+                    var ua = navigator.userAgent;
+                    var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+                    if (re.exec(ua) != null)
+                        iev = parseFloat(RegExp.$1);
+                }
+
+                // IE6 이하에서 한글깨짐 방지
+                if (iev != -1 && iev < 7) {
+                    document.location.href = encodeURI(href);
+                } else {
+                    document.location.href = href;
+                }
+            }
+        }
+    </SCRIPT>
 
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/default.css">
 <link rel="stylesheet" href="<?=$board_skin_url?>/style.css">
@@ -61,7 +187,12 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
          ?>
 
         <!-- 본문 내용 시작 { -->
-        <div id="bo_v_con"><?php echo get_view_thumbnail($view['content']); ?></div>
+        <div id="bo_v_con">
+            
+            <?echo $view['wr_subject']."<br>"?>
+            <?php echo get_view_thumbnail( Decrypt($view['content'],$secret_key,$secret_iv)); ?>
+            <!-- <?print_R($view) ?> -->
+        </div>
         <?php //echo $view['rich_content']; // {이미지:0} 과 같은 코드를 사용할 경우 ?>
         <!-- } 본문 내용 끝 -->
 
@@ -177,14 +308,26 @@ add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0
         <?php
         ob_start();
         ?>
+        <div class="holder" >
+        <!-- onclick='checkOnlyOne(this)' -->
+            <input type="checkbox" name='kyc_result' id="checkbox-2-1" class="kyc_result_btn kyc_confirm" <?=confirm_check(1)?> data-val="1" data-id="<?=$view['wr_id']?>"/>
+            <label for="checkbox-2-1">KYC 인증 승인</label> 
+            
+            <input type="checkbox" name='kyc_result' id="checkbox-2-2" class="kyc_result_btn kyc_reject" <?=confirm_check(2)?> data-val="2" data-id="<?=$view['wr_id']?>"/>
+            <label for="checkbox-2-2" class='kyc_reject_label'>KYC 인증 재등록요망</label>
+            <span class='regdt'><?=$view['wr_4']?></span>
+        </div>
+       
+        <div style="border-top:1px dashed #ccc;margin-top:30px;">
+            <ul class="bo_v_left">
+                <?php if ($update_href) { ?><li><a href="<?php echo $update_href ?>" class="btn_b01 btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 수정</a></li><?php } ?>
 
-        <ul class="bo_v_left">
-            <?php if ($update_href) { ?><li><a href="<?php echo $update_href ?>" class="btn_b01 btn"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> 수정/승인</a></li><?php } ?>
-            <?php if ($delete_href) { ?><li><a href="<?php echo $delete_href ?>" class="btn_b01 btn" onclick="del(this.href); return false;"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제</a></li><?php } ?>
-            <!--<?php if ($copy_href) { ?><li><a href="<?php echo $copy_href ?>" class="btn_admin btn" onclick="board_move(this.href); return false;"><i class="fa fa-files-o" aria-hidden="true"></i> 복사</a></li><?php } ?>
-            <?php if ($move_href) { ?><li><a href="<?php echo $move_href ?>" class="btn_admin btn" onclick="board_move(this.href); return false;"><i class="fa fa-arrows" aria-hidden="true"></i> 이동</a></li><?php } ?>-->
-            <?php if ($search_href) { ?><li><a href="<?php echo $search_href ?>" class="btn_b01 btn"><i class="fa fa-search" aria-hidden="true"></i> 검색</a></li><?php } ?>
-        </ul>
+                <?php if ($delete_href) { ?><li><a href="<?php echo $delete_href ?>" class="btn_b01 btn" onclick="del(this.href); return false;"><i class="fa fa-trash-o" aria-hidden="true"></i> 삭제</a></li><?php } ?>
+                <!--<?php if ($copy_href) { ?><li><a href="<?php echo $copy_href ?>" class="btn_admin btn" onclick="board_move(this.href); return false;"><i class="fa fa-files-o" aria-hidden="true"></i> 복사</a></li><?php } ?>
+                <?php if ($move_href) { ?><li><a href="<?php echo $move_href ?>" class="btn_admin btn" onclick="board_move(this.href); return false;"><i class="fa fa-arrows" aria-hidden="true"></i> 이동</a></li><?php } ?>-->
+                <?php if ($search_href) { ?><li><a href="<?php echo $search_href ?>" class="btn_b01 btn"><i class="fa fa-search" aria-hidden="true"></i> 검색</a></li><?php } ?>
+            </ul>
+        </div>
 
         <ul class="bo_v_com">
            <li><a href="<?php echo $list_href ?>" class="btn_b01 btn"><i class="fa fa-list" aria-hidden="true"></i> 목록</a></li>
@@ -250,6 +393,42 @@ $(function() {
     $("a.view_image").click(function() {
         window.open(this.href, "large_image", "location=yes,links=no,toolbar=no,top=10,left=10,width=10,height=10,resizable=yes,scrollbars=no,status=no");
         return false;
+    });
+
+    $(".kyc_result_btn").on("click", function(){
+        
+        if($(this).prop('checked')){
+            $('.kyc_result_btn').prop('checked',false);
+            $(this).prop('checked',true);
+        }
+
+        var dataval = $(this).data("val");
+        var dataid = $(this).data("id");
+        console.log(`val : ${dataval}\nid : ${dataid}`);
+
+        $.ajax({
+			type: "POST",
+			url: "/util/kyc_result.php",
+			cache: false,
+			async: false,
+			dataType: "json",
+			data: {
+                "id" : dataid,
+				"value" : dataval
+			},
+			success: function(res) {
+				if (res.result == "OK") {
+                    location.reload();
+				} else {
+                    alert("처리되지 않았습니다.\n문제가 지속되면 관리자에게 연락주세요");
+                }
+
+			},
+			error: function(e) {
+				console.log(e)
+			}
+		});
+
     });
 
     // 추천, 비추천

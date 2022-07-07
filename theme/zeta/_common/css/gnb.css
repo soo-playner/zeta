@@ -280,6 +280,7 @@ header .left_gnbWrap .left_gnb .logout_wrap .h_line {
 	header .left_gnbWrap .close {
 		left: -20%;
 	}
+	.notice_wrap{width:calc( 100% - 300px )}
 }
 
 @media screen and (max-width: 380px) {

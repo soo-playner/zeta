@@ -16,6 +16,10 @@ if ($is_nogood) $colspan++;
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/default.css">
 <link rel="stylesheet" href="<?=$board_skin_url?>/style.css">
 
+<style>
+    #bo_sch{margin-top:10px;}
+    #bo_sch select{color:black;padding:0;margin:5px;height:28px;font-size:14px;}
+</style>
 <!-- 게시판 목록 시작 { -->
 <div id="bo_list" style="width:<?php echo $width; ?>">
 
@@ -31,7 +35,7 @@ if ($is_nogood) $colspan++;
         <ul class="btn_bo_user">
             <?php if ($rss_href) { ?><li><a href="<?php echo $rss_href ?>" class="btn_b01 btn"><i class="fa fa-rss" aria-hidden="true"></i> RSS</a></li><?php } ?>
             <?php if ($admin_href) { ?><li><a href="<?php echo $admin_href ?>" class="btn_admin btn"><i class="fa fa-user-circle" aria-hidden="true"></i> 관리자</a></li><?php } ?>
-            <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn_b02 btn"><i class="fa fa-pencil" aria-hidden="true"></i> 글쓰기</a></li><?php } ?>
+            <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn write_btn"><i class="fa fa-pencil" aria-hidden="true"></i> 글쓰기</a></li><?php } ?>
         </ul>
         <?php } ?>
     </div>
@@ -71,6 +75,7 @@ if ($is_nogood) $colspan++;
             </th>
             <?php } ?>
             <th scope="col">번호</th>
+            <th scope="col">회원아이디</th>
             <th scope="col">제목</th>
             <th scope="col" style="width:150px;">인증여부</th>
             <th scope="col"><?php echo subject_sort_link('wr_hit', $qstr2, 1) ?>조회 <i class="fa fa-sort" aria-hidden="true"></i></a></th>
@@ -100,6 +105,7 @@ if ($is_nogood) $colspan++;
                 echo $list[$i]['num'];
              ?>
             </td>
+            <td style='text-align:center;color:black'><a href="/adm/member_form.php?sst=&sod=&sfl=&stx=&page=&w=u&mb_id=<?=$list[$i]['mb_id']?>"><?php echo $list[$i]['mb_id']?></td>
 
             <td class="td_subject" style="padding-left:<?php echo $list[$i]['reply'] ? (strlen($list[$i]['wr_reply'])*10) : '0'; ?>px">
                 <?php
@@ -129,10 +135,12 @@ if ($is_nogood) $colspan++;
 
             </td>
 
-            <td class="td_name sv_use" style="text-align:center">
-                <?if($list[$i]['wr_2']){?>
-                    <img src="<?=G5_THEME_URL?>/skin/board/kyc/img/check.jpg" style="width:30px"/>
-                <? } ?>
+            <td class="sv_use" style="text-align:center;vertical-align:bottom;padding:0;margin:0">
+                <?if($list[$i]['wr_2'] == '1'){?>
+                    <img src="<?=G5_THEME_URL?>/skin/board/kyc/img/check.jpg" style="width:24px"/>
+                <?}else if($list[$i]['wr_2'] == '2'){?>
+                    <img src="<?=G5_THEME_URL?>/_images/x_icon.png" style="width:24px"/>
+                <?} ?>
             </td>
 
             <td class="td_num"><?php echo $list[$i]['wr_hit'] ?></td>
@@ -156,8 +164,8 @@ if ($is_nogood) $colspan++;
            <!-- <li><button type="submit" name="btn_submit" value="선택복사" onclick="document.pressed=this.value" class="btn btn_admin"><i class="fa fa-files-o" aria-hidden="true"></i> 선택복사</button></li>-->
             <li><button type="submit" name="btn_submit" value="선택이동" onclick="document.pressed=this.value" class="btn btn_admin"><i class="fa fa-arrows" aria-hidden="true"></i> 선택이동</button></li>
             <?php } ?>
-            <?php if ($list_href) { ?><li><a href="<?php echo $list_href ?>" class="btn_b01 btn"><i class="fa fa-list" aria-hidden="true"></i> 목록</a></li><?php } ?>
-            <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn_b02 btn"><i class="fa fa-pencil" aria-hidden="true"></i> 글쓰기</a></li><?php } ?>
+            <?php if ($list_href) { ?><li><a href="<?php echo $list_href ?>" class="btn_b01 btn "><i class="fa fa-list" aria-hidden="true"></i> 목록</a></li><?php } ?>
+            <?php if ($write_href) { ?><li><a href="<?php echo $write_href ?>" class="btn write_btn"><i class="fa fa-pencil" aria-hidden="true"></i> 글쓰기</a></li><?php } ?>
         </ul>
         <?php } ?>
     </div>

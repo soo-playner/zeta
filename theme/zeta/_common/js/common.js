@@ -1,21 +1,26 @@
-/*
+
 $(function(){
-		 
-		//파일올리기
-		 var fileTarget = $('.filebox .upload-hidden'); 
-		 fileTarget.on('change', function(){ // 값이 변경되면 
-			 if(window.FileReader){ // modern browser 
-				 var filename = $(this)[0].files[0].name; 
-			 } else { // old IE 
-				 var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
-			 } // 추출한 파일명 삽입 
-			 $(this).siblings('.upload-name').val(filename); 
-		 }); 
+	//파일올리기
+	var fileTarget = $('.filebox'); 
+	fileTarget.on('change', function(){ // 값이 변경되면 
+		
+		if(window.FileReader){ // modern browser 
+			var filename = $(this)[0].files[0].name; 
+		} else { // old IE 
+			var filename = $(this).val().split('/').pop().split('\\').pop(); // 파일명만 추출 
+		} // 추출한 파일명 삽입 
+		$(this).siblings('.upload-name').val(filename); 
+	}); 
 });
 
-*/
+
 // var debug = '<?=$is_debug?>';
 var debug = "";
+
+// 인풋 숫자
+$(document).on('keyup','input[inputmode=number]',function(event){
+	this.value = this.value.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백	
+}); 
 
 // 인풋 세자리콤마
 $(document).on('keyup','input[inputmode=numeric]',function(event){
@@ -29,6 +34,11 @@ $(document).on('keyup','input[inputmode=price]',function(event){
 	this.value = this.value.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백
 	this.value = this.value.replace(/,/g,'');          // ,값 공백처리
 	this.value = this.value.replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 정규식을 이용해서 3자리 마다 , 추가 	
+}); 
+
+// 인풋 숫자 + -
+$(document).on('keyup','input[inputmode=person_key]',function(event){
+	this.value = this.value.replace(/(?<=.{1})./gi, "*")   // 입력값이 숫자가 아니면 공백
 }); 
 
 

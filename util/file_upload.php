@@ -1,10 +1,12 @@
 <?php
 include_once('./_common.php');
+include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 $g5['title'] = '파일 저장';
 
-print_R($_REQUEST);
-print_r($_FILES['bf_file']);
+// print_R($_REQUEST);
+// print_r($_FILES['bf_file']);
+
 
 
 $msg = array();
@@ -21,7 +23,7 @@ if(!$board['bo_upload_count']){
 
 $wr_subject = '';
     if (isset($_POST['wr_subject'])) {
-        $wr_subject = $member['mb_id'];
+        $wr_subject = $_POST['wr_subject'];
     }
     if ($wr_subject == '') {
         $msg[] = '<strong>제목</strong>을 입력하세요.';
@@ -30,7 +32,7 @@ $wr_subject = '';
         return false;
     }
 
-$wr_content = $wr_subject."_KYC인증";
+$wr_content = Encrypt($_POST['wr_content'],$secret_key,$secret_iv);
 $wr_link1 = '';
 $wr_link2 = '';
 
@@ -87,7 +89,7 @@ for ($i=1; $i<=10; $i++) {
 
 if ($member['mb_id']) {
     $mb_id = $member['mb_id'];
-    $wr_name = addslashes(clean_xss_tags($board['bo_use_name'] ? $member['mb_name'] : $member['mb_nick']));
+    $wr_name = addslashes($member['mb_name']);
     $wr_password = $member['mb_password'];
     $wr_email = addslashes($member['mb_email']);
     $wr_homepage = addslashes(clean_xss_tags($member['mb_homepage']));
@@ -129,7 +131,7 @@ set wr_num = '$wr_num',
      wr_ip = '{$_SERVER['REMOTE_ADDR']}',
      wr_1 = '$notice',
      wr_2 = '$wr_2',
-     wr_3 = '$wr_3',
+     wr_3 = '{$_POST['wr_subject']}',
      wr_4 = '$wr_4',
      wr_5 = '$wr_5',
      wr_6 = '$wr_6',

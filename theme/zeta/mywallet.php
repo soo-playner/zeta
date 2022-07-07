@@ -154,6 +154,7 @@ if ($debug) echo "<code>" . $sql . "</code>";
 
 $row = sql_fetch($sql);
 $total_count = $row['cnt'];
+$withdrawal_count = $row['cnt'];
 
 $total_page  = ceil($total_count / $rows);
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지
@@ -586,6 +587,15 @@ $result_withdraw = sql_query($sql);
           location.href='/page.php?id=profile';
         })
         return false;
+      }
+
+      //KYC 인증
+      var out_count = Number("<?=$withdrawal_count ?>");
+      var kyc_cert = Number("<?=$kyc_cert?>");
+
+      if(out_count < 1 && kyc_cert != 1){
+          dialogModal('KYC 인증', "<strong> 안전한 출금을 위해 최초 1회  KYC 인증을 진행해주세요<br><a href='/page.php?id=profile' class='btn btn-primary'>KYC인증</a></strong>", 'warning');
+          return false;
       }
 
       // 계좌정보 입력 확인

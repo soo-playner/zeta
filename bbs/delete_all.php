@@ -18,6 +18,7 @@ else // 일괄삭제
 
 $chk_count = count($tmp_array);
 
+
 if($chk_count > (G5_IS_MOBILE ? $board['bo_mobile_page_rows'] : $board['bo_page_rows']))
     alert('올바른 방법으로 이용해 주십시오.');
 
@@ -77,13 +78,17 @@ for ($i=$chk_count-1; $i>=0; $i--)
                 and wr_num = '{$write['wr_num']}'
                 and wr_is_comment = 0 ";
     $row = sql_fetch($sql);
-    if ($row['cnt'])
+    
+   /*  if ($row['cnt']){
             continue;
+    } */
 
     // 나라오름님 수정 : 원글과 코멘트수가 정상적으로 업데이트 되지 않는 오류를 잡아 주셨습니다.
     //$sql = " select wr_id, mb_id, wr_comment from {$write_table} where wr_parent = '{$write[wr_id]}' order by wr_id ";
-    $sql = " select wr_id, mb_id, wr_is_comment, wr_content from $write_table where wr_parent = '{$write['wr_id']}' order by wr_id ";
+    $sql = " select wr_id, mb_id, wr_is_comment, wr_content from {$write_table} where wr_parent = '{$write['wr_id']}' order by wr_id ";
     $result = sql_query($sql);
+
+    
     while ($row = sql_fetch_array($result))
     {
         // 원글이라면

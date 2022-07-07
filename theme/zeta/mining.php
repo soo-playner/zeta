@@ -62,6 +62,8 @@ $mining_history_cnt = sql_num_rows($mining_history);
 $mining_amt_log = sql_query("SELECT * from {$g5['withdrawal']} WHERE mb_id = '{$member['mb_id']}' AND coin = '{$minings[0]}' ");
 $mining_amt_cnt = sql_num_rows($mining_amt_log);
 
+//kyc인증
+$kyc_cert = $member['kyc_cert'];
 
 function category_badge($val)
 {
@@ -331,6 +333,10 @@ function overcharge($val,$category){
     $(function() {
 
         $('.polding_btn').click(function() {
+            var out_count = Number("<?=$mining_amt_cnt ?>");
+            if(out_count < 1){
+                dialogModal('KYC 인증', "<strong> 안전한 출금을 위해 최초 1회  KYC 인증을 진행해주세요<br><a href='/page.php?id=profile' class='btn btn-primary'>KYC인증</a></strong>", 'warning');
+            }
             var target = $(this).parent();
             target.find('.polding').slideToggle(300);
             target.toggleClass('open');
@@ -520,9 +526,9 @@ function overcharge($val,$category){
 
 
         $('#withdrawal_btn').on('click', function() {
-
+            
             var inputVal = $('#sendValue').val().replace(/,/g, '');
-
+            
             // 모바일 등록 여부 확인
             if (mb_hp == '' || mb_hp.length < 10) {
                 dialogModal('정보수정', '<strong> 안전한 출금을 위해 인증가능한 모바일 번호를 등록해주세요.</strong>', 'warning');
@@ -532,6 +538,15 @@ function overcharge($val,$category){
                 })
                 return false;
             }
+            
+            //KYC 인증
+            var out_count = Number("<?=$mining_amt_cnt ?>");
+            var kyc_cert = Number("<?=$kyc_cert?>");
+            if(out_count < 1 && kyc_cert != 1){
+                dialogModal('KYC 인증', "<strong> 안전한 출금을 위해 최초 1회  KYC 인증을 진행해주세요<br><a href='/page.php?id=profile' class='btn btn-primary'>KYC인증</a></strong>", 'warning');
+                return false;
+            }
+            
 
             // 출금주소 입력확인
             if ($('#withdrawal-address').val() == "") {
