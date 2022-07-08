@@ -98,8 +98,8 @@
 		.preclose{display:none;}
 		.open{display:block;}
  
-		.filebox{width:100%;padding:15px 15px; border:1px solid rgba(255,255,255,0.6);border-radius:5px;text-align:center;font-size:14px;background:white}
-		.dark .filebox{color:white;background:transparent}
+		.filebox{width:100%;padding:8px 15px; border-radius:5px;text-align:center;font-size:14px;background:white}
+		.dark .filebox{color:white;background:rgba(0,0,0,0.3);}
 		#tax_person_file{font-size:14px;}
 
 		.kyc_label{color:#2b3a6d !important;}
@@ -112,6 +112,8 @@
 
 		.dark .kyc_icon{color:#ffd965;}
 		.kyc_icon{color:#2b3a6d;}
+
+		.box + .box{margin-top:20px;}
 
 
 		
@@ -284,6 +286,9 @@
 
 <script>
 	$(function(){
+		var agree_content = $("#argee_content");
+			agree_content.load("user_agree.html");
+
 		$(".top_title h3").html("<span>개인정보&보안설정</span>")
 
 		$('.reg_btn').click(function(){
@@ -295,7 +300,8 @@
 		});
 
 		$('.person_agree_view').on('click',function(){
-			$(this).next('div').slideToggle()
+			// $(this).next('div').slideToggle()
+			commonModal("고유식별정보 처리방침",agree_content.html(),"confirm");
 		})
 		
 
@@ -871,12 +877,20 @@ $(function() {
 		<input type="text" pattern="\d*" id="tax_person_number_2" maxlength="7" class="half" >
 		<input type="hidden" id="tax_person_number_3" maxlength="7" class="half" >
 
+		<div class='box'>
 		<label style="display:inline;">KYC신분증 첨부 </label>
-		
-		
-			<input type="file" id="tax_person_file" class='filebox' >
-			<input type="hidden" id="" class="upload-name">
-			<label class='kyc_label' style="font-size:11px;margin:5px;">신분확인이 가능한 주민등록증, 운전면허증 사진을 첨부해주세요.</label>
+			<input type="file" class='filebox' name="bf_file[1]" multiple='true' >
+			<label for="bf_file[1]" class='kyc_label' style="font-size:11px;margin:3px;font-weight:300;">신분확인 가능한 주민등록증, 운전면허증 사진을 첨부해주세요.</label>
+		</div>
+
+		<hr class="hr_dash">
+
+		<div class='box'>
+		<label style="display:inline;" class="mt20">출금지갑주소 첨부 </label>
+			<input type="file" class='filebox' name="bf_file[2]" multiple='true'>
+			<label for="bf_file[2]" class='kyc_label' style="font-size:11px;margin:5px;font-weight:300;">출금 지갑주소가 확인되는 캡쳐이미지,사진을 첨부해주세요.</label>
+		</div>
+
 		<hr class="hr_dash">
 		<div class='mb15'>
 			<input type="checkbox" id="tax_person_number_agree" class="inline" name="tax_person_number_agree" value=""/>
@@ -884,31 +898,10 @@ $(function() {
 			<a href="javascript:void(0);" class="inline_btn person_agree_view" >전문보기</a>
 			<div class="preclose">
 				<textarea id="tax_person_agree_content" class="textbox">
-
-제타랩스(주) (이하 "원천징수의무기관")가 제공하는 마이닝상품의 구매에 따른 기타 소득의 원천징수와 관련하여 "소득세법" 에 따라 원천징수에 필요한 정보를 수집 이용 처리 하고자 하니 동의여부를 결정하여 주시기 바랍니다. 
-※ 법령상 의무이행을 위하여 필수적이므로 위 사항에 동의하셔야 서비스 이용이 가능합니다.
-
-[고유식별정보의 수집 및 이용 목적]
-"원천징수의무기관"은 고유식별정보 수집시, 아래 두 가지 목적을 위해 고객의 고유식별정보를 처리할 수 있습니다
-
-① 원천징수 신고 및 소득세 등 납부
-② 관계법령상 의무이행
-
-[수집하는 개인정보의 항목]
-① 성명 및 주민등록번호(내국인)
-② 외국인등록번호(국내거주외국인)
-
-[개인정보 제 3자 제공에 관한 사항]
-제공받는 자 : 원천징수 관할 세무서 지방국세청 국세청
-제공 목적 : 지급명세서 제출 등 소득세법 상 의무이행
-제공 항목 : 성명 주민등록번호, 등 고유식별정보 주소
-제공 근거 : 소득세법 제164조
-
-[개인정보의 보유 및 이용기간]
-"원천징수의무기관"는 수집ㆍ이용에 관한 동의일로부터 수집ㆍ이용 목적을 달성할 때까지 보유ㆍ이용됩니다. 
-
-상기 내용과 같이 고유식별정보의 처리에 동의합니다.
 				</textarea>
+			</div>
+			<div id="argee_content" style="display: none">
+
 			</div>
 		</div>
 
@@ -925,8 +918,9 @@ $(function() {
 		$("#kyc_rec_btn").on('click',function(){
 			var kyc_name = $("#tax_name").val();
 			var kyc_person_number = $("#tax_person_number_1").val()+'-'+$('#tax_person_number_3').val()
-			var upload_img = $(".filebox")[0];
-
+			
+			var fileInput = $(".filebox");
+			
 			// var upload_name = $(".upload-name").val();
 			var kyc_agree = $("#tax_person_number_agree").is(':checked');
 			if(!kyc_agree){
@@ -934,15 +928,38 @@ $(function() {
 				return false;
 			}
 
-			if(upload_img.files.length === 0){
+			/* if(upload_files.length === 0){
 				dialogModal('KYC 인증','<strong> 신분확인이 가능한 사진을 첨부해주세요. </strong>','warning');
 				return false;
-			}
+			} */
+			
 
 			const formData = new FormData();
+			formData.append("w",'');
 			formData.append("wr_subject",kyc_name);
 			formData.append("wr_content", kyc_person_number);
-			formData.append("bf_file",upload_img.files[0]);
+
+			/* for(var i = 0; i < upload_files.length; i){
+				formData.append("bf_file",upload_files[i]);
+			} */
+			
+
+			for (var i = 0; i < fileInput.length; i++) {
+				if (fileInput[i].files.length > 0) {
+					console.log("각 파일갯수 : " + fileInput[i].files.length);
+
+					for (var j = 0; j < fileInput[i].files.length; j++) {
+						
+						console.log(" fileInput["+i+"].files["+j+"] ::: "+ fileInput[i].files[j]);
+						
+						// formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.  
+						formData.append("bf_file[]", fileInput[i].files[j]);
+					}
+				}
+			}
+			
+
+			
 
 			$.ajax({
 				type: "POST",
@@ -951,6 +968,7 @@ $(function() {
 				cache: false,
 				processData: false,
     			contentType: false,
+				enctype: "multipart/form-data",
 				dataType: "json",
 				success: function(data) {
 					if(data.result =='success'){
