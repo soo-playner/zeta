@@ -65,7 +65,10 @@ include_once(G5_ADMIN_PATH.'/admin.head.php');
         </tr>
     <?php
     }
-    $qry = sql_query("select * from {$g5['sms5_history_table']} where 1 $sql_search order by hs_no desc limit $page_start, $page_size");
+    $in_query = "select * from {$g5['sms5_history_table']} where 1 $sql_search order by hs_no desc limit $page_start, $page_size";
+    print_R($in_query);
+    $qry = sql_query($in_query);
+    
     while($res = sql_fetch_array($qry)) {
         $bg = 'bg'.($line++%2);
 

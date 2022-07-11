@@ -4,8 +4,7 @@ include_once("./_common.php");
 
 $page_size = 20;
 $colspan = 11;
-
-auth_check($auth[$sub_menu], "r");
+ 
 
 $g5['title'] = "문자전송 내역";
 

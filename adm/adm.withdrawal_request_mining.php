@@ -307,7 +307,7 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 				
 				<td  style="font-size:11px;"><?=timeshift($row['create_dt'])?></td>
 				<td>
-					<select name="status" uid="<?=$row['uid']?>" class='sel_<?=$row['status']?>'>
+					<select name="status" uid="<?=$row['uid']?>" class='sel_<?=$row['status']?>' <?if($row['status'] == 4){echo "disabled";}?> >
 						<option <?=$row['status'] == 0 ? 'selected':'';?> value=0>요청</option>
 						<option <?=$row['status'] == 1 ? 'selected':'';?> value=1>승인</option>
 						<option <?=$row['status'] == 2 ? 'selected':'';?> value=2>대기</option>
