@@ -1,5 +1,6 @@
 <?php
 include_once('./_common.php');
+$g5['title'] = $bo_table.' 관리';
 include_once('../admin.head.php');
 
 if (!$board['bo_table']) {

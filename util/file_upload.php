@@ -1,10 +1,12 @@
 <?php
 include_once('./_common.php');
+include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 $g5['title'] = '파일 저장';
 
-print_R($_REQUEST);
-print_r($_FILES['bf_file']);
+// print_R($_REQUEST);
+// print_r($_FILES['bf_file']);
+
 
 
 $msg = array();
@@ -21,7 +23,7 @@ if(!$board['bo_upload_count']){
 
 $wr_subject = '';
     if (isset($_POST['wr_subject'])) {
-        $wr_subject = $member['mb_id'];
+        $wr_subject = $_POST['wr_subject'];
     }
     if ($wr_subject == '') {
         $msg[] = '<strong>제목</strong>을 입력하세요.';
@@ -30,7 +32,7 @@ $wr_subject = '';
         return false;
     }
 
-$wr_content = $wr_subject."_KYC인증";
+$wr_content = Encrypt($_POST['wr_content'],$secret_key,$secret_iv);
 $wr_link1 = '';
 $wr_link2 = '';
 
@@ -87,7 +89,7 @@ for ($i=1; $i<=10; $i++) {
 
 if ($member['mb_id']) {
     $mb_id = $member['mb_id'];
-    $wr_name = addslashes(clean_xss_tags($board['bo_use_name'] ? $member['mb_name'] : $member['mb_nick']));
+    $wr_name = addslashes($member['mb_name']);
     $wr_password = $member['mb_password'];
     $wr_email = addslashes($member['mb_email']);
     $wr_homepage = addslashes(clean_xss_tags($member['mb_homepage']));
@@ -129,7 +131,7 @@ set wr_num = '$wr_num',
      wr_ip = '{$_SERVER['REMOTE_ADDR']}',
      wr_1 = '$notice',
      wr_2 = '$wr_2',
-     wr_3 = '$wr_3',
+     wr_3 = '{$_POST['wr_subject']}',
      wr_4 = '$wr_4',
      wr_5 = '$wr_5',
      wr_6 = '$wr_6',
@@ -158,16 +160,23 @@ sql_query("update {$g5['board_table']} set bo_count_write = bo_count_write + 1 w
 $file_count   = 0;
 $upload_count = count($_FILES['bf_file']['name']);
 
-echo "<br>0 : upload_count <br>";
-print_R($upload_count."/".$_FILES['bf_file']['tmp_name'][0]);
+echo "<br>step 0 : 파일갯수 <br>";
 
 for ($i=0; $i<$upload_count; $i++) {
 	if($_FILES['bf_file']['name'][$i] && is_uploaded_file($_FILES['bf_file']['tmp_name'][$i]))
 		$file_count++;
+
+	print_R($upload_count."/".$_FILES['bf_file']['name'][$i]);
 }
+
+$board['bo_upload_count'] = 2;
+
+echo "<br>step 1 : filecnt / boardcount <br>";
+print_R($file_count. " / " . $board['bo_upload_count']);
 
 if($w == 'u') {
 	$file = get_file($bo_table, $wr_id);
+
 	if($file_count && (int)$file['count'] > $board['bo_upload_count'])
 		alert('기존 파일을 삭제하신 후 첨부파일을 '.number_format($board['bo_upload_count']).'개 이하로 업로드 해주십시오.');
 } else {
@@ -175,8 +184,7 @@ if($w == 'u') {
 		alert('첨부파일을 '.number_format($board['bo_upload_count']).'개 이하로 업로드 해주십시오.');
 }
 
-echo "<br>1 : fileupload <br>";
-print_R($file_count. " / " . $board['bo_upload_count']);
+
 
 // 디렉토리가 없다면 생성합니다. (퍼미션도 변경하구요.)
 @mkdir(G5_DATA_PATH.'/file/'.$bo_table, G5_DIR_PERMISSION);
@@ -212,13 +220,13 @@ for ($i=0; $i<count($_FILES['bf_file']['name']); $i++) {
 	else
 		$upload[$i]['del_check'] = false;
 
-	$tmp_file  = $_FILES['bf_file']['tmp_name'];
-	$filesize  = $_FILES['bf_file']['size'];
-	$filename  = $_FILES['bf_file']['name'];
+	$tmp_file  = $_FILES['bf_file']['tmp_name'][$i];
+	$filesize  = $_FILES['bf_file']['size'][$i];
+	$filename  = $_FILES['bf_file']['name'][$i];
     $filename  = get_safe_filename($filename);
     
-    echo "<br>2 filename : <br>";
-    print_R($_FILES['bf_file']['name'][$i] . " / ". $filename."/".$filesize );
+    echo "<br><br>step 2 filename : <br>";
+    print_R($_FILES['bf_file']['name'][$i] . " / ". $filename." / ".$filesize );
 
 	// 서버에 설정된 값보다 큰파일을 업로드 한다면
 	if ($filename) {
@@ -231,6 +239,8 @@ for ($i=0; $i<count($_FILES['bf_file']['name']); $i++) {
 			continue;
 		}
 	}
+
+	echo $file_upload_msg;
 
 	if (is_uploaded_file($tmp_file)) {
 		// 관리자가 아니면서 설정한 업로드 사이즈보다 크다면 건너뜀
@@ -255,7 +265,7 @@ for ($i=0; $i<count($_FILES['bf_file']['name']); $i++) {
 
 		$upload[$i]['image'] = $timg;
         
-        echo "timg :: ".$timg;
+        // echo "timg :: ".$timg;
 
 		// 4.00.11 - 글답변에서 파일 업로드시 원글의 파일이 삭제되는 오류를 수정
 		if ($w == 'u') {
@@ -272,7 +282,7 @@ for ($i=0; $i<count($_FILES['bf_file']['name']); $i++) {
 		$upload[$i]['source'] = $filename;
 		$upload[$i]['filesize'] = $filesize;
         
-        echo "<br>3 upload_complete : <br>";
+        echo "<br>step 3 upload_complete : <br>";
         print_R($upload[$i]['source']."/".$upload[$i]['filesize'] );
 
 		// 아래의 문자열이 들어간 파일은 -x 를 붙여서 웹경로를 알더라도 실행을 하지 못하도록 함
@@ -289,7 +299,7 @@ for ($i=0; $i<count($_FILES['bf_file']['name']); $i++) {
 		// 업로드가 안된다면 에러메세지 출력하고 죽어버립니다.
 		$error_code = move_uploaded_file($tmp_file, $dest_file) or die($_FILES['bf_file']['error'][$i]);
 
-        echo "ERROR :: ".$error_code;
+        // echo "ERROR :: ".$error_code;
 
 		// 올라간 파일의 퍼미션을 변경합니다.
         chmod($dest_file, G5_FILE_PERMISSION);
@@ -298,6 +308,11 @@ for ($i=0; $i<count($_FILES['bf_file']['name']); $i++) {
 }
 
 // 나중에 테이블에 저장하는 이유는 $wr_id 값을 저장해야 하기 때문입니다.
+echo count($upload);
+echo "<br>/////////////////<br>";
+print_R($upload);
+echo "<br>";
+
 for ($i=0; $i<count($upload); $i++)
 {
 	if (!get_magic_quotes_gpc()) {
@@ -306,57 +321,25 @@ for ($i=0; $i<count($upload); $i++)
 
     $row = sql_fetch(" select count(*) as cnt from {$g5['board_file_table']} where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' and bf_no = '{$i}' ");
     
-    echo "<br>4 update : <br>";
-    print_R( " select count(*) as cnt from {$g5['board_file_table']} where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' and bf_no = '{$i}' " );
-
-
-	if ($row['cnt'])
-	{
-		// 삭제에 체크가 있거나 파일이 있다면 업데이트를 합니다.
-		// 그렇지 않다면 내용만 업데이트 합니다.
-		if ($upload[$i]['del_check'] || $upload[$i]['file'])
-		{
-			$sql = " update {$g5['board_file_table']}
-						set bf_source = '{$upload[$i]['source']}',
-							 bf_file = '{$upload[$i]['file']}',
-							 bf_content = '{$bf_content[$i]}',
-							 bf_filesize = '{$upload[$i]['filesize']}',
-							 bf_width = '{$upload[$i]['image']['0']}',
-							 bf_height = '{$upload[$i]['image']['1']}',
-							 bf_type = '{$upload[$i]['image']['2']}',
-							 bf_datetime = '".G5_TIME_YMDHIS."'
-					  where bo_table = '{$bo_table}'
-								and wr_id = '{$wr_id}'
-								and bf_no = '{$i}' ";
-			sql_query($sql);
-		}
-		else
-		{
-			$sql = " update {$g5['board_file_table']}
-						set bf_content = '{$bf_content[$i]}'
-						where bo_table = '{$bo_table}'
-								  and wr_id = '{$wr_id}'
-								  and bf_no = '{$i}' ";
-			sql_query($sql);
-		}
-	}
-	else
-	{
-		$sql = " insert into {$g5['board_file_table']}
-					set bo_table = '{$bo_table}',
-						 wr_id = '{$wr_id}',
-						 bf_no = '{$i}',
-						 bf_source = '{$upload[$i]['source']}',
-						 bf_file = '{$upload[$i]['file']}',
-						 bf_content = '{$bf_content[$i]}',
-						 bf_download = 0,
-						 bf_filesize = '{$upload[$i]['filesize']}',
-						 bf_width = '{$upload[$i]['image']['0']}',
-						 bf_height = '{$upload[$i]['image']['1']}',
-						 bf_type = '{$upload[$i]['image']['2']}',
-						 bf_datetime = '".G5_TIME_YMDHIS."' ";
-		sql_query($sql);
-	}
+    echo "<br>4 update : ".$row['cnt'];
+	echo "<br>";
+    
+	$sql = " insert into {$g5['board_file_table']}
+				set bo_table = '{$bo_table}',
+						wr_id = '{$wr_id}',
+						bf_no = '{($i+1)}',
+						bf_source = '{$upload[$i]['source']}',
+						bf_file = '{$upload[$i]['file']}',
+						bf_content = '{$bf_content[$i]}',
+						bf_download = 0,
+						bf_filesize = '{$upload[$i]['filesize']}',
+						bf_width = '{$upload[$i]['image']['0']}',
+						bf_height = '{$upload[$i]['image']['1']}',
+						bf_type = '{$upload[$i]['image']['2']}',
+						bf_datetime = '".G5_TIME_YMDHIS."' ";
+	sql_query($sql);
+	print_R($sql);
+	
 }
 
 

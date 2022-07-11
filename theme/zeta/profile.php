@@ -3,10 +3,12 @@
 	include_once('./_common.php');
 	include_once(G5_THEME_PATH.'/_include/wallet.php');
 	include_once(G5_THEME_PATH.'/_include/gnb.php');
+	include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 	login_check($member['mb_id']);
 	
 	$title = 'profile';
+	// $str = '한은수,8301131058000';
 
 
 	/* 추천 링크 */
@@ -26,15 +28,17 @@
 		return $svcTxSeqno;
 	}
 
+	//  print_R(Encrypt($str,$secret_key,$secret_iv));
+	
 
 
-	$security_code= generateRandomString(6);
-	$security_num_code = generate_code(8);
+	// $security_code= generateRandomString(6);
+	// $security_num_code = generate_code(8);
 
 	function format_phone($phone){ $phone = preg_replace("/[^0-9]/", "", $phone); $length = strlen($phone); switch($length){ case 11 : return preg_replace("/([0-9]{3})([0-9]{4})([0-9]{4})/", "$1-$2-$3", $phone); break; case 10: return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "$1-$2-$3", $phone); break; default : return $phone; break; } }
 
 
-// 자동 팩 구매
+	// 자동 팩 구매
 	// $pack_sql = "select * from g5_shop_cart where mb_id = '{$member['mb_id']}' order by ct_time desc limit 0,1";
 	// $pack_res = sql_fetch($pack_sql);
 	// $pack_name = substr($pack_res['it_name'],-1,1);
@@ -46,10 +50,11 @@
 
 
 	//kyc 인증
-	// $kyc_sql = "select * from g5_write_kyc where mb_id = '{$member['mb_id']}' order by wr_last desc limit 0,1";
-	// $kyc_res = sql_fetch($kyc_sql);
-	// $kyc_cert = $kyc_res['wr_2'];
-
+	$kyc_sql = "select * from g5_write_kyc where mb_id = '{$member['mb_id']}' order by wr_last desc limit 0,1";
+	$kyc_res = sql_fetch($kyc_sql);
+	if($kyc_res){
+		$kyc_cert = $kyc_res['wr_2'];
+	}
 
 
 
@@ -68,7 +73,52 @@
 	*/
 
 ?>
-	
+	<style>
+		.reg_btn{
+			line-height:50px;
+			margin-right:10px;
+			font-size:15px;
+			border-bottom:1px solid rgba(255,255,255,0.3);
+			cursor:pointer;
+		}
+		.half{width:calc(50% - 10px);display: inline-block;}
+		.half + .half{width:calc(50% - 10px);}
+		.half + .half ::after{clear: both;}
+		
+
+		#ch_tax{}
+		#ch_tax [type="checkbox"]{width:auto;width:20px;height:20px;vertical-align:middle}
+		.person_agree_view{font-size:11px;border:1px solid gray;color:gray;border-radius:5px;padding:1px 5px 2px;vertical-align:middle;}
+		.dark .person_agree_view{color:white;border:1px solid rgba(255,255,255,0.3);}
+
+
+		.b_line{padding-bottom:10px;}
+		.profile-box{margin-bottom:65px;}
+		.textbox{width:100%;min-height:200px;text-align:left;font-size:11px;}
+		.preclose{display:none;}
+		.open{display:block;}
+ 
+		.filebox{width:100%;padding:8px 15px; border-radius:5px;text-align:center;font-size:14px;background:white}
+		.dark .filebox{color:white;background:rgba(0,0,0,0.3);}
+		#tax_person_file{font-size:14px;}
+
+		.kyc_label{color:#2b3a6d !important;}
+		.dark .kyc_label{color:#fac707 !important;}
+
+		.status_1{background: url('<?=G5_THEME_URL?>/_images/okay_icon.png') no-repeat center left;background-size: 13px;padding-left:10px;}
+		.status_2{background: url('<?=G5_THEME_URL?>/_images/x_icon.png') no-repeat center left;background-size: 13px;padding-left:10px;}
+
+		.person_info{font-size:11px;font-weight:300}
+
+		.dark .kyc_icon{color:#ffd965;}
+		.kyc_icon{color:#2b3a6d;}
+
+		.box + .box{margin-top:20px;}
+
+
+		
+
+	</style>
     <main>
         <div class='container profile nomargin nopadding'>
 			<section class="profile_wrap content-box6">
@@ -93,8 +143,9 @@
 						<li class='col-12'>
 							<label>모바일</label>  
 
-							<div class='row mt20 mb20 '>
-								<div class='col-8' style='padding-left:30px;'><p><?=format_phone($member['mb_hp'])?></p></div>
+							<div class='row mt20 mb10 '>
+								<div class='col-8' style='padding-left:25px;'><p><?=format_phone($member['mb_hp'])?></p></div>
+
 								<?if($member['mb_hp'] == '' || $member['mb_certify'] != 1){?>
 									<div class='col-4 text-right'><input type="button" value="수정/변경" class="btn inline white num_pop_open pop_open" ></div>
 								<?}?>
@@ -147,12 +198,69 @@
 						</li>
 					</ul>
 				</div>
-				<div class='col-sm-12 col-12 profile-box'>
+
+				<div class='col-sm-12 col-12 profile-box certificate'>
+					<h3 class='title b_line'>
+						<i class="ri-account-box-line kyc_icon" style="font-weight:300;font-size:26px;vertical-align:bottom"></i>
+						<span >KYC 인증 정보</span>
+					</h3>
+					<ul class='row mt10'>
+						<li class='col-sm-9 col-8'>
+							<label >KYC 인증 등록 정보</label>
+							<p class='status_<?=$kyc_cert?>'>
+								<?if($kyc_res){
+									echo person_key($kyc_res['wr_subject'],$kyc_cert,$kyc_res['wr_content']);
+								}else{
+									echo "미등록";
+								}?>
+							</p>
+						</li>
+						<li class='col-sm-3 col-4 text-right'>
+							<span class="reg_btn" data-name="ch_tax"> 등록/변경</span>
+						</li>
+					</ul>
+
+					<!-- <ul class='row'>
+						<li class='col-sm-9 col-8'>
+							<label >환불계좌(실명계좌) 등록</label>
+							<p ><?=get_name($member['mb_center'])?></p>
+						</li>
+						<li class='col-sm-3 col-4 text-right'>
+							<span class="reg_btn" data-name="ch_cert_bank"> 변경</span>
+						</li>
+					</ul> -->
+
+					<!-- <div class="google-auth-top-qr" id="qrcode"></div> -->
+				</div>
+
+				<!-- <div class='col-sm-12 col-12 profile-box'>
+					<h3 class='title b_line'>
+						<i><img src="<?=G5_THEME_URL?>/img/alert_setting.png" alt=""></i>
+						<span >알림설정<span>
+					</h3>
+					
+					<ul class='row'>
+						<li class='col-sm-9 col-8'>
+							<p >알림알림</p>
+						</li>
+						<li class='col-sm-3 col-4 text-right grid'>
+							<div class='switch_box'>
+								<label class="switch">
+									<input type="checkbox" <?if($member['mb_sms']>0) echo 'checked';?> class='noti_check'>
+									<span class="slider round"></span>
+								</label>
+								<p>끄기</p><p style="display:none;" >켜기</p>
+							</div>
+						</li>
+					</ul>
+				</div> -->
+
+				<div class='col-sm-12 col-12 profile-box' style="padding-bottom:80px;">
 					<h3 class='title b_line'>
 						<i class="p3"><img src="<?=G5_THEME_URL?>/img/recommendation_information.png" alt=""></i>
 						<span >추천인 정보</span>
 					</h3>
-					<ul class='row'>
+					<ul class='row mt10'>
 						<li class='col-sm-12 col-12'>
 							<label >나의 추천</label>
 							<p ><?=$member['mb_recommend']?></p>
@@ -166,28 +274,9 @@
 						</li>
 					</ul>
 
-					<!-- <div class="google-auth-top-qr" id="qrcode"></div> -->
 				</div>
-				<!-- <div class='col-sm-12 col-12 profile-box'>
-					<h3 class='title b_line'>
-						<i><img src="<?=G5_THEME_URL?>/img/alert_setting.png" alt=""></i>
-						<span >알림설정">알림설정</<i>
-					</h3>
-					<ul class='row'>
-						<li class='col-sm-9 col-8'>
-							<p >알림">알림</p>
-						</li>
-						<li class='col-sm-3 col-4 text-right grid'>
-							<div class='switch_box'>
-								<label class="switch">
-									<input type="checkbox" <?if($member['mb_sms']>0) echo 'checked';?> class='noti_check'>
-									<span class="slider round"></span>
-								</label>
-								<p>끄기</p><p style="display:none;" >켜기</p>
-							</div>
-						</li>
-					</ul>
-				</div> -->
+
+
 			</section>
     	</div>
 	</main>
@@ -197,7 +286,25 @@
 
 <script>
 	$(function(){
+		var agree_content = $("#argee_content");
+			agree_content.load("user_agree.html");
+
 		$(".top_title h3").html("<span>개인정보&보안설정</span>")
+
+		$('.reg_btn').click(function(){
+			var target = $(this).data("name");
+			dimShow();
+			$('#'+target).css("top","5%");
+			$('#'+target).css("display","block");
+			
+		});
+
+		$('.person_agree_view').on('click',function(){
+			// $(this).next('div').slideToggle()
+			commonModal("고유식별정보 처리방침",agree_content.html(),"confirm");
+		})
+		
+
 	});
 </script>
 
@@ -340,9 +447,7 @@ $(function() {
 		<form action="">
 			<label for="" >사용중인 비밀번호</label>
 			<input type="password" id="current_pw" minlength='4' maxlength="20">
-
 			<hr class="hr_dash">
-
 			<label for="" >새로운 비밀번호</label>
 			<input type="password" id="new_pw" minlength='4' maxlength="20">
 			<label for="" >새로운 비밀번호 확인</label>
@@ -379,7 +484,7 @@ $(function() {
 
 $(function() {
 
-	//console.log(email_sendcode);
+	
 	$('.ch_pw_open').click(function(){
 			//$('.chage_pw_pop').css("display","block");
 		$('.chage_pw_pop1').css("display","block");
@@ -684,7 +789,8 @@ $(function() {
 
 	<script>
 	$(function() {
-		var noti_check = <?=$member['mb_sms']?>;
+		
+		/* var noti_check = <?=$member['mb_sms']?>;
 		if(noti_check > 0){
 			$('.switch_box p').toggle();
 		}
@@ -716,7 +822,7 @@ $(function() {
 					dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 				}
 			});
-		});
+		}); */
 	
 
 		$('.ch_name_open').click(function(){
@@ -758,6 +864,171 @@ $(function() {
 
 
 
+<!--세금신고-->
+<div class="pop_wrap input_pop_css" id="ch_tax">
+		
 
+	<form method="post" action="">
+		<label for="" >성명</label>
+		<input type="text" id="tax_name" maxlength="6" value="">
+		<label for="" >주민등록번호</label>
+		<input type="text" pattern="\d*" id="tax_person_number_1" maxlength="6" class="half" inputmode="number"> 
+		<label style="display:inline;font-size:22px">-</label>
+		<input type="text" pattern="\d*" id="tax_person_number_2" maxlength="7" class="half" >
+		<input type="hidden" id="tax_person_number_3" maxlength="7" class="half" >
+
+		<div class='box'>
+		<label style="display:inline;">KYC신분증 첨부 </label>
+			<input type="file" class='filebox' name="bf_file[1]" multiple='true' >
+			<label for="bf_file[1]" class='kyc_label' style="font-size:11px;margin:3px;font-weight:300;">신분확인 가능한 주민등록증, 운전면허증 사진을 첨부해주세요.</label>
+		</div>
+
+		<hr class="hr_dash">
+
+		<div class='box'>
+		<label style="display:inline;" class="mt20">출금지갑주소 첨부 </label>
+			<input type="file" class='filebox' name="bf_file[2]" multiple='true'>
+			<label for="bf_file[2]" class='kyc_label' style="font-size:11px;margin:5px;font-weight:300;">출금 지갑주소가 확인되는 캡쳐이미지,사진을 첨부해주세요.</label>
+		</div>
+
+		<hr class="hr_dash">
+		<div class='mb15'>
+			<input type="checkbox" id="tax_person_number_agree" class="inline" name="tax_person_number_agree" value=""/>
+			<label for="tax_person_number_agree" class="inline">고유식별정보 처리 동의</label>
+			<a href="javascript:void(0);" class="inline_btn person_agree_view" >전문보기</a>
+			<div class="preclose">
+				<textarea id="tax_person_agree_content" class="textbox">
+				</textarea>
+			</div>
+			<div id="argee_content" style="display: none">
+
+			</div>
+		</div>
+
+		<div class="btn2_btm_wrap">
+			<input type="button" value="닫기" class="btn btn_double default_btn cancel pop_close" >
+			<input type="button" value="등록" class="btn btn_double blue save" id="kyc_rec_btn">
+		</div>
+	</form>
+</div>
+
+
+<script type="text/javascript">
+	$(function(){  
+		$("#kyc_rec_btn").on('click',function(){
+			var kyc_name = $("#tax_name").val();
+			var kyc_person_number = $("#tax_person_number_1").val()+'-'+$('#tax_person_number_3').val()
+			
+			var fileInput = $(".filebox");
+			
+			// var upload_name = $(".upload-name").val();
+			var kyc_agree = $("#tax_person_number_agree").is(':checked');
+			if(!kyc_agree){
+				dialogModal('KYC 인증','<strong> 고유식별정보 처리방침에 동의해주세요. </strong>','warning');
+				return false;
+			}
+
+			/* if(upload_files.length === 0){
+				dialogModal('KYC 인증','<strong> 신분확인이 가능한 사진을 첨부해주세요. </strong>','warning');
+				return false;
+			} */
+			
+
+			const formData = new FormData();
+			formData.append("w",'');
+			formData.append("wr_subject",kyc_name);
+			formData.append("wr_content", kyc_person_number);
+
+			/* for(var i = 0; i < upload_files.length; i){
+				formData.append("bf_file",upload_files[i]);
+			} */
+			
+
+			for (var i = 0; i < fileInput.length; i++) {
+				if (fileInput[i].files.length > 0) {
+					console.log("각 파일갯수 : " + fileInput[i].files.length);
+
+					for (var j = 0; j < fileInput[i].files.length; j++) {
+						
+						console.log(" fileInput["+i+"].files["+j+"] ::: "+ fileInput[i].files[j]);
+						
+						// formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.  
+						formData.append("bf_file[]", fileInput[i].files[j]);
+					}
+				}
+			}
+			
+
+			
+
+			$.ajax({
+				type: "POST",
+				url: "/util/file_upload.php",
+				data: formData,
+				cache: false,
+				processData: false,
+    			contentType: false,
+				enctype: "multipart/form-data",
+				dataType: "json",
+				success: function(data) {
+					if(data.result =='success'){
+						dialogModal('KYC 인증처리',"<strong> 등록되었습니다.<br>관리자 승인까지 최대 24시간 소요될수 있습니다.</strong>",'success');
+
+						$('.closed').click(function(){
+							window.location.reload();
+						})
+					}else{
+						dialogModal('처리에러!','','failed');
+					}
+				},
+				error:function(e){
+					dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
+				}
+			});
+
+			
+		});
+
+        $("#tax_person_number_2").on('keypress', function(e){
+            var inVal="";
+			console.log(e.keyCode)
+			
+            if ( e.keyCode === 8 ) {             //백스페이스
+                
+                $("#tax_person_number_2").val("");
+				$("#tax_person_number_3").val("");
+            }else if(e.keyCode >=96 && e.keyCode <=105){
+                switch (e.keyCode) {
+                    case 96 : inVal=0; break;
+                    case 97 : inVal=1; break;
+                    case 98 : inVal=2; break;
+                    case 99 : inVal=3; break;
+                    case 100 : inVal=4; break;
+                    case 101 : inVal=5; break;
+                    case 102 : inVal=6; break;
+                    case 103 : inVal=7; break;
+                    case 104 : inVal=8; break;
+                    case 105 : inVal=9; break;
+                }
+            }else if(e.keyCode >=48 && e.keyCode <= 57 ){
+               inVal = String.fromCharCode(e.keyCode);  
+            }else{
+				
+                e.preventDefault();
+                return false;
+            }            
+            var text = $(this).val();
+            if(text.length >= $(this).attr("maxlength")){
+                return;
+            }
+          
+            var inkey = $("#tax_person_number_3").val()+inVal;
+            	$("#tax_person_number_3").val(inkey.replace(/[^0-9]/g,""));               
+        	}).on('input',function(e){
+            	$(this).val($(this).val().replace(/(?<=.{1})./gi, "*"));
+            
+        }); 
+	});
+</script>
 
 

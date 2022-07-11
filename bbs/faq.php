@@ -28,7 +28,7 @@ if (!$fm['fm_id'])
 $g5['title'] = $fm['fm_subject'];
 
 $skin_file = $faq_skin_path.'/list.skin.php';
-
+echo $skin_file;
 include_once('./_head.php');
 
 if(is_file($skin_file)) {

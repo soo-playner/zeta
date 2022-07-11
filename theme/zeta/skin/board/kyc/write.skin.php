@@ -245,6 +245,7 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
     <div class="holder" >
 		<input type="checkbox" id="checkbox-2-1" class="kyc_confirm" <?=$confirm_check?>/><label for="checkbox-2-1">KYC 인증 승인</label>
     </div>
+    
      
 
     <div class="btn_confirm write_div">
