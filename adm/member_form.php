@@ -16,6 +16,12 @@ function bonus_pick($val)
 	return $list;
 }
 
+function checkerble($val,$bool){
+	if($val == $bool){
+		return "checked";
+	}
+}
+
 $week_bonus_result = bonus_pick('weekend')['rate'];
 $week_bonus = explode(',', $week_bonus_result);
 
@@ -1030,17 +1036,26 @@ this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
 			}else{
 				echo person_key($mb['mb_id'],$mb['kyc_cert'],$mb['person_key']);	
 			}?>
+
+			<?if($mb['person_key'] != '0'){
+				$kyc_cert = sql_fetch("SELECT * FROM g5_write_kyc WHERE mb_id = '{$mb['mb_id']}' ORDER BY wr_id desc limit 0,1 ");
+				
+				if($kyc_cert){
+					echo "<a href =/adm/bbs/board.php?bo_table=kyc&wr_id=".$kyc_cert['wr_id']." class='line_btn' style='padding:3px 5px;margin-left:5px;'>바로가기</a>";
+				}	
+
+			}?>
 		</td>
 
 		<th scope="row"><label for="mb_memo">KYC수동처리</label></th>
 		<td colspan="1">
-			<input type="checkbox" id="kyc_admin_1" name="kyc_admin" class="kyc_admin_btn" onclick='checkOnlyOne(this)'value="1">
+			<input type="checkbox" id="kyc_admin_1" name="kyc_admin" class="kyc_admin_btn" <?=checkerble(1,$mb['kyc_cert']);?> onclick='checkOnlyOne(this)'value="1">
 			<label for="kyc_admin_1">인증회원</label>
 
-			<input type="checkbox" id="kyc_admin_2" name="kyc_admin" class="kyc_admin_btn" onclick='checkOnlyOne(this)' value="2">
+			<input type="checkbox" id="kyc_admin_2" name="kyc_admin" class="kyc_admin_btn" <?=checkerble(2,$mb['kyc_cert']);?> onclick='checkOnlyOne(this)' value="2">
 			<label for="kyc_admin_2">미승인</label>
 
-			<input type="checkbox" id="kyc_admin_0" name="kyc_admin" class="kyc_admin_btn" onclick='checkOnlyOne(this)'value="0">
+			<input type="checkbox" id="kyc_admin_0" name="kyc_admin" class="kyc_admin_btn" <?=checkerble(0,$mb['kyc_cert']);?> onclick='checkOnlyOne(this)'value="0">
 			<label for="kyc_admin_0">등록대기</label>
 		</td>
 	</tr>
@@ -1079,6 +1094,9 @@ this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
 		
 		element.checked = true;
 	}
+	$('input:checkbox[name=kyc_admin]').on('change', function(){
+		alert('관리자 수동 변경시 기존 KYC 회원인증보다 우선처리됩니다.');
+	});
 
 	function fmember_submit(f) {
 		/*## ##################################*/
@@ -1149,13 +1167,15 @@ this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
 				alert("최초입금처리시에는 바로처리되지 않으며,\n입금 요청 내역에서 승인처리하여야 정상입금처리됩니다. ");
 			}
 		}
-
+		
+		
 		$('input:checkbox[name=kyc_admin]').each(function (index) {
 			if($(this).is(":checked")==true){
 				console.log($(this).val());
 				f.kyc_admin.value = $(this).val();
 			}
-		}
+		});
+		
 
 		// return true;
 	}

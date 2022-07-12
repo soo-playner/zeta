@@ -54,6 +54,8 @@ if (isset($_POST['wr_link2'])) {
 	$wr_link2 = trim(strip_tags($wr_link2));
 	$wr_link2 = preg_replace("#[\\\]+$#", "", $wr_link2);
 }
+$bo_table = $_POST['bo_table'];
+
 
 $msg = implode('<br>', $msg);
 if ($msg) {
@@ -122,7 +124,10 @@ for ($i=1; $i<=10; $i++) {
 	}
 }
 
+
 @include_once($board_skin_path.'/write_update.head.skin.php');
+
+
 
 if ($w == '' || $w == 'u') {
 
@@ -201,6 +206,8 @@ if ($w == '' || $w == 'r') {
 if (!isset($_POST['wr_subject']) || !trim($_POST['wr_subject']))
 	alert('제목을 입력하여 주십시오.');
 
+
+
 if ($w == '' || $w == 'r') {
 
 	if ($member['mb_id']) {
@@ -278,6 +285,8 @@ if ($w == '' || $w == 'r') {
 	// 새글 INSERT
 	sql_query(" insert into {$g5['board_new_table']} ( bo_table, wr_id, wr_parent, bn_datetime, mb_id ) values ( '{$bo_table}', '{$wr_id}', '{$wr_id}', '".G5_TIME_YMDHIS."', '{$member['mb_id']}' ) ");
 
+	
+
 	// 게시글 1 증가
 	sql_query("update {$g5['board_table']} set bo_count_write = bo_count_write + 1 where bo_table = '{$bo_table}'");
 
@@ -295,9 +304,11 @@ if ($w == '' || $w == 'r') {
 		insert_point($member['mb_id'], $board['bo_comment_point'], "{$board['bo_subject']} {$wr_id} 글답변", $bo_table, $wr_id, '쓰기');
 	}
 
-	if($bo_table = 'notice'){
+	if($bo_table == 'notice'){
 		shell_exec("php notice_mail.php >/dev/null &");
 	}
+
+	
 
 }  else if ($w == 'u') {
 	if (get_session('ss_bo_table') != $_POST['bo_table'] || get_session('ss_wr_id') != $_POST['wr_id']) {
@@ -426,6 +437,7 @@ if (!$group['gr_use_access'] && $board['bo_read_level'] < 2 && !$secret) {
 $file_count   = 0;
 $upload_count = count($_FILES['bf_file']['name']);
 
+
 for ($i=0; $i<$upload_count; $i++) {
 	if($_FILES['bf_file']['name'][$i] && is_uploaded_file($_FILES['bf_file']['tmp_name'][$i]))
 		$file_count++;
@@ -546,6 +558,10 @@ for ($i=0; $i<count($_FILES['bf_file']['name']); $i++) {
 	}
 }
 
+
+/* print_R($upload);
+echo "<br>"; */
+
 // 나중에 테이블에 저장하는 이유는 $wr_id 값을 저장해야 하기 때문입니다.
 for ($i=0; $i<count($upload); $i++)
 {
@@ -553,8 +569,12 @@ for ($i=0; $i<count($upload); $i++)
 		$upload[$i]['source'] = addslashes($upload[$i]['source']);
 	}
 
-	$row = sql_fetch(" select count(*) as cnt from {$g5['board_file_table']} where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' and bf_no = '{$i}' ");
-	if ($row['cnt'])
+	$row = sql_fetch(" select count(*) as cnt from {$g5['board_file_table']} where bo_table = '{$bo_table}' and wr_id = '{$wr_id}' and bf_no = '{($i+1)}' ");
+	
+	/* echo "<br>4 update : ".$row['cnt'];
+	echo "<br>"; */
+
+	if ($row['cnt'] )
 	{
 		// 삭제에 체크가 있거나 파일이 있다면 업데이트를 합니다.
 		// 그렇지 않다면 내용만 업데이트 합니다.
@@ -573,6 +593,7 @@ for ($i=0; $i<count($upload); $i++)
 								and wr_id = '{$wr_id}'
 								and bf_no = '{$i}' ";
 			sql_query($sql);
+			// print_R($sql);
 		}
 		else
 		{
@@ -582,6 +603,7 @@ for ($i=0; $i<count($upload); $i++)
 								  and wr_id = '{$wr_id}'
 								  and bf_no = '{$i}' ";
 			sql_query($sql);
+			print_R($sql);
 		}
 	}
 	else
@@ -589,7 +611,7 @@ for ($i=0; $i<count($upload); $i++)
 		$sql = " insert into {$g5['board_file_table']}
 					set bo_table = '{$bo_table}',
 						 wr_id = '{$wr_id}',
-						 bf_no = '{$i}',
+						 bf_no = '{($i)}',
 						 bf_source = '{$upload[$i]['source']}',
 						 bf_file = '{$upload[$i]['file']}',
 						 bf_content = '{$bf_content[$i]}',
@@ -600,6 +622,7 @@ for ($i=0; $i<count($upload); $i++)
 						 bf_type = '{$upload[$i]['image']['2']}',
 						 bf_datetime = '".G5_TIME_YMDHIS."' ";
 		sql_query($sql);
+		print_R($sql);
 	}
 }
 
@@ -698,5 +721,5 @@ delete_cache_latest($bo_table);
 if ($file_upload_msg)
 	alert($file_upload_msg, G5_HTTP_BBS_URL.'/board.php?bo_table='.$bo_table.'&amp;wr_id='.$wr_id.'&amp;page='.$page.$qstr);
 else
-	goto_url(G5_HTTP_BBS_URL.'/board.php?bo_table='.$bo_table.'&amp;wr_id='.$wr_id.$qstr);
+	goto_url('./board.php?bo_table='.$bo_table.'&amp;wr_id='.$wr_id.$qstr);
 ?>

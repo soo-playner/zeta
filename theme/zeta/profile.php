@@ -52,8 +52,11 @@
 	//kyc 인증
 	$kyc_sql = "select * from g5_write_kyc where mb_id = '{$member['mb_id']}' order by wr_last desc limit 0,1";
 	$kyc_res = sql_fetch($kyc_sql);
-	if($kyc_res){
+	if($kyc_res ){
 		$kyc_cert = $kyc_res['wr_2'];
+	}else{
+		if($member['kyc_cert'] > 0)
+		$kyc_cert = $member['kyc_cert'];
 	}
 
 
@@ -211,7 +214,11 @@
 								<?if($kyc_res){
 									echo person_key($kyc_res['wr_subject'],$kyc_cert,$kyc_res['wr_content']);
 								}else{
-									echo "미등록";
+									if($member['kyc_cert']>0){
+										echo person_key($member['mb_name'],$member['kyc_cert']);
+									}else{
+										echo "미등록";
+									}
 								}?>
 							</p>
 						</li>

@@ -67,12 +67,18 @@ if($mb_level < 10 &&  $temp_mb_level != $mb_level){
 	$mb_level = $temp_mb_level;
 }
 
-if($_POST['kyc_admin'] != ""){
+if($_POST['kyc_admin'] > ""){
 	$kyc_admin = $_POST['kyc_admin'];
-	$$kyc_admin_time = $today." 관리자승인";
+
+	if($_POST['kyc_admin'] > 0){
+		$kyc_admin_time = $today." 관리자승인";
+	}else{
+		$kyc_admin_time = "";
+	}
 }else{ 
 	$kyc_admin = '';
 };
+
 $_POST['mb_center'] != "" ? $mb_center = $_POST['mb_center'] : $mb_center = '';
 $_POST['mb_balance'] != "" ? $mb_balance = conv_number($_POST['mb_balance']) : $mb_balance = 0;
 // $_POST['mb_deposit_point'] != "" ? $mb_deposit_point = conv_number($_POST['mb_deposit_point']) : $mb_deposit_point = 0;

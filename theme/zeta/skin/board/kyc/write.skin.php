@@ -3,22 +3,19 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 //add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
-
-//승인체크
-$confirm_check = '';
-if (strstr($write['wr_2'], '1')) {
-    $confirm_check = 'checked';
-}
 ?>
 
 <style>
+#wrapper{min-width:1200px;}
+#container{max-width:1200px;margin:0 auto;}
 input[type="text"], input[type="number"], input[type="password"], input[type="email"]{
     padding:20px;
 }
 #notice{display:inline;float:left;width:25px;height:25px;}
 #bo_w .btn_submit{padding:8px !important}
 </style>
-
+<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/default.css">
 <link rel="stylesheet" href="<?=$board_skin_url?>/style.css">
 
@@ -38,7 +35,6 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
     <input type="hidden" name="sst" value="<?php echo $sst ?>">
     <input type="hidden" name="sod" value="<?php echo $sod ?>">
     <input type="hidden" name="page" value="<?php echo $page ?>">
-    <input type="hidden" name="wr_2" value="">
     <?php
     $option = '';
     $option_hidden = '';
@@ -83,7 +79,28 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
     <?php } ?>
 
     <div class="bo_w_info write_div">
-    
+    <?php if ($is_name) { ?>
+        <label for="wr_name" class="sound_only">이름<strong>필수</strong></label>
+        <input type="text" name="wr_name" value="<?php echo $name ?>" id="wr_name" required class="frm_input required" placeholder="이름">
+    <?php } ?>
+
+    <?php if ($is_password) { ?>
+        <label for="wr_password" class="sound_only">비밀번호<strong>필수</strong></label>
+        <input type="password" name="wr_password" id="wr_password" <?php echo $password_required ?> class="frm_input <?php echo $password_required ?>" placeholder="비밀번호">
+    <?php } ?>
+
+    <?php if ($is_email) { ?>
+            <label for="wr_email" class="sound_only">이메일</label>
+            <input type="text" name="wr_email" value="<?php echo $email ?>" id="wr_email" class="frm_input email " placeholder="이메일">
+    <?php } ?>
+    </div>
+
+    <?php if ($is_homepage) { ?>
+    <div class="write_div">
+        <label for="wr_homepage" class="sound_only">홈페이지</label>
+        <input type="text" name="wr_homepage" value="<?php echo $homepage ?>" id="wr_homepage" class="frm_input full_input" size="50" placeholder="홈페이지">
+    </div>
+    <?php } ?>
 
     <?php if ($option) { ?>
     <div class="write_div">
@@ -96,7 +113,7 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
         <label for="wr_subject" class="sound_only">제목<strong>필수</strong></label>
         
         <div id="autosave_wrapper write_div">
-            <input type="text" name="wr_subject" value="<?php echo $subject ?>" id="wr_subject" required class="frm_input full_input required" size="50" maxlength="255" placeholder="제목">
+            <input type="text" name="wr_subject" value="<?php echo $subject ?>" id="wr_subject" required class="frm_input full_input required" size="50" maxlength="255" placeholder="제목" style="width:500px;">
             <?php if ($is_member) { // 임시 저장된 글 기능 ?>
             <script src="<?php echo G5_JS_URL; ?>/autosave.js"></script>
             <?php if($editor_content_js) echo $editor_content_js; ?>
@@ -146,7 +163,7 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
 
         <?php if($w == 'u' && $file[$i]['file']) { ?>
         <span class="file_del">
-            <input type="checkbox" id="bf_file_del<?php echo $i ?>" name="bf_file_del[<?php echo $i;  ?>]" value="1" style="width:30px;"> <label for="bf_file_del<?php echo $i ?>"><?php echo $file[$i]['source'].'('.$file[$i]['size'].')';  ?> 파일 삭제</label>
+            <input type="checkbox" id="bf_file_del<?php echo $i ?>" name="bf_file_del[<?php echo $i;  ?>]" value="1"> <label for="bf_file_del<?php echo $i ?>"><?php echo $file[$i]['source'].'('.$file[$i]['size'].')';  ?> 파일 삭제</label>
         </span>
         <?php } ?>
         
@@ -159,94 +176,7 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
         <?php echo $captcha_html ?>
     </div>
     <?php } ?>
-    
-    <style>
-            
-        .holder {
-            width: 100%;
-            text-align: center;
-            margin: 0px auto;
-        }
 
-        input[type="checkbox"] {
-            display: none;
-        }
-
-
-        input[id^="checkbox-2-"] + label {
-            text-align:left;
-            background-color: dodgerblue;
-            padding: 18px 20px 18px 23px;
-            box-shadow: inset 0 50px 37px -30px rgba(255, 222, 197, 0.3);
-            border-radius: 1000px;
-            display: inline-block;
-            position: relative;
-            border-top: 1px solid dodgerblue;
-            margin-right: 30px;
-            font-size:14px;
-            font-weight: 500;
-            letter-spacing: 0px;
-            color: #FFF;
-            width: 213px;
-            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
-            border-bottom: 1px solid dodgerblue;
-        }
-
-        [id^="checkbox-2-"] + label:hover  {
-            border-top: 1px solid royalblue;
-            background: royalblue;
-            box-shadow: inset 0 -50px 37px -30px rgba(255, 222, 197, 0.07);
-        }
-
-        [id^="checkbox-2-"] + label:active  {
-            border-top: none;
-            background: royalblue;
-            padding: 19px 20px 18px 23px;
-            box-shadow: inset 0 3px 8px rgba(129, 69, 13, 0.3), inset 0 -50px 37px -30px rgba(255, 222, 197, 0.07)	
-        }
-
-        [id^="checkbox-2-"] + label:after {
-            content: ' ';
-            border-radius: 100px;
-            width: 32px;
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            box-shadow: inset 0px 16px 40px rgba(0, 0, 0, 0.4);
-            height: 32px;
-        }
-
-        [id^="checkbox-2-"] + label:before {
-            content: ' ';
-            border-radius: 100px;
-            width: 20px;
-            position: absolute;
-            top: 18px;
-            right: 18px;
-            z-index: 999;
-            box-shadow: inset 0px 16px 40px #FFF;
-            height: 20px;
-            display: none;
-        }
-
-        [id^="checkbox-2-"]:checked + label{
-            border-top: 1px solid #28a745;
-            background: #28a745;
-            box-shadow: inset 0 -50px 37px -30px rgba(255, 222, 197, 0.07);
-        }
-
-        [id^="checkbox-2-"]:checked + label:before {
-            display: block;
-        }
-
-
-    </style>
-
-    <div class="holder" >
-		<input type="checkbox" id="checkbox-2-1" class="kyc_confirm" <?=$confirm_check?>/><label for="checkbox-2-1">KYC 인증 승인</label>
-    </div>
-    
-     
 
     <div class="btn_confirm write_div">
         <a href="./board.php?bo_table=<?php echo $bo_table ?>" class="btn_cancel btn">취소</a>
@@ -303,14 +233,6 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
             }
         });
 
-        if($('.kyc_confirm').is(":checked")){
-            f.wr_2.value = '1';
-        }else{
-            f.wr_2.value = '';
-        }
-
-        console.log( "kyc인증" + $('.kyc_confirm').is(":checked"));
-
         if (subject) {
             alert("제목에 금지단어('"+subject+"')가 포함되어있습니다");
             f.wr_subject.focus();
@@ -326,7 +248,6 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
             return false;
         }
 
-        
         if (document.getElementById("char_count")) {
             if (char_min > 0 || char_max > 0) {
                 var cnt = parseInt(check_byte("wr_content", "char_count"));
