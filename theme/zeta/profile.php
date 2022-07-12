@@ -207,7 +207,7 @@
 					<ul class='row mt10'>
 						<li class='col-sm-9 col-8'>
 							<label >KYC 인증 등록 정보</label>
-							<p class='status_<?=$kyc_cert?>'>
+							<p class='status_<?=$kyc_cert?>' style="width:100%">
 								<?if($kyc_res){
 									echo person_key($kyc_res['wr_subject'],$kyc_cert,$kyc_res['wr_content']);
 								}else{
@@ -874,7 +874,7 @@ $(function() {
 		<label for="" >주민등록번호</label>
 		<input type="text" pattern="\d*" id="tax_person_number_1" maxlength="6" class="half" inputmode="number"> 
 		<label style="display:inline;font-size:22px">-</label>
-		<input type="text" pattern="\d*" id="tax_person_number_2" maxlength="7" class="half" >
+		<input type="password" pattern="\d*" id="tax_person_number_2" maxlength="7" class="half" >
 		<input type="hidden" id="tax_person_number_3" maxlength="7" class="half" >
 
 		<div class='box'>
@@ -1025,9 +1025,8 @@ $(function() {
             var inkey = $("#tax_person_number_3").val()+inVal;
             	$("#tax_person_number_3").val(inkey.replace(/[^0-9]/g,""));               
         	}).on('input',function(e){
-            	$(this).val($(this).val().replace(/(?<=.{1})./gi, "*"));
-            
-        }); 
+            	// $(this).val($(this).val().replace(/(?<=.{1})./gi, "*"));
+        	}); 
 	});
 </script>
 

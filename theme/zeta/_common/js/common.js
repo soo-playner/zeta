@@ -38,7 +38,7 @@ $(document).on('keyup','input[inputmode=price]',function(event){
 
 // 인풋 숫자 + -
 $(document).on('keyup','input[inputmode=person_key]',function(event){
-	this.value = this.value.replace(/(?<=.{1})./gi, "*")   // 입력값이 숫자가 아니면 공백
+	// this.value = this.value.replace(/(?<=.{1})./gi, "*")   
 }); 
 
 
