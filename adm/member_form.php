@@ -1,25 +1,26 @@
 <?php
 $sub_menu = "200100";
 include_once('./_common.php');
-include_once(G5_THEME_PATH.'/_include/wallet.php');
-include_once(G5_PATH.'/util/package.php');
+include_once(G5_THEME_PATH . '/_include/wallet.php');
+include_once(G5_PATH . '/util/package.php');
+include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 
 auth_check($auth[$sub_menu], 'w');
 
-function bonus_pick($val){    
-    global $g5;
-    $pick_sql = "select * from {$g5['bonus_config']} where code = '{$val}' ";
-    $list = sql_fetch($pick_sql);
-    return $list;
+function bonus_pick($val)
+{
+	global $g5;
+	$pick_sql = "select * from {$g5['bonus_config']} where code = '{$val}' ";
+	$list = sql_fetch($pick_sql);
+	return $list;
 }
 
 $week_bonus_result = bonus_pick('weekend')['rate'];
-$week_bonus = explode(',',$week_bonus_result);
+$week_bonus = explode(',', $week_bonus_result);
 
 
-if ($w == '')
-{
+if ($w == '') {
 	$required_mb_id = 'required';
 	$required_mb_id_class = 'required alnum_';
 	$required_mb_password = 'required';
@@ -29,8 +30,7 @@ if ($w == '')
 	$mb['mb_open'] = 1;
 	$mb['mb_level'] = $config['cf_register_level'];
 	$html_title = '추가';
-
-}else if ($w == 'u'){
+} else if ($w == 'u') {
 
 	$mb = get_member($mb_id);
 	if (!$mb['mb_id'])
@@ -68,12 +68,11 @@ if ($w == '')
 	$mb['mb_9'] = get_text($mb['mb_9']);
 	$mb['mb_10'] = get_text($mb['mb_10']);
 	$mb['grade'] = get_text($mb['grade']);
-}
-else
+} else
 	alert('제대로 된 값이 넘어오지 않았습니다.');
 
 // 본인확인방법
-switch($mb['mb_certify']) {
+switch ($mb['mb_certify']) {
 	case 'hp':
 		$mb_certify_case = '휴대폰';
 		$mb_certify_val = 'hp';
@@ -113,9 +112,9 @@ $mb_open_yes        =  $mb['mb_open']       ? 'checked="checked"' : '';
 $mb_open_no         = !$mb['mb_open']       ? 'checked="checked"' : '';
 
 // 지급차단
-if($mb['mb_block']){
+if ($mb['mb_block']) {
 	$mb_block_yes = 'checked="checked"';
-}else{
+} else {
 	$mb_block_no = 'checked="checked"';
 }
 
@@ -128,38 +127,38 @@ if (isset($mb['mb_certify'])) {
 	sql_query(" ALTER TABLE `{$g5['member_table']}` ADD `mb_certify` TINYINT(4) NOT NULL DEFAULT '0' AFTER `mb_hp` ", false);
 }
 
-if(isset($mb['mb_adult'])) {
+if (isset($mb['mb_adult'])) {
 	sql_query(" ALTER TABLE `{$g5['member_table']}` CHANGE `mb_adult` `mb_adult` TINYINT(4) NOT NULL DEFAULT '0' ", false);
 } else {
 	sql_query(" ALTER TABLE `{$g5['member_table']}` ADD `mb_adult` TINYINT NOT NULL DEFAULT '0' AFTER `mb_certify` ", false);
 }
 
 // 지번주소 필드추가
-if(!isset($mb['mb_addr_jibeon'])) {
+if (!isset($mb['mb_addr_jibeon'])) {
 	sql_query(" ALTER TABLE {$g5['member_table']} ADD `mb_addr_jibeon` varchar(255) NOT NULL DEFAULT '' AFTER `mb_addr2` ", false);
 }
 
 // 건물명필드추가
-if(!isset($mb['mb_addr3'])) {
+if (!isset($mb['mb_addr3'])) {
 	sql_query(" ALTER TABLE {$g5['member_table']} ADD `mb_addr3` varchar(255) NOT NULL DEFAULT '' AFTER `mb_addr2` ", false);
 }
 
 // 중복가입 확인필드 추가
-if(!isset($mb['mb_dupinfo'])) {
+if (!isset($mb['mb_dupinfo'])) {
 	sql_query(" ALTER TABLE {$g5['member_table']} ADD `mb_dupinfo` varchar(255) NOT NULL DEFAULT '' AFTER `mb_adult` ", false);
 }
 
 // 이메일인증 체크 필드추가
-if(!isset($mb['mb_email_certify2'])) {
+if (!isset($mb['mb_email_certify2'])) {
 	sql_query(" ALTER TABLE {$g5['member_table']} ADD `mb_email_certify2` varchar(255) NOT NULL DEFAULT '' AFTER `mb_email_certify` ", false);
 }
 
 
-$bonus_per = bonus_per($mb['mb_id'],$mb['mb_balance'],$mb['mb_save_point']);
+$bonus_per = bonus_per($mb['mb_id'], $mb['mb_balance'], $mb['mb_save_point']);
 
 if ($mb['mb_intercept_date']) $g5['title'] = "차단된 ";
 else $g5['title'] .= "";
-$g5['title'] .= '회원 '.$html_title;
+$g5['title'] .= '회원 ' . $html_title;
 include_once('./admin.head.php');
 
 // add_javascript('js 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
@@ -167,39 +166,39 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 ?>
 
 <link rel="stylesheet" href="./css/scss/admin_custom.css">
-<script src="<?=G5_THEME_URL?>/_common/js/common.js" crossorigin="anonymous"></script>
+<script src="<?= G5_THEME_URL ?>/_common/js/common.js" crossorigin="anonymous"></script>
 
 <script>
 	$(function() {
 
-		$('#center_use').click(function(){
+		$('#center_use').click(function() {
 			var checked = $(this).is(":checked");
 
-			if(checked){
+			if (checked) {
 				$('#mb_nick_regist').addClass('active');
-			}else{
+			} else {
 				$('#mb_nick_regist').removeClass('active');
 			}
 		});
-		
-		
+
+
 		$('#field_upstair').on('change', function() {
-			var after = $(this).val().replace(/,/g,'');
-			var before ="<?=$mb['mb_deposit_point']?>";
-			console.log(after +'/'+ before);
+			var after = $(this).val().replace(/,/g, '');
+			var before = "<?= $mb['mb_deposit_point'] ?>";
+			console.log(after + '/' + before);
 
 			// var calc = (after - conv_number(before));
 			// $('#be_to').val(Price(calc));
 		});
 
-		function copyAddress(param){
+		function copyAddress(param) {
 			//commonModal("Address copy",'Your Wallet address is copied!',100);
 
 			console.log($(param).text());
 			var $temp = $("<input>");
-				$("body").append($temp);
+			$("body").append($temp);
 			$temp.val($(param).text()).select();
-				document.execCommand("copy");
+			document.execCommand("copy");
 			$temp.remove();
 
 			alert('주소가 복사되었습니다.');
@@ -208,133 +207,220 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 </script>
 
 <?
-	$rank_sql = "select * from rank where mb_id = '{$mb['mb_id']}' and rank = '{$mb['mb_level']}' ";
-	$rank_result = sql_fetch($rank_sql);
+$rank_sql = "select * from rank where mb_id = '{$mb['mb_id']}' and rank = '{$mb['mb_level']}' ";
+$rank_result = sql_fetch($rank_sql);
 ?>
 
 <style>
-	.ly_up{height:60px;}
-	.ly_up .ups{background:linen;}
-	.ly_up.padding-box{height:60px;}
-	.account_box{padding:0px;height:60px;}
-	.account_box th,.account_box td{border:0;height:100%;padding-left:10px;}
+	.ly_up {
+		height: 60px;
+	}
+
+	.ly_up .ups {
+		background: linen;
+	}
+
+	.ly_up.padding-box {
+		height: 60px;
+	}
+
+	.account_box {
+		padding: 0px;
+		height: 60px;
+	}
+
+	.account_box th,
+	.account_box td {
+		border: 0;
+		height: 100%;
+		padding-left: 10px;
+	}
 
 
-	.hidden{display:none;}
-	.wide{min-width:200px;height:36px;padding-left:5px;}
+	.hidden {
+		display: none;
+	}
 
-	select{width:auto;min-width:150px;height:36px;}
-	option{line-height:36px;}
+	.wide {
+		min-width: 200px;
+		height: 36px;
+		padding-left: 5px;
+	}
 
-	.kyc_btn{background:ROYALBLUE;padding:10px 20px;color:white;}
-	.kyc_btn i {vertical-align:sub}
+	select {
+		width: auto;
+		min-width: 150px;
+		height: 36px;
+	}
 
-	a.btn,span.btn {display:inline-block;*display:inline;*zoom:1;padding:0 10px;height:24px;line-height:24px;background-color:rgba(76,100,127,1);vertical-align:middle;color:#fff;cursor:pointer;}
-	.btn.flexible{height:38px;line-height:38px;width:60px;text-align:center}
+	option {
+		line-height: 36px;
+	}
 
-	.wallet_addr{display:inline-block;}
-	.badge{padding:10px 10px;font-weight:700;}
-	.copybutton{margin-left:10px; background:rgba(76,100,127,1);color:white;padding:5px 20px;border:0;box-shadow:0;border-radius:20px;}
+	.kyc_btn {
+		background: ROYALBLUE;
+		padding: 10px 20px;
+		color: white;
+	}
 
-	#mb_nick_regist{display:none;}
-	#mb_nick_regist.active{display:inline;}
+	.kyc_btn i {
+		vertical-align: sub
+	}
 
-	.td_id{color:black;font-size:20px;font-weight:700;font-family:Montserrat, Arial, sans-serif}
+	a.btn,
+	span.btn {
+		display: inline-block;
+		*display: inline;
+		*zoom: 1;
+		padding: 0 10px;
+		height: 24px;
+		line-height: 24px;
+		background-color: rgba(76, 100, 127, 1);
+		vertical-align: middle;
+		color: #fff;
+		cursor: pointer;
+	}
+
+	.btn.flexible {
+		height: 38px;
+		line-height: 38px;
+		width: 60px;
+		text-align: center
+	}
+
+	.wallet_addr {
+		display: inline-block;
+	}
+
+	.badge {
+		padding: 10px 10px;
+		font-weight: 700;
+	}
+
+	.copybutton {
+		margin-left: 10px;
+		background: rgba(76, 100, 127, 1);
+		color: white;
+		padding: 5px 20px;
+		border: 0;
+		box-shadow: 0;
+		border-radius: 20px;
+	}
+
+	#mb_nick_regist {
+		display: none;
+	}
+
+	#mb_nick_regist.active {
+		display: inline;
+	}
+
+	.td_id {
+		color: black;
+		font-size: 20px;
+		font-weight: 700;
+		font-family: Montserrat, Arial, sans-serif
+	}
 </style>
 
-<link rel="stylesheet" href="<?=G5_THEME_URL?>/css/scss/custom.css">
+<link rel="stylesheet" href="<?= G5_THEME_URL ?>/css/scss/custom.css">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;600;700&display=swap" rel="stylesheet">
 <form name="fmember" id="fmember" action="./member_form_update.php" onsubmit="return fmember_submit(this);" method="post" enctype="multipart/form-data">
-<input type="hidden" name="w" value="<?php echo $w ?>">
-<input type="hidden" name="sfl" value="<?php echo $sfl ?>">
-<input type="hidden" name="stx" value="<?php echo $stx ?>">
-<input type="hidden" name="sst" value="<?php echo $sst ?>">
-<input type="hidden" name="sod" value="<?php echo $sod ?>">
-<input type="hidden" name="page" value="<?php echo $page ?>">
-<input type="hidden" name="rank" value="<?=$mb['rank'] ?>">
-<input type="hidden" name="token" value="">
+	<input type="hidden" name="w" value="<?php echo $w ?>">
+	<input type="hidden" name="sfl" value="<?php echo $sfl ?>">
+	<input type="hidden" name="stx" value="<?php echo $stx ?>">
+	<input type="hidden" name="sst" value="<?php echo $sst ?>">
+	<input type="hidden" name="sod" value="<?php echo $sod ?>">
+	<input type="hidden" name="page" value="<?php echo $page ?>">
+	<input type="hidden" name="rank" value="<?= $mb['rank'] ?>">
+	<input type="hidden" name="token" value="">
 
-<div class="local_desc01 local_desc">
-    <p>
-		- 센터지정시 체크시 센터명 등록 : 회원레벨 자동변경 (체크해제시 회원레벨은 수동)<br>
-		- 별도관리지정은 <strong>마이닝,보너스 출금요청이 불가</strong>하며 아이디가 <strong>구분표시(아이디 붉은색 처리)</strong> 처리되며 회원차단은 로그인불가 처리됩니다. (각 해제시 입력된 날짜제거후 저장)
-	</p>
-</div>
+	<div class="local_desc01 local_desc">
+		<p>
+			- 센터지정시 체크시 센터명 등록 : 회원레벨 자동변경 (체크해제시 회원레벨은 수동)<br>
+			- 별도관리지정은 <strong>마이닝,보너스 출금요청이 불가</strong>하며 아이디가 <strong>구분표시(아이디 붉은색 처리)</strong> 처리되며 회원차단은 로그인불가 처리됩니다. (각 해제시 입력된 날짜제거후 저장)
+		</p>
+	</div>
 
-<div class="tbl_frm01 tbl_wrap">
-	<table>
-	<caption><?php echo $g5['title']; ?></caption>
-	<colgroup>
-		<col class="grid_4">
-		<col>
-		<col class="grid_4">
-		<col>
-	</colgroup>
-	<tbody>
-	<input type="hidden" name='mb_no' value="<?=$mb['mb_no']?>">
+	<div class="tbl_frm01 tbl_wrap">
+		<table>
+			<caption><?php echo $g5['title']; ?></caption>
+			<colgroup>
+				<col class="grid_4">
+				<col>
+				<col class="grid_4">
+				<col>
+			</colgroup>
+			<tbody>
+				<input type="hidden" name='mb_no' value="<?= $mb['mb_no'] ?>">
 
-	<tr>
-		<th scope="row"><label for="mb_id">아이디<?php echo $sound_only ?></label></th>
-		<td >
-			<? if ($w == "u") { ?>
-			<input type="hidden" name="mb_id" id="mb_id"  value="<?=$mb['mb_id']?>" />
-			<span class='td_id <?if($mb['mb_divide_date'] != ''){echo 'red';}?>'><?=$mb['mb_id']?></span>
+				<tr>
+					<th scope="row"><label for="mb_id">아이디<?php echo $sound_only ?></label></th>
+					<td>
+						<? if ($w == "u") { ?>
+							<input type="hidden" name="mb_id" id="mb_id" value="<?= $mb['mb_id'] ?>" />
+							<span class='td_id <? if ($mb['mb_divide_date'] != '') {
+													echo 'red';
+												} ?>'><?= $mb['mb_id'] ?></span>
 
+						<? } else { ?>
+							<input type="text" name="mb_id" value="<?php echo $mb['mb_id'] ?>" id="mb_id" <?php echo $required_mb_id ?> class="frm_input <?php echo $required_mb_id_class ?>" size="15" minlength="3" maxlength="20">
+							<?php if ($w == 'u') { ?><a href="./boardgroupmember_form.php?mb_id=<?php echo $mb['mb_id'] ?>">접근가능그룹보기</a><?php } ?>
+						<? } ?>
+
+					</td>
+
+					<th scope="row"><label for="mb_id">이름<?php echo $sound_only ?></label></th>
+					<td>
+						<? if ($w == "u") { ?>
+							<input type="text" name="mb_name" id="mb_name" class='frm_input wide' value="<?= $mb['mb_name'] ?>" />
+						<? } ?>
+					</td>
+
+				</tr>
+
+				<tr>
+					<th scope="row"><label for="mb_password">비밀번호<?php echo $sound_only ?></label></th>
+					<td><input type="password" name="mb_password" id="mb_password" <?php echo $required_mb_password ?> class="frm_input wide<?php echo $required_mb_password ?>" size="15" maxlength="20"></td>
+					<th scope="row"><label for="reg_tr_password">핀번호</label></th>
+					<td><input type="password" name="reg_tr_password" id="reg_tr_password" class="frm_input wide" size="15" maxlength="6"></td>
+				</tr>
+
+				<tr>
+					<th scope="row"><label for="mb_email">E-mail<strong class="sound_only">필수</strong></label></th>
+					<td><input type="text" name="mb_email" value="<?php echo $mb['mb_email'] ?>" id="mb_email" maxlength="100" class="frm_input email wide" size="30">
+						<!--
+		<? if ($member['mb_email_certify'] != '') { ?>
+				<img src="<?= G5_THEME_URL ?>/_images/okay_icon.gif" alt="인증됨" style="width:15px;"> 인증됨
 			<? } else { ?>
-			<input type="text" name="mb_id" value="<?php echo $mb['mb_id'] ?>" id="mb_id" <?php echo $required_mb_id ?> class="frm_input <?php echo $required_mb_id_class ?>" size="15" minlength="3" maxlength="20">
-				<?php if ($w=='u'){ ?><a href="./boardgroupmember_form.php?mb_id=<?php echo $mb['mb_id'] ?>">접근가능그룹보기</a><?php } ?>
-			<? } ?>
-
-		</td>
-
-		<th scope="row"><label for="mb_id">이름<?php echo $sound_only ?></label></th>
-		<td>
-			<? if ($w == "u") { ?>
-			<input type="text" name="mb_name" id="mb_name" class='frm_input wide' value="<?=$mb['mb_name']?>" />
-			<? }?>
-		</td>
-		
-  </tr>
-
-	<tr>
-	<th scope="row"><label for="mb_password">비밀번호<?php echo $sound_only ?></label></th>
-		<td><input type="password" name="mb_password" id="mb_password" <?php echo $required_mb_password ?> class="frm_input wide<?php echo $required_mb_password ?>" size="15" maxlength="20"></td>
-		<th scope="row"><label for="reg_tr_password">핀번호</label></th>
-		<td><input type="password" name="reg_tr_password" id="reg_tr_password" class="frm_input wide" size="15" maxlength="6"></td>
-	</tr>
-
-	<tr>
-		<th scope="row"><label for="mb_email">E-mail<strong class="sound_only">필수</strong></label></th>
-		<td><input type="text" name="mb_email" value="<?php echo $mb['mb_email'] ?>" id="mb_email" maxlength="100" class="frm_input email wide" size="30">
-		<!--
-		<?if($member['mb_email_certify'] != ''){?>
-				<img src="<?=G5_THEME_URL?>/_images/okay_icon.gif" alt="인증됨" style="width:15px;"> 인증됨
-			<?}else{?>
-				<img src="<?=G5_THEME_URL?>/_images/x_icon.gif" alt="인증안됨" style="width:15px;"> 인증안됨
-		<?}?>
+				<img src="<?= G5_THEME_URL ?>/_images/x_icon.gif" alt="인증안됨" style="width:15px;"> 인증안됨
+		<? } ?>
 		-->
-		</td>
-		<th scope="row"><label for="mb_hp">휴대폰번호</label></th>
-		<td>
-			<!-- <input type="text" name="nation_number" value="<?php echo $mb['nation_number'] ?>" id="nation_number" class="frm_input" style="height:36px;text-align:center" size="5" maxlength="50"> -->
-			<input type="text" name="mb_hp" value="<?php echo $mb['mb_hp'] ?>" id="mb_hp" class="frm_input  wide" size="15" maxlength="20">
-			
-			<!-- <?if($member['mb_certify'] == 1){?>
-				<img src="<?=G5_THEME_URL?>/_images/okay_icon.gif" alt="인증됨" style="width:15px;"> 인증됨
-			<?}else{?>
-				<img src="<?=G5_THEME_URL?>/_images/x_icon.gif" alt="인증안됨" style="width:15px;"> 인증안됨
-			<?}?> -->
-			
-		</td>
-	</tr>
+					</td>
+					<th scope="row"><label for="mb_hp">휴대폰번호</label></th>
+					<td>
+						<!-- <input type="text" name="nation_number" value="<?php echo $mb['nation_number'] ?>" id="nation_number" class="frm_input" style="height:36px;text-align:center" size="5" maxlength="50"> -->
+						<input type="text" name="mb_hp" value="<?php echo $mb['mb_hp'] ?>" id="mb_hp" class="frm_input  wide" size="15" maxlength="20">
 
-	<tr>
-		<th scope="row"><label for="grade">회원 등급</label></th>
-		<td ><?echo "<img src='/img/".$mb['grade'].".png' style='width:40px;height:40px;'>";?><?php echo get_grade_select('grade', 0, $member['grade'], $mb['grade']) ?><?=$rank_result['rank_day']?></div></td>
+						<!-- <? if ($member['mb_certify'] == 1) { ?>
+				<img src="<?= G5_THEME_URL ?>/_images/okay_icon.gif" alt="인증됨" style="width:15px;"> 인증됨
+			<? } else { ?>
+				<img src="<?= G5_THEME_URL ?>/_images/x_icon.gif" alt="인증안됨" style="width:15px;"> 인증안됨
+			<? } ?> -->
+
+					</td>
+				</tr>
+
+				<tr>
+					<th scope="row"><label for="grade">회원 등급</label></th>
+					<td><? echo "<img src='/img/" . $mb['grade'] . ".png' style='width:40px;height:40px;'>"; ?><?php echo get_grade_select('grade', 0, $member['grade'], $mb['grade']) ?><?= $rank_result['rank_day'] ?>
+	</div>
+	</td>
 
 
-		<th scope="row"><label for="mb_level">회원 레벨</label></th>
-		<td ><?php echo get_member_level_select('mb_level', 0, $member['mb_level'], $mb['mb_level']) ?> <div> </td>
+	<th scope="row"><label for="mb_level">회원 레벨</label></th>
+	<td><?php echo get_member_level_select('mb_level', 0, $member['mb_level'], $mb['mb_level']) ?> <div>
+	</td>
 	</tr>
 
 
@@ -345,85 +431,150 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td><input type="text" name="mb_tel" value="<?php echo $mb['mb_tel'] ?>" id="mb_tel" class="frm_input" size="15" maxlength="20"></td>
 	</tr> -->
 
-	
 
-	<?php if ($config['cf_use_recommend']) { // 추천인 사용 ?>
-	<tr class='divide-top'>
-		<th scope="row">추천인</th>
-		<td colspan="1">
 
-			<?//php echo ($mb['mb_recommend'] ? get_text($mb['mb_recommend']) : '없음'); // 081022 : CSRF 보안 결함으로 인한 코드 수정 ?>
-			<input type="text" name="mb_recommend" id="mb_recommend" value="<?=$mb['mb_recommend']?>" class="frm_input wide" /><span id="ajax_rcm_search" class="btn flexible">검색</span>
-		</td>
-		<th scope="row">후원인</th>
-		<td colspan="1">
-			<input type="text" name="mb_brecommend" id="mb_brecommend" value="<?=$mb['mb_brecommend']?>" class="frm_input wide" disabled/>
-			<span><?=$mb['mb_bre_time'] ? "등록일 : ".$mb['mb_bre_time'] : "" ?></span>
+	<?php if ($config['cf_use_recommend']) { // 추천인 사용 
+	?>
+		<tr class='divide-top'>
+			<th scope="row">추천인</th>
+			<td colspan="1">
+
+				<? //php echo ($mb['mb_recommend'] ? get_text($mb['mb_recommend']) : '없음'); // 081022 : CSRF 보안 결함으로 인한 코드 수정 
+				?>
+				<input type="text" name="mb_recommend" id="mb_recommend" value="<?= $mb['mb_recommend'] ?>" class="frm_input wide" /><span id="ajax_rcm_search" class="btn flexible">검색</span>
 			</td>
-	</tr>
+			<th scope="row">후원인</th>
+			<td colspan="1">
+				<input type="text" name="mb_brecommend" id="mb_brecommend" value="<?= $mb['mb_brecommend'] ?>" class="frm_input wide" disabled />
+				<span><?= $mb['mb_bre_time'] ? "등록일 : " . $mb['mb_bre_time'] : "" ?></span>
+			</td>
+		</tr>
 	<?php } ?>
 
 	<tr>
 		<th scope="row">센터지정</th>
 		<td colspan="1">
-			<input type="checkbox" style='width:24px;height:24px' name="center_use" id="center_use" value=" <?=$mb['center_use']?> " class="frm_input" <? if($mb['center_use'] == '1') {echo "checked";}?> />
-			<?if($mb['center_use']>0){ $center_regist_class = 'active';}else{$center_regist = '';}?>
-			
-			<div id='mb_nick_regist' class='<?=$center_regist_class?>'>
-			| 센터명 : 
-			<input type="text" name="mb_nick" id="mb_nick_field" value="<?=$mb['mb_nick']?>" class="frm_input" />
+			<input type="checkbox" style='width:24px;height:24px' name="center_use" id="center_use" value=" <?= $mb['center_use'] ?> " class="frm_input" <? if ($mb['center_use'] == '1') {
+																																							echo "checked";
+																																						} ?> />
+			<? if ($mb['center_use'] > 0) {
+				$center_regist_class = 'active';
+			} else {
+				$center_regist = '';
+			} ?>
+
+			<div id='mb_nick_regist' class='<?= $center_regist_class ?>'>
+				| 센터명 :
+				<input type="text" name="mb_nick" id="mb_nick_field" value="<?= $mb['mb_nick'] ?>" class="frm_input" />
 			</div>
-			
+
 		</td>
 
 		<th scope="row">센터회원</th>
 		<td colspan="1">
-			<input type="text" name="mb_center" id="mb_center" value="<?=$mb['mb_center']?>" class="frm_input wide" />
+			<input type="text" name="mb_center" id="mb_center" value="<?= $mb['mb_center'] ?>" class="frm_input wide" />
 		</td>
 	</tr>
 
-	
-	
+
+
 
 	<style>
-		.fund {line-height:38px;}
-		.fund input{vertical-align: middle;line-height:38px;padding:1px;}
-		.fund .be_to{font-size:15px;margin-left:10px;border:0;box-shadow:none;background:transparent;width:80px;}
+		.fund {
+			line-height: 38px;
+		}
 
-		.math_btn{width:39px;height:39px;border:1px solid #ccc; padding:1px;font-size:20px;cursor:pointer}
-		.math_btn.plus.active{background:blue;border:1px solid blue;color:white}
-		.math_btn.minus.active{background:red;border:1px solid red;color:white}
+		.fund input {
+			vertical-align: middle;
+			line-height: 38px;
+			padding: 1px;
+		}
 
-		#field_upstair{padding-left:10px;font-size:13px;font-weight: 900;}
+		.fund .be_to {
+			font-size: 15px;
+			margin-left: 10px;
+			border: 0;
+			box-shadow: none;
+			background: transparent;
+			width: 80px;
+		}
 
-		.strong{font-weight:900;font-size:13px;}
+		.math_btn {
+			width: 39px;
+			height: 39px;
+			border: 1px solid #ccc;
+			padding: 1px;
+			font-size: 20px;
+			cursor: pointer
+		}
 
-		.bonus{color:#0072d1;}
-		.mining{color:green;}
-		.soodang{color:orangered;}
-		.mining_soodang{color:#ef21fd;}
-		.amt {color:red}
+		.math_btn.plus.active {
+			background: blue;
+			border: 1px solid blue;
+			color: white
+		}
 
-		.no-input{border:none;text-align:right;width:auto;}
+		.math_btn.minus.active {
+			background: red;
+			border: 1px solid red;
+			color: white
+		}
+
+		#field_upstair {
+			padding-left: 10px;
+			font-size: 13px;
+			font-weight: 900;
+		}
+
+		.strong {
+			font-weight: 900;
+			font-size: 13px;
+		}
+
+		.bonus {
+			color: #0072d1;
+		}
+
+		.mining {
+			color: green;
+		}
+
+		.soodang {
+			color: orangered;
+		}
+
+		.mining_soodang {
+			color: #ef21fd;
+		}
+
+		.amt {
+			color: red
+		}
+
+		.no-input {
+			border: none;
+			text-align: right;
+			width: auto;
+		}
 	</style>
-	
+
 	<tr class="ly_up padding-box fund">
 		<th scope="row">보유 잔고</th>
-		
+
 		<td colspan="1">
-			<strong><?=Number_format($mb['mb_deposit_point']+$mb['mb_deposit_calc'] + $mb['mb_balance'])?></strong> 원 &nbsp&nbsp (총 입금액 : <?=Number_format($mb['mb_deposit_point'])?>)
+			<strong><?= Number_format($mb['mb_deposit_point'] + $mb['mb_deposit_calc'] + $mb['mb_balance']) ?></strong> 원 &nbsp&nbsp (총 입금액 : <?= Number_format($mb['mb_deposit_point']) ?>)
 		</td>
 		<th>수동입금 </th>
 		<!-- <td>
-			<input type="text" name="mb_deposit_point" value="<?=Number_format($mb['mb_deposit_point'])?>" id="field_upstair" class="frm_input wide" size="15" style="min-width:100px !important;" inputmode=numeric>
+			<input type="text" name="mb_deposit_point" value="<?= Number_format($mb['mb_deposit_point']) ?>" id="field_upstair" class="frm_input wide" size="15" style="min-width:100px !important;" inputmode=numeric>
 			차액: + 
 			<input type="text" class="be_to" name="be_to" id="be_to" value="0" readonly> 	
 		</td> -->
 
 		<td>
 			<input type="hidden" name="mb_deposit_point_math" id="math_code" value="">
-			<input type="button" value="+"  class='math_btn plus'>
-			<input type="button" value="-"  class='math_btn minus'>
+			<input type="button" value="+" class='math_btn plus'>
+			<input type="button" value="-" class='math_btn minus'>
 			<input type="text" name="mb_deposit_point_add" value="" id="field_upstair" class="frm_input wide" size="15" style="max-width:60%" inputmode=price>
 		</td>
 
@@ -432,95 +583,131 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	<tr class="ly_up padding-box fund">
 
 		<th scope="row">누적 매출 합계 (PV)</th>
-		<td colspan="1"><span class='strong soodang'><?=Number_format($mb['mb_save_point'])?> 원</span></td>
+		<td colspan="1"><span class='strong soodang'><?= Number_format($mb['mb_save_point']) ?> 원</span></td>
 
 		<th scope="row">총 받은보너스(수당)</th>
 		<td colspan="1"><span class='strong bonus'>
-			<input type="hidden" class='no-input' name="mb_balance" value="<?=Number_format($mb['mb_balance'])?>" readonly> <?=Number_format($mb['mb_balance'])?> 원</td>
+				<input type="hidden" class='no-input' name="mb_balance" value="<?= Number_format($mb['mb_balance']) ?>" readonly> <?= Number_format($mb['mb_balance']) ?> 원</td>
 
 	</tr>
 
 	<tr class="ly_up padding-box fund">
 		<th scope="row">보유마이닝해쉬 (MH/S)</th>
-		<td colspan="1"><span class='strong mining'><?=number_format($mb['mb_rate'])?> MH/s</span></td>
+		<td colspan="1"><span class='strong mining'><?= number_format($mb['mb_rate']) ?> MH/s</span></td>
 
 		<th scope="row">총 받은마이닝보너스</th>
-		<td colspan="1"><span class='strong mining_soodang'><?=shift_auto($mb[$mining_target],'eth')?> ETH</span></td>
+		<td colspan="1"><span class='strong mining_soodang'><?= shift_auto($mb[$mining_target], 'eth') ?> ETH</span></td>
 	</tr>
 
 	<tr class="ly_up padding-box fund">
 		<th scope="row">출금총액</th>
-		<td colspan="1"><span class='strong amt'><?=number_format($mb['mb_shift_amt'])?> 원</span></td>
+		<td colspan="1"><span class='strong amt'><?= number_format($mb['mb_shift_amt']) ?> 원</span></td>
 
 		<th scope="row">마이닝출금액</th>
-		<td colspan="1"><span class='strong amt'><?=shift_auto($mb[$mining_amt_target],'eth')?> ETH</span></td>
+		<td colspan="1"><span class='strong amt'><?= shift_auto($mb[$mining_amt_target], 'eth') ?> ETH</span></td>
 	</tr>
-	
+
 	<!-- <tr class="ly_up padding-box week_dividend ">
 	
 		<th scope="row">주배당 설정</th>
 		<td colspan="1">
-			<input type="radio" name="mb_week_dividend" value="1" class='raido_btn' id="mb_week_dividend_jewel" <?php if($mb['mb_week_dividend'] == '1') echo 'checked="checked"'; ?>>
-			<label for="mb_week_dividend_jewel">보석수령시(<?=$week_bonus[0]?>%)</label>
+			<input type="radio" name="mb_week_dividend" value="1" class='raido_btn' id="mb_week_dividend_jewel" <?php if ($mb['mb_week_dividend'] == '1') echo 'checked="checked"'; ?>>
+			<label for="mb_week_dividend_jewel">보석수령시(<?= $week_bonus[0] ?>%)</label>
 			<span class='divide'>|</span>
-			<input type="radio" name="mb_week_dividend" value="2" class='raido_btn' id="mb_week_dividend" <?php if($mb['mb_week_dividend'] == '2') echo 'checked="checked"'; ?>>
-			<label for="mb_week_dividend">미수령(<?=$week_bonus[1]?>%)</label>
+			<input type="radio" name="mb_week_dividend" value="2" class='raido_btn' id="mb_week_dividend" <?php if ($mb['mb_week_dividend'] == '2') echo 'checked="checked"'; ?>>
+			<label for="mb_week_dividend">미수령(<?= $week_bonus[1] ?>%)</label>
 		</td>
 
 		<th scope="row">쇼핑몰 포인트</th>
 		<td colspan="1">
-			<?=Number_format($mb['mb_balance']*0.01)?><?=ASSETS_CURENCY?>
+			<?= Number_format($mb['mb_balance'] * 0.01) ?><?= ASSETS_CURENCY ?>
 		</td>
 	</tr> -->
 
 	<tr class="ly_up padding-box">
-		
+
 		<th scope="row">패키지 보유</th>
 		<style>
-			.divide-top th,.divide-top td{border-top:2px solid #333;padding-top:30px;}
-			.divide-bottom th,.divide-bottom td{border-bottom:2px solid #333;padding-bottom:30px;}
-			
-			.purchase_btn{display:inline-grid;height:40px;padding:0;}
-			.purchase_btn.pack{width:150px;margin-left:20px;color:white}			
-			.pack_title{font-weight:600;padding:1px 10px;color:#fff;min-width:50px;display:grid;border-top-left-radius:5px;border-top-right-radius:5px}
-			.color0{background:black;}
-			.pack_have{font-size:16px;font-weight:600;padding:5px;color:red}
+			.divide-top th,
+			.divide-top td {
+				border-top: 2px solid #333;
+				padding-top: 30px;
+			}
+
+			.divide-bottom th,
+			.divide-bottom td {
+				border-bottom: 2px solid #333;
+				padding-bottom: 30px;
+			}
+
+			.purchase_btn {
+				display: inline-grid;
+				height: 40px;
+				padding: 0;
+			}
+
+			.purchase_btn.pack {
+				width: 150px;
+				margin-left: 20px;
+				color: white
+			}
+
+			.pack_title {
+				font-weight: 600;
+				padding: 1px 10px;
+				color: #fff;
+				min-width: 50px;
+				display: grid;
+				border-top-left-radius: 5px;
+				border-top-right-radius: 5px
+			}
+
+			.color0 {
+				background: black;
+			}
+
+			.pack_have {
+				font-size: 16px;
+				font-weight: 600;
+				padding: 5px;
+				color: red
+			}
 		</style>
 
 		<td colspan="3">
 			최고보유 패키지 :
 			<!-- <span class='badge t_white color<?= max_item_level_array($mb['mb_id'], 'number') ?>' style='padding:15px;'><?= max_item_level_array($mb['mb_id']) ?></span> -->
-			<span class='badge t_white <?=rank_return($mb['rank'],'color')?>' style='padding:15px;'><?=rank_return($mb['rank'])?></span>
+			<span class='badge t_white <?= rank_return($mb['rank'], 'color') ?>' style='padding:15px;'><?= rank_return($mb['rank']) ?></span>
 			<span class='divide' style="margin-right:20px;">|</span>
 			<?php
-			
-			function rank_return($val,$color=''){
+
+			function rank_return($val, $color = '')
+			{
 				global $mb;
 
-				if($mb['rank_note'] == ''){
-					if($color ==''){
+				if ($mb['rank_note'] == '') {
+					if ($color == '') {
 						return '-';
-					}else{
+					} else {
 						return '';
 					}
-				}else{
-					if($color ==''){
-						return 'P'.$val;
-					}else{
-						return 'color'.$val;
+				} else {
+					if ($color == '') {
+						return 'P' . $val;
+					} else {
+						return 'color' . $val;
 					}
-					
 				}
 			}
 
 			$pack_array = package_have_return($mb['mb_id']);
 			$get_shop_item = get_shop_item();
-			
+
 			for ($i = 0; $i < count($pack_array); $i++) {
-				
+
 			?>
-				<button type='button' class='btn purchase_btn' value='' data-row='<?=json_encode($get_shop_item[$i],JSON_FORCE_OBJECT)?>'>
-					<span class='pack_title color<?=$i?>'><?= $get_shop_item[$i]['it_name'] ?></span>
+				<button type='button' class='btn purchase_btn' value='' data-row='<?= json_encode($get_shop_item[$i], JSON_FORCE_OBJECT) ?>'>
+					<span class='pack_title color<?= $i ?>'><?= $get_shop_item[$i]['it_name'] ?></span>
 					<div class='pack_have'><span><?= $pack_array[$i] ?>
 				</button>
 			<?php } ?>
@@ -535,105 +722,104 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		</td> -->
 	</tr>
 
-	
+
 	</tr>
 
 	<script>
-		$(function(){
+		$(function() {
 
-		//수동입금 입금-차감
-		$('.math_btn').click(function(){
-			var value = $(this).val();
-			$('.math_btn').removeClass('active');
-			$(this).addClass('active');
-			$('#math_code').val(value);
-		});
+			//수동입금 입금-차감
+			$('.math_btn').click(function() {
+				var value = $(this).val();
+				$('.math_btn').removeClass('active');
+				$(this).addClass('active');
+				$('#math_code').val(value);
+			});
 
-		var total_fund = '<?=$mb['mb_deposit_point']+$mb['mb_deposit_calc']?>';
-		var mb_grade = '<?=$mb['grade']?>';
+			var total_fund = '<?= $mb['mb_deposit_point'] + $mb['mb_deposit_calc'] ?>';
+			var mb_grade = '<?= $mb['grade'] ?>';
 
-		//패키지구매처리
-		$('.purchase_btn').on('click',function(){
+			//패키지구매처리
+			$('.purchase_btn').on('click', function() {
 
-			var func ='new';
-			var item = $(this).data('row');
-			var mb_item_rank = '<?=$mb['rank_note']?>';
-			var item_num = item.it_maker.substr(1,1);
+				var func = 'new';
+				var item = $(this).data('row');
+				var mb_item_rank = '<?= $mb['rank_note'] ?>';
+				var item_num = item.it_maker.substr(1, 1);
 
-			console.log(mb_item_rank);
-			console.log(item_num);
+				console.log(mb_item_rank);
+				console.log(item_num);
 
-			console.log(`total:${total_fund}\nprice:${item.it_cust_price}`);
-			// console.log(`it_id:${item_id}\nit_sp:${item_supply_point}\ncoin:${select_coin}`);
-			
-			if(mb_item_rank == '' && item_num > 0){
-				alert("MEMBERSHIP 팩을 보유하지 않았습니다.");
-				return false;
-			}
+				console.log(`total:${total_fund}\nprice:${item.it_cust_price}`);
+				// console.log(`it_id:${item_id}\nit_sp:${item_supply_point}\ncoin:${select_coin}`);
 
-			if (confirm("해당 회원에게 "+item.it_name+" 패키지를 지급하시겠습니까?\n회원 잔고에서 ￦"+Price(item.it_cust_price)+" 원 (이)가 차감됩니다.")) {
-			} else {
-				return false;
-			}
-			
-			if(Number(total_fund) < Number(item.it_cust_price) ){
-				alert("회원 잔고가 부족합니다.\n잔고지급후 사용해주세요.");
-				return false;
-			}
-
-			$.ajax({
-				type: "POST",
-				url: "./adm.upstairs_proc.php",
-				cache: false,
-				async: false,
-				dataType: "json",
-				data:  {
-					"mb_id" : '<?=$mb['mb_id']?>',
-					"mb_no" : '<?=$mb['mb_no']?>',
-					"rank" : '<?=$mb['rank']?>',
-					"func" : func,
-					"input_val" : item.it_cust_price,
-					"output_val" : item.it_price,
-					"select_pack_name" : item.it_name,
-					"select_pack_id" : item.it_id,
-					"select_maker" : item.it_maker,
-					"it_point" : item.it_point,
-					"it_supply_point" : item.it_supply_point
-				},
-				success: function(data) {
-				
-					if(data.code == 0000){
-						alert('구매처리되었습니다.');
-						location.reload();
-						
-					}else{
-						alert('처리되지않았습니다.'); 
-						location.reload();
-						
-					}
-				},
-				error:function(e){
-					alert('처리에러'); 
+				if (mb_item_rank == '' && item_num > 0) {
+					alert("MEMBERSHIP 팩을 보유하지 않았습니다.");
+					return false;
 				}
+
+				if (confirm("해당 회원에게 " + item.it_name + " 패키지를 지급하시겠습니까?\n회원 잔고에서 ￦" + Price(item.it_cust_price) + " 원 (이)가 차감됩니다.")) {} else {
+					return false;
+				}
+
+				if (Number(total_fund) < Number(item.it_cust_price)) {
+					alert("회원 잔고가 부족합니다.\n잔고지급후 사용해주세요.");
+					return false;
+				}
+
+				$.ajax({
+					type: "POST",
+					url: "./adm.upstairs_proc.php",
+					cache: false,
+					async: false,
+					dataType: "json",
+					data: {
+						"mb_id": '<?= $mb['mb_id'] ?>',
+						"mb_no": '<?= $mb['mb_no'] ?>',
+						"rank": '<?= $mb['rank'] ?>',
+						"func": func,
+						"input_val": item.it_cust_price,
+						"output_val": item.it_price,
+						"select_pack_name": item.it_name,
+						"select_pack_id": item.it_id,
+						"select_maker": item.it_maker,
+						"it_point": item.it_point,
+						"it_supply_point": item.it_supply_point
+					},
+					success: function(data) {
+
+						if (data.code == 0000) {
+							alert('구매처리되었습니다.');
+							location.reload();
+
+						} else {
+							alert('처리되지않았습니다.');
+							location.reload();
+
+						}
+					},
+					error: function(e) {
+						alert('처리에러');
+					}
+				});
 			});
 		});
-	});
 	</script>
 	<tr class='divide-bottom'>
-		<th scope="row">출금계좌정보</th>			
-		<td colspan="3"> 
-		은행 :<input type="text" name="bank_name" value="<?php echo $mb['bank_name'] ?>" id="bank_name" class="frm_input wide" size="15" style="";>
-		&nbsp 계좌번호 : &nbsp<input type="text" name="bank_account" value="<?php echo $mb['bank_account'] ?>" id="bank_account" class="frm_input wide" size="15" style="width:300px;";>
-		&nbsp 예금주 : &nbsp<input type="text" name="account_name" value="<?php echo $mb['account_name'] ?>" id="account_name" class="frm_input wide" size="15" style="";>
+		<th scope="row">출금계좌정보</th>
+		<td colspan="3">
+			은행 :<input type="text" name="bank_name" value="<?php echo $mb['bank_name'] ?>" id="bank_name" class="frm_input wide" size="15" style="" ;>
+			&nbsp 계좌번호 : &nbsp<input type="text" name="bank_account" value="<?php echo $mb['bank_account'] ?>" id="bank_account" class="frm_input wide" size="15" style="width:300px;" ;>
+			&nbsp 예금주 : &nbsp<input type="text" name="account_name" value="<?php echo $mb['account_name'] ?>" id="account_name" class="frm_input wide" size="15" style="" ;>
 		</td>
 	</tr>
-	
+
 	<!-- <tr>
 		<th scope="row">본인확인방법</th>
 		<td >
-			<input type="radio" name="mb_certify_case" value="ipin" id="mb_certify_ipin" <?php if($mb['mb_certify'] == 'ipin') echo 'checked="checked"'; ?>>
+			<input type="radio" name="mb_certify_case" value="ipin" id="mb_certify_ipin" <?php if ($mb['mb_certify'] == 'ipin') echo 'checked="checked"'; ?>>
 			<label for="mb_certify_ipin">아이핀</label>
-			<input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp" <?php if($mb['mb_certify'] == 'hp') echo 'checked="checked"'; ?>>
+			<input type="radio" name="mb_certify_case" value="hp" id="mb_certify_hp" <?php if ($mb['mb_certify'] == 'hp') echo 'checked="checked"'; ?>>
 			<label for="mb_certify_hp">휴대폰</label>
 		</td>
 
@@ -655,14 +841,14 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 			<label for="mb_adult_no">아니오</label>
 		</td>
 	</tr>
-		<script>
-		function copyAddress(param){
-			commonModal("Address copy",'Your Wallet address is copied!',100);
+	<script>
+		function copyAddress(param) {
+			commonModal("Address copy", 'Your Wallet address is copied!', 100);
 			var $temp = $("<input>");
 			$("body").append($temp);
 
-			$temp.val($('#'+param).text()).select();
-				document.execCommand("copy");
+			$temp.val($('#' + param).text()).select();
+			document.execCommand("copy");
 			$temp.remove();
 		}
 	</script>
@@ -672,7 +858,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<td>
 			<div class="wallet_addr">
 				<span class="btc_color badge">BTC ADDRESS</span>
-				<span id="btc_addr"><?=$mb['mb_wallet']?></span>
+				<span id="btc_addr"><?= $mb['mb_wallet'] ?></span>
 				<button type="button" class="copybutton" onclick="copyAddress('#btc_addr')">copyAdress</button>
 			</div>
 		</td>
@@ -690,7 +876,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 		<th scope="row">주소</th>
 		<td colspan="3" class="td_addr_line">
 			<label for="mb_zip" class="sound_only">우편번호</label>
-			<input type="text" name="mb_zip" value="<?php echo $mb['mb_zip1'].$mb['mb_zip2']; ?>" id="mb_zip" class="frm_input readonly" size="5" maxlength="6">
+			<input type="text" name="mb_zip" value="<?php echo $mb['mb_zip1'] . $mb['mb_zip2']; ?>" id="mb_zip" class="frm_input readonly" size="5" maxlength="6">
 			<button type="button" class="btn_frmline" onclick="win_zip('fmember', 'mb_zip', 'mb_addr1', 'mb_addr2', 'mb_addr3', 'mb_addr_jibeon');">주소 검색</button><br>
 			<input type="text" name="mb_addr1" value="<?php echo $mb['mb_addr1'] ?>" id="mb_addr1" class="frm_input readonly" size="60">
 			<label for="mb_addr1">기본주소</label><br>
@@ -706,14 +892,14 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	<tr class="hidden">
 		<th scope="row"><label for="mb_icon">회원아이콘</label></th>
 		<td colspan="3">
-			<?php echo help('이미지 크기는 <strong>넓이 '.$config['cf_member_icon_width'].'픽셀 높이 '.$config['cf_member_icon_height'].'픽셀</strong>로 해주세요.') ?>
+			<?php echo help('이미지 크기는 <strong>넓이 ' . $config['cf_member_icon_width'] . '픽셀 높이 ' . $config['cf_member_icon_height'] . '픽셀</strong>로 해주세요.') ?>
 			<input type="file" name="mb_icon" id="mb_icon">
 			<?php
-			$mb_dir = substr($mb['mb_id'],0,2);
-			$icon_file = G5_DATA_PATH.'/member/'.$mb_dir.'/'.$mb['mb_id'].'.gif';
+			$mb_dir = substr($mb['mb_id'], 0, 2);
+			$icon_file = G5_DATA_PATH . '/member/' . $mb_dir . '/' . $mb['mb_id'] . '.gif';
 			if (file_exists($icon_file)) {
-				$icon_url = G5_DATA_URL.'/member/'.$mb_dir.'/'.$mb['mb_id'].'.gif';
-				echo '<img src="'.$icon_url.'" alt="">';
+				$icon_url = G5_DATA_URL . '/member/' . $mb_dir . '/' . $mb['mb_id'] . '.gif';
+				echo '<img src="' . $icon_url . '" alt="">';
 				echo '<input type="checkbox" id="del_mb_icon" name="del_mb_icon" value="1">삭제';
 			}
 			?>
@@ -746,7 +932,7 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 	</tr>
 	<tr class="hidden">
 		<th scope="row"><label for="mb_signature">서명</label></th>
-		<td colspan="3"><textarea  name="mb_signature" id="mb_signature"><?php echo $mb['mb_signature'] ?></textarea></td>
+		<td colspan="3"><textarea name="mb_signature" id="mb_signature"><?php echo $mb['mb_signature'] ?></textarea></td>
 	</tr>
 	<tr class="hidden">
 		<th scope="row"><label for="mb_profile">자기 소개</label></th>
@@ -755,48 +941,50 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 
 
 	<?php if ($w == 'u') { ?>
-	<tr>
-		<th scope="row">회원가입일</th>
-		<td><?php echo $mb['mb_datetime'] ?></td>
-		<th scope="row">최근접속일</th>
-		<td><?php echo $mb['mb_today_login'] ?></td>
-	</tr>
-	<tr  class="hidden">
-		<th scope="row">IP</th>
-		<td ><?php echo $mb['mb_ip'] ?></td>
+		<tr>
+			<th scope="row">회원가입일</th>
+			<td><?php echo $mb['mb_datetime'] ?></td>
+			<th scope="row">최근접속일</th>
+			<td><?php echo $mb['mb_today_login'] ?></td>
+		</tr>
+		<tr class="hidden">
+			<th scope="row">IP</th>
+			<td><?php echo $mb['mb_ip'] ?></td>
 
-		<th scope="row">지급차단</th>
-		<td>
-			<label for="mb_block_yes">
-				<input type="radio" name="mb_block" value="1" id="mb_block_yes" <?php echo $mb_block_yes; ?> >예
-			</label>
-			<label for="mb_block_no">
-				<input type="radio" name="mb_block" value="0" id="mb_block_no" <?php echo $mb_block_no; ?> >아니오
-			</label>
-	</tr>
+			<th scope="row">지급차단</th>
+			<td>
+				<label for="mb_block_yes">
+					<input type="radio" name="mb_block" value="1" id="mb_block_yes" <?php echo $mb_block_yes; ?>>예
+				</label>
+				<label for="mb_block_no">
+					<input type="radio" name="mb_block" value="0" id="mb_block_no" <?php echo $mb_block_no; ?>>아니오
+				</label>
+		</tr>
 
-<!-- 	<tr>
+		<!-- 	<tr>
 		<th scope="row">회원구분표시</th>
-		<td><input type="checkbox" style='width:24px;height:24px' name="center_use" id="center_use" value=" <?=$mb['center_use']?> " class="frm_input" <? if($mb['center_use'] == '1') {echo "checked";}?> /></td>
+		<td><input type="checkbox" style='width:24px;height:24px' name="center_use" id="center_use" value=" <?= $mb['center_use'] ?> " class="frm_input" <? if ($mb['center_use'] == '1') {
+																																							echo "checked";
+																																						} ?> /></td>
 		<th scope="row">회원출금차단</th>
 		<td></td>
 	</tr> -->
-	
 
-	<?php if ($config['cf_use_email_certify']) { ?>
-	<tr>
-		<th scope="row">인증일시</th>
-		<td colspan="3">
-			<?php if ($mb['mb_email_certify'] == '0000-00-00 00:00:00') { ?>
-			<?php echo help('회원님이 메일을 수신할 수 없는 경우 등에 직접 인증처리를 하실 수 있습니다.') ?>
-			<input type="checkbox" name="passive_certify" id="passive_certify">
-			<label for="passive_certify">수동인증</label>
-			<?php } else { ?>
-			<?php echo $mb['mb_email_certify'] ?>
-			<?php } ?>
-		</td>
-	</tr>
-	<?php } ?>
+
+		<?php if ($config['cf_use_email_certify']) { ?>
+			<tr>
+				<th scope="row">인증일시</th>
+				<td colspan="3">
+					<?php if ($mb['mb_email_certify'] == '0000-00-00 00:00:00') { ?>
+						<?php echo help('회원님이 메일을 수신할 수 없는 경우 등에 직접 인증처리를 하실 수 있습니다.') ?>
+						<input type="checkbox" name="passive_certify" id="passive_certify">
+						<label for="passive_certify">수동인증</label>
+					<?php } else { ?>
+						<?php echo $mb['mb_email_certify'] ?>
+					<?php } ?>
+				</td>
+			</tr>
+		<?php } ?>
 	<?php } ?>
 
 
@@ -809,8 +997,8 @@ add_javascript(G5_POSTCODE_JS, 0);    //다음 주소 js
 this.form.mb_divide_date.value=this.value; } else { this.form.mb_divide_date.value=this.form.mb_divide_date.defaultValue; }">
 			<label for="mb_divide_date_set_today">별도관리 지정</label>
 		</td>
-		
-		
+
+
 		<!--
 		회원탈퇴처리	
 		<th scope="row"><label for="mb_leave_date">회원별도구분</label></th>
@@ -833,102 +1021,144 @@ this.form.mb_intercept_date.value=this.form.mb_intercept_date.defaultValue; }">
 	</tr>
 
 	<tr>
-		<th scope="row"><label for="mb_memo">메모</label></th>
-		<td colspan="3"><textarea name="mb_memo" id="mb_memo" style="height:30px;" ><?php echo $mb['mb_memo'] ?></textarea></td>
+		<th scope="row"><label for="mb_memo">KYC인증</label></th>
+		<td colspan="1">
+			<?if($mb['kyc_cert'] > 0){
+				echo kyc_cert($mb['kyc_cert']);
+				echo person_key($mb['mb_id'],$mb['kyc_cert'],$mb['person_key']);
+				echo "<span style='color:gray;margin-left:20px;'>".$mb['kyc_regdt']."</span>";
+			}else{
+				echo person_key($mb['mb_id'],$mb['kyc_cert'],$mb['person_key']);	
+			}?>
+		</td>
+
+		<th scope="row"><label for="mb_memo">KYC수동처리</label></th>
+		<td colspan="1">
+			<input type="checkbox" id="kyc_admin_1" name="kyc_admin" class="kyc_admin_btn" onclick='checkOnlyOne(this)'value="1">
+			<label for="kyc_admin_1">인증회원</label>
+
+			<input type="checkbox" id="kyc_admin_2" name="kyc_admin" class="kyc_admin_btn" onclick='checkOnlyOne(this)' value="2">
+			<label for="kyc_admin_2">미승인</label>
+
+			<input type="checkbox" id="kyc_admin_0" name="kyc_admin" class="kyc_admin_btn" onclick='checkOnlyOne(this)'value="0">
+			<label for="kyc_admin_0">등록대기</label>
+		</td>
 	</tr>
 
-	<?php for ($i=1; $i<=10; $i++) { ?>
-	<tr class="hidden">
-		<th scope="row"><label for="mb_<?php echo $i ?>">여분 필드 <?php echo $i ?></label></th>
-		<td colspan="3"><input type="text" name="mb_<?php echo $i ?>" value="<?php echo $mb['mb_'.$i] ?>" id="mb_<?php echo $i ?>" class="frm_input " size="30" maxlength="255"></td>
+	<tr>
+		<th scope="row"><label for="mb_memo">메모</label></th>
+		<td colspan="3"><textarea name="mb_memo" id="mb_memo" style="height:30px;"><?php echo $mb['mb_memo'] ?></textarea></td>
 	</tr>
+
+	<?php for ($i = 1; $i <= 10; $i++) { ?>
+		<tr class="hidden">
+			<th scope="row"><label for="mb_<?php echo $i ?>">여분 필드 <?php echo $i ?></label></th>
+			<td colspan="3"><input type="text" name="mb_<?php echo $i ?>" value="<?php echo $mb['mb_' . $i] ?>" id="mb_<?php echo $i ?>" class="frm_input " size="30" maxlength="255"></td>
+		</tr>
 	<?php } ?>
 
 	</tbody>
 	</table>
-</div>
+	</div>
 
-<div class="btn_confirm01 btn_confirm">
-	<input type="submit" value="확인" class="btn_submit" accesskey='s'>
-	<a href="./member_list.php?<?php echo $qstr ?>">목록</a>
-</div>
+	<div class="btn_confirm01 btn_confirm">
+		<input type="submit" value="확인" class="btn_submit" accesskey='s'>
+		<a href="./member_list.php?<?php echo $qstr ?>">목록</a>
+	</div>
 </form>
 
 <script>
+	function checkOnlyOne(element) {
+  
+		const checkboxes 
+			= document.getElementsByName("kyc_admin");
+		
+		checkboxes.forEach((cb) => {
+			cb.checked = false;
+		})
+		
+		element.checked = true;
+	}
 
-function fmember_submit(f)
-{
-	/*## ##################################*/
-	var $rcm_id = $('#mb_recommend').val();
-	var $mbs_id = $('#mb_id').val();
-	var $break = "ok";
+	function fmember_submit(f) {
+		/*## ##################################*/
+		var $rcm_id = $('#mb_recommend').val();
+		var $mbs_id = $('#mb_id').val();
+		var $break = "ok";
 
-	if ($rcm_id == $mbs_id) {
-		alert("회원아이디와 추천인 아이디가 같을 수 없습니다.");
-		$('#mb_recommend').focus();
-		return false;
-	} else {
-		$.ajax({
-			type: "POST",
-			url: "<?=G5_SHOP_URL?>/ajax.id.php",
-			data: {
-				"rcm_id":$rcm_id,
-				"mbs_id":$mbs_id
-			},
-			cache: false,
-			async: false,
-				error : function (request, status, error) { // error
-							alert("code : " + request.status + "\r\nmessage : " + request.responseText);
-						},
+		if ($rcm_id == $mbs_id) {
+			alert("회원아이디와 추천인 아이디가 같을 수 없습니다.");
+			$('#mb_recommend').focus();
+			return false;
+		} else {
+			$.ajax({
+				type: "POST",
+				url: "<?= G5_SHOP_URL ?>/ajax.id.php",
+				data: {
+					"rcm_id": $rcm_id,
+					"mbs_id": $mbs_id
+				},
+				cache: false,
+				async: false,
+				error: function(request, status, error) { // error
+					alert("code : " + request.status + "\r\nmessage : " + request.responseText);
+				},
 				success: function(data) {
 					if (data == "break") {
 						$break = "break";
 					}
-			}
-		});
-	}
-	
-	if ($('#center_use').is(":checked")) {
-		$('#center_use').val('1');
-	} else {
-		$('#center_use').val('0');
-		$('#mb_nick_field').val('');
-		
-	}
+				}
+			});
+		}
 
-	if ($break == "break") {
-		alert("추천인 아이디를 다시 한번 확인해주세요!");
-		$('#mb_recommend').focus();
-		return false;
-	}
-	/*## ##################################*/
+		if ($('#center_use').is(":checked")) {
+			$('#center_use').val('1');
+		} else {
+			$('#center_use').val('0');
+			$('#mb_nick_field').val('');
 
-	if (!f.mb_icon.value.match(/\.gif$/i) && f.mb_icon.value) {
-		alert('아이콘은 gif 파일만 가능합니다.');
-		return false;
-	}
+		}
 
-	// console.log( f.mb_deposit_point_add.value );
+		if ($break == "break") {
+			alert("추천인 아이디를 다시 한번 확인해주세요!");
+			$('#mb_recommend').focus();
+			return false;
+		}
+		/*## ##################################*/
 
-	if(f.mb_deposit_point_add.value != ''){
-		var origin_deposit_point = <?=$mb['mb_deposit_point']?>;
-
-		// console.log( f.mb_deposit_point_math.value );
-		
-		if($('#math_code').val() == ''){
-			$('.math_btn.plus').focus();
-			alert('수동입금 기호를 선택해주세요');
-			
+		if (!f.mb_icon.value.match(/\.gif$/i) && f.mb_icon.value) {
+			alert('아이콘은 gif 파일만 가능합니다.');
 			return false;
 		}
 
-		if(origin_deposit_point == 0){
-			alert("최초입금처리시에는 바로처리되지 않으며,\n입금 요청 내역에서 승인처리하여야 정상입금처리됩니다. ");
-		}
-	}
+		// console.log( f.mb_deposit_point_add.value );
 
-	// return true;
-}
+		if (f.mb_deposit_point_add.value != '') {
+			var origin_deposit_point = <?= $mb['mb_deposit_point'] ?>;
+
+			// console.log( f.mb_deposit_point_math.value );
+
+			if ($('#math_code').val() == '') {
+				$('.math_btn.plus').focus();
+				alert('수동입금 기호를 선택해주세요');
+
+				return false;
+			}
+
+			if (origin_deposit_point == 0) {
+				alert("최초입금처리시에는 바로처리되지 않으며,\n입금 요청 내역에서 승인처리하여야 정상입금처리됩니다. ");
+			}
+		}
+
+		$('input:checkbox[name=kyc_admin]').each(function (index) {
+			if($(this).is(":checked")==true){
+				console.log($(this).val());
+				f.kyc_admin.value = $(this).val();
+			}
+		}
+
+		// return true;
+	}
 </script>
 
 <?php

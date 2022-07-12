@@ -10,6 +10,7 @@ if ($w == 'u')
 auth_check($auth[$sub_menu], 'w');
 
 //check_admin_token();
+print_R($_POST);
 
 $mb_id = trim($_POST['mb_id']);
 if($_POST['mb_name'] == ''){
@@ -66,7 +67,12 @@ if($mb_level < 10 &&  $temp_mb_level != $mb_level){
 	$mb_level = $temp_mb_level;
 }
 
-
+if($_POST['kyc_admin'] != ""){
+	$kyc_admin = $_POST['kyc_admin'];
+	$$kyc_admin_time = $today." 관리자승인";
+}else{ 
+	$kyc_admin = '';
+};
 $_POST['mb_center'] != "" ? $mb_center = $_POST['mb_center'] : $mb_center = '';
 $_POST['mb_balance'] != "" ? $mb_balance = conv_number($_POST['mb_balance']) : $mb_balance = 0;
 // $_POST['mb_deposit_point'] != "" ? $mb_deposit_point = conv_number($_POST['mb_deposit_point']) : $mb_deposit_point = 0;
@@ -121,6 +127,8 @@ $sql_common = "  mb_name = '{$_POST['mb_name']}',
 				 center_use = '{$center_use}',
 				 mb_center = '{$mb_center}',
 				 mb_block = '{$mb_block}',
+				 kyc_cert = {$kyc_admin},
+				 kyc_regdt = '{$kyc_admin_time}',
 				 mb_week_dividend = '{$mb_week_dividend}' ";
 
 if ($w == '')
@@ -298,7 +306,7 @@ else if ($w == 'u')
 					 {$sql_tr_password}
 					 {$sql_certify}
 				where mb_id = '{$mb_id}' ";
-	// print_R($sql);
+	print_R($sql);
 	sql_query($sql);
 }
 else

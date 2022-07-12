@@ -649,6 +649,17 @@ function week_jewel(){
 	}
 }
 
+function kyc_cert($person_cert){
+	if($person_cert == 1){
+		$return = "<span class='cert_icon'><img src='".G5_THEME_URL."/_images/okay_icon.png'></span>";
+	}else if($person_cert == 2){
+		$return = "<span class='cert_icon'><img src='".G5_THEME_URL."/_images/x_icon.png'></span>";
+	}else{
+		$return ='';
+	}
+	return $return;
+}
+
 function rank_name($val){
 	if($val < 4){
 		$rank_name = '';

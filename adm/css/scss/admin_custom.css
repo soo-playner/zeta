@@ -104,3 +104,8 @@ table.regTb .admin_memo {
   height: 48px;
   letter-spacing: -0px;
 }
+
+.cert_icon img {
+  width: 13px;
+  height: 13px;
+}
