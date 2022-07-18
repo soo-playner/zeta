@@ -1,4 +1,5 @@
 <?
+define('LIVE_MODE',false);
 define('CONFIG_TITLE','ZETABYTE');
 define('CONFIG_SUB_TITLE','ZETABYTE');
 

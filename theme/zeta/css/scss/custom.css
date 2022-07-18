@@ -393,6 +393,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
 
 .btn-primary {
   background: #8734d4;
+  color: white !important;
 }
 
 .b_darkblue {
@@ -801,6 +802,11 @@ a.btn_cancle:hover, .btn_cancle:hover {
 #mining_withdraw .polding_btn .caret_box {
   vertical-align: top;
   float: right;
+  -webkit-box-flex: 3;
+  -ms-flex-positive: 3;
+      flex-grow: 3;
+  vertical-align: top;
+  text-align: right;
 }
 
 #mining_withdraw .polding_btn .caret_box i {
@@ -815,7 +821,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   color: black;
 }
 
-#mining_withdraw.open .polding_btn .caret_box {
+#mining_withdraw.open .polding_btn .caret_box .btn {
   background: #f4f1f5;
   border-radius: 5px;
 }
@@ -2218,14 +2224,6 @@ a.btn_cancle:hover, .btn_cancle:hover {
   color: #fff;
 }
 
-.dark #mining #mining_withdraw .polding_btn .caret_box {
-  vertical-align: top;
-  text-align: right;
-  -webkit-box-flex: 3;
-      -ms-flex-positive: 3;
-          flex-grow: 3;
-}
-
 .dark #mining #mining_withdraw .polding_btn .caret_box i {
   font-size: 16px;
 }
@@ -2238,7 +2236,7 @@ a.btn_cancle:hover, .btn_cancle:hover {
   color: black;
 }
 
-.dark #mining #mining_withdraw.open .polding_btn .caret_box {
+.dark #mining #mining_withdraw.open .polding_btn .caret_box .btn {
   background: #f4f1f5;
   border-radius: 5px;
 }

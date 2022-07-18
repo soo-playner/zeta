@@ -384,7 +384,7 @@ a.btn_cancle, .btn_cancle{
 }
 
 .user.selected{background:$sub-color}
-.btn-primary{background:$sub-color}
+.btn-primary{background:$sub-color;color:white !important;}
 
 .b_darkblue {
     background: #29386b !important;
@@ -687,6 +687,10 @@ a.btn_cancle, .btn_cancle{
         .caret_box{
             vertical-align: top;
             float:right;
+            -webkit-box-flex:3;
+            flex-grow :3;
+            vertical-align: top;
+            text-align: right;
             
             i{font-size:16px;}
         }
@@ -696,7 +700,7 @@ a.btn_cancle, .btn_cancle{
         background:white;
         .polding_btn{
             color:black;
-            .caret_box{background:#f4f1f5;border-radius: 5px;}
+            .caret_box .btn{background:#f4f1f5;border-radius: 5px;}
         }
         
     }
@@ -2097,9 +2101,7 @@ a.btn_cancle, .btn_cancle{
                 .max_with{margin-left:10px;font-size:11px;color: #fff;}
                 .btn_title{}
                 .caret_box{
-                    vertical-align: top;
-                    text-align: right;
-                    flex-grow: 3;
+                    
                     i{font-size:16px;}
                 }
             }
@@ -2108,7 +2110,7 @@ a.btn_cancle, .btn_cancle{
                 background:$main-background;
                 .polding_btn{
                     color:black;
-                    .caret_box{background:#f4f1f5;border-radius: 5px;}
+                    .caret_box .btn{background:#f4f1f5;border-radius: 5px;}
                 }
                 
             }

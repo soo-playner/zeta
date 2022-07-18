@@ -333,10 +333,10 @@ function overcharge($val,$category){
     $(function() {
 
         $('.polding_btn').click(function() {
-            var out_count = Number("<?=$mining_amt_cnt ?>");
+            /* var out_count = Number("<?=$mining_amt_cnt ?>");
             if(out_count < 1){
                 dialogModal('KYC 인증', "<strong> 안전한 출금을 위해 최초 1회  KYC 인증을 진행해주세요<br><a href='/page.php?id=profile' class='btn btn-primary'>KYC인증</a></strong>", 'warning');
-            }
+            } */
             var target = $(this).parent();
             target.find('.polding').slideToggle(300);
             target.toggleClass('open');
