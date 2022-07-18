@@ -17,8 +17,8 @@ $bo_table = 'kyc';
 $w = $_POST['w'];
 
 if(!$board['bo_upload_count']){
-    $board['bo_upload_count'] = 1;
-    $board['bo_upload_size'] = '10048576';
+    $board['bo_upload_count'] = 2;
+    $board['bo_upload_size'] = '100048576';
 }
 
 $wr_subject = '';

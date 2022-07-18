@@ -886,7 +886,7 @@ $(function() {
 
 		<div class='box'>
 		<label style="display:inline;">KYC신분증 첨부 </label>
-			<input type="file" class='filebox' name="bf_file[1]" multiple='true' >
+			<input type="file" accept="image/*" class='filebox' name="bf_file[1]"  >
 			<label for="bf_file[1]" class='kyc_label' style="font-size:11px;margin:3px;font-weight:300;">신분확인 가능한 주민등록증, 운전면허증 사진을 첨부해주세요.</label>
 		</div>
 
@@ -894,7 +894,7 @@ $(function() {
 
 		<div class='box'>
 		<label style="display:inline;" class="mt20">출금지갑주소 첨부 </label>
-			<input type="file" class='filebox' name="bf_file[2]" multiple='true'>
+			<input type="file"  accept="image/*" class='filebox' name="bf_file[2]">
 			<label for="bf_file[2]" class='kyc_label' style="font-size:11px;margin:5px;font-weight:300;">출금 지갑주소가 확인되는 캡쳐이미지,사진을 첨부해주세요.</label>
 		</div>
 
@@ -934,11 +934,17 @@ $(function() {
 				dialogModal('KYC 인증','<strong> 고유식별정보 처리방침에 동의해주세요. </strong>','warning');
 				return false;
 			}
+			
+			console.log("파일업로드1 :: " + fileInput[0].files.length);
+			console.log("파일업로드2 :: " + fileInput[1].files.length);
 
-			/* if(upload_files.length === 0){
-				dialogModal('KYC 인증','<strong> 신분확인이 가능한 사진을 첨부해주세요. </strong>','warning');
+			
+			if(fileInput[0].files.length < 1 || fileInput[1].files.length < 1){
+
+				dialogModal('KYC 인증','<strong> 신분확인이 가능한 사진과 출금지갑 인증파일을 첨부해주세요. </strong>','warning');
 				return false;
-			} */
+			}else{
+			
 			
 
 			const formData = new FormData();
@@ -946,14 +952,12 @@ $(function() {
 			formData.append("wr_subject",kyc_name);
 			formData.append("wr_content", kyc_person_number);
 
-			/* for(var i = 0; i < upload_files.length; i){
-				formData.append("bf_file",upload_files[i]);
-			} */
+			
 			
 
 			for (var i = 0; i < fileInput.length; i++) {
 				if (fileInput[i].files.length > 0) {
-					console.log("각 파일갯수 : " + fileInput[i].files.length);
+					
 
 					for (var j = 0; j < fileInput[i].files.length; j++) {
 						
@@ -992,7 +996,7 @@ $(function() {
 					dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 				}
 			});
-
+			}
 			
 		});
 
