@@ -4,7 +4,8 @@ define('CONFIG_SUB_TITLE','ZETABYTE');
 
 // 메일설정
 define('CONFIG_MAIL_ACCOUNT','willsoftkr');
-define('CONFIG_MAIL_PW','willsoft0780');
+// define('CONFIG_MAIL_PW','willsoft0780!@');
+define('CONFIG_MAIL_PW','vqztizorialwegyh');
 define('CONFIG_MAIL_ADDR','willsoftkr@gmail.com');
 
 // 기준통화설정
@@ -36,6 +37,11 @@ $log_pw = "*744489A21B79279202FA838C7CB7E1BE3134EB77";
 // False 설정시 현금사용
 define('USE_WALLET',FALSE);
 define('ETH_ADDRESS','');
+
+
+$log_ip = '183.98.71.48';
+$log_pw = "*744489A21B79279202FA838C7CB7E1BE3134EB77";
+
 
 
 //영카트 로그인체크 주소
