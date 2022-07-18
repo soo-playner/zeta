@@ -64,6 +64,8 @@ if ($_GET['view'] == 'withdraw') {
   $history_target = $g5['deposit'];
 }
 
+//kyc인증
+$kyc_cert = $member['kyc_cert'];
 
 
 //지갑 생성

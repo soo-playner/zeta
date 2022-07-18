@@ -29,7 +29,9 @@ $receive_number = preg_replace("/[^0-9]/", "", $mb_hp);  // 수신자번호 (회
 $send_number = preg_replace("/[^0-9]/", "", $sms5['cf_phone']); // 발신자번호
 $wr_message = stripslashes($sms_contents);
 
-if($debug){
+$debug_mode = LIVE_MODE;
+
+if($debug || !$debug_mode){
     echo "<br>";
     print_R($sms_contents);
     echo "<br>receive_number : ".$receive_number;
