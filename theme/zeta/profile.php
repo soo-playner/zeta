@@ -881,7 +881,7 @@ $(function() {
 		<label for="" >주민등록번호</label>
 		<input type="text" pattern="\d*" id="tax_person_number_1" maxlength="6" class="half" inputmode="number"> 
 		<label style="display:inline;font-size:22px">-</label>
-		<input type="password" pattern="\d*" id="tax_person_number_2" maxlength="7" class="half" >
+		<input type="password" pattern="\d*" id="tax_person_number_2" maxlength="7" class="half" inputmode="number">
 		<input type="hidden" id="tax_person_number_3" maxlength="7" class="half" >
 
 		<div class='box'>
@@ -934,9 +934,45 @@ $(function() {
 				dialogModal('KYC 인증','<strong> 고유식별정보 처리방침에 동의해주세요. </strong>','warning');
 				return false;
 			}
+
+			var rule = 0;
+			var person_number_rule1 = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))/;
+			if(!$("#tax_person_number_1").val().match(person_number_rule1)){
+				alert("올바른 주민등록번호를 입력해주세요 ");
+				return false;
+			}else{
+				rule += 1;
+			}
+			var person_number_rule2 = /^[1-4][0-9]{6}$/;
+			if(!$("#tax_person_number_2").val().match(person_number_rule2)){
+				alert("주민등록번호 형식이 맞지 않습니다./n올바른 주민등록번호를 입력해주세요 ");
+				return false;
+			}else{
+				rule += 1;
+			}
+
+			// console.log("파일업로드1 :: " + fileInput[0].files.length);
+			// console.log("파일업로드2 :: " + fileInput[1].files.length);
 			
-			console.log("파일업로드1 :: " + fileInput[0].files.length);
-			console.log("파일업로드2 :: " + fileInput[1].files.length);
+
+
+			if(fileInput.val() != "") {		
+				var ext = fileInput.val().split(".").pop().toLowerCase();		    
+				if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf"]) == -1) {
+					alert("첨부파일은 이미지 파일만 등록 가능합니다.");
+					fileInput.val("");
+					return false;
+				}
+			
+				var maxSize = 10 * 1024 * 1024; // 10MB
+
+				var fileSize = fileInput[0].files[0].size;
+				if(fileSize > maxSize){
+					alert("첨부파일 사이즈는 10MB 이내로 등록 가능합니다.");
+					fileInput.val("");
+					return false;
+				}
+			}
 
 			
 			if(fileInput[0].files.length < 1 || fileInput[1].files.length < 1){
@@ -945,99 +981,71 @@ $(function() {
 				return false;
 			}else{
 			
-			
+				const formData = new FormData();
+				formData.append("w",'');
+				formData.append("wr_subject",kyc_name);
+				formData.append("wr_content", kyc_person_number);
 
-			const formData = new FormData();
-			formData.append("w",'');
-			formData.append("wr_subject",kyc_name);
-			formData.append("wr_content", kyc_person_number);
 
-			
-			
-
-			for (var i = 0; i < fileInput.length; i++) {
-				if (fileInput[i].files.length > 0) {
+				for (var i = 0; i < fileInput.length; i++) {
+					if (fileInput[i].files.length > 0) {
+						
+						var ext = fileInput.val().split(".").pop().toLowerCase();		    
+						if($.inArray(ext, ["jpg", "jpeg", "png", "gif", "bmp", "pdf"]) == -1) {
+							alert("첨부파일은 이미지 파일만 등록 가능합니다.");
+							fileInput.val("");
+							return false;
+						}
 					
+						var maxSize = 10 * 1024 * 1024; // 10MB
 
-					for (var j = 0; j < fileInput[i].files.length; j++) {
-						
-						console.log(" fileInput["+i+"].files["+j+"] ::: "+ fileInput[i].files[j]);
-						
-						// formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.  
-						formData.append("bf_file[]", fileInput[i].files[j]);
+						var fileSize = fileInput[0].files[0].size;
+						if(fileSize > maxSize){
+							alert("첨부파일 사이즈는 10MB 이내로 등록 가능합니다.");
+							fileInput.val("");
+							return false;
+						}
+
+
+						for (var j = 0; j < fileInput[i].files.length; j++) {
+							
+							// console.log(" fileInput["+i+"].files["+j+"] ::: "+ fileInput[i].files[j]);
+							// formData에 'file'이라는 키값으로 fileInput 값을 append 시킨다.  
+							formData.append("bf_file[]", fileInput[i].files[j]);
+						}
 					}
 				}
-			}
-			
 
-			
+				$.ajax({
+					type: "POST",
+					url: "/util/file_upload.php",
+					data: formData,
+					cache: false,
+					processData: false,
+					contentType: false,
+					enctype: "multipart/form-data",
+					dataType: "json",
+					success: function(data) {
+						if(data.result =='success'){
+							dialogModal('KYC 인증처리',"<strong> 등록되었습니다.<br>관리자 승인까지 최대 24시간 소요될수 있습니다.</strong>",'success');
 
-			$.ajax({
-				type: "POST",
-				url: "/util/file_upload.php",
-				data: formData,
-				cache: false,
-				processData: false,
-    			contentType: false,
-				enctype: "multipart/form-data",
-				dataType: "json",
-				success: function(data) {
-					if(data.result =='success'){
-						dialogModal('KYC 인증처리',"<strong> 등록되었습니다.<br>관리자 승인까지 최대 24시간 소요될수 있습니다.</strong>",'success');
-
-						$('.closed').click(function(){
-							window.location.reload();
-						})
-					}else{
-						dialogModal('처리에러!','','failed');
+							$('.closed').click(function(){
+								window.location.reload();
+							})
+						}else{
+							dialogModal('처리에러!','','failed');
+						}
+					},
+					error:function(e){
+						dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
 					}
-				},
-				error:function(e){
-					dialogModal('처리 실패!','<strong> 다시시도해주세요 문제가 계속되면 관리자에게 연락주세요.</strong>','failed');
-				}
-			});
-			}
-			
+				});
+			} 
 		});
 
-        $("#tax_person_number_2").on('keypress', function(e){
-            var inVal="";
-			console.log(e.keyCode)
-			
-            if ( e.keyCode === 8 ) {             //백스페이스
-                
-                $("#tax_person_number_2").val("");
-				$("#tax_person_number_3").val("");
-            }else if(e.keyCode >=96 && e.keyCode <=105){
-                switch (e.keyCode) {
-                    case 96 : inVal=0; break;
-                    case 97 : inVal=1; break;
-                    case 98 : inVal=2; break;
-                    case 99 : inVal=3; break;
-                    case 100 : inVal=4; break;
-                    case 101 : inVal=5; break;
-                    case 102 : inVal=6; break;
-                    case 103 : inVal=7; break;
-                    case 104 : inVal=8; break;
-                    case 105 : inVal=9; break;
-                }
-            }else if(e.keyCode >=48 && e.keyCode <= 57 ){
-               inVal = String.fromCharCode(e.keyCode);  
-            }else{
-				
-                e.preventDefault();
-                return false;
-            }            
-            var text = $(this).val();
-            if(text.length >= $(this).attr("maxlength")){
-                return;
-            }
-          
-            var inkey = $("#tax_person_number_3").val()+inVal;
-            	$("#tax_person_number_3").val(inkey.replace(/[^0-9]/g,""));               
-        	}).on('input',function(e){
-            	// $(this).val($(this).val().replace(/(?<=.{1})./gi, "*"));
-        	}); 
+        $("#tax_person_number_2").on('change', function(e){
+			$("#tax_person_number_3").val($("#tax_person_number_2").val()); 
+		});
 	});
 </script>
 
