@@ -62,6 +62,10 @@ $mining_history_cnt = sql_num_rows($mining_history);
 $mining_amt_log = sql_query("SELECT * from {$g5['withdrawal']} WHERE mb_id = '{$member['mb_id']}' AND coin = '{$minings[0]}' ");
 $mining_amt_cnt = sql_num_rows($mining_amt_log);
 
+// 마이닝 출금 승인 내역 
+$mining_amt_auth_log = sql_query("SELECT * from {$g5['withdrawal']} WHERE mb_id = '{$member['mb_id']}' AND coin = '{$minings[0]}' AND status = 1 ");
+$mining_amt_auth_cnt = sql_num_rows($mining_amt_auth_log);
+
 //kyc인증
 $kyc_cert = $member['kyc_cert'];
 
@@ -540,10 +544,11 @@ function overcharge($val,$category){
             }
             
             //KYC 인증
-            var out_count = Number("<?=$mining_amt_cnt ?>");
+            var out_count = Number("<?=$mining_amt_auth_cnt ?>");
             var kyc_cert = Number("<?=$kyc_cert?>");
+
             if(out_count < 1 && kyc_cert != 1){
-                dialogModal('KYC 인증 미등록/미승인 ', "<strong> 안전한 출금을 위해 최초 1회 KYC 인증을 진행해주세요<br><a href='/page.php?id=profile' class='btn btn-primary'>KYC인증</a></strong>", 'warning');
+                dialogModal('KYC 인증 미등록/미승인 ', "<strong> KYC인증이 미등록 또는 미승인 상태입니다.<br>안전한 출금을 위해 최초 1회 KYC 인증을 진행해주세요<br><a href='/page.php?id=profile' class='btn btn-primary'>KYC인증</a></strong>", 'warning');
                 return false;
             }
             
@@ -664,6 +669,7 @@ function overcharge($val,$category){
 
                                     $('#dialogModal .cancle').on('click', function() {
                                         is_sms_submitted = false;
+                                        location.reload();
                                     });
 
                                 }

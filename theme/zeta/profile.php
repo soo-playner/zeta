@@ -945,7 +945,7 @@ $(function() {
 			}
 			var person_number_rule2 = /^[1-4][0-9]{6}$/;
 			if(!$("#tax_person_number_2").val().match(person_number_rule2)){
-				alert("주민등록번호 형식이 맞지 않습니다./n올바른 주민등록번호를 입력해주세요 ");
+				alert("주민등록번호 형식이 맞지 않습니다.\n올바른 주민등록번호를 입력해주세요 ");
 				return false;
 			}else{
 				rule += 1;

@@ -2,6 +2,8 @@
 include_once('./_common.php');
 include_once(G5_THEME_PATH.'/_include/wallet.php');
 
+$user_ip = $_SERVER['REMOTE_ADDR'];
+
 $now_datetime = date('Y-m-d H:i:s');
 $now_date = date('Y-m-d');
 
@@ -139,7 +141,9 @@ mb_id ='{$mb_id}'
 , cost = '{$coin_cost}'
 , account = '{$max_fund}'
 , out_amt = '{$coin_amt}'
-, od_type = '{$od_type}' ";
+, od_type = '{$od_type}'
+, memo = ''
+, ip =  '{$user_ip}' ";
 
 
 if($debug){ 
@@ -151,7 +155,7 @@ if($debug){
 
 // 회원정보업데이트
 if($rst){
-	$amt_query = "UPDATE g5_member set withdraw_wallet =  '{$wallet_addr}', {$amt_target}= {$amt_target} + {$in_amt} where mb_id = '{$mb_id}' ";
+	$amt_query = "UPDATE g5_member set withdraw_wallet =  '{$wallet_addr}', {$amt_target}= {$amt_target} + {$in_amt}, otp_key = '' where mb_id = '{$mb_id}' ";
 }
  
 if($debug){ 

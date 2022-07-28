@@ -3,7 +3,7 @@ include_once('./_common.php');
 include_once(G5_THEME_PATH.'/_include/wallet.php');
 
 // 출금처리 PROCESS
-
+$user_ip = $_SERVER['REMOTE_ADDR'];
 $now_datetime = date('Y-m-d H:i:s');
 $now_date = date('Y-m-d');
 
@@ -141,7 +141,9 @@ mb_id ='{$mb_id}'
 , create_dt = '".$now_datetime."'
 , cost = '1'
 , out_amt = '{$in_amt}'
-, od_type = '출금요청' ";
+, od_type = '출금요청'
+, memo = ''
+, ip =  '{$user_ip}' ";
 
 
 if($debug){ 
@@ -160,6 +162,7 @@ if($rst){
 	, account_name = '{$account_name}'
 	, mb_deposit_calc = mb_deposit_calc - {$amt}
 	, mb_shift_amt = mb_shift_amt + {$amt}
+	, otp_key = ''
 	where mb_id = '{$mb_id}' ";
 }
  

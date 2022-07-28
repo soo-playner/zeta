@@ -95,6 +95,10 @@ function return_status_tx($val)
 	}
 }
 ?>
+<style>
+	strong.red{color:magenta !important}
+	.user_ip{width:130px;height:20px;text-overflow: ellipsis;text-align:left;padding-left:5px;margin-top:-5px;}
+</style>
 
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link href="<?= G5_ADMIN_URL ?>/css/scss/adm.withdrawal_request.css" rel="stylesheet">
@@ -362,6 +366,7 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 								echo '-';
 							} ?></td>
 						<td>
+							<div class='user_ip'><?=$row['ip']?></div>
 							<textArea id='' class='admin_memo' name='memo' data-uid="<?=$row['uid']?>" data-category='bonus' ><?=$row['memo']?></textArea>
 						</td>
 					</tr>
