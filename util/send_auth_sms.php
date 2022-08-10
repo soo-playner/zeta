@@ -3,6 +3,7 @@
 include_once('./_common.php');
 include_once(G5_LIB_PATH.'/icode.sms.lib.php');
 include_once(G5_PLUGIN_PATH.'/sms5/sms5.lib.php');
+include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 login_check($member['mb_id']);
 // $debug = 1;
@@ -10,10 +11,12 @@ login_check($member['mb_id']);
 $otp_key = mt_rand(100000, 999999);
 $mb_id = $member['mb_id'];
 $mb_hp = $member['mb_hp'];
+$opt_key_secure = Encrypt($otp_key);
 
-$update_auth_mobile = "UPDATE g5_member set otp_key = '{$otp_key}' WHERE mb_id = '{$mb_id}' ";
+$update_auth_mobile = "UPDATE g5_member set otp_key = '{$opt_key_secure}' WHERE mb_id = '{$mb_id}' ";
+
 if($debug){
-    print_R($update_auth_mobile);
+    // print_R($update_auth_mobile);
 }else{
     sql_query($update_auth_mobile);
 }
@@ -37,7 +40,7 @@ if($debug || !$debug_mode){
     echo "<br>receive_number : ".$receive_number;
     echo "<br>send_number : ".$send_number;
     ob_clean();
-    echo json_encode(array("result" => "success",  "time" => 500));
+    echo json_encode(array("result" => "success",  "time" => 500, "code" => $otp_key));
 }else{
     $SMS = new SMS; // SMS 연결
     $SMS->SMS_con($config['cf_icode_server_ip'], $config['cf_icode_id'], $config['cf_icode_pw'], $config['cf_icode_server_port']);
