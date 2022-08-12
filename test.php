@@ -7,10 +7,10 @@ include_once(G5_THEME_PATH.'/_include/wallet.php');
 
 
 <?
-include_once(G5_LIB_PATH.'/Telegram/telegram_api.php');
+/* include_once(G5_LIB_PATH.'/Telegram/telegram_api.php');
 
 $mb_id = 'admin';
-curl_tele_sent('[ khan-deposit ] '.$mb_id.' 님의 입급요청이 있습니다.');
+curl_tele_sent('[ khan-deposit ] '.$mb_id.' 님의 입급요청이 있습니다.'); */
 ?>
 
 <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
