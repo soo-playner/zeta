@@ -26,8 +26,8 @@ $notice_row = sql_fetch($notice_sql);
 </html>
 
 <!-- <script src="<?=G5_THEME_URL?>/_common/js/jquery.vticker.min.js"></script>	 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.9.0/i18next.min.js" type="text/javascript"></script>
-<script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.9.0/i18next.min.js" type="text/javascript"></script> -->
+<!-- <script>
 
 //window.onload=function(){
 $(document).ready(function(){
@@ -41,7 +41,7 @@ $(document).ready(function(){
 		$("html").i18n(); 
 	});
 });
-</script>
+</script> -->
 
 <!-- 공지사항 롤링 ticker -->
 <!-- <script>

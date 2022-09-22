@@ -91,14 +91,14 @@ geoip_close($gi);
 				}, 750);
 			});
 
-			$.i18n.init({
+			/* $.i18n.init({
 				resGetPath: '/locales/__lng__.json',
 				load: 'unspecific',
 				fallbackLng: false,
 				lng: 'en'
 			}, function (t){
 				$('body').i18n();
-			});
+			}); */
 
 			$("#lang-select").change(function(){
 				i18n.setLng($(this).val(), function(){
