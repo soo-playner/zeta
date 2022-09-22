@@ -23,14 +23,14 @@ $drain = 1;
 // echo "보너스 :: ".$bonus_row['rate'];
 
 
-if ($debug) {
+/* if ($debug) {
 	$uid = 6;
 	$status = 1;
 	$refund = 'Y';
 	$func = 'deposit';
 	$coin = '원';
 	$in_amt = '7000000';
-}
+} */
 
 
 if ($func == 'withrawal') {
@@ -46,10 +46,14 @@ if ($func == 'withrawal') {
 		if ($coin == '원') {
 			$coin_target = "mb_deposit_calc";
 			$update_member_return = "update g5_member set {$coin_target} = {$coin_target} + {$in_amt_total}, mb_shift_amt = mb_shift_amt - {$in_amt_total}  where mb_id='{$mb_id}' ";
-		} else if ($coin == 'eth') {
+		} else if($coin == strtolower($minings[1])){
 			$coin_target = "mb_mining_1";
 			$amt_target = "mb_mining_1_amt";
 			$update_member_return = "update g5_member set {$amt_target} = {$amt_target} - {$in_amt_total}  where mb_id='{$mb_id}' ";
+		} else if($coin == strtolower($minings[2])){
+			$coin_target = "mb_mining_2";
+			$amt_target = "mb_mining_2_amt";
+			$update_member_return = "UPDATE g5_member set {$amt_target} = {$amt_target} - {$in_amt_total}  where mb_id='{$mb_id}' ";
 		}
 
 		if ($debug) {

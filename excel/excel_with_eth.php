@@ -1,4 +1,5 @@
 <?php
+include_once('/logcompany.php');
 include_once("./Classes/PHPExcel.php");
 include_once("./db_connect.php");
 
@@ -94,7 +95,7 @@ $objPHPExcel -> setActiveSheetIndex(0)
 
 -> setCellValue("F1", "메일주소")
 
--> setCellValue("G1", "ETH")
+-> setCellValue("G1", $minings[$now_mining_coin])
 
 -> setCellValue("H1", "MBM")
 

@@ -10,7 +10,23 @@ function short_code($string, $char = 8){
 	return substr($string,0,$char)." ... ".substr($string,-8);
 }
 
-$sql_condition = "and coin = 'eth' " ;
+
+if (!isset($_GET['mode'])){
+	$coin_kind = $minings[$now_mining_coin];
+}else{
+	$coin_kind = $_GET['mode'];
+}
+
+if(strtolower($coin_kind) == 'eth'){
+	$search_mining_target = $before_mining_target;
+	$search_mining_amt_target = $before_mining_amt_target;
+}else{
+	$search_mining_target =  $mining_target;
+	$search_mining_amt_target = $mining_amt_target;
+}
+
+$search_target = "('".$coin_kind."')";
+$sql_condition = "and coin IN {$search_target} " ;
 
 if($_GET['fr_id']){
 	$sql_condition .= " and A.mb_id = '{$_GET['fr_id']}' ";
@@ -38,7 +54,7 @@ if($_GET['ord']!=null && $_GET['ord_word']!=null){
 	$sql_ord = "order by ".$_GET['ord_word']." ".$_GET['ord'];
 }
 
-$sql = " select count(*) as cnt, sum(amt) as hap, sum(amt_total) as amt_total, sum(fee) as feehap, sum(out_amt) as outamt from {$g5['withdrawal']} A WHERE 1=1 AND DATE_FORMAT(A.create_dt, '%Y-%m-%d') between '{$fr_date}' and '{$to_date}'	 ";
+$sql = " select count(*) as cnt, sum(amt) as hap, sum(amt_total) as amt_total, sum(fee) as feehap, sum(out_amt) as outamt from {$g5['withdrawal']} A WHERE 1=1 AND DATE_FORMAT(A.create_dt, '%Y-%m-%d') between '{$fr_date}' and '{$to_date} '	 ";
 $sql .= $sql_condition;
 $sql .= $sql_ord;
 
@@ -49,10 +65,6 @@ $total_hap = $row['hap'];
 $total_amt = $row['amt_total'];
 $total_out = $row['outamt'];
 $total_fee = $row['feehap'];
-
-/* print_r($sql);
-echo "<br><br>"; */
-
 
 
 $rows = 100;
@@ -88,6 +100,9 @@ function return_status_tx($val){
 <style>
 	strong.red{color:magenta !important}
 	.user_ip{width:130px;height:20px;text-overflow: ellipsis;text-align:left;padding-left:5px;margin-top:-5px;}
+	.search_kind{position:absolute;top:4.26em;left:110em;height:24px;font-size:0.95em;background:#666}
+	.search_kind + .search_kind{left:120em;}
+	.adminWrp table.regTb th{line-height:16px;}
 </style>
 
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
@@ -168,16 +183,16 @@ function return_status_tx($val){
 		$("#create_dt_fr,#create_dt_to, #update_dt").datepicker({ changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", showButtonPanel: true, yearRange: "c-99:c+99", maxDate: "+0d" });
 	});
 
-$(function(){
-		
-});
 
 </script>
 
 <input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_mining_withdrawal' value="엑셀 다운로드" />
 
+<input type="button" class="btn_submit search_kind" value="ETC" />
+<input type="button" class="btn_submit search_kind" value="ETH" />
+
 <div class="local_ov01 local_ov" style="line-height:18px;">
-	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=shift_auto($total_out,$minings[0])?> <?=strtoupper($minings[0])?> </strong></a> 
+	<a href="./adm.withdrawal_request.php?<?=$qstr?>" class="ov_listall"> 결과통계 <?=$total_count?> 건 = <strong><?=shift_auto($total_out,$coin_kind)?> <?=strtoupper($coin_kind)?> </strong></a> 
 	<?
 		// 현재 통계치
 		$stats_sql = "SELECT status, sum(out_amt)  as hap, count(out_amt) as cnt from {$g5['withdrawal']} as A WHERE 1=1 ".$sql_condition. " GROUP BY status";
@@ -187,11 +202,18 @@ $(function(){
 			echo "<a href='./adm.withdrawal_request_mining.php?".$qstr."&status=".$stats['status']."'><span class='tit'>";
 			echo return_status_tx($stats['status']);
 			echo "</span> : ".$stats['cnt'];
-			echo "건 = <strong>".shift_auto($stats['hap'],$minings[0]).' '.$minings[0]."</strong></a>";
+			echo "건 = <strong>".shift_auto($stats['hap'],$coin_kind).' '.$coin_kind."</strong></a>";
 		}
 
 		// 전체 통계치
-		$all_data_sql = "SELECT SUM(mb_mining_1) as acc_mining, SUM(mb_mining_1_amt) as acc_mining_amt FROM g5_member";
+		$all_data_sql = "SELECT SUM($search_mining_target) as acc_mining, SUM($search_mining_amt_target) as acc_mining_amt FROM g5_member ";
+		
+		if(strtolower($coin_kind) == 'eth'){
+			$all_data_sql = $all_data_sql." WHERE swaped = 0 ";
+		}else{
+			$all_data_sql = $all_data_sql." WHERE swaped != 0 ";
+		}
+		
 		$all_data_result = sql_fetch($all_data_sql);
 		
 		$all_mining_exc = $all_data_result['acc_mining'];
@@ -200,9 +222,9 @@ $(function(){
 
 	?>
 	<br>-<br>
-	전체통계 |  전체마이닝지급량 : <strong class='red'><?=shift_auto($all_mining_exc,$minings[0])?> <?=$minings[0]?></strong> | 
-	전체마이닝출금량 : <strong class='red'><?=shift_auto($all_mining_amt,$minings[0])?> <?=$minings[0]?></strong> |
-	전체마이닝출금가능(예정)량 : <strong class='red'><?=shift_auto($all_mining_remain,$minings[0])?> <?=$minings[0]?></strong> |
+	전체통계 |  전체마이닝지급량 : <strong class='red'><?=shift_auto($all_mining_exc,$coin_kind)?> <?=$coin_kind?></strong> | 
+	전체마이닝출금량 : <strong class='red'><?=shift_auto($all_mining_amt,$coin_kind)?> <?=$coin_kind?></strong> |
+	전체마이닝출금가능(예정)량 : <strong class='red'><?=shift_auto($all_mining_remain,$coin_kind)?> <?=$coin_kind?></strong> |
 </div>
 
 <div class="local_desc01 local_desc">
@@ -235,9 +257,9 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 			<th style="width:5%;">출금신청단위</th>
 			<th style="width:5%;">출금전잔고</th>
 			<th style="width:7%;">출금요청액</th>
-			<th style="width:7%;">출금계산액(수수료)</th>
+			<th style="width:7%;">출금계산액<br>(수수료)</th>
 
-			<th style="width:7%;">출금액 <span style='color:red'>(<?=WITHDRAW_CURENCY?>)</span></th>
+			<th style="width:7%;">출금액 <span style='color:red;letter-spacing:0;'>(<?=$coin_kind?>)</span></th>
 			<th style="width:6%;">출금시세</th>
 			
 			<!-- <th style="width:5%;">적용코인시세</th> -->
@@ -282,7 +304,7 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 
 				<input type="hidden" value="<?=$row['addr']?>" name="addr[]">
 				<td class="td_amt"><input type="hidden" value="<?=$row['coin']?>" name="coin[]" class='coin'>
-					<?=$row['coin']?> <?if($row['coin'] == $minings[0]){echo "<br><span class='badge'>MININNG</span>";}?>
+					<?=$row['coin']?> <?if($row['coin'] == $coin_kind){echo "<br><span class='badge'>MININNG</span>";}?>
 				</td>
 				
 				<!-- 출금전잔고 -->
@@ -302,12 +324,12 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 				
 
 				<td  class="td_amt" style="color:red">
-					<input type="hidden" value="<?=shift_auto($row['out_amt'],'eth')?>" name="out_amt[]">
+					<input type="hidden" value="<?=shift_auto($row['out_amt'],$coin_kind)?>" name="out_amt[]">
 					<?=shift_auto($row['out_amt'],$row['coin'])?>
 				</td>
 				
 				<!-- 출금시세 -->
-				<td class="gray" style='font-size:11px;'><span><?=shift_auto($row['cost'],$row['coin'])?></span></td>
+				<td class="gray" style='font-size:11px;'><span>￦<?=shift_kor(calculate_math($row['cost'],COIN_NUMBER_POINT))?></span></td>
 				
 				<td  style="font-size:11px;"><?=timeshift($row['create_dt'])?></td>
 				<td>
@@ -336,11 +358,12 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 		<tfoot>
 			<td>합계:</td>
 			<td><?=$total_count?></td>
-			<td colspan=4></td>
-			<td colspan=1><?=shift_auto($total_amt,'eth')?></td>
-			<td><?=shift_auto($total_fee,'eth')?></td>
-			<td colspan=1><?=shift_auto($total_out,'eth')?></td>
 			<td colspan=5></td>
+			<td colspan=1><?=shift_auto($total_amt,$coin_kind)?></td>
+			<td><?=shift_auto($total_fee,$coin_kind)?></td>
+			<td colspan=1><?=shift_auto($total_out,$coin_kind)?></td>
+			<td colspan=1></td>
+			<td colspan=4></td>
 		</tfoot>
     </table>
 </div>
@@ -352,7 +375,7 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 <input type="button" value="보내기" onclick="javascript:start_transfer()" class="transfer"> -->
 <!-- // adminWrp // -->
 <?php
-$pagelist = get_paging($config['cf_write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr.'&amp;domain='.$domain.'&amp;page=');
+$pagelist = get_paging($config['cf_write_pages'], $page, $total_page, $_SERVER['SCRIPT_NAME'].'?'.$qstr."&mode=".$coin_kind.'&amp;domain='.$domain.'&amp;page=');
 if ($pagelist) {
 	echo $pagelist;
 }
@@ -401,7 +424,15 @@ $(function() {
 		$temp.remove();
 
 		alert('주소가 복사되었습니다.');
-	})
+	});
+
+	$('.search_kind').on('click',function(){
+		var qstr = "<?=$qstr?>";
+		var mode_val = $(this).val();
+
+		location.href = "<?=G5_ADMIN_URL?>/adm.withdrawal_request_mining.php?" + qstr + "&mode=" + mode_val;
+	});
+
 });
 
 function select_all_check(){
@@ -414,7 +445,7 @@ if(!$(".pay_check").is(":checked")) {
 
 }
 
-function start_transfer(){
+/* function start_transfer(){
 
 	if($('#wallet_address').val() == ""){
 		alert("지갑주소를 입력해주세요.")
@@ -450,7 +481,7 @@ function start_transfer(){
 	$('#form').append("<input type='hidden' name='wallet_address' value='"+$('#wallet_address').val()+"'/>")
 	$('#form').append("<input type='hidden' name='wallet_key' value='"+$('#wallet_key').val()+"'/>")
 	f.submit();
-}
+} */
 
 </script>
 
