@@ -384,7 +384,7 @@ a.btn_cancle, .btn_cancle{
 }
 
 .user.selected{background:$sub-color}
-.btn-primary{background:$sub-color;color:white !important;}
+.btn-primary{background:$sub-color;color:white;}
 
 .b_darkblue {
     background: #29386b !important;
@@ -449,6 +449,10 @@ a.btn_cancle, .btn_cancle{
 .color9 {background: #6214ab !important;}
 .color10 {background: #6214ab !important;}
 
+.red {
+    color:red;
+}
+strong{color:red;}
 
 /* @media screen and (min-width:768px) {
 	body{background:#fff;color:white;}
@@ -593,10 +597,10 @@ a.btn_cancle, .btn_cancle{
                         font-size:16px;
                         font-weight:500;
                     }
+                }
 
-                    .red {
-                        color:red;
-                    }
+                .before_fund{
+                    font-size:11px;margin:0;padding:0;line-height:10px;
                 }
             }
         }
@@ -658,8 +662,8 @@ a.btn_cancle, .btn_cancle{
     .mining_ico{
         height: 40px;
         width: 40px;
-        display: inline-block;
         vertical-align: middle;
+        margin:0 auto;s
         
         img{width:100%;height:100%;}
     }
@@ -672,6 +676,34 @@ a.btn_cancle, .btn_cancle{
     }
 }
 
+#mining_swap{
+    background: #FECE00;
+    cursor: pointer;
+    border:1px solid #fdeda5;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+
+    .pop_btn{
+        display: flex;
+        align-items: center;
+        color:black; 
+        div{display:inline-block}
+
+        .wallet_title{font-weight:600;font-size:16px;}
+        .max_with{margin-left:10px;font-size:11px;}
+        .btn_title{}
+        .caret_box{
+            vertical-align: top;
+            float:right;
+            -webkit-box-flex:3;
+            flex-grow :3;
+            vertical-align: top;
+            text-align: right;
+            
+            i{font-size:16px;}
+        }
+    }
+}
+
 #mining_withdraw{
     background:#ec2b38;
 
@@ -679,6 +711,8 @@ a.btn_cancle, .btn_cancle{
         display: flex;
         align-items: center;
         color:white; 
+        cursor: pointer;
+
         div{display:inline-block}
 
         .wallet_title{font-weight:600;font-size:16px;}
@@ -755,7 +789,7 @@ a.btn_cancle, .btn_cancle{
     .hist_tit{width:100%; color:#29386b;}
     .mymining_total{color:#29386b;}
     
-    ul li span{display:inline-block;line-height:26px;font-size:12px;float: left;}
+    ul li span{display:inline-block;line-height:26px;font-size:12px; float:left;}
 
     .amt_total{color:#ec2b38;font-weight:600;font-size:13px;}
     .amt{font-size:13px;}
@@ -927,6 +961,165 @@ a.btn_cancle, .btn_cancle{
 
 
 
+//MINING 코인시세카드 
+.checkbox-group {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: left;
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	user-select: none;
+	
+    .checkbox{
+        padding-right:0.2rem;
+        width:50%;
+    } 
+    .checkbox + .checkbox{
+        padding-right:0;
+        padding-left:0.2rem;
+    }
+
+    .checkbox-wrapper{
+        width:100%;
+    }
+}
+
+
+.checkbox-input {
+	// Code to hide the input
+	clip: rect(0 0 0 0);
+	clip-path: inset(100%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+
+	&:checked + .checkbox-tile {
+		border-color: #2260ff;
+		box-shadow: 0 5px 10px rgba(#000, 0.1);
+		color: #2260ff;
+		&:before {
+			transform: scale(1);
+			opacity: 1;
+			background-color: #2260ff;
+			border-color: #2260ff;
+		}
+		
+		.checkbox-icon, .checkbox-label {
+			color: #2260ff;
+		}
+	}
+	
+	&:focus + .checkbox-tile {
+		border-color: #2260ff;
+		box-shadow: 0 5px 10px rgba(#000, 0.1), 0 0 0 4px #b5c9fc;
+		&:before {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+}
+
+
+.checkbox-tile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	// min-width: 7rem;
+	// min-height: 3rem;
+    padding:10px 16px 10px 16px;
+	border-radius: 0.5rem;
+	border: 2px solid #b5bfd9;
+	background-color: #fff;
+	box-shadow: 0 5px 10px rgba(#000, 0.1);
+	transition: 0.15s ease;
+	cursor: pointer;
+	position: relative;
+    font-family: "Inter", sans-serif;
+    color:black;
+    font-weight:600;
+
+	&:before {
+		content: "";
+		position: absolute;
+		display: block;
+		width: 1.25rem;
+		height: 1.25rem;
+		border: 2px solid #b5bfd9;
+		background-color: #fff;
+		border-radius: 50%;
+		top: 0.25rem;
+		left: 0.25rem;
+		opacity: 0;
+		transform: scale(0);
+		transition: 0.25s ease;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' fill='%23FFFFFF' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'%3E%3C/rect%3E%3Cpolyline points='216 72.005 104 184 48 128.005' fill='none' stroke='%23FFFFFF' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'%3E%3C/polyline%3E%3C/svg%3E");
+		background-size: 12px;
+		background-repeat: no-repeat;
+		background-position: 50% 50%;
+	}
+
+	&.active:hover {
+		border-color: #2260ff;
+		&:before {
+			transform: scale(1);
+			opacity: 1;
+		}
+	}
+}
+
+.checkbox-icon {
+	transition: .375s ease;
+	color: #494949;
+	img {
+		width: 40px;
+		height: 40px;
+	}
+}
+
+.checkbox-label {
+	color: #555;
+	transition: .375s ease;
+	text-align: center;
+    font-size:12px;
+}
+.checkbox-price .change_price{text-align:center;font-size:11px;font-weight:400}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // 다크모드
 .dark {
@@ -941,11 +1134,47 @@ a.btn_cancle, .btn_cancle{
             border: 1px solid $main-colors;
         }
     }
+
+    .checkbox-tile{
+        background:#212429;
+        border-color:#52575c;
+        .checkbox-icon{
+            background: white;
+            border-radius: 50%;
+            width: 42px;
+            height: 40px;
+            text-align: center;
+            padding: 5px 2px;
+            margin-bottom:5px;
+        }
+        .checkbox-labelkr{
+            color:rgba(255, 255, 255, 0.692);
+        }
+    }
+    .checkbox-input:checked + .checkbox-tile{
+        border-color:#FECE00;
+    }
+    .checkbox-input:checked + .checkbox-tile:before{
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='192' height='192' fill='%23FFFFFF' viewBox='0 0 256 256'%3E%3Crect width='256' height='256' fill='none'%3E%3C/rect%3E%3Cpolyline points='216 72.005 104 184 48 128.005' fill='none' stroke='%23000000' stroke-linecap='round' stroke-linejoin='round' stroke-width='32'%3E%3C/polyline%3E%3C/svg%3E");
+        background-color:#f9d448;
+        border-color:#f9d448;
+    }
+        border-color:#FECE00;
+    #SwapCoinModal .modal-close{background:transparent url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat}
+    #SwapCoinModal #result_curency{border-color:#FECE00}
+    #SwapCoinModal .icon{color:#FECE00;font-weight: 300;}
+    #SwapCoinModal .line_card{background:#15171b;border:0;box-shadow: inset 0 3px 3px rgb(0 0 0 / 30%);}
+    #SwapCoinModal .line_card .checkbox-labelkr{color:white;}
+    #SwapCoinModal .prices{color:white;}
+    #SwapCoinModal #result_curency{background:#101214;color:white;}
+    #result_curency .fund{color:white}
     
-    
+    .red{color:#c84a31}
+    strong{color:#FECE00}
+    // #SwapCoinModal #result_curency{border-color:#FECE00}
 
     .user.selected{background:$userSelected_background;}
-    .btn-primary{background:$userSelected_background;}
+    .btn-primary{background:#FECE00;color:black}
 
     // 버튼
     .b_main {
@@ -987,6 +1216,8 @@ a.btn_cancle, .btn_cancle{
             background: $main-button4 !important; 
         }
     }
+    
+
 
     // wapper
     #wrapper {
@@ -1572,6 +1803,8 @@ a.btn_cancle, .btn_cancle{
             }
         }
 
+        
+
         .bonus_state_bg {
             background: $main-background2;
         }
@@ -2089,6 +2322,24 @@ a.btn_cancle, .btn_cancle{
                 margin: 0 0 10px 0;
             }
         }
+
+        #mining_swap{
+            border: 1px solid #ffeda1;
+
+            .pop_btn{
+                // color:white; 
+                
+                div{display:inline-block}
+        
+                .wallet_title{font-weight:600;font-size:16px;}
+                .max_with{margin-left:10px;font-size:11px;}
+                .btn_title{text-align: center;}
+                .caret_box{
+                    
+                    i{font-size:16px;}
+                }
+            }
+        }
         
         #mining_withdraw {
             background:$mining_withdraw_background;
@@ -2128,7 +2379,7 @@ a.btn_cancle, .btn_cancle{
             
             .polding{
                 label{}
-                .comment{float:right;font-size:11px;line-height:30px;color:red;}
+                .comment{float:right;font-size:11px;line-height:30px;color:#c84a31;}
 
                 .sub_title {
                     color: $main-colors;
@@ -2177,6 +2428,11 @@ a.btn_cancle, .btn_cancle{
         }
     
         .badge{_background:#eff3f9;color:white;font-weight:300}
+
+        .b_orange{background:orangered;}
+        .b_pink{background:#ef21fd;}
+        .b_purple{background:#6f00ff}
+        .b_blue{background:#073a69 !important}
         
         .hist_td{line-height:30px;}
         .hist_value{font-size: 12px;}
@@ -2355,7 +2611,7 @@ a.btn_cancle, .btn_cancle{
                 padding: 0 5px;
     
                 &.plus {
-                    color: red;
+                    color: #c84a31;
                 }
     
                 &.minus {
@@ -2843,7 +3099,7 @@ a.btn_cancle, .btn_cancle{
     }
 
     .desc {
-        color: #109dff !important;
+        color: #a9a9a9 !important;
     }
 
     .box_on {
@@ -3108,6 +3364,7 @@ a.btn_cancle, .btn_cancle{
 
 input:-webkit-autofill { -webkit-box-shadow: 0 0 0 30px #fff inset ; -webkit-text-fill-color: #000; }
 input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active { transition: background-color 5000s ease-in-out 0s; }
+
 
 @include mobile {
     .upstairs {

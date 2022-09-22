@@ -154,7 +154,12 @@ $title = 'Dashboard';
 						</li>
 						<li class="col-4">
 							<dt class="title">출금 가능 코인</dt>
-							<dd class="value" style='font-size:14px;'><?=shift_auto($mining_total,$minings[0])?><span class='currency'><?=$minings[0]?></span></dd>
+							<dd class="value" style='font-size:14px;'>
+								<?=shift_auto($mining_total,$minings[$now_mining_coin])?><span class='currency'><?=$minings[$now_mining_coin]?></span>
+								<?if($member['swaped'] == 0){?>
+									<br><div class='before_fund'>(  <?=$before_mining_total?><span class='currency'><?=$minings[$before_mining_coin]?></span> )</div>
+								<?}?>
+							</dd>
 						</li>
 					</ul> 
 				</div>
@@ -197,7 +202,7 @@ $title = 'Dashboard';
 					<ul class="row">
 					<li class="col-4">
 							<!-- <dt class="title"><span class='badge'>Mining : <?=Number_format($member['mb_rate'])?> mh/s</span></dt>
-							<dd class="value"><?=$mining_total?> <span style='font-size:12px;'><?=$minings[0]?></span></dd> -->
+							<dd class="value"><?=$mining_total?> <span style='font-size:12px;'><?=$minings[$now_mining_coin]?></span></dd> -->
 							<dt class="title" >직추천인</dt>
 							<dd class="value"><?=$direct_reffer?></dd>
 						</li>

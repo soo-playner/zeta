@@ -50,13 +50,13 @@ $coin_cost 			= $_POST['cost']; // 코인가격
 
 
 if($debug){
-	$mb_id = 'test9';
-	$wallet_addr = 'TEST';
+	$mb_id = 'arcthan';
+	$wallet_addr = '0x3970f8E31b61b44400b8917DA39b4f748649815C';
 	$func = 'mining-withdraw';
-	$amt = 1;
-	$fee = 0.0500000;
-	$select_coin = 'eth';
-	$coin_amt = 0.9500000;
+	$amt = 156.7506;
+	$fee = 7.8375;
+	$select_coin = 'etc';
+	$coin_amt = 148.9131;
 	$coin_cost = 2933.03637855;
 }
 
@@ -72,8 +72,8 @@ if($func == 'withdraw'){
 	$withdrwal_setting = wallet_config('withdrawal_mining');
 	$max_fund = $mining_total;
 	$od_type = "마이닝출금요청";
-	$mining_target = 'mb_mining_1';
-	$amt_target = 'mb_mining_1_amt';
+	$mining_target = $mining_target;
+	$amt_target = $mining_amt_target;
 }
 
 $fee_rate = $withdrwal_setting['fee'];
