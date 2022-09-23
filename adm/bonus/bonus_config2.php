@@ -18,7 +18,7 @@ $token = get_token();
     <p>
         - 마케팅수당설정 - 관리자외 설정금지<br>
         - 수당한계 : 0 또는 값이 없으면 제한없음.<br>
-        - 마이닝 : 1TERA 당 = 마이닝지급량 (고정값)(FIL)<br>
+        - 마이닝 : ( 수당비율 * 회원별 보유해쉬량 ) 지급 <strong>[ <?=strtoupper($minings[$now_mining_coin])?> ] </strong><br>
         - 마이닝매칭 : 마이닝지급량의 % 입력
 	</p>
 </div>
@@ -100,7 +100,8 @@ $token = get_token();
     </div>
 
     <?
-        $mining_rate_result = sql_query("SELECT day,rate from soodang_mining group by day order by day desc limit 0,7");
+        $mining_rate_result = sql_query("SELECT day,rate from soodang_mining WHERE allowance_name = 'mining' group by day order by day desc limit 0,7");
+
         while($row = sql_fetch_array($mining_rate_result)){
             $mining_bonus_exc_sql = "SELECT SUM(mining) as mining_total FROM soodang_mining WHERE day = '{$row['day']}' ";
             $mining_bonus_exc = sql_fetch($mining_bonus_exc_sql);
