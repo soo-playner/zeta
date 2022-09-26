@@ -537,19 +537,19 @@ function string_explode($val,$dived_value = 'member'){
 function string_shift_code($val){
 	switch ($val) {
 		case "0" :
-			echo "Request Checking ..";
+			echo "요청처리 대기중";
 			break;
 		case "1" :
-			echo "<p class='font_green'>Complete</p>";
+			echo "<p class='font_green bold'>처리완료</p>";
 			break;
 		case "2" :
-			echo "Processing";
+			echo "요청처리 진행중";
 			break;
 		case "3" :
-			echo "<p class='font_red'>Reject</p>";
+			echo "<p class='font_red bold'>승인거절</p>";
 			break;
 		case "4" :
-			echo "<p class='font_red'>Cancle</p>";
+			echo "<p class='font_red bold'>취소</p>";
 			break;
 		default :
 			echo "Request Checking ..";

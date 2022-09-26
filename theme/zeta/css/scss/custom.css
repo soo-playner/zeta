@@ -752,6 +752,7 @@ strong {
 
 #mining_history .mymining_total {
   float: right;
+  text-align: right;
   color: #29386b;
 }
 #mining_history .hist_tit {
@@ -809,8 +810,8 @@ strong {
 }
 #mining_amt_log .hist_bank {
   color: black;
-  background: ghostwhite;
   border-radius: 5px;
+  width: inherit;
 }
 #mining_amt_log .result {
   font-size: 15px;
@@ -1071,8 +1072,8 @@ strong {
   color: #494949;
 }
 .checkbox-icon img {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
 }
 
 .checkbox-label {
@@ -2775,7 +2776,6 @@ strong {
   color: #fff;
 }
 .dark .pop_wrap.notice_img_pop .pop_close_wrap {
-  margin: -15px;
   border-top: 2px solid #2c3037;
 }
 .dark .modal-content {

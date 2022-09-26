@@ -374,7 +374,6 @@ function mode_init() {
 	} 
 
 	if(Theme == 'dark') {
-		$('body').addClass('dark');
 		$('.left_gnbWrap .close img').attr('src',g5_theme_url+'/img/gnb/close_dark.png');
 		
 		if(url.indexOf('profile') != -1 || url.indexOf('news') != -1 || url.indexOf('referral_link') != -1) {
@@ -382,7 +381,6 @@ function mode_init() {
 			$('#wrapper').css('background','#17191d');
 		}
 	} else if(Theme == 'white') {
-		$('body').removeClass('dark');
 		$('.left_gnbWrap .close img').attr('src',g5_theme_url+'/img/gnb/close.png');
 
 		if(url.indexOf('profile') != -1 || url.indexOf('news') != -1 || url.indexOf('referral_link') != -1) {

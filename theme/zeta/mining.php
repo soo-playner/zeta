@@ -32,8 +32,8 @@ if($mining_total > 0){
 $recent_day = date("Y-m-d", strtotime(date("Y-m-d")."-3 month"));
 
 /* 리스트 기본값*/
-$mining_history_limit1 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining)";
-$mining_history_limit2 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining) GROUP BY DAY";
+$mining_history_limit1 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining WHERE mb_id ='{$member['mb_id']}')";
+$mining_history_limit2 = " AND DAY IN (SELECT MAX(DAY) FROM soodang_mining WHERE mb_id ='{$member['mb_id']}') GROUP BY DAY";
 $mining_history_limit_text = '+더보기(최근3개월)';
 
 $mining_amt_limit = "limit 0,1 ";
@@ -41,12 +41,13 @@ $mining_amt_limit_text = '전체 내역보기';
 
 if ($_GET['history_limit'] == 'all') {
     $mining_history_limit1 = " AND DAY > '{$recent_day}' ";
-    $mining_history_limit2 = "GROUP BY DAY ORDER BY day desc ";
+    $mining_history_order = "GROUP BY DAY ORDER BY day desc ";
     $mining_history_limit_text = "최근내역만보기";
 }
 
 if ($_GET['amt_limit'] == 'all') {
     $mining_amt_limit = "";
+    $mining_history_order = "";
     $mining_amt_limit_text = "최근내역만보기";
 }
 
@@ -57,7 +58,7 @@ $mining_history_sql = "SELECT *
     WHERE mb_id = '{$member['mb_id']}' AND allowance_name != 'super_mining' {$mining_history_limit1} UNION
     SELECT NO, DAY,allowance_name,mb_id, SUM(mining) AS mining,currency,rate,rec,rec_adm, DATETIME,HASH,overcharge
     FROM soodang_mining
-    WHERE mb_id = '{$member['mb_id']}' AND allowance_name = 'super_mining'  {$mining_history_limit1} {$mining_history_limit2} 
+    WHERE mb_id = '{$member['mb_id']}' AND allowance_name = 'super_mining' {$mining_history_limit1} {$mining_history_order}
     ";
 
 // print_R($mining_history_sql);
@@ -66,7 +67,7 @@ $mining_history = sql_query($mining_history_sql);
 $mining_history_cnt = sql_num_rows($mining_history);
 
 // 마이닝 출금 내역
-$mining_amt_log = sql_query("SELECT * from {$g5['withdrawal']} WHERE mb_id = '{$member['mb_id']}' AND coin = '{$minings[$now_mining_coin]}' ");
+$mining_amt_log = sql_query("SELECT * from {$g5['withdrawal']} WHERE mb_id = '{$member['mb_id']}' AND coin != '{$minings[0]}' ");
 $mining_amt_cnt = sql_num_rows($mining_amt_log);
 
 // 마이닝 출금 승인 내역 
@@ -264,8 +265,12 @@ while($row=sql_fetch_array($coin_list_query)){
     .modal-btn{width:100%;margin:0;height:40px;}
     .btn-secondary{background:#f1f1f1;color:black}
     .modal-btn:hover{}
-    .b_yellow{background:#FECE00;color:black !important}
+    #mining_history .badge.b_yellow{background:#FECE00;color:black}
     .upbit_logo{width:50px;display: inline-block;}
+    .mymining_total{line-height:24px;}
+    .mymining_total .before_fund{margin:0;padding:0;line-height:20px;font-size:0.8em;color:#566aad}
+    .dark .mymining_total .before_fund{color:#999894}
+    .dark .color-even{color:rgba(255, 255, 255, 0.692);}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -417,6 +422,7 @@ while($row=sql_fetch_array($coin_list_query)){
                     </ul>
                 <? } else { ?>
                     <? while ($row = sql_fetch_array($mining_history)) { ?>
+                        <? if($row['no'] != ''){?>
                         <ul class="row">
                             <li class="col-3 hist_date"><?= $row['day'] ?></li>
                             <li class="col-5 hist_td"><?= category_badge($row['allowance_name']) ?>
@@ -440,7 +446,7 @@ while($row=sql_fetch_array($coin_list_query)){
                                 ?>
                             </li>
                         </ul>
-                    <? } ?>
+                    <? }} ?>
 
                     <div><button type='button' id="mining_history_more" class="btn wd"><?= $mining_history_limit_text ?></button></div>
 
@@ -451,7 +457,13 @@ while($row=sql_fetch_array($coin_list_query)){
                 <div class="b_line6"></div>
                 <div id='mining_amt_log' class='mt20'>
 
-                    <h3 class="hist_tit">마이닝 출금 내역 <span class='mymining_total'> <?= shift_coin($mining_amt) ?> <?= strtoupper($minings[$now_mining_coin]) ?></span></h3>
+                    <h3 class="hist_tit">마이닝 출금 내역 
+                        <span class='mymining_total'> <?= shift_coin($mining_amt) ?> <?= strtoupper($minings[$now_mining_coin]) ?>
+                        <?if($member['swaped'] > 0 && $member[$before_mining_amt_target] > 0){
+                            echo "<br><span class='before_fund'>".calculate_math($member[$before_mining_amt_target],8).' '.strtoupper($minings[$before_mining_coin])."</span>";
+                        }?>
+                        </span>
+                    </h3>
                     <? while ($row = sql_fetch_array($mining_amt_log)) { ?>
                         <ul class='row'>
                             <li class="col-12">
@@ -1056,7 +1068,7 @@ while($row=sql_fetch_array($coin_list_query)){
                     success: function(res) {
                         if(res.result == 'success') {
                             
-                            dialogModal('코인스왑처리',"내 자산(마이닝 코인)이 정상적으로 스왑() 처리되었습니다.",'success');
+                            dialogModal('코인SWAP',"내 자산(마이닝 코인)이 정상적으로 스왑 처리되었습니다.",'success');
                             $("#modal_return_url").on('click', function() {
                                 location.reload(); 
                             });

@@ -8,7 +8,7 @@ body{overflow-y: hidden;}
 	width:100%;
 	display:block;
 	height:100vh;
-	background:#000 url('<?=G5_THEME_URL?>/img/launcher.png?rel=20220622') no-repeat center;
+	background:#000 url('<?=G5_THEME_URL?>/img/launcher.png?rel=20220906') no-repeat center;
 	background-size:cover;
 }
 
@@ -35,8 +35,8 @@ body{overflow-y: hidden;}
   height: 2px;
 }
 
-.btn.btn_primary{background:linear-gradient(90deg,#6accfe,#b9e4fe)}
-.btn.btn_primary:hover{background:linear-gradient(90deg,#6accfe,#6accfe)}
+.btn.btn_primary{background:linear-gradient(90deg,#f49c41,#fd644f)}
+.btn.btn_primary:hover{background:linear-gradient(90deg,#f49c41,#f49c41)}
 
 .animate-bottom {
   position: relative;
@@ -128,8 +128,8 @@ body{overflow-y: hidden;}
 
 	function move() {
 	  var elem = document.getElementById("myBar");
-	  var width = 1;
-	  var id = setInterval(frame, 2);
+	  var width = 50;
+	  var id = setInterval(frame, 1);
 	  function frame() {
 		if (width >= 100) {
 		  clearInterval(id);
@@ -139,7 +139,7 @@ body{overflow-y: hidden;}
 			showPage();
 		  }
 		} else {
-		  width++;
+		  width = width + 10;
 		  elem.style.width = width + '%';
 		}
 	  }
@@ -210,8 +210,8 @@ body{overflow-y: hidden;}
 	</div>
 
 	<div class='intro_title'>
-		<p class='company' style="line-height:16px;color:#29386b "> 제타랩스 주식회사 | 사업자등록번호 356-87-02523 <br>통신판매업 신고번호 : 제 2022-서울강남-00711호<br>고객센터 : 02-6205-1112 | 이메일 : <?=$config['cf_admin_email']?></p>
-		<p class='copyright' style="color:#29386b">Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+		<p class='company' style="line-height:16px;color:#5e1110 "> 제타랩스 주식회사 | 사업자등록번호 356-87-02523 <br>통신판매업 신고번호 : 제 2022-서울강남-00711호<br>고객센터 : 02-6205-1112 | 이메일 : <?=$config['cf_admin_email']?></p>
+		<p class='copyright' style="color:#5e1110">Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
 	</div>
 </div>
 </html>
