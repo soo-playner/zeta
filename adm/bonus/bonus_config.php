@@ -27,7 +27,7 @@ $token = get_token();
 <div class="local_desc01 local_desc">
     <p>
         - 마케팅수당설정<br>
-        - 마이닝 : 1MH/S 당 지급량 (고정값)(ETH)<br>
+        - 마이닝 : 1MH/S 당 지급량 (고정값)(<?=strtoupper($minings[$now_mining_coin])?>)<br>
         - 마이닝매칭 : 마이닝지급량의 % 입력
 	</p>
 </div>

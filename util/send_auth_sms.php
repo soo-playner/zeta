@@ -7,11 +7,17 @@ include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 login_check($member['mb_id']);
 // $debug = 1;
+$debug_mode = LIVE_MODE;
 
 $otp_key = mt_rand(100000, 999999);
 $mb_id = $member['mb_id'];
 $mb_hp = $member['mb_hp'];
-$opt_key_secure = Encrypt($otp_key);
+
+if($debug_mode){
+    $opt_key_secure = Encrypt($otp_key);
+}else{
+    $opt_key_secure = $otp_key;
+}
 
 $update_auth_mobile = "UPDATE g5_member set otp_key = '{$opt_key_secure}' WHERE mb_id = '{$mb_id}' ";
 
@@ -32,7 +38,7 @@ $receive_number = preg_replace("/[^0-9]/", "", $mb_hp);  // 수신자번호 (회
 $send_number = preg_replace("/[^0-9]/", "", $sms5['cf_phone']); // 발신자번호
 $wr_message = stripslashes($sms_contents);
 
-$debug_mode = LIVE_MODE;
+
 
 if($debug || !$debug_mode){
     echo "<br>";

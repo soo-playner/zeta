@@ -351,6 +351,7 @@ if ($w == '') {
 					 first_name = '{$first_name}',
 					 mb_mprecommend = '{$mb_mprecommend}',
 					 nation_number = '{$nation_number}',
+					 swaped = 2,
 					 mb_week_dividend = 1
 					 {$sql_certify} ";
 

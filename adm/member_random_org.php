@@ -465,7 +465,7 @@ function milloin_number($val){
                
 				<div class='row'>
                     <div class='label'>회원검색</div>
-					<div class='col-8'><input type="text" placeholder="Member Search" name="binary_seach" id="binary_seach" style='font-size:16px;' data-i18n='[placeholder]binary.회원찾기'/></div>
+					<div class='col-8'><input type="text" placeholder="Member Search" name="binary_seach" id="binary_seach" style='font-size:16px;' /></div>
                     <div class='col-4'><button type="button" class="btn wd blue search-button"  id="search_btn"><span>검색</span></button></div>						
                     <!-- <button type='button' id="random_leg_btn" class='random_leg'> 레그랜덤생성</button> -->
                 </div>

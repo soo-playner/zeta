@@ -602,7 +602,16 @@ $rank_result = sql_fetch($rank_sql);
 		<td colspan="1"><span class='strong mining'><?= number_format($mb['mb_rate']) ?> MH/s</span></td>
 
 		<th scope="row">총 받은마이닝보너스</th>
-		<td colspan="1"><span class='strong mining_soodang'><?= shift_auto($mb[$mining_target], 'eth') ?> ETH</span></td>
+		<td colspan="1"><span class='strong mining_soodang'>
+			<?= shift_auto($mb[$mining_target], COIN_NUMBER_POINT) ?> <?=strtoupper($minings[$now_mining_coin])?></span>
+			<?
+			if($mb['swaped'] == 0){
+				echo "( ".shift_auto($mb[$before_mining_target], COIN_NUMBER_POINT).' '.strtoupper($minings[$before_mining_coin])." )";
+			}else if($mb['swaped'] == 1){
+				echo "<span style='margin-left:20px;color:gray'>코인변경(스왑)일 : " .$mb['swap_date']."</span>";
+			}
+			?>
+		</td>
 	</tr>
 
 	<tr class="ly_up padding-box fund">
@@ -610,25 +619,12 @@ $rank_result = sql_fetch($rank_sql);
 		<td colspan="1"><span class='strong amt'><?= number_format($mb['mb_shift_amt']) ?> 원</span></td>
 
 		<th scope="row">마이닝출금액</th>
-		<td colspan="1"><span class='strong amt'><?= shift_auto($mb[$mining_amt_target], 'eth') ?> ETH</span></td>
+		<td colspan="1"><span class='strong amt'>
+			<?= shift_auto($mb[$mining_amt_target], COIN_NUMBER_POINT) ?> <?=strtoupper($minings[$now_mining_coin])?></span>
+			<?if($mb['swaped'] == 0){echo "( ".shift_auto($mb[$before_mining_amt_target], COIN_NUMBER_POINT).' '.strtoupper($minings[$before_mining_coin])." )";}?>
+		</td>
 	</tr>
 
-	<!-- <tr class="ly_up padding-box week_dividend ">
-	
-		<th scope="row">주배당 설정</th>
-		<td colspan="1">
-			<input type="radio" name="mb_week_dividend" value="1" class='raido_btn' id="mb_week_dividend_jewel" <?php if ($mb['mb_week_dividend'] == '1') echo 'checked="checked"'; ?>>
-			<label for="mb_week_dividend_jewel">보석수령시(<?= $week_bonus[0] ?>%)</label>
-			<span class='divide'>|</span>
-			<input type="radio" name="mb_week_dividend" value="2" class='raido_btn' id="mb_week_dividend" <?php if ($mb['mb_week_dividend'] == '2') echo 'checked="checked"'; ?>>
-			<label for="mb_week_dividend">미수령(<?= $week_bonus[1] ?>%)</label>
-		</td>
-
-		<th scope="row">쇼핑몰 포인트</th>
-		<td colspan="1">
-			<?= Number_format($mb['mb_balance'] * 0.01) ?><?= ASSETS_CURENCY ?>
-		</td>
-	</tr> -->
 
 	<tr class="ly_up padding-box">
 

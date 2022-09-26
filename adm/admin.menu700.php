@@ -2,6 +2,7 @@
 if($member['mb_id'] == 'admin'){
 $menu["menu700"] = array (
 	array('700000', ' 입금/출금/매출', ''.G5_ADMIN_URL.'/shop_admin/orderlist.php', '0'),
+	array('700010', '코인 시세(UPbit)', ''.G5_ADMIN_URL.'/etc/coin_swap.php', 'coin_swap' , 1),
 	array('70050', '입출금설정', G5_ADMIN_URL.'/bonus/wallet.config.php', 'sst_order_stats'),
 	array('700100', '구매 통계', G5_ADMIN_URL.'/shop_admin/sale1.php', 'sst_order_stats'),
 	array('700200', '구매 내역', G5_ADMIN_URL.'/shop_admin/orderlist.php', 'scf_order', 1),
@@ -24,6 +25,7 @@ $menu["menu700"] = array (
 }else{
 	$menu["menu700"] = array (
 	array('700000', ' 입금/출금/매출', ''.G5_ADMIN_URL.'/shop_admin/orderlist.php', '0'),	
+	array('700010', '코인 시세(UPbit)', ''.G5_ADMIN_URL.'/etc/coin_swap.php', 'coin_swap' , 1),
 	array('700200', '구매 내역', G5_ADMIN_URL.'/shop_admin/orderlist.php', 'scf_order', 1),
 	array('700400', '수당 출금 요청 내역', G5_ADMIN_URL.'/adm.withdrawal_request.php', 'bbs_board'),
 	array('700400', '마이닝 출금 요청 내역', G5_ADMIN_URL.'/adm.withdrawal_request_mining.php', 'bbs_board'),

@@ -8,6 +8,7 @@ $menu["menu900"] = array (
   array('900100', 'SMS 기본설정', ''.G5_SMS5_ADMIN_URL.'/config.php', 'sms5_config'),
   array('900410', '전송내역-번호별', ''.G5_SMS5_ADMIN_URL.'/history_num.php', 'sms_history_num' , 1),
   
+  
   /*
   
 	  array('900200', '공휴일지정 관리', G5_ADMIN_URL.'/holiday_list.php', 'sst_order_stats'),

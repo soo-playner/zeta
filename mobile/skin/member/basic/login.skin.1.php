@@ -120,7 +120,7 @@
 				}
 			});
 
-			$.i18n.init({ 
+			/* $.i18n.init({ 
 				resGetPath: '/locales/__lng__.json', 
 				load: 'unspecific', 
 				fallbackLng: false, 
@@ -134,7 +134,7 @@
 				"kor" : "kr",
 				"jpn" : "jp",
 				"chn" : "ch"
-			}
+			} */
 
 			if(localStorage.getItem('myLang') || localStorage.getItem('myLang') != 'eng'){
 				i18n.setLng(linkMap2[localStorage.getItem('myLang')], function(){ 

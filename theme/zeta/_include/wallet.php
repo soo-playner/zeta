@@ -37,9 +37,14 @@ $total_withraw = $total_bonus - $total_shift_amt ;
 $available_fund = $total_deposit+$member['mb_shift_amt'];
 
 // 마이닝합계
-$mining_acc = $member['mb_mining_1'];
-$mining_amt = $member['mb_mining_1_amt'];
-$mining_total = ($mining_acc - $mining_amt);
+$mining_acc = $member[$mining_target];
+$mining_amt = $member[$mining_amt_target];
+
+$mining_total = calculate_math($mining_acc - $mining_amt,COIN_NUMBER_POINT);
+
+
+// 이전자산
+$before_mining_total = ($member[$before_mining_target] - $member[$before_mining_amt_target]);
 
 $bonus_sql = "select * from {$g5['bonus_config']} order by idx";
 $list = sql_query($bonus_sql);
@@ -428,6 +433,7 @@ function shift_coin($val){
 	return Number_format($val, COIN_NUMBER_POINT);
 }
 
+
 // 달러 , ETH 코인 표시
 function shift_auto($val,$coin = '원'){
 	if($coin == '$'){
@@ -464,6 +470,14 @@ function shift_number($val){
 function conv_number($val) {
 	$number = (int)str_replace(',', '', $val);
 	return $number;
+}
+
+// 코인 소수점 특정자리수 버림 계산값 
+function calculate_math($val,$point){
+	$cal1 = $val * (POW(10, $point+1));
+	$cal2 = round($cal1);
+	$cal3 = $cal2 / (POW(10, $point+1));
+	return $cal3;
 }
 
 /*날짜형식 변환 - 오늘기준 시간만표시*/
@@ -523,19 +537,19 @@ function string_explode($val,$dived_value = 'member'){
 function string_shift_code($val){
 	switch ($val) {
 		case "0" :
-			echo "Request Checking ..";
+			echo "요청처리 대기중";
 			break;
 		case "1" :
-			echo "<p class='font_green'>Complete</p>";
+			echo "<p class='font_green bold'>처리완료</p>";
 			break;
 		case "2" :
-			echo "Processing";
+			echo "요청처리 진행중";
 			break;
 		case "3" :
-			echo "<p class='font_red'>Reject</p>";
+			echo "<p class='font_red bold'>승인거절</p>";
 			break;
 		case "4" :
-			echo "<p class='font_red'>Cancle</p>";
+			echo "<p class='font_red bold'>취소</p>";
 			break;
 		default :
 			echo "Request Checking ..";
@@ -596,6 +610,7 @@ function ordered_items($mb_id, $table=null){
                 "it_cust_price" => $item[$i]['it_cust_price'],
                 "it_point" => $item[$i]['it_point'],
 				"it_maker" => $item[$i]['it_maker'],
+				"it_brand" => $item[$i]['it_brand'],
 				"od_name" => $item[$i]['it_maker'],
 				"it_supply_point" => $item[$i]['it_supply_point'],
 				"it_option_subject" => $item[$i]['it_option_subject'],
@@ -676,7 +691,7 @@ function rank_name($val){
 
 
 function retrun_tx_func($tx,$coin){
-	if(strtolower($coin) == 'eth'){
+	if(strtolower($coin) == 'eth' || strtolower($coin) == 'etc'){
 		return "<a href='https://etherscan.io/tx/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
 	}else if(strtolower($coin) =='fil'){
 		return "<a href ='https://filfox.info/ko/message/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
@@ -690,6 +705,8 @@ function retrun_fil_addr_func($tx,$coin){
 		return "<a href='https://etherscan.io/address/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
 	}else if(strtolower($coin) =='fil'){
 		return "<a href ='https://filfox.info/ko/address/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
+	}else if (strtolower($coin) == 'etc'){
+		return "<a href ='https://blockscout.com/etc/mainnet/tx/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
 	}else{
 		return $tx;
 	}

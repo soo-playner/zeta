@@ -415,7 +415,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                                 <? if (remain_hash($member['super_mining'], 1, false) >= 100) { ?>
                                     <h2>" <span class='font_red'><?= remain_hash($member['super_mining'], 1, false) ?>%</span> 초과달성 "</h2>
                                     
-                                    <h5> 보유해시량을 늘리면 일 / <span class="point"> <?= Number_format((($member['super_mining'] - ($member['mb_rate'] * 100)) * $day_mint_value * 0.01), 8) ?> ETH </span> 만큼 마이닝 보너스를 매일매일 더 받을수 있어요</h5>
+                                    <h5> 보유해시량을 늘리면 일 / <span class="point"> <?= Number_format((($member['super_mining'] - ($member['mb_rate'] * 100)) * $day_mint_value * 0.01), 8) ?> <?=strtoupper($minings[$now_mining_coin])?> </span> 만큼 마이닝 보너스를 매일매일 더 받을수 있어요</h5>
                                     <a href="<?=G5_URL?>/page.php?id=upstairs" class='btn inline ad_btn'>
                                     <!-- <i class="ri-add-fill" style='font-size:15px;'></i> -->
                                     마이닝 해시 추가 구매</a>

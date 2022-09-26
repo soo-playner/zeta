@@ -179,9 +179,9 @@ function diffvalue($val1, $val2, $diffval)
 SUM(mb_deposit_point) AS deposit, 
 SUM(mb_balance) AS balance,
 SUM(mb_save_point) AS pv, 
-SUM(mb_mining_1) AS mining, 
+SUM($mining_target) AS mining, 
 SUM(mb_deposit_point + mb_deposit_calc + mb_balance ) AS able_with, 
-SUM(mb_mining_1 - mb_mining_1_amt) AS able_mining   
+SUM($mining_target - $mining_amt_target) AS able_mining   
 {$sql_common} {$sql_search}";
 $stats_result = sql_fetch($stats_sql); */
 ?>
@@ -565,7 +565,7 @@ $stats_result = sql_fetch($stats_sql); */
 
 					<th scope="col" rowspan="2" id="" class="gold"><?= subject_sort_link('mb_balance') ?> 수당합계</th>
 					<th scope="col" rowspan="2" id="" class="green">
-						<?= subject_sort_link('mining') ?> 마이닝보유<br>(<?= $minings[0] ?>)
+						<?= subject_sort_link('mining') ?> 마이닝보유<br>(<?= $minings[$now_mining_coin] ?>)
 					</th>
 					<th scope="col" rowspan="2" id="" class=""><?= subject_sort_link('mb_rate') ?>마이닝해시</th>
 

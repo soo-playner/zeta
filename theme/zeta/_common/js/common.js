@@ -188,7 +188,8 @@ let maskingFunc = {
 
 // 숫자에 콤마 찍기
 function Price(x){
-	return String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	// return String(x).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	return x.toLocaleString('ko-KR', { maximumFractionDigits: 8 });
 }
 
 // 숫자에 콤마 제거
@@ -214,6 +215,13 @@ function coin_val(val){
 	return Number(val).toFixed(8);
 }
 
+// 코인 소수점 특정자리수 버림 계산값 
+function calculate_math(val,point){
+	var cal1 = val * (Math.pow(10, point));
+	var cal2 = Math.floor(cal1);
+	var cal3 = cal2 / (Math.pow(10, point));
+	return cal3;
+}
 
 // 보너스게이지
 function move(bonus_per,main = 0) {
@@ -366,7 +374,6 @@ function mode_init() {
 	} 
 
 	if(Theme == 'dark') {
-		$('body').addClass('dark');
 		$('.left_gnbWrap .close img').attr('src',g5_theme_url+'/img/gnb/close_dark.png');
 		
 		if(url.indexOf('profile') != -1 || url.indexOf('news') != -1 || url.indexOf('referral_link') != -1) {
@@ -374,7 +381,6 @@ function mode_init() {
 			$('#wrapper').css('background','#17191d');
 		}
 	} else if(Theme == 'white') {
-		$('body').removeClass('dark');
 		$('.left_gnbWrap .close img').attr('src',g5_theme_url+'/img/gnb/close.png');
 
 		if(url.indexOf('profile') != -1 || url.indexOf('news') != -1 || url.indexOf('referral_link') != -1) {

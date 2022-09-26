@@ -24,6 +24,7 @@
 	.hidden{display:none;}
 	.desc{font-size:11px;color:#777;}
 	.subtitle{font-size:20px;}
+	.sys_log{margin-bottom:30px;}
 </style>
 
 

@@ -229,7 +229,7 @@ $(document).ready(function(){
 	$(function(){
 		
 		var left_gnb = $('.left_gnb');
-		console.log(left_gnb.height());
+		// console.log(left_gnb.height());
 		if(left_gnb.height() < 433){
 			$(".gnb_bottom").css('display','block');
 

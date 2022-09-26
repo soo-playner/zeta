@@ -191,7 +191,7 @@ else
 </style>
 <div class="local_desc01 local_desc">
 	<p>
-		- <span class='f_green'>MH : </span>보유 마이닝해쉬 (ETH)&nbsp&nbsp
+		- <span class='f_green'>MH : </span>보유 마이닝해쉬 (<?=strtoupper($minings[$now_mining_coin])?>)&nbsp&nbsp
         - <span class='f_blue'>PV : </span> 매출금액(PV), 단위 : 만원&nbsp&nbsp
 		- <span class='f_pink'>ACC : </span> 승급대상포인트 (추천 하부 3대 매출), 단위 : 만원&nbsp&nbsp
 		<br> - 조직도 트리 - 아이디클릭시 바로가기 | 리스트(아이디제외부분) 더블클릭시 접어두기
