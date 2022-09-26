@@ -150,8 +150,8 @@ function serviceModal(){
 					<a href="/"><img src="http://seven.willsoft.kr/theme/seven/_images/gnb_logo.png" alt="v7 wallet"></a>
 				</div>
 				<ul class="left_gnb">
-					<li><a href="/" data-i18n="nav.how"><img src="http://seven.willsoft.kr/theme/seven/_images/menu01.gif" >대시보드</a></li>
-					<li><a href="javascript:serviceModal();"><img src="http://seven.willsoft.kr/theme/seven/_images/menu02.gif" alt="아이콘" data-i18n="nav.about">개인정보와 보안설정</a></li>
+					<li><a href="/" ><img src="http://seven.willsoft.kr/theme/seven/_images/menu01.gif" >대시보드</a></li>
+					<li><a href="javascript:serviceModal();"><img src="http://seven.willsoft.kr/theme/seven/_images/menu02.gif" alt="아이콘" >개인정보와 보안설정</a></li>
 					<!-- <li><a href="#0"><img src="_images/menu03.gif" alt="아이콘">백업과 복구</a></li> -->
 					<li><a href="javascript:serviceModal();"><img src="http://seven.willsoft.kr/theme/seven/_images/menu04.gif" alt="아이콘">클립토 월렛</a></li>
 					<li>
@@ -192,7 +192,7 @@ function serviceModal(){
 
 			<section class="dash_news">
 				<h5>공지사항 <img class="close_news f_right" src="http://seven.willsoft.kr/theme/seven/_images/close_round.gif" alt="공지사항 닫기"></h5>
-				<div data-i18n="nav.how">
+				<div >
 					서비스 준비중 입니다.
 				</div>
 			</section>
@@ -1150,8 +1150,8 @@ function serviceModal(){
 </html>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.9.0/i18next.min.js" type="text/javascript"></script>
-<script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/1.9.0/i18next.min.js" type="text/javascript"></script> -->
+<!-- <script>
 $(document).ready(function(){
 	i18n.init({ 
 		lng: 'en',
@@ -1163,4 +1163,4 @@ $(document).ready(function(){
 		$("html").i18n(); 
 	});
 });
-</script>
+</script> -->

@@ -91,7 +91,7 @@ if ($stx) {
 }
 
 $sql_common = " from {$g5['bonus']} where (1) ";
-$sql_order='order by day desc';
+$sql_order='order by datetime desc';
 
 $mining_sql = "from soodang_mining where (1)";
 $sql = "select count(no) as cnt {$mining_sql} {$sql_search}{$sql_order} ";

@@ -196,7 +196,7 @@ function  excute(){
 
     global $result;
     global $g5, $bonus_day, $bonus_condition, $code, $bonus_rates, $bonus_rate,$pre_condition_in,$bonus_limit,$bonus_layer;
-    global $minings,$mining_target,$mining_amt_target,$mem_list,$mining_rate,$mining;
+    global $minings,$mining_target,$mining_amt_target,$mem_list,$mining_rate,$now_mining_coin,$mining;
     global $debug;
     
     for ($i=0; $row=sql_fetch_array($result); $i++) {   
@@ -229,7 +229,7 @@ function  excute(){
         
         // 계산식
         echo "▶▶▶데일리 마이닝지급량  : mh :: <span class='blue'>".$mining_rate."</span><br>";
-        echo "▶▶▶▶매칭수당지급량 : ".$bonus_rates.' '.$minings[0];
+        echo "▶▶▶▶매칭수당지급량 : ".$bonus_rates.' '.$minings[$now_mining_coin];
         echo "<br><br>";
 
         $benefit = ($mining_matching_hash*$mining_rate)*$bonus_rates;
@@ -271,7 +271,7 @@ function  excute(){
 
 
         if($benefit > 0 ){
-            $rec=$code.' Bonus By '.$matching_lvl.' | '.$mining_matching_hash.' MH :: '.$benefit_limit_point.' '.$minings[0];
+            $rec=$code.' Bonus By '.$matching_lvl.' | '.$mining_matching_hash.' MH :: '.$benefit_limit_point.' '.$minings[$now_mining_coin];
             
             if($benefit_limit_point < $benefit_point){
                 $rec_adm =  $mining_matching_hash.' * '.$mining_rate.' * '.$bonus_rates.' = '.$benefit_limit_point." (".$benefit_point.")";
@@ -279,7 +279,7 @@ function  excute(){
                 $rec_adm =  $mining_matching_hash.' * '.$mining_rate.' * '.$bonus_rates.' = '.$benefit_limit_point;
             }
 
-            $record_result = mining_record($mb_id, $code, $benefit_limit_point,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day,$mining_matching_hash,$benefit_point);
+            $record_result = mining_record($mb_id, $code, $benefit_limit_point,$bonus_rates,$minings[$now_mining_coin], $rec, $rec_adm, $bonus_day,$mining_matching_hash,$benefit_point);
 
             
             if($record_result ){

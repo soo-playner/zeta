@@ -7,6 +7,7 @@ include_once('./bonus_inc.php');
 auth_check($auth[$sub_menu], 'r');
 $category = 'mining';
 
+// $debug =1;
 
 if(!$debug){
     $dupl_check_sql = "select mb_id from {$g5['mining']} where day='".$bonus_day."' and allowance_name = '{$code}' ";
@@ -78,7 +79,7 @@ function  excute(){
 
     global $result;
     global $g5, $bonus_day, $bonus_condition, $code, $bonus_rates, $bonus_rate,$pre_condition_in,$bonus_limit;
-    global $tp,$minings,$mining_target,$mining_amt_target ;
+    global $tp,$minings,$mining_target,$mining_amt_target,$now_mining_coin ;
     global $debug;
 
     
@@ -104,11 +105,11 @@ function  excute(){
         
 
         if($benefit > 0){
-            $rec=$code.' Bonus By '.$hash_power.' mh/s :: '.$benefit.' '.$minings[0];
+            $rec=$code.' Bonus By '.$hash_power.' mh/s :: '.$benefit.' '.$minings[$now_mining_coin];
             $rec_adm = $rec;
-            echo "<span class=blue> ▶▶ 마이닝 지급 : ".$benefit.' '.$minings[0]."</span><br>";
+            echo "<span class=blue> ▶▶ 마이닝 지급 : ".$benefit.' '.$minings[$now_mining_coin]."</span><br>";
 
-            $record_result = mining_record($mb_id, $code, $benefit,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day);
+            $record_result = mining_record($mb_id, $code, $benefit,$bonus_rates,$minings[$now_mining_coin], $rec, $rec_adm, $bonus_day);
 
             
             if($record_result){
@@ -124,7 +125,7 @@ function  excute(){
                 }
             }
         }else{
-            echo "<span class=blue> ▶▶ 수당 지급 : ".$benefit.' '.$minings[0]."</span><br>";
+            echo "<span class=blue> ▶▶ 수당 지급 : ".$benefit.' '.$minings[$now_mining_coin]."</span><br>";
         }
 
     } // for
