@@ -497,6 +497,10 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
 
 
 <script>
+    //     var loading = $('<div id="pre_loading" class="pre_loading"><img id="loading_img" src="'+g5_theme_url+'/img/loader_808.svg" /></div>');
+
+    // loading.appendTo(document.body);
+
     var chartData = <?= json_encode($chart_data) ?>;
     var bonusData = <?= json_encode($bonus_data) ?>;
 
@@ -538,6 +542,8 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
     }
 
     $(function() {
+        
+        // loading.show();
 
         var stage = '<?= $stage ?>';
 
@@ -621,6 +627,7 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
         }
 
         function load_data(stage, start, limit) {
+            // loading.show()
             var contarget = "#container_" + stage;
             var data_target = $(contarget + " .box-body");
 
@@ -655,41 +662,49 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                             html += "<li class='rec_adm'>" + res.data[i]['rec_adm'] + "</li>";
                             html += "</ul>";
                         }
+                        
                         $(data_target).append(html);
+                        
+                        if (stage == 'mega') {
+                            if (!megachart_exc) {
+                                chart_mega_spark1.render();
+                                megachart_exc = true;
+                                megachart.render();
+                            }
+                        } else if (stage == 'zeta') {
+                            if (!zetachart_exc) {
+                                chart_zeta_spark1.render();
+                                zetachart_exc = true;
+                                zetachart.render();
+                            }
+                        } else if (stage == 'zetaplus') {
+                            if (!zetapluschart_exc) {
+                                chart_zetaplus_spark1.render();
+                                zetapluschart_exc = true;
+                                zetapluschart.render();
+                            }
+                        } else if (stage == 'super') {
+                            if (!superchart_exc) {
+                                chart_super_spark1.render();
+                                superchart_exc = true;
+                                superchart.render();
+                            }
+                        } else if (stage == 'my') {
+                            if (!mychart_exc) {
+                                chart_my_spark1.render();
+                                mychart_exc = true;
+                                
+                            }
+                        }
+
+                        
+                        
                     }
+                    
+                },complete: function(res){
+                    console.log('done');
                 }
             });
-
-            if (stage == 'mega') {
-                if (!megachart_exc) {
-                    chart_mega_spark1.render();
-                    megachart_exc = true;
-                    megachart.render();
-                }
-            } else if (stage == 'zeta') {
-                if (!zetachart_exc) {
-                    chart_zeta_spark1.render();
-                    zetachart_exc = true;
-                    zetachart.render();
-                }
-            } else if (stage == 'zetaplus') {
-                if (!zetapluschart_exc) {
-                    chart_zetaplus_spark1.render();
-                    zetapluschart_exc = true;
-                    zetapluschart.render();
-                }
-            } else if (stage == 'super') {
-                if (!superchart_exc) {
-                    chart_super_spark1.render();
-                    superchart_exc = true;
-                    superchart.render();
-                }
-            } else if (stage == 'my') {
-                if (!mychart_exc) {
-                    chart_my_spark1.render();
-                    mychart_exc = true;
-                }
-            }
 
         }
 
@@ -705,8 +720,9 @@ $bonus_data = [remain_bonus($member['recom_mining'], 3), remain_bonus($member['b
                     result = fn.apply(context || this, arguments);
                     fn = null;
                 }
-
+                
                 return result;
+                
             };
         }
     });

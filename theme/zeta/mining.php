@@ -266,11 +266,15 @@ while($row=sql_fetch_array($coin_list_query)){
     .btn-secondary{background:#f1f1f1;color:black}
     .modal-btn:hover{}
     #mining_history .badge.b_yellow{background:#FECE00;color:black}
-    .upbit_logo{width:50px;display: inline-block;}
+    .upbit_logo{width:65px;display: inline-block;margin-left:10px;}
     .mymining_total{line-height:24px;}
     .mymining_total .before_fund{margin:0;padding:0;line-height:20px;font-size:0.8em;color:#566aad}
     .dark .mymining_total .before_fund{color:#999894}
     .dark .color-even{color:rgba(255, 255, 255, 0.692);}
+
+    .refresh_btn{flex:auto;text-align:right;line-height:24px;}
+    #coin_refresh{line-height:30px;}
+    .dark #coin_refresh:hover i{color:#FECE00}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap">
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -331,8 +335,13 @@ while($row=sql_fetch_array($coin_list_query)){
         <div class="b_line5 mt10 mt10"></div>
 
 
-        <h3 class="title mt20">주요 암호화폐 시세 By <div class='upbit_logo'><img src="<?=G5_THEME_URL?>/img/icon_bi_upbit.svg"></div></h3>
-        <fieldset class="checkbox-group mt20" id='coin_dashboard'></fieldset>
+        <h3 class="title" style="margin:30px 0 0;display:flex;line-height:44px;">주요 암호화폐 시세 By 
+            <div class='upbit_logo'><img src="<?=G5_THEME_URL?>/img/icon_bi_upbit.svg"></div>
+            <div class="refresh_btn">
+                <a id="coin_refresh" class="btn inline"><i class="ri-restart-fill" style="font-size:28px;"></i></a>
+            </div>
+        </h3>
+        <fieldset class="checkbox-group mt10" id='coin_dashboard'></fieldset>
 
         <?if($member['swaped'] == 0){?>
         <section id='mining_swap' class='col-12 content-box round mt20'>
@@ -770,6 +779,7 @@ while($row=sql_fetch_array($coin_list_query)){
             });
         });
 
+
         // 업비트코인시세
         var coin_list = <?=json_encode($coin_array)?>;
         var coin_name = '';
@@ -777,66 +787,79 @@ while($row=sql_fetch_array($coin_list_query)){
         var origin_curency = "<?= strtoupper($minings[1]) ?>";
         var select_curency = "<?= strtoupper($minings[2]) ?>";
         
-        if(coin_list.length > 0){
-            console.log(coin_list);
+        coin_currency_lnt(coin_list);
+        
+        $("#coin_refresh").on('click',function(){
+            // $("#coin_dashboard").children().remove();
+            $("#coin_dashboard").prepend("<div class='refresh_loader'><img src='"+g5_theme_url+"/img/loader_294.svg'></div>");
+            setTimeout(coin_currency_lnt, 2000, coin_list);
+        });
 
-            $.each (coin_list, function (index, el) {
+        function coin_currency_lnt(coin_list){
+            $("#coin_dashboard").children().remove();
+            if(coin_list.length > 0){
+                console.log(coin_list);
 
-                var upbit_api_url = 'https://api.upbit.com/v1/ticker?markets=KRW-' + el[1];
-                var upbit_img_src = "https://static.upbit.com/logos/" + el[1] + '.png';
+                $.each (coin_list, function (index, el) {
 
-                $.ajax({
-                    type: "GET",
-                    url: upbit_api_url,
-                    data: {
-                    },
-                    cache: false,
-                    async: false,
-                    dataType: 'json',
-                    
-                    success: function(res) {
-                        if(res){
-                            var temp_clone = $('#card_template').clone();
-                            var temp_html = $(temp_clone.html());
+                    var upbit_api_url = 'https://api.upbit.com/v1/ticker?markets=KRW-' + el[1];
+                    var upbit_img_src = "https://static.upbit.com/logos/" + el[1] + '.png';
 
-                            // 템플릿 수정
-                            temp_html.find('.checkbox-wrapper').attr('title',el[2]);
-                            temp_html.find('.checkbox-wrapper').attr('id',el[1]);
-                            
-                            temp_html.find('.checkbox-input').attr('data-id',el[1]);
-                            if(index == 1){
+                    $.ajax({
+                        type: "GET",
+                        url: upbit_api_url,
+                        data: {
+                        },
+                        cache: false,
+                        async: false,
+                        dataType: 'json',
+                        
+                        success: function(res) {
+                            if(res){
+                                var temp_clone = $('#card_template').clone();
+                                var temp_html = $(temp_clone.html());
+
+                                // 템플릿 수정
+                                temp_html.find('.checkbox-wrapper').attr('title',el[2]);
+                                temp_html.find('.checkbox-wrapper').attr('id',el[1]);
                                 
-                                temp_html.find('.checkbox-tile').addClass('active');
-                                temp_html.find('.checkbox-input').attr('checked',true);
-                            }else if (index ==0){
-                                temp_html.find('.checkbox-input').attr('disabled',true);
-                            }
-                            temp_html.find('.checkbox-input').val(el[0]);
-                            temp_html.find('img').attr('src',upbit_img_src);
-                            // temp_html.find('.checkbox-label').html(res[0].market);
-                            temp_html.find('.checkbox-labelkr').html(el[3]);
+                                temp_html.find('.checkbox-input').attr('data-id',el[1]);
+                                if(index == 1){
+                                    
+                                    temp_html.find('.checkbox-tile').addClass('active');
+                                    temp_html.find('.checkbox-input').attr('checked',true);
+                                }else if (index ==0){
+                                    temp_html.find('.checkbox-input').attr('disabled',true);
+                                }
+                                temp_html.find('.checkbox-input').val(el[0]);
+                                temp_html.find('img').attr('src',upbit_img_src);
+                                // temp_html.find('.checkbox-label').html(res[0].market);
+                                temp_html.find('.checkbox-labelkr').html(el[3]);
 
-                            if(res[0].change.toLowerCase()  =='rise'){
-                                var colorstring = "color-up";
-                                var express = "<i class='ri-arrow-up-s-fill'></i>";
-                            }else if (res[0].change.toLowerCase() == 'even'){
-                                var colorstring = "color-even";
-                                var express = "<i class='ri-subtract-line'></i>";
-                            }else{
-                                var colorstring = "color-down";
-                                var express = "<i class='ri-arrow-down-s-fill'></i>";
-                            }
-                            
-                            temp_html.find('.prices').addClass(colorstring);
-                            temp_html.find('.prices > .price').attr('data-val',res[0].trade_price).html('￦' +Price(res[0].trade_price));
-                            temp_html.find('.prices > .change_price').html(express + Price(res[0].change_price));
+                                if(res[0].change.toLowerCase()  =='rise'){
+                                    var colorstring = "color-up";
+                                    var express = "<i class='ri-arrow-up-s-fill'></i>";
+                                }else if (res[0].change.toLowerCase() == 'even'){
+                                    var colorstring = "color-even";
+                                    var express = "<i class='ri-subtract-line'></i>";
+                                }else{
+                                    var colorstring = "color-down";
+                                    var express = "<i class='ri-arrow-down-s-fill'></i>";
+                                }
+                                
+                                temp_html.find('.prices').addClass(colorstring);
+                                temp_html.find('.prices > .price').attr('data-val',res[0].trade_price).html('￦' +Price(res[0].trade_price));
+                                temp_html.find('.prices > .change_price').html(express + Price(res[0].change_price));
 
-                            temp_clone.html(temp_html.prop('outerHTML'));
-                            $('#coin_dashboard').append(temp_clone.html());
+                                temp_clone.html(temp_html.prop('outerHTML'));
+                                $('#coin_dashboard').append(temp_clone.html());
+                            }
+                        },error: function(e) {
+                            alert(e);
                         }
-                    }
+                    });
                 });
-            });
+            }
         }
 
 
@@ -997,9 +1020,6 @@ while($row=sql_fetch_array($coin_list_query)){
 
         //버튼4 : 코인스왑
         $('#coin_swap').on('click', function() {
-            
-
-
             $('#SwapCoinModal').modal("show");
 
             var exc_array = [
@@ -1027,7 +1047,7 @@ while($row=sql_fetch_array($coin_list_query)){
             $('#result_curency .result-price').attr('data-val', result_val).html("<span class='fund'>" + calculate_math( before_mining_total*result_val,4)+ " " + exc_array[1][1] +"</span>(" + Price(result_val) + ' ' + exc_array[1][1]+")");
 
             
-            if (origin_curency != select_curency && result_val != 1 &&  before_mining_total > 0.1) {
+            if (origin_curency != select_curency && result_val != 1 &&  before_mining_total > 0.001) {
                 var result_msg = "<strong>주의!</strong><br>내 잔고(<strong>" + origin_curency + "</strong>)를 해당 코인(<strong>" + select_curency + "</strong>) 으로 변환하시겠습니까?<br> 스왑은 1회만 가능하며, 실행 이후에는 되돌릴수 없습니다."
                 
                 $('#SwapCoinModal #swap_exc').addClass('btn-primary').attr('disabled', false);
@@ -1046,7 +1066,6 @@ while($row=sql_fetch_array($coin_list_query)){
             $("#SwapCoinModal #swap_exc").on('click', function() {
                 if (!confirm("자산(마이닝코인) 잔고를 스왑(swap) 하시겠습니까?")) {
                     return false;
-                    
                 } else {
                     $("#SwapCoinModal #swap_exc").attr('disabled', true);
                     $("#SwapCoinModal").modal('hide');
@@ -1081,8 +1100,7 @@ while($row=sql_fetch_array($coin_list_query)){
                         }
                     }, 
                     error: function(e) {
-                        
-                        console.log(e);
+                        alert(e);
                     }
                     });
                 }

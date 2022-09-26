@@ -8,7 +8,7 @@ body{overflow-y: hidden;}
 	width:100%;
 	display:block;
 	height:100vh;
-	background:#000 url('<?=G5_THEME_URL?>/img/launcher.png?rel=20220906') no-repeat center;
+	background:#000 url('<?=G5_THEME_URL?>/img/launcher_0906.png?rel=20220906') no-repeat center;
 	background-size:cover;
 }
 
