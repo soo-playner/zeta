@@ -241,11 +241,11 @@ $(function() {
 	<p class="pop_title"  data-i18n="popup.로그 아웃">Logout</p>
 	<div>
 		<img src="<?=G5_URL?>/img/notice.png" alt="이미지">
-		<span  data-i18n="popup.로그아웃 하시겠습니까?">Are you sure to log out?</span>
+		<span >로그아웃 하시겠습니까?</span>
 	</div>
 	<div class="pop_close_wrap">
-		<a href="javascript:void(0);" class="btn inline wd btn_default pop_close" data-i18n="popup.취소">Cancel</a>
-		<a href="/bbs/logout.php" class="btn inline wd btn_default btn_primary" style='margin-top:10px;' data-i18n="popup.네">Yes</a>
+		<a href="javascript:void(0);" class="btn inline wd btn_default pop_close">취소</a>
+		<a href="/bbs/logout.php" class="btn inline wd btn_default btn_primary" style='margin-top:10px;'>로그아웃</a>
 	</div>
 </div>
 

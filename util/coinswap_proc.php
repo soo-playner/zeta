@@ -85,12 +85,5 @@ function echo_result($sql_result){
     }
 }
 
-// 코인 소수점 특정자리수 버림 계산값 
-function calculate_math($val,$point){
-	$cal1 = $val * (POW(10, $point));
-	$cal2 = floor($cal1);
-	$cal3 = $cal2 / (POW(10, $point));
-	return $cal3;
-}
 ?>
 

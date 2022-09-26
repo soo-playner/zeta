@@ -765,6 +765,7 @@ strong{color:red;}
 #mining_history{
     .mymining_total{
         float:right;
+        text-align:right;
         color:#29386b;
     }
     .hist_tit{color:#29386b;}
@@ -793,7 +794,7 @@ strong{color:red;}
 
     .amt_total{color:#ec2b38;font-weight:600;font-size:13px;}
     .amt{font-size:13px;}
-    .hist_bank{color:black;background:ghostwhite;border-radius:5px;}
+    .hist_bank{color:black;border-radius:5px;width:inherit;}
     .result{font-size:15px;}
 
     
@@ -1075,8 +1076,8 @@ strong{color:red;}
 	transition: .375s ease;
 	color: #494949;
 	img {
-		width: 40px;
-		height: 40px;
+		width: 44px;
+		height: 44px;
 	}
 }
 
@@ -3297,7 +3298,7 @@ strong{color:red;}
             }
 
             .pop_close_wrap {
-                margin: -15px;
+                // margin: -15px;
                 border-top: 2px solid #2c3037;
             }
         }
