@@ -133,6 +133,8 @@ function mining_kind($kind){
 		$color_class = 'purple';
 	}else if($kind == 'super_mining'){
 		$color_class = 'deepblue';
+	}else if($kind == 'coin swap'){
+		$color_class = 'deepblue';
 	}
 	return $color_class;
 }

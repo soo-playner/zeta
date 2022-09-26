@@ -101,15 +101,10 @@ if(!isset($g5['title'])){
 	
 	</script>
 
-	<script>
-		// 테마변경 초기화
-		$(function() {
-			mode_init();
-		});
-	</script>
+	
 </head>
 
-<body>
+<body class="<?=$_COOKIE['mode']?>">
 
 <?
 /*서비스점검*/
