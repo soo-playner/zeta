@@ -85,7 +85,7 @@ function  excute(){
 
     global $result;
     global $g5, $bonus_day, $bonus_condition, $code, $bonus_rates, $bonus_rate,$pre_condition_in,$bonus_limit,$bonus_layer;
-    global $minings,$mining_target,$mining_amt_target,$mem_list,$mining_rate,$mining;
+    global $minings,$mining_target,$mining_amt_target,$mem_list,$mining_rate,$mining,$now_mining_coin;
     global $debug;
     
     for ($i=0; $row=sql_fetch_array($result); $i++) {   
@@ -147,6 +147,7 @@ function  excute(){
         echo "발생할수당: ".$benefit_point." | 지급할수당 :".$benefit_limit_point;
         echo "</code><br>";
 
+        $rec_adm = '';
         
         if($mem_cnt < 2){
             $benefit = 0;
@@ -169,7 +170,7 @@ function  excute(){
 
 
         if($benefit > 0 ){
-            $rec=' Bonus By '.$mb_origin.' hash | '.$super_rate.' MH :: '.$benefit_limit_point.' '.$minings[0];
+            $rec=' Bonus By '.$mb_origin.' hash | '.$super_rate.' MH :: '.$benefit_limit_point.' '.$minings[$now_mining_coin];
 
             if($benefit_limit < $benefit){
                 $rec_adm =  $super_rate.' * '.$mining_rate.' * '.$bonus_rates.' = '.$benefit_limit_point." (".$benefit_point.")";
@@ -177,7 +178,7 @@ function  excute(){
                 $rec_adm =  $super_rate.' * '.$mining_rate.' * '.$bonus_rates.' = '.$benefit_limit_point;
             }
 
-            $record_result = mining_record($mb_id, $code, $benefit_limit_point,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day,$super_rate,$benefit_point);
+            $record_result = mining_record($mb_id, $code, $benefit_limit_point,$bonus_rates,$minings[$now_mining_coin], $rec, $rec_adm, $bonus_day,$super_rate,$benefit_point);
 
             
             if($record_result ){

@@ -198,7 +198,7 @@ function  excute(){
 
     global $result;
     global $g5, $bonus_day, $bonus_condition, $code, $bonus_rates, $bonus_rate,$pre_condition_in,$bonus_limit,$bonus_layer;
-    global $minings,$mining_target,$mining_amt_target,$mem_list,$mining_rate,$mining;
+    global $minings,$mining_target,$mining_amt_target,$mem_list,$mining_rate,$mining,$now_mining_coin;
     global $debug;
     
     for ($i=0; $row=sql_fetch_array($result); $i++) {   
@@ -235,7 +235,7 @@ function  excute(){
         
         // 계산식
         echo "▶▶▶데일리 마이닝지급량  :  <span class='blue'>".$mining_rate." eth</span> / 1mh<br>";
-        echo "▶▶▶▶매칭수당지급량 : ".$bonus_rates.' '.$minings[0]."<br>";
+        echo "▶▶▶▶매칭수당지급량 : ".$bonus_rates.' '.$minings[$now_mining_coin]."<br>";
 
         
         // 직추천자수 
@@ -276,7 +276,7 @@ function  excute(){
         if($mem_cnt < 2){
             $benefit = 0;
         }
-                
+        $rec_adm = '';
         if($benefit > $benefit_limit && $balance_limit != 0 ){
 
             $rec_adm .= "<span class=red> |  Bonus overflow :: ".shift_auto($benefit_limit - $benefit)."</span>";
@@ -295,7 +295,7 @@ function  excute(){
 
 
         if($benefit > 0 ){
-            $rec=$code.' Bonus By '.$matching_lvl.' step | '.$mining_matching_hash.' MH :: '.$benefit_limit_point.' '.$minings[0];
+            $rec=$code.' Bonus By '.$matching_lvl.' step | '.$mining_matching_hash.' MH :: '.$benefit_limit_point.' '.$minings[$now_mining_coin];
             
 
             if($benefit_limit < $benefit){
@@ -304,7 +304,7 @@ function  excute(){
                 $rec_adm =  $mining_matching_hash.' * '.$mining_rate.' * '.$bonus_rates.' = '.$benefit_limit_point;
             }
 
-            $record_result = mining_record($mb_id, $code, $benefit_limit_point,$bonus_rates,$minings[0], $rec, $rec_adm, $bonus_day,$mining_matching_hash,$benefit_point);
+            $record_result = mining_record($mb_id, $code, $benefit_limit_point,$bonus_rates,$minings[$now_mining_coin], $rec, $rec_adm, $bonus_day,$mining_matching_hash,$benefit_point);
 
             
             if($record_result){
