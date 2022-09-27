@@ -2,7 +2,11 @@ var title_color = '';
 var circle_color = [];
 var pie_value_color = '';
 
-
+if(getCookie('mode')){
+  var Theme = getCookie('mode'); 
+}else{
+  var Theme = thisTheme;
+}
 
 if(Theme == 'white') {
     circle_color = ['#ff4500', '#ef21fd', '#6f00ff', '#0260b9','#008000'];

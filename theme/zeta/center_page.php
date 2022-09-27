@@ -34,8 +34,8 @@
     $result = sql_query($sql);
 
     // 센터수당 
-    $center_bonus_rate_val = sql_fetch("SELECT rate FROM wallet_bonus_config WHERE code = 'center' ")['rate'];
-    $center_bonus_rate = $center_bonus_rate_val * 0.01;
+    /* $center_bonus_rate_val = sql_fetch("SELECT rate FROM wallet_bonus_config WHERE code = 'center' ")['rate']; */
+    $center_bonus_rate = 0.02;
 ?>
 
 
@@ -86,17 +86,18 @@ $(function($){
                 <div class="no_data box_on">하부 센터회원이 존재하지 않습니다</div>
             <?}?>
                 
-                <? while($row = sql_fetch_array($result)){
-                    
+                <? 
+                    $k =0;
+                    while($row = sql_fetch_array($result)){
 
                     $order_total_sql = "SELECT sum(upstair) as upstair_total, sum(pv) as pv_total from g5_shop_order WHERE mb_id = '{$row['mb_id']}' AND od_date >= '{$fr_date}' AND od_date < '{$to_date}' ";
                     $order_total = sql_fetch($order_total_sql);
-                    
                     // $bg = 'bg'.($i%2);
                     $total_hap += $order_total['upstair_total'];
                     $total_pv +=  $order_total['pv_total'];
-                    $center_bonus = $order_total['pv_total']*$center_bonus_rate;
+                    $center_bonus = $order_total['upstair_total']*$center_bonus_rate;
                     $total_center_bonus += $center_bonus ;
+                    $k += 1;
                 ?>
     
                 <div class="col-sm-12 col-12 content-box round center_box" id="">
@@ -121,12 +122,37 @@ $(function($){
                         </div>
                         <div class='col-4 text-right'>
                             <!-- <dd>기간 PV : <?=Number_format($total_pv)?> 원</dd> -->
-                            <dd class='sales'>기간 매출 : <?=Number_format($total_hap)?> 원</dd>
+                            <dd class='sales'>기간 매출 : <?=Number_format($order_total['upstair_total'])?> 원</dd>
                         </div>
                     </div>
 
                 </div>
                 <?}?>
+                
+                <div class="b_line5 mt10 mb10" style="position:relative"></div>
+                
+                <div class="col-sm-12 col-12 content-box round center_box" style="background:#ccd2db">
+
+                    <div class="box-header row">
+                        <div class='col-7 text-left'>
+                            합계 :  <?=$k?> 명
+                        </div>
+
+                        <div class='col-5 text-right'>
+                            <span class='d_sum center_p font_skyblue'> <?=Number_format($total_center_bonus)?>원</span>
+                        </div>
+                    </div>
+
+                    <div class='inblock row' id="detail" >
+                        <div class='col-8 text-left' style="padding-right:0">
+                            <dd>PV (Hash) 합계 : <?=Number_format($total_pv)?> </dd>
+                        </div>
+                        <div class='col-4 text-right'>
+                            <dd class='sales'> 기간 매출 : <?=Number_format($total_hap)?> 원</dd>
+                        </div>
+                    </div>
+                </div>
+
             <!-- // 수당 -->
             <? $pagelist = get_paging($config['cf_write_pages'], $page, $total_page, "{$_SERVER['SCRIPT_NAME']}?$qstr");
                 echo $pagelist;
