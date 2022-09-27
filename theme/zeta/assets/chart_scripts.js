@@ -4,11 +4,6 @@ var circle_color = [];
 var colors = [];
 var bar_title = '';
 
-if(getCookie('mode')){
-  var Theme = getCookie('mode'); 
-}else{
-  var Theme = thisTheme;
-}
 
 if(Theme == 'white') {
   title_color = '#333';

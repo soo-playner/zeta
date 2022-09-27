@@ -75,7 +75,6 @@ if(!isset($g5['title'])){
 	include_once(G5_THEME_PATH.'/_include/popup.php');
 	// include_once(G5_THEME_PATH.'/_include/common_js.php');
 
-	$thisTheme = 'dark';
 	?>
 
 
@@ -92,7 +91,7 @@ if(!isset($g5['title'])){
 	var g5_cookie_domain = "<?php echo G5_COOKIE_DOMAIN ?>";
 
 	var g5_theme_url = "<?php echo G5_THEME_URL ?>";
-	var thisTheme = "<?php echo $thisTheme; ?>";
+	var thisTheme = "dark";
 	<?php if(defined('G5_IS_ADMIN')) { ?>
 	var g5_admin_url = "<?php echo G5_ADMIN_URL; ?>";
 	

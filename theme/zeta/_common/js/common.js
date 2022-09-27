@@ -17,6 +17,12 @@ $(function(){
 // var debug = '<?=$is_debug?>';
 var debug = "";
 
+if(getCookie('mode')){
+	var Theme = getCookie('mode'); 
+}else{
+	var Theme = thisTheme;
+}
+
 // 인풋 숫자
 $(document).on('keyup','input[inputmode=number]',function(event){
 	this.value = this.value.replace(/[^0-9]/g,'');   // 입력값이 숫자가 아니면 공백	
@@ -363,11 +369,7 @@ function dialogModal(title, htmlBody, category,dim = true){
 // 테마 변경 함수
 function mode_init() {
 	var url = location.href;
-	if(getCookie('mode')){
-		var Theme = getCookie('mode'); 
-	}else{
-		var Theme = thisTheme;
-	}
+	
 
 	if($('.top_title').children().length == 1) {
 		$.removeCookie('mode', { path: '/' });

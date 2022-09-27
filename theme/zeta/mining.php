@@ -788,17 +788,19 @@ while($row=sql_fetch_array($coin_list_query)){
         var select_curency = "<?= strtoupper($minings[2]) ?>";
         
         coin_currency_lnt(coin_list);
-        
+
         $("#coin_refresh").on('click',function(){
             // $("#coin_dashboard").children().remove();
-            $("#coin_dashboard").prepend("<div class='refresh_loader'><img src='"+g5_theme_url+"/img/loader_294.svg'></div>");
+            var Theme = getCookie('mode');
+
+            $("#coin_dashboard").prepend("<div class='refresh_loader'><img src='"+g5_theme_url+"/img/loader_294_"+Theme+".svg'></div>");
             setTimeout(coin_currency_lnt, 2000, coin_list);
         });
 
         function coin_currency_lnt(coin_list){
             $("#coin_dashboard").children().remove();
             if(coin_list.length > 0){
-                console.log(coin_list);
+                // console.log(coin_list);
 
                 $.each (coin_list, function (index, el) {
 

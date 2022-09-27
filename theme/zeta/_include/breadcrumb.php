@@ -258,7 +258,7 @@ $title = 'Dashboard';
 					</div>
 				</div>
 				<div class="fold_wrap">
-					<a href="javascript:collapse('#collapseExample','<?=$thisTheme?>');">
+					<a href="javascript:collapse('#collapseExample',thisTheme);">
 						<div class="collap"><p class='txt'>접기</p></div>
 							<div class="fold_img_wrap">
 								<img class="updown" src="<?=G5_THEME_URL?>/img/arrow_up.png">
@@ -274,11 +274,7 @@ $title = 'Dashboard';
 <!-- 펼쳐보기 -->
 <script>
 		function collapse(id, mode) {
-			if(getCookie('mode')){
-				var Theme = getCookie('mode'); 
-			}else{
-				var Theme = '<?=$thisTheme?>'; 
-			}
+			
 
 			$('.fold_img_wrap img').attr('src','<?=G5_THEME_URL?>/img/arrow_up_'+Theme+'.png');
 			
