@@ -21,20 +21,26 @@ if($_POST['func'] == 'swap' || !$mb_id != ''){
 
     $change_coin_val = $_POST['change_val'];
 
-    
+    $inhave_sql = "SELECT * FROM soodang_mining WHERE allowance_name = 'coin swap' AND mb_id = '{$member_list['mb_id']}' ";
+    $inhave_result = sql_fetch($inhave_sql);
+
+    if($inhave_result){
+        echo (json_encode(array("result" => "failed",  "code" => "0005", "sql" => 'Alreay swaped')));
+    }
+
     echo "<br>회원 마이닝 잔고 변환 ............. ";
     $member_sql = "SELECT *, ($before_mining_target - $before_mining_amt_target) as mining_have FROM g5_member WHERE mb_id = '{$mb_id}' ";
     $member_list = sql_fetch($member_sql);
 
     $shift_coin_value = calculate_math($member_list['mining_have'] * $change_coin_val,4);
 
-    echo "<br>";
+    /* echo "<br>";
     echo $member_list['mb_id'];
     echo " | ";
     echo $member_list['mining_have'];
     echo " ===>";
     echo "<span class='blue'>".calculate_math($member_list['mining_have'] * $change_coin_val,4)."</span>"; 
-    echo "<br>";
+    echo "<br>"; */
     
     $rec = "Coin Swap :: ".calculate_math($member_list['mining_have'],4).$origin_coin_id." >> ".$shift_coin_value.$change_coin_id;
     $rec_adm = "1 ".$origin_coin_id."(￦".(shift_kor($origin_coin_price)).") / ".$change_coin_val." ".$change_coin_id." RATES";

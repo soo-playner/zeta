@@ -492,8 +492,8 @@ $stats_result = sql_fetch($stats_sql);
 		echo "<div class='bonus mining'>마이닝 <strong>".strtoupper($minings[$now_mining_coin])."</strong><span>보유량 : <strong>" . Number_format($stats_result['mining_total'], COIN_NUMBER_POINT) .' '.strtoupper($minings[$now_mining_coin])." </strong></span> | ";
 		echo "<span>출금 가능 : <span class='f_blue'>" . Number_format($stats_result['able_mining'], COIN_NUMBER_POINT) .' '.strtoupper($minings[$now_mining_coin])."  </span></span></div> ";
 
-		echo "<div class='bonus mining before'>미변환 <strong>".strtoupper($minings[$before_mining_coin])."</strong><span>보유량 : <strong>" . Number_format($stats_result['B1'], 8) .' '.strtoupper($minings[$now_mining_coin])." </strong></span> | ";
-		echo "<span>출금 가능 : <span class='f_blue'>" . Number_format($stats_result['B2'], 8) .' '.strtoupper($minings[$now_mining_coin])."  </span></span></div> ";
+		echo "<div class='bonus mining before'>미변환 <strong>".strtoupper($minings[$before_mining_coin])."</strong><span>보유량 : <strong>" . Number_format($stats_result['B1'], 8) .' '.strtoupper($minings[$before_mining_coin])." </strong></span> | ";
+		echo "<span>출금 가능 : <span class='f_blue'>" . Number_format($stats_result['B2'], 8) .' '.strtoupper($minings[$before_mining_coin])."  </span></span></div> ";
 
 	}
 	?>
