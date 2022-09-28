@@ -14,6 +14,17 @@ function confirm_check($bool){
     }
 };
 
+function wallet_type($val){
+    if($val == 1){
+        $result = "국내거래소 지갑";
+    }else if($val == 2){
+        $result = "해외거래소 지갑";
+    }else if($val == 3){
+        $result = "개인/기타 지갑";
+    }
+    return $result;
+}
+
 ?>
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
@@ -101,7 +112,8 @@ function confirm_check($bool){
 
         .kyc_reject_label{background-color:indianred !important;border:1px solid indianred !important;}
         .regdt{display: block;font-size:11px;margin:10px;}
-
+        #bo_v_con{font-weight:600;line-height:24px;font-size:18px;font-family: "Inter", sans-serif;}
+        .wallet_type{display:table;border:1px solid #ccc;padding:5px 10px;font-size:15px;margin-top:10px;}
     </style>
 
     <SCRIPT>
@@ -194,6 +206,7 @@ function confirm_check($bool){
             <?echo $view['wr_subject']."<br>"?>
             <?php echo get_view_thumbnail( Decrypt($view['content'],$secret_key,$secret_iv)); ?>
             <!-- <?print_R($view) ?> -->
+            <div class='wallet_type'><?=wallet_type($view['wr_5'])?></div>
         </div>
         <?php //echo $view['rich_content']; // {이미지:0} 과 같은 코드를 사용할 경우 ?>
         <!-- } 본문 내용 끝 -->

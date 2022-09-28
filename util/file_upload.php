@@ -15,6 +15,7 @@ $ca_name = '';
 $write_table = 'g5_write_kyc';
 $bo_table = 'kyc';
 $w = $_POST['w'];
+$wallet_type =$_POST['wr_wallet_type'];
 
 if(!$board['bo_upload_count']){
     $board['bo_upload_count'] = 2;
@@ -133,7 +134,7 @@ set wr_num = '$wr_num',
      wr_2 = '$wr_2',
      wr_3 = '{$_POST['wr_subject']}',
      wr_4 = '$wr_4',
-     wr_5 = '$wr_5',
+     wr_5 = '{$wallet_type}',
      wr_6 = '$wr_6',
      wr_7 = '$wr_7',
      wr_8 = '$wr_8',
