@@ -211,7 +211,7 @@ function return_status_tx($val){
 		if(strtolower($coin_kind) == 'eth'){
 			$all_data_sql = $all_data_sql." WHERE swaped = 0 ";
 		}else{
-			$all_data_sql = $all_data_sql." WHERE swaped != 0 ";
+			$all_data_sql = $all_data_sql;
 		}
 		
 		$all_data_result = sql_fetch($all_data_sql);
@@ -222,7 +222,7 @@ function return_status_tx($val){
 
 	?>
 	<br>-<br>
-	전체통계 |  전체마이닝지급량 : <strong class='red'><?=shift_auto($all_mining_exc,$coin_kind)?> <?=$coin_kind?></strong> | 
+	전체통계 |  전체마이닝보유량 : <strong class='red'><?=shift_auto($all_mining_exc,$coin_kind)?> <?=$coin_kind?></strong> | 
 	전체마이닝출금량 : <strong class='red'><?=shift_auto($all_mining_amt,$coin_kind)?> <?=$coin_kind?></strong> |
 	전체마이닝출금가능(예정)량 : <strong class='red'><?=shift_auto($all_mining_remain,$coin_kind)?> <?=$coin_kind?></strong> |
 </div>
