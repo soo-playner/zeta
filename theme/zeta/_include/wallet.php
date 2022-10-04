@@ -706,7 +706,7 @@ function retrun_fil_addr_func($tx,$coin){
 	}else if(strtolower($coin) =='fil'){
 		return "<a href ='https://filfox.info/ko/address/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
 	}else if (strtolower($coin) == 'etc'){
-		return "<a href ='https://blockscout.com/etc/mainnet/tx/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
+		return "<a href ='https://blockscout.com/etc/mainnet/address/".$tx."' target='_blank' style='text-decoration:underline'>".$tx."</a>";
 	}else{
 		return $tx;
 	}

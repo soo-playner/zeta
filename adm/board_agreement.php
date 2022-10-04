@@ -49,7 +49,7 @@ $result = sql_query($sql);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
-$g5['title'] = '공지사항 관리';
+$g5['title'] = '이용약관/개인정보 취급방침';
 include_once('./admin.head.php');
 
 $colspan = 15;
@@ -60,6 +60,7 @@ $colspan = 15;
 	 body{background:#fff !important}
      iframe html body{background:#fff !important}
      .board_menu{color:blue;font-weight: 600}
+     .wrap{width:1200px;}
 </style>
 
 <div class="local_ov01 local_ov">
@@ -72,7 +73,7 @@ $colspan = 15;
     <!-- | <a href="/adm/board_kyc.php" class="board_menu">KYC 회원인증</a> -->
 </div>
 
-<iframe src="/bbs/board.php?bo_table=notice" width="100%" height="700px;" scrolling="auto" style="border:0;background:white;"></iframe>
+<iframe src="/bbs/board.php?bo_table=agreement" width="100%" height="700px;" scrolling="auto" style="border:0;background:white;"></iframe>
 
 <?php
 include_once('./admin.tail.php');

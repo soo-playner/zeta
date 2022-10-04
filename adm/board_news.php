@@ -49,7 +49,7 @@ $result = sql_query($sql);
 
 $listall = '<a href="'.$_SERVER['SCRIPT_NAME'].'" class="ov_listall">전체목록</a>';
 
-$g5['title'] = '게시판관리';
+$g5['title'] = '뉴스(News)관리';
 include_once('./admin.head.php');
 
 $colspan = 15;
