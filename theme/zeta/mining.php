@@ -1084,7 +1084,7 @@ while($row=sql_fetch_array($coin_list_query)){
                         change_val : result_val
                     },
                     cache: false,
-                    async : true,
+                    async : false,
                     dataType: 'json',
                     success: function(res) {
                         if(res.result == 'success') {

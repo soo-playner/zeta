@@ -87,29 +87,34 @@ $token = get_token();
     #mining_log{width:600px;margin: 20px;}
     #mining_log .head{border:1px solid #eee;background:orange;display: flex;width:inherit}
     #mining_log .body{border:1px solid #eee;display: flex;width:inherit}
-    #mining_log dt,#mining_log dd{display:block;padding:5px 10px;text-align: center;width:inherit;}
-    #mining_log dd{border-left:1px solid #eee}
+    #mining_log dt,#mining_log dd{display:block;padding:5px 10px;text-align: center;width:inherit;margin:0;}
+    #mining_log dd{border-left:1px solid #eee;}
 </style>
 
 <div id='mining_log'>
     마이닝 지급량 기록 (최근 7일)
     <div class='head'>
         <dt>지급일</dt>
-        <dd>마이닝지급량</dd>
-        <dd class="blue" style='color:white'>마이닝보너스지급총량</dd>
+        <dd>마이닝지급량<br>(<?=$mining_hash[0]?>)</dd>
+        <dd class="blue" style='color:white'>마이닝보너스지급총량<br>(<?=$minings[$now_mining_coin]?>)</dd>
+        <dd style="background:gold">코인스왑량<br>(<?=$minings[$now_mining_coin]?>)</dd>
     </div>
 
     <?
         $mining_rate_result = sql_query("SELECT day,rate from soodang_mining WHERE allowance_name = 'mining' group by day order by day desc limit 0,7");
 
         while($row = sql_fetch_array($mining_rate_result)){
-            $mining_bonus_exc_sql = "SELECT SUM(mining) as mining_total FROM soodang_mining WHERE day = '{$row['day']}' ";
+            $mining_bonus_exc_sql = "SELECT SUM(mining) as mining_total FROM soodang_mining WHERE day = '{$row['day']}' AND allowance_name != 'coin swap' ";
             $mining_bonus_exc = sql_fetch($mining_bonus_exc_sql);
+
+            $coin_swap_exc_sql = "SELECT SUM(mining) as swap_total FROM soodang_mining WHERE day = '{$row['day']}' AND allowance_name = 'coin swap' ";
+            $coin_swap_exc = sql_fetch($coin_swap_exc_sql);
     ?>
     <div class='body'>
         <dt><?=$row['day']?></dt>
         <dd><?=$row['rate']?></dd>
         <dd><?=shift_auto($mining_bonus_exc['mining_total'],8)?></dd>
+        <dd><?=shift_auto($coin_swap_exc['swap_total'],4)?></dd>
     </div>
     <?}?>
 </div>
