@@ -1065,7 +1065,7 @@ while($row=sql_fetch_array($coin_list_query)){
             $('#swap_form').find("input[name='change_val']").val(result_val); */
 
 
-            $("#SwapCoinModal #swap_exc").on('click', function() {
+            $("#SwapCoinModal #swap_exc").off('click').on('click', function() {
                 if (!confirm("자산(마이닝코인) 잔고를 스왑(swap) 하시겠습니까?")) {
                     return false;
                 } else {

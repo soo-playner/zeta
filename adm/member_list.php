@@ -15,6 +15,10 @@ if($_GET['mode'] == 'del'){
 	$sql_target = 'g5_member';
 }
 
+
+
+
+
 $sub_sql = "";
 
 if ($_GET['sst'] == "total_fund") {
@@ -93,8 +97,13 @@ $sql = " select count(*) as cnt {$sql_common} {$sql_search} {$sql_order} ";
 $row = sql_fetch($sql);
 $total_count = $row['cnt'];
 
-$rows = $config['cf_page_rows'];
-$rows = 50;
+// $rows = $config['cf_page_rows'];
+if($_GET['range'] == 'all'){
+	$range = $total_count;
+}else{
+	$range = 50;
+}
+$rows = $range;
 
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
@@ -600,6 +609,11 @@ $stats_result = sql_fetch($stats_sql);
 		<a href="./member_table_fixtest.php">추천관계검사</a>
 		<a href="./member_list.php?mode=del" >삭제/탈퇴 회원보기</a>
 		<a href="./member_form.php" id="member_add">회원직접추가</a>
+		<?if($range == 'all'){?>
+			<a href="./member_list.php?range=" >회원전체보기</a>
+		<?}else{?>
+			<a href="./member_list.php?range=all" >회원전체보기</a>
+		<?}?>
 		<a id="btnExport" data-name='zeta_member_info' class="excel" style="padding:10px 10px;">엑셀 다운로드</a>
 	</div>
 <?php } ?>
@@ -776,7 +790,7 @@ while ($l_row = sql_fetch_array($get_lc)) {
 							<?php echo get_member_level_select("mb_level[$i]", 0, $member['mb_level'], $row['mb_level']) ?>
 						</td>
 
-						<td headers="mb_list_id" rowspan="2" class="td_name td_id <?if($row['mb_divide_date'] != ''){echo 'red';}?>" style="min-width:120px; width:auto">
+						<td headers="mb_list_id" rowspan="2" class="td_name td_id <?if($row['mb_divide_date'] != ''){echo 'red';}?>" style="min-width:110px; width:auto">
 							<?php echo $mb_id ?>
 						</td>
 						<td rowspan="2" class="td_name name" style='width:70px;'><?php echo get_text($row['mb_name']); ?></td>

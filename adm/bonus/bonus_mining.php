@@ -24,7 +24,7 @@ if($_GET['end_dt']){
 }
 
 
-$sql = "select * from {$g5['bonus_config']} where used = 2 order by no asc";
+$sql = "select * from {$g5['bonus_config']} where used > 1 order by no asc";
 $list = sql_query($sql);
 
 
@@ -176,10 +176,11 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	$list = sql_query($sql);
 
 	for($i=0; $row = sql_fetch_array($list); $i++ ){
-        $code = $row['code'];	 
+        $code = $row['code'];	
+		$used =  $row['used'];	
     ?>
 		
-			<?if($code != 'rank'){?>
+			<?if($code != 'rank' && $used == 2){?>
 				<li class='outbox'>
 				<input type='submit' name="act_button" value="<?=$row['name']?> 보너스 지급"  class="frm_input benefit" onclick="bonus_excute('<?=$code?>','<?=$row['name']?>');">
 				<br><input type="submit" name="act_button" value="<?=$row['name']?> 보너스 내역"  class="view_btn" onclick="bonus_view('<?=$code?>');">
