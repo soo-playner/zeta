@@ -194,7 +194,11 @@ SUM($mining_target - $mining_amt_target) AS able_mining,
 (SELECT SUM($before_mining_target) FROM g5_member WHERE swaped = 0) AS B1,
 (SELECT SUM($before_mining_target - $before_mining_amt_target) FROM g5_member WHERE swaped = 0) AS B2
 {$sql_common} {$sql_search}";
-
+/* echo "<br>";
+echo "=====================";
+print_R($stats_sql);
+echo "=====================";
+echo "<br>"; */
 $stats_result = sql_fetch($stats_sql);
 ?>
 
@@ -233,6 +237,11 @@ $stats_result = sql_fetch($stats_sql);
 
 	.local_ov .bonus.mining {
 		border-left: 3px solid purple;
+		margin-left: 10px;
+	}
+
+	.local_ov .bonus.mining.before {
+		border-left: 3px solid blue;
 		margin-left: 10px;
 	}
 
@@ -491,7 +500,7 @@ $stats_result = sql_fetch($stats_sql);
 	<?php echo $listall ?>
 	총회원수 <strong><?php echo number_format($total_count) ?></strong>명|
 	<?
-	if ($member['mb_id'] == 'admin') {
+	
 		echo "<span >총 입금 합계 <strong>" . Number_format($stats_result['deposit']) . "원</strong></span> | ";
 		echo "<span>총 매출(pv) 합계 <strong>" . Number_format($stats_result['pv']) . "</strong></span><br> ";
 
@@ -502,9 +511,10 @@ $stats_result = sql_fetch($stats_sql);
 		echo "<span>출금 가능 : <span class='f_blue'>" . Number_format($stats_result['able_mining'], COIN_NUMBER_POINT) .' '.strtoupper($minings[$now_mining_coin])."  </span></span></div> ";
 
 		echo "<div class='bonus mining before'>미변환 <strong>".strtoupper($minings[$before_mining_coin])."</strong><span>보유량 : <strong>" . Number_format($stats_result['B1'], 8) .' '.strtoupper($minings[$before_mining_coin])." </strong></span> | ";
-		echo "<span>출금 가능 : <span class='f_blue'>" . Number_format($stats_result['B2'], 8) .' '.strtoupper($minings[$before_mining_coin])."  </span></span></div> ";
+		echo "<span>변환 가능 : <span class='f_blue'>" . Number_format($stats_result['B2'], 8) .' '.strtoupper($minings[$before_mining_coin])."  </span></span></div> ";
+		// echo "<div class='bonus mining before'>미변환 <span class='f_blue'>".strtoupper($minings[$before_mining_coin])."</span><span>보유량 : <strong>" . Number_format($stats_result['B2'], 8) .' '.strtoupper($minings[$before_mining_coin])." </strong></span></div>";
 
-	}
+	
 	?>
 
 	<!-- <a href="?sst=mb_intercept_date&amp;sod=desc&amp;sfl=<?php echo $sfl ?>&amp;stx=<?php echo $stx ?>">
