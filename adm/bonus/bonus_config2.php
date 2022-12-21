@@ -92,7 +92,7 @@ $token = get_token();
 </style>
 
 <div id='mining_log'>
-    마이닝 지급량 기록 (최근 7일)
+    마이닝 지급량 기록 (최근 10일)
     <div class='head'>
         <dt>지급일</dt>
         <dd>마이닝지급량<br>(<?=$mining_hash[0]?>)</dd>
@@ -101,7 +101,7 @@ $token = get_token();
     </div>
 
     <?
-        $mining_rate_result = sql_query("SELECT day,rate from soodang_mining WHERE allowance_name = 'mining' group by day order by day desc limit 0,7");
+        $mining_rate_result = sql_query("SELECT day,rate from soodang_mining WHERE allowance_name = 'mining' group by day order by day desc limit 0,10");
 
         while($row = sql_fetch_array($mining_rate_result)){
             $mining_bonus_exc_sql = "SELECT SUM(mining) as mining_total FROM soodang_mining WHERE day = '{$row['day']}' AND allowance_name != 'coin swap' ";
