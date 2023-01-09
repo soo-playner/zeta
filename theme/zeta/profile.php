@@ -117,11 +117,9 @@
 		.kyc_icon{color:#2b3a6d;}
 
 		.box + .box{margin-top:20px;}
-
-
-		
-
 	</style>
+
+	<link href="<?=G5_THEME_URL?>/css/scss/radio_set_<?=$_COOKIE['mode']?>.css" rel="stylesheet">
     <main>
         <div class='container profile nomargin nopadding'>
 			<section class="profile_wrap content-box6">
@@ -898,6 +896,30 @@ $(function() {
 			<label for="bf_file[2]" class='kyc_label' style="font-size:11px;margin:5px;font-weight:300;">출금 지갑주소가 확인되는 캡쳐이미지,사진을 첨부해주세요.</label>
 		</div>
 
+		<!-- <div class="radio_set">
+			<input type="radio" id="wallet_type1" name="wallet_type" value="0"/><label for="wallet_type1">국내거래소 지갑</lable>
+			<input type="radio" id="wallet_type2" name="wallet_type" value="1"/><label for="wallet_type2">해외거래소 지갑</lable>
+			<input type="radio" id="wallet_type3" name="wallet_type" value="2"/><label for="wallet_type3">기타/개인 지갑</lable>
+		</div> -->
+
+		<div class='box'>
+		<label style="display:inline;" class="mt30">출금지갑 종류선택 </label>
+			<div class="radio_set">
+				<label>
+					<input type="radio" id="wallet_type1" name="wallet_type" class="selector-item_radio" value=1>
+					<span>국내거래소 지갑</span>
+				</label>
+				<label>
+					<input type="radio" id="wallet_type1" name="wallet_type" class="selector-item_radio" value=2>
+					<span>해외거래소 지갑</span>
+				</label>
+				<label>
+					<input type="radio" id="wallet_type1" name="wallet_type" class="selector-item_radio" value=3>
+					<span>개인/기타 지갑</span>
+				</label>
+			</div>
+		</div>
+
 		<hr class="hr_dash">
 		<div class='mb15'>
 			<input type="checkbox" id="tax_person_number_agree" class="inline" name="tax_person_number_agree" value=""/>
@@ -954,6 +976,14 @@ $(function() {
 			// console.log("파일업로드1 :: " + fileInput[0].files.length);
 			// console.log("파일업로드2 :: " + fileInput[1].files.length);
 			
+			var wallet_type = $('input[name=wallet_type]:checked').val();
+
+			if(!wallet_type){
+				alert(" 출금지갑 종류를 선택해주세요 ");
+				return false;
+			}else{
+				rule += 1;
+			}
 
 
 			if(fileInput.val() != "") {		
@@ -985,6 +1015,7 @@ $(function() {
 				formData.append("w",'');
 				formData.append("wr_subject",kyc_name);
 				formData.append("wr_content", kyc_person_number);
+				formData.append("wr_wallet_type", wallet_type);
 
 
 				for (var i = 0; i < fileInput.length; i++) {

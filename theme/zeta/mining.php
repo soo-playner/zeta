@@ -802,17 +802,19 @@ if(strpos($member['withdraw_wallet'],'0x')){
         var select_curency = "<?= strtoupper($minings[2]) ?>";
         
         coin_currency_lnt(coin_list);
-        
+
         $("#coin_refresh").on('click',function(){
             // $("#coin_dashboard").children().remove();
-            $("#coin_dashboard").prepend("<div class='refresh_loader'><img src='"+g5_theme_url+"/img/loader_294.svg'></div>");
+            var Theme = getCookie('mode');
+
+            $("#coin_dashboard").prepend("<div class='refresh_loader'><img src='"+g5_theme_url+"/img/loader_294_"+Theme+".svg'></div>");
             setTimeout(coin_currency_lnt, 2000, coin_list);
         });
 
         function coin_currency_lnt(coin_list){
             $("#coin_dashboard").children().remove();
             if(coin_list.length > 0){
-                console.log(coin_list);
+                // console.log(coin_list);
 
                 $.each (coin_list, function (index, el) {
 
@@ -1077,7 +1079,7 @@ if(strpos($member['withdraw_wallet'],'0x')){
             $('#swap_form').find("input[name='change_val']").val(result_val); */
 
 
-            $("#SwapCoinModal #swap_exc").on('click', function() {
+            $("#SwapCoinModal #swap_exc").off('click').on('click', function() {
                 if (!confirm("자산(마이닝코인) 잔고를 스왑(swap) 하시겠습니까?")) {
                     return false;
                 } else {
@@ -1096,7 +1098,7 @@ if(strpos($member['withdraw_wallet'],'0x')){
                         change_val : result_val
                     },
                     cache: false,
-                    async : true,
+                    async : false,
                     dataType: 'json',
                     success: function(res) {
                         if(res.result == 'success') {

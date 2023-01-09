@@ -7,7 +7,7 @@ include_once(G5_PATH . '/util/package.php');
 auth_check($auth[$sub_menu], 'r');
 
 $get_shop_item = get_shop_item();
-
+/* 
 $sub_sql = "";
 if ($_GET['sst'] == "eth") {
 	$sub_sql = " , (mb_eth_point+mb_eth_calc) as eth";
@@ -36,7 +36,7 @@ if ($_GET['view'] == 'all') {
 	$sql_search = " where (1) ";
 } else {
 	$viewmode = '';
-	$sql_search = " where fcm_token != '' ";
+	$sql_search = " where fcm_token != '' and mb_rate > 0 ";
 }
 if ($stx) {
 	$sql_search .= " and ( ";
@@ -73,8 +73,6 @@ if (!$sst) {
 	$sod = "desc";
 }
 
-
-
 $sql_order = " order by {$sst} {$sod}";
 $sql = " select count(*) as cnt {$sql_common} {$sql_search} {$sql_order} ";
 
@@ -82,19 +80,44 @@ $row = sql_fetch($sql);
 $total_count = $row['cnt'];
 
 $rows = $config['cf_page_rows'];
-$rows = 1000;
+$rows = 600;
 
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
-
+ */
 
 $g5['title'] = '앱/푸쉬관리';
 include_once('../admin.head.php');
 
-$sql = " select * {$sql_common} {$sql_search} {$sql_order} limit {$from_record}, {$rows} ";
+if ($_GET['view'] == 'all') {
+	$viewmode = 'all';
+	$sql_search = " where fcm_token != '' ";
+} else {
+	$viewmode = '';
+	$sql_search = " where fcm_token != '' and mb_rate > 0 ";
+}
+
+$sql_order = " ORDER BY A.mb_datetime, A.mb_no DESC ";
+
+
+$sql_ex = "SELECT A.mb_no,a.mb_id,A.mb_name,A.mb_nick,A.grade,A.mb_level,A.mb_rate,A.mb_balance,A.mb_mining_2,A.fcm_token,A.mb_datetime,
+B.hash_info,JSON_EXTRACT(B.hash_info, '$.all') AS now_all,
+JSON_EXTRACT(C.hash_info, '$.all') AS prev_all
+FROM g5_member A  
+
+LEFT JOIN g5_member_info B
+	ON A.mb_id = B.mb_id AND B.date = (SELECT MAX(DATE) FROM g5_member_info)
+LEFT JOIN g5_member_info C
+   ON A.mb_id = C.mb_id AND C.date = (SELECT MAX(date) FROM g5_member_info WHERE DATE NOT IN (SELECT MAX(date) FROM g5_member_info))
+";
+
+
+
+$sql = " {$sql_ex} {$sql_search} {$sql_order} ";
 
 $result = sql_query($sql);
+$total_count = sql_num_rows($result);
 
 $colspan = 17;
 
@@ -104,10 +127,10 @@ $grade = "SELECT grade, count( grade ) as cnt FROM g5_member GROUP BY grade orde
 $get_lc = sql_query($grade);
 
 /* 국가 */
-$nation_sql = "SELECT nation_number, count( nation_number ) as cnt FROM g5_member GROUP BY nation_number";
+/* $nation_sql = "SELECT nation_number, count( nation_number ) as cnt FROM g5_member GROUP BY nation_number";
 $nation_row = sql_query($nation_sql);
 
-$blockRec = sql_fetch("select count(mb_block) as cnt from g5_member where mb_block = 1");
+$blockRec = sql_fetch("select count(mb_block) as cnt from g5_member where mb_block = 1"); */
 
 
 
@@ -464,6 +487,7 @@ $stats_result = sql_fetch($stats_sql); */
 		color: blue;
 	}
 </style>
+
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 
 <div class="local_ov01 local_ov">
@@ -473,7 +497,7 @@ $stats_result = sql_fetch($stats_sql); */
 	} else {
 		echo '발송가능회원 : ';
 	} ?> <strong><?= number_format($total_count)?></strong> 명 |
-	현재 안드로이드 APP PUSH 만 발송가능합니다.
+	마이닝해시 보유회원만 
 	<br>
 	- 보낼사용자 선택 => 선택대상회원발송 => 메세지선택 => 발송
 	<?
@@ -518,7 +542,7 @@ $stats_result = sql_fetch($stats_sql); */
 		<? if ($viewmode == 'all') { ?>
 			<a href="./fcm_memberlist.php">메세지 발송 가능 회원만 보기</a>
 		<? } else { ?>
-			<a href="./fcm_memberlist.php?view=all">전체 회원보기</a>
+			<a href="./fcm_memberlist.php?view=all">전체 APP 설치 회원보기</a>
 		<? } ?>
 	</div>
 
@@ -594,21 +618,25 @@ $stats_result = sql_fetch($stats_sql); */
 				<?php
 				for ($i = 0; $row = sql_fetch_array($result); $i++) {
 
-					$info_sql  = "SELECT hash_info,json_extract(hash_info, '$.all') AS now_all,
-		LAG(json_extract(hash_info, '$.all'),-1) OVER (ORDER BY DATE DESC) AS prev_all,
-		json_extract(hash_info, '$.mining_total') AS now_mining,
-		LAG(json_extract(hash_info, '$.mining_total'),-1) OVER (ORDER BY DATE DESC) AS prev_mining
-		from g5_member_info WHERE mb_id = '{$row['mb_id']}' ORDER BY DATE DESC LIMIT 0,1";
+					/* $info_sql  = "SELECT hash_info,json_extract(hash_info, '$.all') AS now_all,
+					LAG(json_extract(hash_info, '$.all'),-1) OVER (ORDER BY DATE DESC) AS prev_all,
+					json_extract(hash_info, '$.mining_total') AS now_mining,
+					LAG(json_extract(hash_info, '$.mining_total'),-1) OVER (ORDER BY DATE DESC) AS prev_mining
+					from g5_member_info WHERE mb_id = '{$row['mb_id']}' ORDER BY DATE DESC LIMIT 0,1"; */
+					
+						/* $info_sql  = "SELECT hash_info,json_extract(hash_info, '$.all') AS now_all
+						from g5_member_info WHERE mb_id = '{$row['mb_id']}' ORDER BY DATE DESC LIMIT 0,1"; */
 
-					$info_today = sql_fetch($info_sql);
-					$info_hash = json_decode($info_today['hash_info'], true);
+						// $info_today = sql_fetch($info_sql);
+						
+						$info_hash = json_decode($row['hash_info'], true);
+						$diff_all = (float)($row['now_all']) - (float)($row['prev_all']);
+						// $diff_mining = (float)($info_hash['mining_total']) - (float)($info_today['prev_mining']);
 
-					$diff_all = (float)($info_hash['all']) - (float)($info_today['prev_all']);
-					$diff_mining = (float)($info_hash['mining_total']) - (float)($info_today['prev_mining']);
-
-					$bg = 'bg' . ($i % 2);
+						$bg = 'bg' . ($i % 2);
 
 					// list($total_mining,$total_mining_rate) = mining_bonus_rate($row['mb_id'],$row['mb_rate'])
+					
 				?>
 
 
@@ -642,26 +670,21 @@ $stats_result = sql_fetch($stats_sql); */
 						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= $info_hash['zeta'] ?></td>
 						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= $info_hash['zetaplus'] ?></td>
 						<td headers="mb_list_auth" class="td_mbstat" rowspan="2"><?= $info_hash['super'] ?></td>
+
 						<td headers="mb_list_auth" class="td_mbstat all" rowspan="2">
 
 							<input type='hidden' name='all_hash[]' value='<?= $info_hash['all'] ?>'>
 							<input type='hidden' name='all_diff[]' value='<?= $diff_all ?>'>
 
 							<?= $info_hash['all'] ?>
-							<?= diffvalue($info_hash['all'], $info_today['prev_all'], $diff_all) ?>
+							<?= diffvalue($row['now_all'], $row['prev_all'], $diff_all) ?>
 						</td>
 						<td headers="mb_list_auth" class="td_mbstat mining" rowspan="2">
-							<input type='hidden' name='mining_total[]' value='<?= $info_hash['mining_total'] ?>'>
-							<input type='hidden' name='mining_total_diff[]' value='<?= $diff_mining ?>'>
+							<!-- <input type='hidden' name='mining_total[]' value='<?= $info_hash['mining_total'] ?>'> -->
+							<!-- <input type='hidden' name='mining_total_diff[]' value='<?= $diff_mining ?>'> -->
 
 							<?= $info_hash['mining_total'] ?>
-							<?= diffvalue($info_hash['mining_total'], $info_today['prev_mining'], $diff_mining) ?>
 						</td>
-
-						<!-- <td headers="mb_list_auth" class="td_rate" rowspan="2"><?= $total_mining_rate ?> %</td>
-		<td headers="mb_list_auth" class="text-center" style='width:40px;' rowspan="2"><span class='badge t_white color<?= $row['rank'] ?>'><? if ($row['rank']) {
-																																				echo 'P' . $row['rank'];
-																																			} ?></span></td> -->
 
 						<td headers="mb_list_lastcall" rowspan="2" class="td_app  center"><?= app_install($row['fcm_token']) ?></td>
 						<td headers="mb_list_mng" rowspan="2" class="td_mngsmall" style="width:100px;">
@@ -741,7 +764,7 @@ $stats_result = sql_fetch($stats_sql); */
 
 </form>
 
-<?= get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?' . $qstr . '&amp;page='); ?>
+<!-- <?= get_paging(G5_IS_MOBILE ? $config['cf_mobile_pages'] : $config['cf_write_pages'], $page, $total_page, '?' . $qstr . '&amp;page='); ?> -->
 
 <script>
 	function fmemberlist_submit(f) {

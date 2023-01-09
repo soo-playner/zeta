@@ -277,7 +277,7 @@ function fvisit_submit(act)
         $bg = 'bg'.($i%2);
         $total_hap += $order_total['upstair_total'];
         $total_pv +=  $order_total['pv_total'];
-        $center_bonus = $order_total['pv_total']*0.02;
+        $center_bonus = $order_total['upstair_total']*0.02;
         $total_center_bonus += $center_bonus ;
         $membership_total += $membership_yn; 
         
@@ -294,7 +294,7 @@ function fvisit_submit(act)
         <td class='text-center'><?=Number_format($order_total['upstair_total'])?></td>
         <td class='text-center'><?=Number_format($order_total['pv_total'])?></td>
         <td class='text-center'><?=Number_format($membership_yn)?></td>			
-        <td class='text-center'>0</td>			
+        <td class='text-center'><?=Number_format($center_bonus)?></td>			
     </tr>
 
     <?php
@@ -309,7 +309,7 @@ function fvisit_submit(act)
         <td><?=$i?>명</td>
         <td colspan='2'></td>
         <td><?=number_format($total_hap)?><?=BALANCE_CURENCY?></td>
-        <td><?=number_format($total_pv)?><?=BALANCE_CURENCY?></td>
+        <td><?=number_format($total_pv)?> PV (hash)</td>
         <td><?=number_format($membership_total)?></td>
         <td><?=number_format($total_center_bonus)?><?=BALANCE_CURENCY?></td>
     </tfoot>

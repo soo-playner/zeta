@@ -3947,8 +3947,8 @@ input.input_price {
 .pop_wrap {
 	position: fixed;
 	top: 20%;
-	width: 80%;
-	left: 10%;
+	width: 90%;
+	left: 5%;
 	background: #f1f1f1;
 	display: none;
 	z-index: 9;
@@ -3996,12 +3996,12 @@ input.input_price {
 	padding-left: 10px;
 }
 .input_pop_css label {
-	margin-bottom: 5px;
 	display: block;
 	font-weight: 120;
 	color: rgba(0, 0, 0, 0.6);
 	letter-spacing: -0.5px;
 	margin-bottom: 5px;
+	padding-bottom:5px;
 	font-size: 0.8em;
 }
 

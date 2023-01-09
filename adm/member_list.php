@@ -15,6 +15,10 @@ if($_GET['mode'] == 'del'){
 	$sql_target = 'g5_member';
 }
 
+
+
+
+
 $sub_sql = "";
 
 if ($_GET['sst'] == "total_fund") {
@@ -93,8 +97,13 @@ $sql = " select count(*) as cnt {$sql_common} {$sql_search} {$sql_order} ";
 $row = sql_fetch($sql);
 $total_count = $row['cnt'];
 
-$rows = $config['cf_page_rows'];
-$rows = 50;
+// $rows = $config['cf_page_rows'];
+if($_GET['range'] == 'all'){
+	$range = $total_count;
+}else{
+	$range = 50;
+}
+$rows = $range;
 
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
@@ -185,7 +194,11 @@ SUM($mining_target - $mining_amt_target) AS able_mining,
 (SELECT SUM($before_mining_target) FROM g5_member WHERE swaped = 0) AS B1,
 (SELECT SUM($before_mining_target - $before_mining_amt_target) FROM g5_member WHERE swaped = 0) AS B2
 {$sql_common} {$sql_search}";
-
+/* echo "<br>";
+echo "=====================";
+print_R($stats_sql);
+echo "=====================";
+echo "<br>"; */
 $stats_result = sql_fetch($stats_sql);
 ?>
 
@@ -224,6 +237,11 @@ $stats_result = sql_fetch($stats_sql);
 
 	.local_ov .bonus.mining {
 		border-left: 3px solid purple;
+		margin-left: 10px;
+	}
+
+	.local_ov .bonus.mining.before {
+		border-left: 3px solid blue;
 		margin-left: 10px;
 	}
 
@@ -482,7 +500,7 @@ $stats_result = sql_fetch($stats_sql);
 	<?php echo $listall ?>
 	총회원수 <strong><?php echo number_format($total_count) ?></strong>명|
 	<?
-	if ($member['mb_id'] == 'admin') {
+	
 		echo "<span >총 입금 합계 <strong>" . Number_format($stats_result['deposit']) . "원</strong></span> | ";
 		echo "<span>총 매출(pv) 합계 <strong>" . Number_format($stats_result['pv']) . "</strong></span><br> ";
 
@@ -492,10 +510,11 @@ $stats_result = sql_fetch($stats_sql);
 		echo "<div class='bonus mining'>마이닝 <strong>".strtoupper($minings[$now_mining_coin])."</strong><span>보유량 : <strong>" . Number_format($stats_result['mining_total'], COIN_NUMBER_POINT) .' '.strtoupper($minings[$now_mining_coin])." </strong></span> | ";
 		echo "<span>출금 가능 : <span class='f_blue'>" . Number_format($stats_result['able_mining'], COIN_NUMBER_POINT) .' '.strtoupper($minings[$now_mining_coin])."  </span></span></div> ";
 
-		echo "<div class='bonus mining before'>미변환 <strong>".strtoupper($minings[$before_mining_coin])."</strong><span>보유량 : <strong>" . Number_format($stats_result['B1'], 8) .' '.strtoupper($minings[$now_mining_coin])." </strong></span> | ";
-		echo "<span>출금 가능 : <span class='f_blue'>" . Number_format($stats_result['B2'], 8) .' '.strtoupper($minings[$now_mining_coin])."  </span></span></div> ";
+		echo "<div class='bonus mining before'>미변환 <strong>".strtoupper($minings[$before_mining_coin])."</strong><span>보유량 : <strong>" . Number_format($stats_result['B1'], 8) .' '.strtoupper($minings[$before_mining_coin])." </strong></span> | ";
+		echo "<span>변환 가능 : <span class='f_blue'>" . Number_format($stats_result['B2'], 8) .' '.strtoupper($minings[$before_mining_coin])."  </span></span></div> ";
+		// echo "<div class='bonus mining before'>미변환 <span class='f_blue'>".strtoupper($minings[$before_mining_coin])."</span><span>보유량 : <strong>" . Number_format($stats_result['B2'], 8) .' '.strtoupper($minings[$before_mining_coin])." </strong></span></div>";
 
-	}
+	
 	?>
 
 	<!-- <a href="?sst=mb_intercept_date&amp;sod=desc&amp;sfl=<?php echo $sfl ?>&amp;stx=<?php echo $stx ?>">
@@ -600,6 +619,11 @@ $stats_result = sql_fetch($stats_sql);
 		<a href="./member_table_fixtest.php">추천관계검사</a>
 		<a href="./member_list.php?mode=del" >삭제/탈퇴 회원보기</a>
 		<a href="./member_form.php" id="member_add">회원직접추가</a>
+		<?if($range == 'all'){?>
+			<a href="./member_list.php?range=" >회원전체보기</a>
+		<?}else{?>
+			<a href="./member_list.php?range=all" >회원전체보기</a>
+		<?}?>
 		<a id="btnExport" data-name='zeta_member_info' class="excel" style="padding:10px 10px;">엑셀 다운로드</a>
 	</div>
 <?php } ?>
@@ -776,7 +800,7 @@ while ($l_row = sql_fetch_array($get_lc)) {
 							<?php echo get_member_level_select("mb_level[$i]", 0, $member['mb_level'], $row['mb_level']) ?>
 						</td>
 
-						<td headers="mb_list_id" rowspan="2" class="td_name td_id <?if($row['mb_divide_date'] != ''){echo 'red';}?>" style="min-width:120px; width:auto">
+						<td headers="mb_list_id" rowspan="2" class="td_name td_id <?if($row['mb_divide_date'] != ''){echo 'red';}?>" style="min-width:110px; width:auto">
 							<?php echo $mb_id ?>
 						</td>
 						<td rowspan="2" class="td_name name" style='width:70px;'><?php echo get_text($row['mb_name']); ?></td>

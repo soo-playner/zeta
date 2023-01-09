@@ -10,7 +10,16 @@ if ($is_nogood) $colspan++;
 
 // add_stylesheet('css 구문', 출력순서); 숫자가 작을 수록 먼저 출력됨
 //add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
-
+function wallet_type($val){
+    if($val == 1){
+        $result = "국내거래소 지갑";
+    }else if($val == 2){
+        $result = "해외거래소 지갑";
+    }else if($val == 3){
+        $result = "개인/기타 지갑";
+    }
+    return $result;
+}
 ?>
 
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -83,6 +92,7 @@ if ($is_nogood) $colspan++;
             <th scope="col">번호</th>
             <th scope="col">회원아이디</th>
             <th scope="col">제목</th>
+            <th scope="col" style="width:100px;">지갑구분</th>
             <th scope="col" style="width:150px;">인증여부</th>
             <th scope="col"><?php echo subject_sort_link('wr_hit', $qstr2, 1) ?>조회 <i class="fa fa-sort" aria-hidden="true"></i></a></th>
             <?php if ($is_good) { ?><th scope="col"><?php echo subject_sort_link('wr_good', $qstr2, 1) ?>추천 <i class="fa fa-sort" aria-hidden="true"></i></a></th><?php } ?>
@@ -140,7 +150,9 @@ if ($is_nogood) $colspan++;
                 </div>
 
             </td>
-
+            <td class="sv_use" style="text-align:center;padding:0;margin:0">
+                <?=wallet_type($list[$i]['wr_5'])?>
+            </td>
             <td class="sv_use" style="text-align:center;padding:0;margin:0">
                 <?if($list[$i]['wr_2'] == '1'){?>
                     <img src="<?=G5_THEME_URL?>/skin/board/kyc/img/check.jpg" style="width:24px"/>

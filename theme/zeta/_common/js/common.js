@@ -16,6 +16,13 @@ $(function(){
 
 // var debug = '<?=$is_debug?>';
 var debug = "";
+var thisTheme = "dark";
+
+if(getCookie('mode')){
+	var Theme = getCookie('mode'); 
+}else{
+	var Theme = thisTheme;
+}
 
 // 인풋 숫자
 $(document).on('keyup','input[inputmode=number]',function(event){

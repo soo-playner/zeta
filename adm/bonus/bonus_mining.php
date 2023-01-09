@@ -24,7 +24,7 @@ if($_GET['end_dt']){
 }
 
 
-$sql = "select * from {$g5['bonus_config']} where used = 2 order by no asc";
+$sql = "select * from {$g5['bonus_config']} where used > 1 order by no asc";
 $list = sql_query($sql);
 
 
@@ -57,7 +57,6 @@ for ($i=1; $row=sql_fetch_array($list); $i++) {
 if ($allowcnt>0) $sql_search .= ")";
 
 
-
 // 수당으로 검색
 if(($allowance_name) ){
 	$sql_search .= " and (";
@@ -66,6 +65,8 @@ if(($allowance_name) ){
 		}
  $sql_search .= " )";
 }
+
+
 
 // 검색기간검색
 if($fr_date){
@@ -134,7 +135,7 @@ function mining_kind($kind){
 	}else if($kind == 'super_mining'){
 		$color_class = 'deepblue';
 	}else if($kind == 'coin swap'){
-		$color_class = 'deepblue';
+		$color_class = 'gold';
 	}
 	return $color_class;
 }
@@ -175,10 +176,11 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 	$list = sql_query($sql);
 
 	for($i=0; $row = sql_fetch_array($list); $i++ ){
-        $code = $row['code'];	 
+        $code = $row['code'];	
+		$used =  $row['used'];	
     ?>
 		
-			<?if($code != 'rank'){?>
+			<?if($code != 'rank' && $used == 2){?>
 				<li class='outbox'>
 				<input type='submit' name="act_button" value="<?=$row['name']?> 보너스 지급"  class="frm_input benefit" onclick="bonus_excute('<?=$code?>','<?=$row['name']?>');">
 				<br><input type="submit" name="act_button" value="<?=$row['name']?> 보너스 내역"  class="view_btn" onclick="bonus_view('<?=$code?>');">
@@ -227,6 +229,8 @@ include_once(G5_PLUGIN_PATH.'/jquery-ui/datepicker.php');
 			~ <input type="text" name="end_dt" id="end_dt" placeholder="To" class="frm_input" style='width:70px;padding-left:5px;' value="<?=$to_date?>"/>
 			
 			<?=$html?>
+			<!-- <input type="checkbox" class="search_item" name="allowance_chk6" id="allowance_chk6" value="coin_swap">
+			<label for="allowance_chk6" class="allow_btn">코인스왑</label> -->
 		
 			<input type="submit" class="btn_submit search" value="검색"/>
 			<input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_mining_list' value="엑셀 다운로드" />
