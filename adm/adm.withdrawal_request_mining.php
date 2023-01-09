@@ -2,6 +2,7 @@
 $sub_menu = "700300";
 include_once('./_common.php');
 include_once(G5_THEME_PATH.'/_include/wallet.php');
+include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 $g5['title'] = "마이닝(코인) 출금 요청 내역";
 include_once('./adm.header.php');
@@ -298,8 +299,21 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 					<?=$row['bank_name']?> | <span id="bank_account" style='font-weight:600;font-size:13px;'><?=$row['bank_account']?></span>(<?=$row['account_name']?>)
 					<button type="button" class="btn inline_btn copybutton f_right" style='margin-right:10px;vertical-align:top;'>계좌복사</button>	 
 					<?php }else{ ?>
-					<div class='eth_addr'><?=retrun_fil_addr_func($row['addr'],$row['coin'])?></div>
-					<?php } ?>			
+
+					<?if($row['create_dt'] > '2023-01-09'){
+						$wallet_addr1 = Decrypt($row['addr'],$secret_key,$secret_iv);
+						$wallet_addr2 = Decrypt($mb['withdraw_wallet'],$row['mb_id'],'x');
+						if($wallet_addr1 == $wallet_addr2){
+						?>
+							<div class='eth_addr'><?=retrun_fil_addr_func($wallet_addr1,$row['coin'])?></div>
+						<?}else{?>
+							<div class='eth_addr' style='color:red'>출금주소 불일치(확인요망)</div>
+						<?}?>
+					<?}else{?>
+						<div class='eth_addr'><?=retrun_fil_addr_func($row['addr'],$row['coin'])?></div>
+					<?php } ?>	
+
+					<?php } ?>		
 				</td>
 
 				<input type="hidden" value="<?=$row['addr']?>" name="addr[]">

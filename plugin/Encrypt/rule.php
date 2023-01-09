@@ -1,5 +1,8 @@
 <?
+if (!defined('_GNUBOARD_')) exit;
 error_reporting(0);
+
+$secret_iv = "#@$%^&*()_+=-";
 
 
 function Encrypt($str, $secret_key='', $secret_iv='') { 

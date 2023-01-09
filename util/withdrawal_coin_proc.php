@@ -1,6 +1,7 @@
 <?php
 include_once('./_common.php');
 include_once(G5_THEME_PATH.'/_include/wallet.php');
+include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 $user_ip = $_SERVER['REMOTE_ADDR'];
 
@@ -126,9 +127,12 @@ if(Number_format($max_fund,8) < Number_format($amt,8)){
 	return false;
 }
 
+$Enc_wallet_addr = Encrypt($wallet_addr,$secret_key,$secret_iv);
+$Enc_wallet_addr2 = Encrypt($wallet_addr,$mb_id,'x');
+
 
 //출금 처리
-$proc_receipt = "insert {$g5['withdrawal']} set mb_id ='{$mb_id}', addr = '{$wallet_addr}', amt = {$amt} - {$fee}, fee = {$fee}, fee_rate = {$withdrwal_setting['fee']}, amt_total = {$in_amt}, coin = '{$select_coin}', status = '0', create_dt = '".$now_datetime."', cost = '{$coin_cost}', account = '{$max_fund}', out_amt = '{$coin_amt}', od_type = '{$od_type}', memo = '', ip =  '{$user_ip}' ";
+$proc_receipt = "insert {$g5['withdrawal']} set mb_id ='{$mb_id}', addr = '{$Enc_wallet_addr}', amt = {$amt} - {$fee}, fee = {$fee}, fee_rate = {$withdrwal_setting['fee']}, amt_total = {$in_amt}, coin = '{$select_coin}', status = '0', create_dt = '".$now_datetime."', cost = '{$coin_cost}', account = '{$max_fund}', out_amt = '{$coin_amt}', od_type = '{$od_type}', memo = '', ip =  '{$user_ip}' ";
 
 
 if($debug){ 
@@ -140,7 +144,7 @@ if($debug){
 
 // 회원정보업데이트
 if($rst){
-	$amt_query = "UPDATE g5_member set withdraw_wallet =  '{$wallet_addr}', {$amt_target}= {$amt_target} + {$in_amt}, otp_key = '' where mb_id = '{$mb_id}' ";
+	$amt_query = "UPDATE g5_member set withdraw_wallet =  '{$Enc_wallet_addr2}', {$amt_target}= {$amt_target} + {$in_amt}, otp_key = '' where mb_id = '{$mb_id}' ";
 }
  
 if($debug){ 

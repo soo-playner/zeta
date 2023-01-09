@@ -2,6 +2,7 @@
 include_once('./_common.php');
 include_once(G5_THEME_PATH . '/_include/wallet.php');
 include_once(G5_THEME_PATH . '/_include/gnb.php');
+include_once(G5_PLUGIN_PATH.'/Encrypt/rule.php');
 
 login_check($member['mb_id']);
 
@@ -121,6 +122,12 @@ $coin_cnt = sql_num_rows($coin_list_query);
 
 while($row=sql_fetch_array($coin_list_query)){
     array_push($coin_array,[$row['no'],$row['id'],$row['name'],$row['krname']]);
+}
+
+if(strpos($member['withdraw_wallet'],'0x')){
+    $with_addr = $member['withdraw_wallet'];
+}else{
+    $with_addr = Decrypt($member['withdraw_wallet'],$member['mb_id'],'x');
 }
 ?>
 
@@ -370,7 +377,7 @@ while($row=sql_fetch_array($coin_list_query)){
                 <div class="input_address">
                     <label class="sub_title">- 출금주소</label><span class='comment'><?=strtoupper($minings[$now_mining_coin])?>출금 가능 주소를 입력해주세요.</span>
                     <input type="text" id="withdrawal-address" class="send_coin b_ghostwhite f_small" placeholder="<?= strtoupper($minings[$now_mining_coin]) ?> 출금 주소를 입력해주세요" value=<? if ($member['withdraw_wallet'] != '0') {
-                                                                                                                                                                                        echo $member['withdraw_wallet'];
+                                                                                                                                                                                        echo $with_addr;
                                                                                                                                                                                     } ?>>
                 </div>
 
@@ -473,7 +480,14 @@ while($row=sql_fetch_array($coin_list_query)){
                         }?>
                         </span>
                     </h3>
-                    <? while ($row = sql_fetch_array($mining_amt_log)) { ?>
+                    <? while ($row = sql_fetch_array($mining_amt_log)) { 
+                        if($row['create_dt'] > '2023-01-09'){
+                            $with_addr = Decrypt($row['addr'], $secret_key, $secret_iv);
+                        }else{
+                            $with_addr = $row['addr'];
+                        }
+                        
+                        ?>
                         <ul class='row'>
                             <li class="col-12">
                                 <span class="col-8 nopadding"><i class="ri-calendar-check-fill"></i><?= $row['create_dt'] ?></span>
@@ -486,7 +500,7 @@ while($row=sql_fetch_array($coin_list_query)){
                                 <span class="col-4 nopadding text-right amt"><i class="ri-refund-2-line"></i><?= shift_coin($row['out_amt']) ?> <?= $row['coin'] ?></span>
                             </li>
 
-                            <li class="col-12 "><span class='hist_bank'><i class="ri-wallet-2-fill"></i><?= $row['addr'] ?></span></li>
+                            <li class="col-12 "><span class='hist_bank'><i class="ri-wallet-2-fill"></i><?= $with_addr ?></span></li>
 
                             <li class="col-12 mt10">
                                 <span class="col-6 nopadding amt"><i class="ri-survey-line"></i>처리결과</span>
