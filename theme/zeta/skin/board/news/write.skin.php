@@ -5,14 +5,6 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 //add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
 ?>
 
-<style>
-input[type="text"], input[type="number"], input[type="password"], input[type="email"]{
-    padding:20px;
-}
-#notice{display:inline;float:left;width:25px;height:25px;}
-#bo_w .btn_submit{padding:8px !important}
-</style>
-
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/default.css">
 <link rel="stylesheet" href="<?=$board_skin_url?>/style.css">
 
@@ -147,7 +139,7 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
     </div>
     <?php } ?>
     -->
-    <?php for ($i=0; $is_file && $i<$file_count; $i++) { ?>
+    <!-- <?php for ($i=0; $is_file && $i<$file_count; $i++) { ?>
     <div class="bo_w_flie write_div">
         <div class="file_wr write_div">
             <label for="bf_file_<?php echo $i+1 ?>" class="lb_icon"><i class="fa fa-download" aria-hidden="true"></i><span class="sound_only"> 파일 #<?php echo $i+1 ?></span></label>
@@ -164,7 +156,7 @@ input[type="text"], input[type="number"], input[type="password"], input[type="em
         <?php } ?>
 
     </div>
-    <?php } ?>
+    <?php } ?> -->
 
 
     <?php if ($is_use_captcha) { //자동등록방지  ?>

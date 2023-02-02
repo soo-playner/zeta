@@ -16,7 +16,7 @@ $menu['menu300'] = array (
     array('300000', '게시판관리', ''.G5_ADMIN_URL.'/board_list.php', 'board'),
     array('300100', '게시판관리', ''.G5_ADMIN_URL.'/board_list.php', 'bbs_board'),
     array('300200', '게시판그룹관리', ''.G5_ADMIN_URL.'/boardgroup_list.php', 'bbs_group'),
-    array('300100', '공지사항관리(Notice)', G5_ADMIN_URL.'/bbs/board.php?bo_table=notice','',1),
+    array('300250', '공지사항관리(Notice)', G5_ADMIN_URL.'/bbs/board.php?bo_table=notice','',1),
     array('300200', '뉴스관리(News)', G5_ADMIN_URL.'/board_news.php','',1),
     array('300300', '서포트(Support)', G5_ADMIN_URL.'/board_support.php','',1),
     array('300700', 'FAQ관리', G5_ADMIN_URL.'/faqmasterlist.php', 'scf_faq', 1),
@@ -28,7 +28,7 @@ $menu['menu300'] = array (
 }else{
     $menu['menu300'] = array (
     array('300000', '게시판관리', ''.G5_ADMIN_URL.'/board_list.php', 'board'),
-    array('300100', '공지사항관리(Notice)', G5_ADMIN_URL.'/bbs/board.php?bo_table=notice','',1),
+    array('300250', '공지사항관리(Notice)', G5_ADMIN_URL.'/bbs/board.php?bo_table=notice','',1),
     array('300200', '뉴스&공지게시판(News)', G5_ADMIN_URL.'/board_news.php','',1),
     array('300300', '서포트(Support)', G5_ADMIN_URL.'/board_support.php','',1),
     array('300700', 'FAQ관리', G5_ADMIN_URL.'/faqmasterlist.php', 'scf_faq', 1),

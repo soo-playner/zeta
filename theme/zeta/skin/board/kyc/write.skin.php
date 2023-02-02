@@ -5,15 +5,6 @@ if (!defined('_GNUBOARD_')) exit; // 개별 페이지 접근 불가
 //add_stylesheet('<link rel="stylesheet" href="'.$board_skin_url.'/style.css">', 0);
 ?>
 
-<style>
-#wrapper{min-width:1200px;}
-#container{max-width:1200px;margin:0 auto;}
-input[type="text"], input[type="number"], input[type="password"], input[type="email"]{
-    padding:20px;
-}
-#notice{display:inline;float:left;width:25px;height:25px;}
-#bo_w .btn_submit{padding:8px !important}
-</style>
 <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 <link rel="stylesheet" href="<?=G5_THEME_URL?>/css/default.css">
