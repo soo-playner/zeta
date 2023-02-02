@@ -1,4 +1,5 @@
 <?php
+if (!defined('_GNUBOARD_')) exit;
 include_once('./_common.php');
 
 if (!$board['bo_table']) {

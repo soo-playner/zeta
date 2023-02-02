@@ -58,6 +58,7 @@ if ($is_nogood) $colspan++;
     <input type="hidden" name="sod" value="<?php echo $sod ?>">
     <input type="hidden" name="page" value="<?php echo $page ?>">
     <input type="hidden" name="sw" value="">
+    <input type="hidden" name="token" value="">
 
     <div class="tbl_head01 tbl_wrap">
         <table>
@@ -210,6 +211,10 @@ function all_checked(sw) {
 
 function fboardlist_submit(f) {
     var chk_count = 0;
+
+    var token = get_ajax_token();
+
+    f.token.value = token;
 
     for (var i=0; i<f.length; i++) {
         if (f.elements[i].name == "chk_wr_id[]" && f.elements[i].checked)

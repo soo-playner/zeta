@@ -3,6 +3,10 @@ include_once('./_common.php');
 $g5['title'] = $bo_table.' 관리';
 include_once('../admin.head.php');
 
+?>
+<script src="<?php echo G5_ADMIN_URL ?>/admin.js"></script>
+<?php
+
 if (!$board['bo_table']) {
    alert('존재하지 않는 게시판입니다.', G5_URL);
 }
