@@ -4,6 +4,8 @@ include_once('./_common.php');
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+$idx = intval($_GET['idx']);
+
 header('Content-Type: application/json');
 
 if($method == 'GET'){ // 상세 댓글 출력
@@ -16,7 +18,7 @@ if($method == 'GET'){ // 상세 댓글 출력
 		from ticket_child a
 			inner join g5_member b on a.mb_no = b.mb_no
 			left outer join g5_board_file c on c.wr_id = a.idx and c.bo_table = 'supportCenterChild'
-		where a.pid = {$_GET['idx']}
+		where a.pid = {$idx}
 		order by a.idx desc";
 	$sth = sql_query($sql);
 	$rows = array();
@@ -30,10 +32,10 @@ if($method == 'GET'){ // 상세 댓글 출력
 	}
 
 	// 파일
-	$ss_name = 'ss_view_supportCenter_'.$_GET['idx'];
+	$ss_name = 'ss_view_supportCenter_'.$idx;
 	set_session($ss_name, TRUE);
 
-	$sql = " select wr_id, bf_source, bf_no from {$g5['board_file_table']} where bo_table = 'supportCenter' and wr_id = '$_GET[idx]' ";
+	$sql = " select wr_id, bf_source, bf_no from {$g5['board_file_table']} where bo_table = 'supportCenter' and wr_id = {$idx} ";
 	$file = sql_fetch($sql,true);
 
 	print json_encode(array('list'=>$rows,'file'=>$file));
