@@ -8,7 +8,7 @@ body{overflow-y: hidden;}
 	width:100%;
 	display:block;
 	height:100vh;
-	background:#000 url('<?=G5_THEME_URL?>/img/launcher_1221.png?rel=20221221') no-repeat center;
+	background:#000 url('<?=G5_THEME_URL?>/img/launcher_0329_1.jpg?rel=20230330') no-repeat center;
 	background-size:cover;
 }
 
@@ -34,9 +34,11 @@ body{overflow-y: hidden;}
   width: 1%;
   height: 2px;
 }
-
-.btn.btn_primary{background:linear-gradient(90deg,#87d0f8,#deb3ff)}
-.btn.btn_primary:hover{background:linear-gradient(90deg,#41a4da,#9f59d3)}
+a.btn_secondary,
+.btn_secondary {background: rgba(255,255,255,0.9); border: 1px solid #fff; color: #a3a1e9; font-weight: bold;}
+a.btn_secondary:hover {background: rgba(255,255,255,1); color: #a3a1e9;}
+.btn.btn_primary{background:linear-gradient(90deg,#cedbfb, #d594cd);}
+.btn.btn_primary:hover{background:linear-gradient(90deg,#b4c7f7, #d26ac5)}
 
 .animate-bottom {
   position: relative;
@@ -46,10 +48,9 @@ body{overflow-y: hidden;}
   animation-duration: 1s
 }
 
-.intro_title{
-	color:white;position:fixed;bottom:10px;text-align:center;width:100%;
-}
-.intro_title p {line-height:26px;letter-spacing:0;}
+.intro_title {position:fixed;bottom:10px;text-align:center;width:100%;}
+.intro_title .company {color: rgba(255, 255, 255, 0.75);}
+.intro_title .copyright {line-height:26px;}
 
 @-webkit-keyframes animatebottom {
   from { bottom:-10%; opacity:0 }
@@ -61,41 +62,8 @@ body{overflow-y: hidden;}
   to{ bottom:15vh; opacity:1 }
 }
 
-
-
-@media screen and (max-width: 1600px) {
-
-}
-
-@media screen and (max-width: 1200px) {
-
-}
-
-@media screen and (max-width: 1024px) {
-
-}
-@media screen and (max-width: 993px) {
-
-}
-
-@media screen and (max-width: 767px){
-
-}
-
 @media screen and (max-width: 766px) {
 	.container {max-width: 100%;}
-}
-
-
-@media (max-width: 414px) {
-
-}
-
-@media (max-width: 650px) {
-
-}
-
-@media (max-width: 768px) {
 }
 
 @media (min-width: 767px) {
@@ -210,8 +178,8 @@ body{overflow-y: hidden;}
 	</div>
 
 	<div class='intro_title'>
-		<p class='company' style="line-height:16px;color:#3e54a2 "> 제타랩스 주식회사 | 사업자등록번호 356-87-02523 <br>통신판매업 신고번호 : 제 2022-서울강남-00711호<br>고객센터 : 02-6205-1112 | 이메일 : <?=$config['cf_admin_email']?></p>
-		<p class='copyright' style="color:#3e54a2">Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+		<p class='company'> 제타랩스 주식회사 | 사업자등록번호 356-87-02523 <br>통신판매업 신고번호 : 제 2022-서울강남-00711호<br>고객센터 : 02-6205-1112 | 이메일 : <?=$config['cf_admin_email']?></p>
+		<p class='copyright'>Copyright ⓒ 2021. WIZCLASS Co. ALL right reserved.</p>
 	</div>
 </div>
 </html>
