@@ -192,7 +192,7 @@ $(document).ready(function(){
 			</ul> -->
 
 			<div class='gnb-footer'>
-				<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+				<p class='copyright'>Copyright ⓒ 2021. WIZCLASS Co. ALL right reserved.</p>
 			</div>
 		</ul>		
 	</nav>

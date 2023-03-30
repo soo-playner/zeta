@@ -55,7 +55,7 @@
 	</div>
 
 	<div class='footer'>
-		<p class='copyright'>Copyright ⓒ 2021. LOGCOMPANY Co. ALL right reserved.</p>
+		<p class='copyright'>Copyright ⓒ 2021. WIZCLASS Co. ALL right reserved.</p>
 	</div>
 	
 </section>
