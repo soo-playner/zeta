@@ -4,10 +4,10 @@ define('CONFIG_TITLE','ZETABYTE');
 define('CONFIG_SUB_TITLE','ZETABYTE');
 
 // 메일설정
-define('CONFIG_MAIL_ACCOUNT','willsoftkr');
+define('CONFIG_MAIL_ACCOUNT','wizclass.inc');
 // define('CONFIG_MAIL_PW','willsoft0780!@');
-define('CONFIG_MAIL_PW','vqztizorialwegyh');
-define('CONFIG_MAIL_ADDR','willsoftkr@gmail.com');
+define('CONFIG_MAIL_PW','izmvwaprbjxgftme');
+define('CONFIG_MAIL_ADDR','wizclass.inc@gmail.com');
 
 // 기준통화설정
 define('ASSETS_CURENCY','원');
@@ -46,7 +46,6 @@ $log_pw = "*744489A21B79279202FA838C7CB7E1BE3134EB77";
 // 이더사용 및 회사지갑 설정
 // False 설정시 현금사용
 define('USE_WALLET',FALSE);
-define('ETH_ADDRESS','');
 
 
 $log_ip = '183.98.71.48';
