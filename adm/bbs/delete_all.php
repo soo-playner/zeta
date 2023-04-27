@@ -77,8 +77,9 @@ for ($i=$chk_count-1; $i>=0; $i--)
                 and wr_num = '{$write['wr_num']}'
                 and wr_is_comment = 0 ";
     $row = sql_fetch($sql);
-    if ($row['cnt'])
-            continue;
+    if ($row['cnt'] && $write_table != "g5_write_kyc"){
+        continue;
+    }
 
     // 나라오름님 수정 : 원글과 코멘트수가 정상적으로 업데이트 되지 않는 오류를 잡아 주셨습니다.
     //$sql = " select wr_id, mb_id, wr_comment from {$write_table} where wr_parent = '{$write[wr_id]}' order by wr_id ";

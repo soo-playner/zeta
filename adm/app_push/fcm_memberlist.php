@@ -680,7 +680,7 @@ $stats_result = sql_fetch($stats_sql); */
 							<?= diffvalue($row['now_all'], $row['prev_all'], $diff_all) ?>
 						</td>
 						<td headers="mb_list_auth" class="td_mbstat mining" rowspan="2">
-							<!-- <input type='hidden' name='mining_total[]' value='<?= $info_hash['mining_total'] ?>'> -->
+							<input type='hidden' name='mining_total[]' value='<?= $info_hash['mining_total'] ?>'>
 							<!-- <input type='hidden' name='mining_total_diff[]' value='<?= $diff_mining ?>'> -->
 
 							<?= $info_hash['mining_total'] ?>

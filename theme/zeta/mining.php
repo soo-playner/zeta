@@ -68,7 +68,7 @@ $mining_history = sql_query($mining_history_sql);
 $mining_history_cnt = sql_num_rows($mining_history);
 
 // 마이닝 출금 내역
-$mining_amt_log = sql_query("SELECT * from {$g5['withdrawal']} WHERE mb_id = '{$member['mb_id']}' AND coin != '{$minings[0]}' ");
+$mining_amt_log = sql_query("SELECT * from {$g5['withdrawal']} WHERE mb_id = '{$member['mb_id']}' AND coin != '{$minings[0]}' ORDER BY uid desc ");
 $mining_amt_cnt = sql_num_rows($mining_amt_log);
 
 // 마이닝 출금 승인 내역 
@@ -726,7 +726,8 @@ if(strpos($member['withdraw_wallet'],'0x')){
             // var inputValue = $('#sendValue').val().replace(/,/g, '');
             var inputValue = $('#sendValue').val();
 
-            if (inputValue > mb_max_limit) {
+
+            if (Number(inputValue) > Number(mb_max_limit)) {
                 dialogModal('출금가능 금액확인', '<strong> 출금가능금액내에서 정수 단위로 입력해주세요 </strong>', 'warning');
             }
 
@@ -935,6 +936,15 @@ if(strpos($member['withdraw_wallet'],'0x')){
             //최대 금액 확인
             if (max_limit != 0 && inputVal > Number(max_limit)) {
                 dialogModal('금액 입력 확인', '<strong> 최대가능금액은 ' + max_limit + WITHDRAW_CURENCY + ' 입니다.</strong>', 'warning');
+                return false;
+            }
+
+            // console.log(`input :${inputVal}`);
+            // console.log(`max :${mb_max_limit}`);
+            
+            // 보유한도체크
+            if (Number(inputVal) > Number(mb_max_limit)) {
+                dialogModal('금액 입력 확인', '<strong>출금 가능 금액을 확인해주세요.</strong>', 'warning');
                 return false;
             }
 

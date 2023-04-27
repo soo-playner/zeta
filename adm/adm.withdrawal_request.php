@@ -54,8 +54,14 @@ $total_fee = $row['feehap'];
 echo "<br><br>"; */
 
 
+if($_REQUEST['view'] == 'all'){
+	$rows = 1000;
+}else{
+	$rows = 100;
+}
 
-$rows = 100;
+
+
 $total_page  = ceil($total_count / $rows);  // 전체 페이지 계산
 if ($page < 1) $page = 1; // 페이지가 없으면 첫 페이지 (1 페이지)
 $from_record = ($page - 1) * $rows; // 시작 열을 구함
@@ -98,6 +104,7 @@ function return_status_tx($val)
 <style>
 	strong.red{color:magenta !important}
 	.user_ip{width:130px;height:20px;text-overflow: ellipsis;text-align:left;padding-left:5px;margin-top:-5px;}
+	.copybutton{cursor: pointer;}
 </style>
 
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
@@ -223,8 +230,9 @@ function return_status_tx($val)
 
 <input type="button" class="btn_submit excel" id="btnExport"  data-name='zeta_bonus_withdrawal' value="엑셀 다운로드" />
 
+
 <div class="local_ov01 local_ov">
-	<a href="./adm.withdrawal_request.php?<?= $qstr ?>" class="ov_listall"> 결과통계 <?= $total_count ?> 건 = <strong><?= shift_auto($total_out) ?> <?= WITHDRAW_CURENCY ?> </strong></a>
+	<a href="./adm.withdrawal_request.php?<?= $qstr ?>&view=all" class="ov_listall"> 결과통계 <?= $total_count ?> 건 = <strong><?= shift_auto($total_out) ?> <?= WITHDRAW_CURENCY ?> </strong></a>
 	<?
 	// 현재 통계치
 	$stats_sql = "SELECT status, sum(out_amt)  as hap, count(out_amt) as cnt from {$g5['withdrawal']} as A WHERE 1=1 " . $sql_condition . " GROUP BY status";
@@ -264,12 +272,15 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 				<th style="width:8%;">아이디 </th>
 				<th style="width:4%;">이름</th>
 				<th style="width:4%;">KYC인증 </th>
-				<th style="width:auto">출금정보</th>
+
+				<th style="width:5%;">출금은행</th>
+				<th style="width:auto">계좌번호</th>
+				<!-- <th style="width:5%;">예금주 </th> -->
 
 				<th style="width:4%;">출금단위</th>
 				<th style="width:5%;">출금전잔고</th>
 				<th style="width:7%;">출금요청액</th>
-				<th style="width:7%;">출금계산액(수수료)</th>
+				<th style="width:4%;">출금수수료</th>
 
 				<th style="width:7%;">출금액 <span style='color:red'>(<?= WITHDRAW_CURENCY ?>)</span></th>
 				<th style="width:3%;">출금시세</th>
@@ -306,18 +317,16 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 						<td style='color:#777'><?= $mb['mb_name'] ?></td>
 						<td><?=kyc_cert($row['kyc'])?></td>
 
+						<td><?= $row['bank_name'] ?></td>
 						<td style="text-align:left;padding-left:7px;">
-							<?php if ($row['addr'] == '') { ?>
-								<?= $row['bank_name'] ?> | <span id="bank_account" style='font-weight:600;font-size:13px;'><?= $row['bank_account'] ?></span>(<?= $row['account_name'] ?>)
-								<button type="button" class="btn inline_btn copybutton f_right" style='margin-right:10px;vertical-align:top;'>계좌복사</button>
-							<?php } else { ?>
-								<!-- <a href='https://etherscan.io/address/<?= $row['addr'] ?>' target='_blank'><?= short_code($row['addr'], 15) ?></a>  -->
-								<div class='eth_addr'><a href='https://filfox.info/ko/address/<?= $row['addr'] ?>' target='_blank'><?= $row['addr'] ?></a></div>
-							<?php } ?>
+							<a id="bank_account" class="copybutton" style='font-weight:600;font-size:13px;' alt="클릭하면 계좌번호가 복사됩니다."><?= $row['bank_account'] ?></a> (<?= $row['account_name'] ?>)
+							<!-- <button type="button" class="btn inline_btn copybutton f_right" style='margin-right:10px;vertical-align:top;'>계좌복사</button> -->
 						</td>
+						<!-- <td><?= $row['account_name'] ?></td> -->
 
 						<input type="hidden" value="<?= $row['addr'] ?>" name="addr[]">
-						<td class="td_amt"><input type="hidden" value="<?= $row['coin'] ?>" name="coin[]" class='coin'>
+						<td class="td_amt">
+							<!-- <input type="hidden" value="<?= $row['coin'] ?>" name="coin[]" class='coin'> -->
 							<?= $row['coin'] ?> <? if ($row['coin'] == $minings[$now_mining_coin]) {
 													echo "<br><span class='badge'>MININNG</span>";
 												} ?>
@@ -330,17 +339,16 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 						<td class="td_amt <?= $coin_class ?>"><?= shift_auto($row['amt_total'], $row['coin']) ?></td>
 
 						<!-- 출금계산 -->
-						<td class="gray" style='line-height:18px;'>
-							<input type="hidden" value="<?= shift_auto($row['amt'], $row['coin']) ?>" name="amt[]">
-							<!-- 계산액 -->
+						<!-- <td class="gray" style='line-height:18px;'>
 							<?= shift_auto($row['amt'], $row['coin']) ?>
-							<!-- 수수료 -->
-							<span style='display:block;font-size:11px;'>(<?= shift_auto($row['fee'], $row['coin']) ?>)</span>
-						</td>
+						</td> -->
+
+						<!-- 수수료 -->
+						<td><span style='display:block;font-size:11px;'><?= shift_auto($row['fee'], $row['coin']) ?></span></td>
 
 
 						<td class="td_amt" style="color:red">
-							<input type="hidden" value="<?= shift_auto($row['out_amt']) ?>" name="out_amt[]">
+							<!-- <input type="hidden" value="<?= shift_auto($row['out_amt']) ?>" name="out_amt[]"> -->
 							<?= shift_auto($row['out_amt'], $row['coin']) ?>
 						</td>
 
@@ -376,7 +384,7 @@ $ord_rev = $ord_array[($ord_key + 1) % 2]; // 내림차순→오름차순, 오�
 			<tfoot>
 				<td>합계:</td>
 				<td><?= $total_count ?></td>
-				<td colspan=4></td>
+				<td colspan=6></td>
 				<td colspan=1><?= shift_auto($total_amt) ?></td>
 				<td><?= shift_auto($total_fee) ?></td>
 				<td colspan=1><?= shift_auto($total_out) ?></td>

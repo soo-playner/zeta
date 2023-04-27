@@ -122,7 +122,7 @@ if( $max_limit != 0 && $amt > $max_total ) {
 
 
 // 출금잔고 재확인 
-if(Number_format($max_fund,8) < Number_format($amt,8)){
+if($max_fund < $amt){
 	echo (json_encode(array("result" => "Failed", "code" => "0002","sql"=>"계정 잔액이 부족합니다.")));
 	return false;
 }

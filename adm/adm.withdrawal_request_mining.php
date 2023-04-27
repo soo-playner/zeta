@@ -96,6 +96,9 @@ function return_status_tx($val){
 		case 4: return '취소';break;
 	}
 }
+
+
+
 ?>
 
 <style>
@@ -252,22 +255,22 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 			<th style="width:4%;"><a href="?ord=<?php echo $ord_rev; ?>&ord_word=uid">No <?php echo $ord_arrow[$ord_key]; ?></a></th>
 			<th style="width:8%;">아이디 </th>
 			<th style="width:5%;">이름</th>
-			<th style="width:4%;">KYC인증 </th>
+			<th style="width:3%;">KYC인증 </th>
 			<th style="width:auto">출금정보</th>
 
-			<th style="width:5%;">출금신청단위</th>
+			<th style="width:4.5%;">출금신청단위</th>
 			<th style="width:5%;">출금전잔고</th>
 			<th style="width:7%;">출금요청액</th>
 			<th style="width:7%;">출금계산액<br>(수수료)</th>
 
 			<th style="width:7%;">출금액 <span style='color:red;letter-spacing:0;'>(<?=$coin_kind?>)</span></th>
-			<th style="width:6%;">출금시세</th>
+			<th style="width:4.5%;">출금시세</th>
 			
 			<!-- <th style="width:5%;">적용코인시세</th> -->
 			
-			<th style="width:5%;">요청일시</th>
+			<th style="width:4.5%;">요청일시</th>
 			<th style="width:6%;">승인여부</th>
-			<th style="width:5%;">상태변경일</th>
+			<th style="width:4.5%;">상태변경일</th>
 			<th style="width:10%;">관리자메모</th>
 		</thead>
 
@@ -294,7 +297,7 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 				<input type="hidden" value="<?=$row['mb_id']?>" name="mb_id[]">
 				<td style='color:#666'><?=$mb['mb_name']?></td>
 				<td><?=kyc_cert($row['kyc'])?></td>
-				<td>
+				<td style="min-width:300px;">
 				<?php if($row['addr'] == ''){?>
 					<?=$row['bank_name']?> | <span id="bank_account" style='font-weight:600;font-size:13px;'><?=$row['bank_account']?></span>(<?=$row['account_name']?>)
 					<button type="button" class="btn inline_btn copybutton f_right" style='margin-right:10px;vertical-align:top;'>계좌복사</button>	 
@@ -307,7 +310,9 @@ $ord_rev = $ord_array[($ord_key+1)%2]; // 내림차순→오름차순, 오름차
 						?>
 							<div class='eth_addr'><?=retrun_fil_addr_func($wallet_addr1,$row['coin'])?></div>
 						<?}else{?>
-							<div class='eth_addr' style='color:red'>출금주소 불일치(확인요망)</div>
+							<div class='eth_addr' style='color:red;border-bottom:1px solid red'>출금주소 불일치(확인요망)</div>
+							<div class='eth_addr' style="text-align:left;font-size:10px">출금요청주소: <?=$wallet_addr1?></div>
+							<div class='eth_addr' style="text-align:left;font-size:10px">등록지갑주소: <?=$wallet_addr2?></div>
 						<?}?>
 					<?}else{?>
 						<div class='eth_addr'><?=retrun_fil_addr_func($row['addr'],$row['coin'])?></div>
